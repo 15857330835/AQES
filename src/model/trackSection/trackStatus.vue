@@ -1,0 +1,126 @@
+<template>
+  <div class="dolist1">
+    <span
+      @click="unlockTrack"
+      class="u-icon"
+      :class="this.track.block ? 'lock' : 'unlock'"
+    ></span>
+    <span
+      @click="hideTrack"
+      class=" u-icon"
+      :class="this.track.bhidden ? 'hide' : 'show'"
+    ></span>
+  </div>
+</template>
+<script>
+import { mapActions, mapMutations } from 'vuex'
+export default {
+  data: function() {
+    return {}
+  },
+  props: ['track', 'type', 'index'],
+  methods: {
+    ...mapActions(['Post']),
+    ...mapMutations(['CHANGE_TRACK']),
+    unlockTrack: function() {
+      const that = this
+      let data
+      if (this.type === 'caption') {
+        if (this.track.block) {
+          data = { cmd: 'unlock' }
+        } else {
+          data = { cmd: 'lock' }
+        }
+        this.track.block = !this.track.block
+        $.post(
+          window.NCES.DOMAIN + '/api/caption',
+          JSON.stringify(data),
+          function(res) {
+            that.CHANGE_TRACK({ type: 'caption', status: that.track })
+            // Hub.$emit('changeM','')
+          },
+          'json'
+        )
+      } else {
+        if (this.track.block) {
+          data = {
+            cmd: 'unlock',
+            track_id: this.track.track_id,
+            track_type: this.track.track_type
+          }
+        } else {
+          data = {
+            cmd: 'lock',
+            track_id: this.track.track_id,
+            track_type: this.track.track_type
+          }
+        }
+        this.track.block = !this.track.block
+
+        $.post(
+          window.NCES.DOMAIN + '/api/track',
+          JSON.stringify(data),
+          function(res) {
+            that.CHANGE_TRACK({
+              type: that.type,
+              status: { block: that.track.block },
+              index: that.index
+            })
+          },
+          'json'
+        )
+      }
+    },
+    hideTrack: function() {
+      const that = this
+      let data
+      if (this.type === 'caption') {
+        if (this.track.bhidden) {
+          data = { cmd: 'show' }
+        } else {
+          data = { cmd: 'hidden' }
+        }
+        this.track.bhidden = !this.track.bhidden
+
+        $.post(
+          window.NCES.DOMAIN + '/api/caption',
+          JSON.stringify(data),
+          function(res) {
+            that.CHANGE_TRACK({ type: 'caption', status: that.track })
+          },
+          'json'
+        )
+      } else {
+        if (this.track.bhidden) {
+          data = {
+            cmd: 'show',
+            track_id: this.track.track_id,
+            track_type: this.track.track_type
+          }
+        } else {
+          data = {
+            cmd: 'hidden',
+            track_id: this.track.track_id,
+            track_type: this.track.track_type
+          }
+        }
+        this.track.bhidden = !this.track.bhidden
+        $.post(
+          window.DOMAIN + '/api/track',
+          JSON.stringify(data),
+          function(res) {
+            that.CHANGE_TRACK({
+              type: that.type,
+              status: { bhidden: that.track.bhidden },
+              index: that.index
+            })
+          },
+          'json'
+        )
+      }
+    }
+  }
+}
+</script>
+
+<style></style>

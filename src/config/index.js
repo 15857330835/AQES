@@ -1,0 +1,3 @@
+export const SHORTCUTS_NOT_ALLOWED = 0
+export const SHORTCUTS_VIDEO_ONLY = 2
+export const SHORTCUTS_ALL_ALLOWED = 1

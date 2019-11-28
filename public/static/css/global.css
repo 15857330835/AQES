@@ -1,0 +1,24 @@
+body {
+  /* 前端白屏解决 */
+  background-color: #151515;
+}
+/* 网页内容不能选中、复制 */
+* {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  /*
+      Introduced in IE 10.
+      See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+    */
+  -ms-user-select: none;
+  user-select: none;
+}
+/* 允许input元素选中复制 */
+input, textarea {
+  -moz-user-select: -moz-text;
+  -khtml-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
