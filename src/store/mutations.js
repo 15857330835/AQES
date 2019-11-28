@@ -767,7 +767,9 @@ export default {
     state.aiChunksPosition = []
   },
   [CHANGE_TRACK_ABLE_WIDTH](state) {
-    state.trackAbleWidth = document.querySelector('.track_able_content').offsetWidth
+    state.trackAbleWidth = document.querySelector(
+      '.track_able_content'
+    ).offsetWidth
   },
   /* 多选end */
 

@@ -9,9 +9,10 @@
     <div class="content-sel-option">
       <div
         class="sel-option1 clearfix"
-        v-for="(filter, index) in this.activechunk.chunk.filter"
+        v-for="(filter, index) in this.activechunk.chunk.filter.filter(
+          item => item.type === 2
+        )"
         :key="index"
-        v-if="filter.type == 2"
       >
         <div class="clearfix">
           <textarea
@@ -27,12 +28,8 @@
             @blur="blur"
           ></textarea>
           <span style="float:right">
-            <span
-              class="textarealength"
-              v-html="activechunk.chunk.filter[index].text.length"
-            ></span
-            >/
-            <span v-html="maxlength"></span>
+            <span class="textarealength">{{ filter.text.length }}</span
+            >/<span>{{ maxlength }}</span>
           </span>
         </div>
         <div
