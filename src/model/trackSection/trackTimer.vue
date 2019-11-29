@@ -12,9 +12,8 @@
           </div>
           <div class="right">
             <el-slider
-              v-model="track_property.ratio"
+              v-model="middle_ratio"
               :show-tooltip="false"
-              @change="ratioChange"
               :max="slidernum.max - 0.25"
               :min="slidernum.min"
               :step="0.25"
@@ -36,19 +35,15 @@ export default {
   data: function() {
     return {
       oldratio: 24.6,
-      trackWidth: 0
+      trackWidth: 0,
+      middle_ratio: 24.6
     }
   },
   components: {
     sliderbar
   },
   computed: {
-    ...mapState([
-      'exportVideoSetShow',
-      'slidernum',
-      'visTimerWidth'
-      // 'modalVoiceApplyIsShow'
-    ]),
+    ...mapState(['exportVideoSetShow', 'slidernum', 'visTimerWidth']),
     track_property() {
       return this.$store.state.all.track_property
     },
@@ -60,10 +55,25 @@ export default {
     },
     ratio() {
       return this.$store.state.all.track_property.ratio
+    },
+    after_ratio() {
+      let math_ratio =
+        Math.round((this.middle_ratio + 0.15) / 0.25) * 0.25 - 0.15
+      // 超出范围的放大缩小无效（ratio在服务器端同步）
+      math_ratio =
+        math_ratio < this.slidernum.max - 0.25
+          ? math_ratio
+          : this.slidernum.max - 0.25
+      math_ratio =
+        math_ratio > this.slidernum.min ? math_ratio : this.slidernum.min
+      return math_ratio
     }
   },
   watch: {
-    ratio: {
+    after_ratio(newVal) {
+      this.ratioChange(newVal)
+    }
+    /* ratio: {
       handler(news, old) {
         if (news === 0 || old === 0) {
           // solve the bug of timeline jump randomly
@@ -86,7 +96,7 @@ export default {
         }
         this.PROPERTY_OUTLEFT(outleft)
       }
-    }
+    } */
   },
   methods: {
     ...mapActions(['changeLoading', 'refreshLoading']),
@@ -98,18 +108,10 @@ export default {
       'CHANGE_TRACK_ABLE_WIDTH'
     ]),
     ratioAdd() {
-      const num = this.track_property.ratio
-      /* if (num >= 30) {
-          return;
-        } */
-      this.ratioChange(num + this.slidernum.btnStep)
+      this.middle_ratio += 0.25
     },
     ratioCut() {
-      const num = this.track_property.ratio
-      /* if (num <= 0.1) {
-          return;
-        } */
-      this.ratioChange(num - this.slidernum.btnStep)
+      this.middle_ratio -= 0.25
     },
     setSliderNum() {
       if (this.length > 0) {
@@ -140,22 +142,9 @@ export default {
       this.CHANGE_VIS_TIMER_WIDTH(this.trackWidth)
       const num = this.setSliderNum()
       this.PROPERTY_OUTLEFT(0)
-      this.ratioChange(num)
+      this.middle_ratio = num
     },
-    ratioChange(value_para) {
-      // 超出范围的放大缩小无效（ratio在服务器端同步）
-      let value = value_para
-      if (value < this.slidernum.min) {
-        if (this.slidernum.min - value === this.slidernum.btnStep) {
-          return
-        }
-        value = this.slidernum.min
-      } else if (value + 0.25 > this.slidernum.max) {
-        if (value + 0.25 - this.slidernum.max === this.slidernum.btnStep) {
-          return
-        }
-        value = this.slidernum.max - 0.25
-      }
+    ratioChange(value) {
       console.log(value)
       const that = this
       this.oldratio = value
@@ -178,6 +167,9 @@ export default {
         'json'
       )
     }
+  },
+  created() {
+    this.middle_ratio = this.ratio
   },
   mounted: function() {
     this.oldratio = this.track_property.ratio
