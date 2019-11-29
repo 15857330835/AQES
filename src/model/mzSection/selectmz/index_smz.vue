@@ -473,8 +473,10 @@ export default {
       let has = false
       for (let i = 0; i < this.sourceData.length; i++) {
         if (
-          this.sourceData[i].from === this.clonediv.src_from ||
-          this.sourceData[i].from === 'http://' + this.clonediv.src_url
+          (this.sourceData[i].original_from || this.sourceData[i].from) ===
+            this.clonediv.src_from ||
+          (this.sourceData[i].original_from || this.sourceData[i].from) ===
+            'http://' + this.clonediv.src_url
         ) {
           has = true
           this.clonediv.type = this.sourceData[i].src_type

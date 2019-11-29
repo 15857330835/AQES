@@ -7,7 +7,7 @@
     ></span>
     <span
       @click="hideTrack"
-      class=" u-icon"
+      class="u-icon"
       :class="this.track.bhidden ? 'hide' : 'show'"
     ></span>
   </div>
@@ -56,7 +56,6 @@ export default {
           }
         }
         this.track.block = !this.track.block
-
         $.post(
           window.NCES.DOMAIN + '/api/track',
           JSON.stringify(data),
@@ -81,7 +80,6 @@ export default {
           data = { cmd: 'hidden' }
         }
         this.track.bhidden = !this.track.bhidden
-
         $.post(
           window.NCES.DOMAIN + '/api/caption',
           JSON.stringify(data),
@@ -106,7 +104,7 @@ export default {
         }
         this.track.bhidden = !this.track.bhidden
         $.post(
-          window.DOMAIN + '/api/track',
+          window.NCES.DOMAIN + '/api/track',
           JSON.stringify(data),
           function(res) {
             that.CHANGE_TRACK({
