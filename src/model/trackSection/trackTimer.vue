@@ -71,8 +71,8 @@ export default {
     }
   },
   watch: {
-    after_ratio(newVal) {
-      this.ratioChange(newVal)
+    after_ratio(newVal, oldVal) {
+      this.ratioChange(newVal, oldVal)
     }
     /* ratio: {
       handler(news, old) {
@@ -121,13 +121,15 @@ export default {
           30.1 - Math.round((this.length / displayWidth) * 100) / 100
         displayNum = displayNum <= max ? displayNum : max
         console.log({ newSliderNumMin, max })
+
         this.UPDATE_SLIDER_NUM({
           min: newSliderNumMin,
           max: max,
           length: 100,
           btnStep: 0.25
         })
-        return displayNum
+        this.PROPERTY_OUTLEFT(0)
+        this.middle_ratio = displayNum
       }
     },
     ratioAdd() {
@@ -141,9 +143,7 @@ export default {
         '.edit_track_content'
       ).offsetWidth
       this.CHANGE_VIS_TIMER_WIDTH(this.trackWidth)
-      const num = this.setSliderNum()
-      this.PROPERTY_OUTLEFT(0)
-      this.middle_ratio = num
+      this.setSliderNum()
     },
     sendRatio() {
       const that = this
@@ -171,10 +171,26 @@ export default {
     sendRatioDenounce: _.debounce(function() {
       this.sendRatio()
     }, 300),
-    ratioChange(value) {
-      console.log(value)
-      this.oldratio = value
-      this.PROPERTY_RATIO(value)
+    ratioChange(newVal, oldVal) {
+      console.log(newVal)
+      this.PROPERTY_RATIO(newVal)
+      const left =
+        this.pointer.position / (this.slidernum.max - oldVal) -
+        this.track_property.outLeft
+      let outleft = this.pointer.position / (this.slidernum.max - newVal) - left
+      if (
+        outleft > 0 &&
+        outleft + this.trackWidth >
+          this.length / (this.slidernum.max - newVal) + 100
+      ) {
+        outleft =
+          this.length / (this.slidernum.max - newVal) + 100 - this.trackWidth
+      }
+      if (outleft <= 0) {
+        outleft = 0
+      }
+      outleft = Math.round(outleft)
+      this.PROPERTY_OUTLEFT(outleft)
       this.sendRatioDenounce()
     }
   },
@@ -186,10 +202,6 @@ export default {
     this.oldleft = this.track_property.outLeft
     this.trackWidth = document.querySelector('.edit_track_content').offsetWidth
     this.CHANGE_VIS_TIMER_WIDTH(this.trackWidth)
-    // this.setSliderNum()
-    // this.PROPERTY_RATIO(this.oldratio)
-    // this.refreshLoading(1)
-    // this.changeLoading()
   }
 }
 </script>

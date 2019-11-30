@@ -74,7 +74,11 @@ export default {
     left() {
       // debugger
       let leftPosition
-      if (this.pointer.position + 1 === this.length) {
+      if (this.pointer.position >= this.length) {
+        leftPosition =
+          this.length / (this.slidernum.max - this.track_property.ratio) -
+          this.track_property.outLeft
+      } else if (this.pointer.position + 1 === this.length) {
         leftPosition =
           (this.pointer.position + 1) /
             (this.slidernum.max - this.track_property.ratio) -
