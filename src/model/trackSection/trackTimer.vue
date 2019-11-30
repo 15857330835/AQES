@@ -30,6 +30,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 import sliderbar from './sliderBar'
+import _ from 'lodash'
 
 export default {
   data: function() {
@@ -107,18 +108,12 @@ export default {
       'CHANGE_VIS_TIMER_WIDTH',
       'CHANGE_TRACK_ABLE_WIDTH'
     ]),
-    ratioAdd() {
-      this.middle_ratio += 0.25
-    },
-    ratioCut() {
-      this.middle_ratio -= 0.25
-    },
     setSliderNum() {
       if (this.length > 0) {
         const max = 30.1
         const min = 24.6
-
-        const displayNumMin = 30.1 - Math.round(this.length / 5) / 100
+        let displayNumMin = 30.1 - Math.round(this.length / 5) / 100
+        displayNumMin = Math.round((displayNumMin + 0.15) / 0.25) * 0.25 - 0.15
         const newSliderNumMin = displayNumMin < min ? displayNumMin : min
 
         const displayWidth = Math.floor(this.visTimerWidth / 50) * 50
@@ -135,6 +130,12 @@ export default {
         return displayNum
       }
     },
+    ratioAdd() {
+      this.middle_ratio += 0.25
+    },
+    ratioCut() {
+      this.middle_ratio -= 0.25
+    },
     ratioScale() {
       this.trackWidth = document.querySelector(
         '.edit_track_content'
@@ -144,16 +145,16 @@ export default {
       this.PROPERTY_OUTLEFT(0)
       this.middle_ratio = num
     },
-    ratioChange(value) {
-      console.log(value)
+    sendRatio() {
       const that = this
-      this.oldratio = value
-      this.PROPERTY_RATIO(value)
       $.post(
         window.NCES.DOMAIN + '/api/track',
         JSON.stringify({
           cmd: 'property_append',
-          track_property: { ratio: value, outLeft: that.track_property.outLeft }
+          track_property: {
+            ratio: that.track_property.ratio,
+            outLeft: that.track_property.outLeft
+          }
         }),
         function(res) {
           if (res.code === 0 && !that.exportVideoSetShow) {
@@ -166,6 +167,15 @@ export default {
         },
         'json'
       )
+    },
+    sendRatioDenounce: _.debounce(function() {
+      this.sendRatio()
+    }, 300),
+    ratioChange(value) {
+      console.log(value)
+      this.oldratio = value
+      this.PROPERTY_RATIO(value)
+      this.sendRatioDenounce()
     }
   },
   created() {

@@ -38,25 +38,6 @@ export default {
     //   });
     // });
   },
-  // 废弃备用
-  // refreshLoading({ commit }, payload) {
-  //   const that = this
-  //   $.ajax({
-  //     type: 'get',
-  //     url: window.NCES.DOMAIN + '/api/all',
-  //     success: function(res) {
-  //       commit('CHANGE_LOADING', res.data)
-  //       if (payload === 1) {
-  //         that.dispatch('getnowimg')
-  //       }
-  //     },
-  //     error: function(res) {
-  //       console.warn(res.msg)
-  //       that.dispatch('refreshLoading')
-  //     },
-  //     timeout: 500
-  //   })
-  // },
   changeLoading({ commit, state, dispatch }, callback) {
     // 获取非编工程所有的信息
     const that = this
@@ -105,8 +86,9 @@ export default {
         commit('CHANGE_LOADING', res.data)
         // 获取数据后确定state.slidernum.min
         const min = state.slidernum.min
-        const displayNumMin =
-          30.1 - Math.round(state.all.curr_track_len / 50) / 10
+        let displayNumMin =
+          30.1 - Math.round(state.all.curr_track_len / 5) / 100
+        displayNumMin = Math.round((displayNumMin + 0.15) / 0.25) * 0.25 - 0.15
         const newSliderNumMin = displayNumMin < min ? displayNumMin : min
         state.slidernum.min = newSliderNumMin
         that.dispatch('getnowimg')
