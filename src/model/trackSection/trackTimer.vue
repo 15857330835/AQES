@@ -19,8 +19,8 @@
               :step="0.25"
             ></el-slider>
             <span class="right_scale" @click="ratioScale" title="全览"></span>
-            <span class="right_jian" @click="ratioCut"></span>
-            <span class="right_jia" @click="ratioAdd"></span>
+            <span class="right_jian" @click="ratioCut(0.25)"></span>
+            <span class="right_jia" @click="ratioAdd(0.25)"></span>
           </div>
         </div>
       </div>
@@ -138,11 +138,35 @@ export default {
         this.middle_ratio = displayNum
       }
     },
-    ratioAdd() {
-      this.middle_ratio += 0.25
+    doScroll(e_para) {
+      const e = window.event || e_para
+      // e.preventDefault()
+      const delta = e.deltaY
+      if (delta > 0) {
+        this.ratioAdd()
+      } else if (delta < 0) {
+        this.ratioCut()
+      }
     },
-    ratioCut() {
-      this.middle_ratio -= 0.25
+    ratioAdd(num_para) {
+      let num
+      if (num_para) {
+        num = num_para
+      } else {
+        num = Math.ceil(this.length / 2000) * 0.25
+      }
+      console.log({ add: num })
+      this.middle_ratio += num
+    },
+    ratioCut(num_para) {
+      let num
+      if (num_para) {
+        num = num_para
+      } else {
+        num = Math.ceil(this.length / 2000) * 0.25
+      }
+      console.log(this.length, { cut: num })
+      this.middle_ratio -= num
     },
     ratioScale() {
       this.trackWidth = document.querySelector(
@@ -207,6 +231,10 @@ export default {
     this.oldleft = this.track_property.outLeft
     this.trackWidth = document.querySelector('.edit_track_content').offsetWidth
     this.CHANGE_VIS_TIMER_WIDTH(this.trackWidth)
+    window.addEventListener('mousewheel', this.doScroll, { passive: false })
+  },
+  beforeDestroy() {
+    window.removeEventListener('mousewheel', this.doScroll, { passive: false })
   }
 }
 </script>
