@@ -37,7 +37,7 @@ export default {
     return {
       oldratio: 24.6,
       trackWidth: 0,
-      middle_ratio: 24.6
+      middle_ratio: null
     }
   },
   components: {
@@ -58,6 +58,9 @@ export default {
       return this.$store.state.all.track_property.ratio
     },
     after_ratio() {
+      if (this.middle_ratio === null) {
+        return null
+      }
       let math_ratio =
         Math.round((this.middle_ratio + 0.15) / 0.25) * 0.25 - 0.15
       // 超出范围的放大缩小无效（ratio在服务器端同步）
@@ -72,7 +75,10 @@ export default {
   },
   watch: {
     after_ratio(newVal, oldVal) {
-      this.ratioChange(newVal, oldVal)
+      // 初次渲染时的oldVal为null，禁用请求
+      if (oldVal !== null) {
+        this.ratioChange(newVal, oldVal)
+      }
     }
     /* ratio: {
       handler(news, old) {
@@ -172,7 +178,6 @@ export default {
       this.sendRatio()
     }, 300),
     ratioChange(newVal, oldVal) {
-      console.log(newVal)
       this.PROPERTY_RATIO(newVal)
       const left =
         this.pointer.position / (this.slidernum.max - oldVal) -
