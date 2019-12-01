@@ -138,7 +138,7 @@ export default {
         this.middle_ratio = displayNum
       }
     },
-    doScroll(e_para) {
+    /* doScroll(e_para) {
       const e = window.event || e_para
       e.preventDefault()
       const delta = e.deltaY
@@ -147,7 +147,7 @@ export default {
       } else if (delta < 0) {
         this.ratioCut()
       }
-    },
+    }, */
     ratioAdd(num_para) {
       let num
       if (num_para) {
