@@ -140,7 +140,7 @@ export default {
     },
     doScroll(e_para) {
       const e = window.event || e_para
-      // e.preventDefault()
+      e.preventDefault()
       const delta = e.deltaY
       if (delta > 0) {
         this.ratioAdd()
@@ -231,11 +231,11 @@ export default {
     this.oldleft = this.track_property.outLeft
     this.trackWidth = document.querySelector('.edit_track_content').offsetWidth
     this.CHANGE_VIS_TIMER_WIDTH(this.trackWidth)
-    window.addEventListener('mousewheel', this.doScroll, { passive: false })
-  },
-  beforeDestroy() {
-    window.removeEventListener('mousewheel', this.doScroll, { passive: false })
+    // window.addEventListener('mousewheel', this.doScroll, { passive: false })
   }
+  // beforeDestroy() {
+  //   window.removeEventListener('mousewheel', this.doScroll, { passive: false })
+  // }
 }
 </script>
 
