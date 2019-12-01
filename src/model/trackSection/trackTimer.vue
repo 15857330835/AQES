@@ -134,7 +134,10 @@ export default {
           length: 100,
           btnStep: 0.25
         })
-        this.PROPERTY_OUTLEFT(0)
+        console.log('set outleft')
+        setTimeout(() => {
+          this.PROPERTY_OUTLEFT(0)
+        }, 0)
         this.middle_ratio = displayNum
       }
     },
@@ -198,7 +201,7 @@ export default {
         'json'
       )
     },
-    sendRatioDenounce: _.debounce(function() {
+    sendRatioDebounce: _.debounce(function() {
       this.sendRatio()
     }, 300),
     ratioChange(newVal, oldVal) {
@@ -219,8 +222,10 @@ export default {
         outleft = 0
       }
       outleft = Math.round(outleft)
+      console.log('set outleft2')
+      console.log({ outleft })
       this.PROPERTY_OUTLEFT(outleft)
-      this.sendRatioDenounce()
+      this.sendRatioDebounce()
     }
   },
   created() {
