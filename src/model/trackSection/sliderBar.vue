@@ -53,7 +53,12 @@ export default {
         e = e.touches[0]
       }
 
-      this.x = e.clientX - this.$refs.leftN.offsetLeft // 文档显示区高度减去拖动div的相对父元素高度
+      this.x = e.clientX - this.$refs.leftN.offsetLeft
+      // console.log({
+      //   e: e.clientX,
+      //   some: this.$refs.leftN.offsetLeft,
+      //   x: this.x
+      // })
       if (this.openway === 'pc') {
         this.addHandler(document, 'mousemove', this.moveDrag) // 绑定moveDrag
         this.addHandler(document, 'mouseup', this.stopDrag) // 绑定stopDrag
@@ -81,20 +86,23 @@ export default {
       if (e.touches) {
         e = e.touches[0]
       }
+      const outerBarWidth = this.$refs.leftW.offsetWidth - 15
       let iLeft = e.clientX - this.x
       iLeft < 0 && (iLeft = 0)
-      iLeft + parseFloat(this.$refs.leftN.style.width) >
-        this.$refs.leftW.offsetWidth &&
-        (iLeft =
-          this.$refs.leftW.offsetWidth -
-          parseFloat(this.$refs.leftN.style.width))
-
+      console.log({ iLeft, outerBarWidth, width: this.$refs.leftN.style.width })
+      if (
+        iLeft + parseFloat(this.$refs.leftN.style.width) - 15 >
+        outerBarWidth
+      ) {
+        iLeft = outerBarWidth - parseFloat(this.$refs.leftN.style.width) + 15
+      }
+      console.log({ iLeft })
       this.left = iLeft
       const outleft =
         ((this.length / (this.slidernum.max - this.track_property.ratio) +
           this.slidernum.length) *
           this.$refs.leftN.offsetLeft) /
-        this.$refs.leftW.offsetWidth
+        outerBarWidth
       this.PROPERTY_OUTLEFT(outleft)
     },
     stopDrag: function() {
@@ -132,20 +140,20 @@ export default {
     w_mousedown(e) {}, // 有用
     refreshLeftNPos() {
       console.log('refresh leftN pos')
-      const outerBarWidth = this.$refs.leftW.offsetWidth
+      const outerBarWidth = this.$refs.leftW.offsetWidth - 15
       const left =
         (outerBarWidth * this.track_property.outLeft) /
         (this.length / (this.slidernum.max - this.track_property.ratio) +
           this.slidernum.length)
-      this.left = left - 15
-      this.width =
+      const width =
         (outerBarWidth * this.track_width) /
           (this.length / (this.slidernum.max - this.track_property.ratio)) >
         outerBarWidth - left
           ? outerBarWidth - left
           : (outerBarWidth * this.track_width) /
             (this.length / (this.slidernum.max - this.track_property.ratio))
-      console.log({ left: this.left, width: this.width, total: this.left + this.width, outerBarWidth })
+      this.left = Math.ceil(left)
+      this.width = Math.floor(width) + 15
     },
     throttleInitPosData: _.throttle(function() {
       this.initPosData()
@@ -154,19 +162,20 @@ export default {
       this.track_width = document.querySelector(
         '.edit_track_contents'
       ).offsetWidth
-      const outerBarWidth = this.$refs.leftW.offsetWidth
+      const outerBarWidth = this.$refs.leftW.offsetWidth - 15
       const left =
         (outerBarWidth * this.track_property.outLeft) /
         (this.length / (this.slidernum.max - this.track_property.ratio) +
           this.slidernum.length)
-      this.left = left - 15
-      this.width =
+      const width =
         (outerBarWidth * this.track_width) /
           (this.length / (this.slidernum.max - this.track_property.ratio)) >
         outerBarWidth - left
           ? outerBarWidth - left
           : (outerBarWidth * this.track_width) /
             (this.length / (this.slidernum.max - this.track_property.ratio))
+      this.left = Math.ceil(left)
+      this.width = Math.floor(width) + 15
     }
   },
   watch: {
@@ -191,16 +200,14 @@ export default {
 .leftW {
   width: 100%;
   height: 100%;
-  // background-color: #3c3d3f;
-  background-color: #f00;
+  background-color: #3c3d3f;
   position: relative;
   border-radius: 3px;
   cursor: pointer;
   .leftN {
     width: 100px;
     height: 100%;
-    // background-color: #aaaaaa;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: #aaaaaa;
     border-radius: 3px;
     cursor: move;
     > div {

@@ -211,10 +211,12 @@ export default {
       if (
         outleft > 0 &&
         outleft + this.trackWidth >
-          this.length / (this.slidernum.max - newVal) + 100
+          this.length / (this.slidernum.max - newVal) + this.slidernum.length
       ) {
         outleft =
-          this.length / (this.slidernum.max - newVal) + 100 - this.trackWidth
+          this.length / (this.slidernum.max - newVal) +
+          this.slidernum.length -
+          this.trackWidth
       }
       if (outleft <= 0) {
         outleft = 0
