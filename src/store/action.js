@@ -363,7 +363,7 @@ export default {
       height: 56
     }
     const data = {}
-    console.log({ config })
+    // console.log({ config })
     data.data = {
       cmd: 'get_imgs',
       track_start: config.track_start,
@@ -374,7 +374,7 @@ export default {
     }
     data.success = function(res) {
       commit('IMG_LISTS', res.data)
-      console.log(state.imglists)
+      // console.log(state.imglists)
     }
     this.dispatch('postTrack', data)
   },

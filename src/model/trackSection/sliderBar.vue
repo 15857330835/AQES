@@ -131,26 +131,21 @@ export default {
     // eslint-disable-next-line no-empty-function
     w_mousedown(e) {}, // 有用
     refreshLeftNPos() {
-      this.width =
-        (this.$refs.leftW.offsetWidth * this.track_width) /
-          (this.length / (this.slidernum.max - this.track_property.ratio)) >
-        this.$refs.leftW.offsetWidth
-          ? this.$refs.leftW.offsetWidth
-          : (this.$refs.leftW.offsetWidth * this.track_width) /
-            (this.length / (this.slidernum.max - this.track_property.ratio))
+      console.log('refresh leftN pos')
+      const outerBarWidth = this.$refs.leftW.offsetWidth
       const left =
-        (this.$refs.leftW.offsetWidth * this.track_property.outLeft) /
+        (outerBarWidth * this.track_property.outLeft) /
         (this.length / (this.slidernum.max - this.track_property.ratio) +
           this.slidernum.length)
-      if (left + this.width > this.$refs.leftW.offsetWidth) {
-        this.left = this.$refs.leftW.offsetWidth - this.width
-      } else {
-        if (left < 0) {
-          this.left = 0
-        } else {
-          this.left = left
-        }
-      }
+      this.left = left - 15
+      this.width =
+        (outerBarWidth * this.track_width) /
+          (this.length / (this.slidernum.max - this.track_property.ratio)) >
+        outerBarWidth - left
+          ? outerBarWidth - left
+          : (outerBarWidth * this.track_width) /
+            (this.length / (this.slidernum.max - this.track_property.ratio))
+      console.log({ left: this.left, width: this.width, total: this.left + this.width, outerBarWidth })
     },
     throttleInitPosData: _.throttle(function() {
       this.initPosData()
@@ -159,16 +154,18 @@ export default {
       this.track_width = document.querySelector(
         '.edit_track_contents'
       ).offsetWidth
-      this.left =
-        (this.$refs.leftW.offsetWidth * this.track_property.outLeft) /
+      const outerBarWidth = this.$refs.leftW.offsetWidth
+      const left =
+        (outerBarWidth * this.track_property.outLeft) /
         (this.length / (this.slidernum.max - this.track_property.ratio) +
           this.slidernum.length)
+      this.left = left - 15
       this.width =
-        (this.$refs.leftW.offsetWidth * this.track_width) /
+        (outerBarWidth * this.track_width) /
           (this.length / (this.slidernum.max - this.track_property.ratio)) >
-        this.$refs.leftW.offsetWidth - this.left
-          ? this.$refs.leftW.offsetWidth - this.left
-          : (this.$refs.leftW.offsetWidth * this.track_width) /
+        outerBarWidth - left
+          ? outerBarWidth - left
+          : (outerBarWidth * this.track_width) /
             (this.length / (this.slidernum.max - this.track_property.ratio))
     }
   },
@@ -194,14 +191,16 @@ export default {
 .leftW {
   width: 100%;
   height: 100%;
-  background-color: #3c3d3f;
+  // background-color: #3c3d3f;
+  background-color: #f00;
   position: relative;
   border-radius: 3px;
   cursor: pointer;
   .leftN {
     width: 100px;
     height: 100%;
-    background-color: #aaaaaa;
+    // background-color: #aaaaaa;
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 3px;
     cursor: move;
     > div {

@@ -158,7 +158,6 @@ export default {
       } else {
         num = Math.ceil(this.length / 2000) * 0.25
       }
-      console.log({ add: num })
       this.middle_ratio += num
     },
     ratioCut(num_para) {
@@ -168,7 +167,6 @@ export default {
       } else {
         num = Math.ceil(this.length / 2000) * 0.25
       }
-      console.log(this.length, { cut: num })
       this.middle_ratio -= num
     },
     ratioScale() {
@@ -222,8 +220,6 @@ export default {
         outleft = 0
       }
       outleft = Math.round(outleft)
-      console.log('set outleft2')
-      console.log({ outleft })
       this.PROPERTY_OUTLEFT(outleft)
       this.sendRatioDebounce()
     }
