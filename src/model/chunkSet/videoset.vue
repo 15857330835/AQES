@@ -839,6 +839,7 @@ export default {
     timerdian,
     quickposition
   },
+  created: function() {},
   //   watch:{
   //       mosaicKey:function(n){
   //           this.mosaicKey = n
@@ -865,7 +866,7 @@ export default {
       // 格式化滤镜数据
       const filter = this.activechunk.chunk.filter
       const data = {}
-      // let key = 0
+      let key = 0
       for (let i = 0; i < filter.length; i++) {
         switch (filter[i].service) {
           case 'mirror': {
@@ -881,10 +882,10 @@ export default {
             if (!data.mosaic) {
               data.mosaic = {}
               data.mosaic[i] = filter[i]
-              // key = i
+              key = i
             } else {
               data.mosaic[i] = filter[i]
-              // key = i
+              key = i
             }
             break
           }
@@ -893,10 +894,10 @@ export default {
             if (!data.mosaic) {
               data.mosaic = {}
               data.mosaic[i] = filter[i]
-              // key = i
+              key = i
             } else {
               data.mosaic[i] = filter[i]
-              // key = i
+              key = i
             }
             break
           }
@@ -913,29 +914,30 @@ export default {
     },
     setbili: {
       get: function() {
+        if (this.isAsyncSetchart) {
+          this.billVal =
+            this.wh >= 1
+              ? this.activeProperty[this.propertyNum].w
+              : this.activeProperty[this.propertyNum].h
+          return this.billVal
+        }
         return this.billVal
       },
       set: function(newValue) {
         if (this.wh >= 1) {
-          this.activeProperty[this.propertyNum].w = parseInt(newValue, 10)
-          this.activeProperty[this.propertyNum].h = parseInt(
-            newValue / this.wh,
-            10
-          )
+          this.activeProperty[this.propertyNum].w = parseInt(newValue)
+          this.activeProperty[this.propertyNum].h = parseInt(newValue / this.wh)
         } else {
-          this.activeProperty[this.propertyNum].h = parseInt(newValue, 10)
-          this.activeProperty[this.propertyNum].w = parseInt(
-            newValue * this.wh,
-            10
-          )
+          this.activeProperty[this.propertyNum].h = parseInt(newValue)
+          this.activeProperty[this.propertyNum].w = parseInt(newValue * this.wh)
         }
       }
     },
     isNormal: function() {
       if (
-        this.filterList.grayscale.parameter.disable === 1 &&
-        this.filterList.exposure.parameter.disable === 1 &&
-        this.filterList.boxblur.parameter.disable === 1
+        this.filterList.grayscale.parameter.disable == 1 &&
+        this.filterList.exposure.parameter.disable == 1 &&
+        this.filterList.boxblur.parameter.disable == 1
       ) {
         return 'activ'
       } else {
@@ -943,21 +945,21 @@ export default {
       }
     },
     isPuguang: function() {
-      if (this.filterList.exposure.parameter.disable === 0) {
+      if (this.filterList.exposure.parameter.disable == 0) {
         return 'activ'
       } else {
         return ''
       }
     },
     isMohu: function() {
-      if (this.filterList.boxblur.parameter.disable === 0) {
+      if (this.filterList.boxblur.parameter.disable == 0) {
         return 'activ'
       } else {
         return ''
       }
     },
     isBlackwhite: function() {
-      if (this.filterList.grayscale.parameter.disable === 0) {
+      if (this.filterList.grayscale.parameter.disable == 0) {
         return 'activ'
       } else {
         return ''
@@ -987,8 +989,7 @@ export default {
       },
       set: function(newValue) {
         this.filterList.volume.parameter.fade_in = parseInt(
-          newValue * this.systemmessage.player.fps,
-          10
+          newValue * this.systemmessage.player.fps
         )
       }
     },
@@ -1003,25 +1004,12 @@ export default {
       },
       set: function(newValue) {
         this.filterList.volume.parameter.fade_out = parseInt(
-          newValue * this.systemmessage.player.fps,
-          10
+          newValue * this.systemmessage.player.fps
         )
       }
     }
   },
-  watch: {
-    isAsyncSetchartL: {
-      handler: function(newVal, oldVal) {
-        if (newVal) {
-          this.billVal =
-            this.wh >= 1
-              ? this.activeProperty[this.propertyNum].w
-              : this.activeProperty[this.propertyNum].h
-        }
-      },
-      immediate: true
-    }
-  },
+  watch: {},
   methods: {
     ...mapActions(['Post']),
     ...mapMutations([
@@ -1035,7 +1023,7 @@ export default {
     ]),
     tabChange: function(name) {
       // 导航切换
-      if (name !== 'content-sel_O1') {
+      if (name != 'content-sel_O1') {
         this.CHANGE_FILTERSHOW('normal')
       }
       this.classname = name
@@ -1045,55 +1033,47 @@ export default {
         case 'brightness': {
           this.filterList.bcs.parameter.disable = 0
           this.filterList.bcs.parameter.brightness =
-            parseInt(target.value, 10) / 100
+            parseInt(target.value) / 100
           break
         }
         case 'contrast': {
           this.filterList.bcs.parameter.disable = 0
-          this.filterList.bcs.parameter.contrast =
-            parseInt(target.value, 10) / 100
+          this.filterList.bcs.parameter.contrast = parseInt(target.value) / 100
           break
         }
         case 'saturation': {
           this.filterList.bcs.parameter.disable = 0
           this.filterList.bcs.parameter.saturation =
-            parseInt(target.value, 10) / 100
+            parseInt(target.value) / 100
           break
         }
         case 'coloring': {
           this.filterList.bcs.parameter.disable = 0
-          this.filterList.bcs.parameter.brightness = parseInt(target.value, 10)
+          this.filterList.bcs.parameter.brightness = parseInt(target.value)
           break
         }
         case 'volume': {
           this.filterList.volume.parameter.disable = 0
-          this.filterList.volume.parameter.value =
-            parseInt(target.value, 10) / 100
+          this.filterList.volume.parameter.value = parseInt(target.value) / 100
           break
         }
-        case 'volume_fade_in': {
+        case 'volume_fade_in':
           this.filterList.volume.parameter.disable = 0
           // this.fade_in = target.value
           this.filterList.volume.parameter.fade_in = parseInt(
-            target.value * this.systemmessage.player.fps,
-            10
+            target.value * this.systemmessage.player.fps
           )
           // this.filterList.volume.parameter.fade_in = parseInt(target.value) / 100
           break
-        }
-        case 'volume_fade_out': {
+
+        case 'volume_fade_out':
           this.filterList.volume.parameter.disable = 0
           // this.fade_out = target.value
           this.filterList.volume.parameter.fade_out = parseInt(
-            target.value * this.systemmessage.player.fps,
-            10
+            target.value * this.systemmessage.player.fps
           )
           // this.filterList.volume.parameter.fade_out = parseInt(target.value) / 100
           break
-        }
-        default: {
-          console.log('no such filterInputblur type')
-        }
       }
       this.sendmessage()
     },
@@ -1101,9 +1081,8 @@ export default {
       this.activechunk.chunk.speed = -this.activechunk.chunk.speed
       this.speedChange(this.speed)
     },
-    speedChange(value_para) {
+    speedChange(value) {
       // 改变播放速率
-      let value = value_para
       if (this.activechunk.chunk.speed < 0) {
         value = -value
       }
@@ -1111,13 +1090,14 @@ export default {
       this.ACTIVE_CHUNK({ speed: value })
       // this.activechunk.chunk.speed = value
       const that = this
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_speed',
-        chunk_id: this.activechunk.chunk.chunk_id,
-        speed: value
-      }
+      const data = {};
+(data.type = 'chunk'),
+        (data.data = {
+          cmd: 'update_speed',
+          chunk_id: this.activechunk.chunk.chunk_id,
+          speed: value
+        })
+      data.success = function(res) {}
       data.error = function() {
         that.$notify({
           title: '提示',
@@ -1174,7 +1154,8 @@ export default {
         cmd: 'update_property',
         chunk_id: this.activechunk.chunk.chunk_id,
         geometry: geo.substr(0, geo.length - 1)
-      }
+      };
+(data.success = function() {}), (data.error = function() {})
       this.Post(data)
     },
     wChange(value) {
@@ -1184,27 +1165,25 @@ export default {
       this.tmdChange()
     },
     changePosition(way, target) {
-      if (target.value === '') {
+      if (target.value == '') {
         target.value = 0
       } else {
-        target.value = parseInt(target.value, 10)
+        target.value = parseInt(target.value)
       }
 
-      if (way === 'x') {
-        const num1 =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.w
-        this.activeProperty[this.propertyNum].left = num1
+      if (way == 'x') {
+        var num = (parseInt(target.value) * 100) / this.systemmessage.player.w
+        this.activeProperty[this.propertyNum].left = num
       }
-      if (way === 'y') {
-        const num2 =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.h
-        this.activeProperty[this.propertyNum].top = num2
+      if (way == 'y') {
+        num = (parseInt(target.value) * 100) / this.systemmessage.player.h
+        this.activeProperty[this.propertyNum].top = num
       }
       this.tmdChange()
     },
     closeVol() {
       // 一键静音
-      if (this.filterList.volume.parameter.value === 0) {
+      if (this.filterList.volume.parameter.value == 0) {
         this.filterList.volume.parameter.value = 1
       } else {
         this.filterList.volume.parameter.value = 0
@@ -1265,16 +1244,15 @@ export default {
       this.filterList.coloring.parameter.value = value
       this.sendmessage()
     },
-    softnessChange(value_para) {
-      let value = value_para
-      if (value === 0) {
+    softnessChange(value) {
+      if (value == 0) {
         value = 0.02
       }
       this.filterList.cutting.parameter.softness = value
       this.sendmessage()
     },
     xzFilter: function() {
-      let value = parseInt(this.filterList.rotate.parameter.value, 10)
+      let value = parseInt(this.filterList.rotate.parameter.value)
       value = (value + 45) % 360
       this.filterList.rotate.parameter.value = value
       this.filterList.rotate.parameter.disable = 0
@@ -1285,13 +1263,13 @@ export default {
       // 获取指定滤镜的数据
       const filterArr = this.activechunk.chunk.filter
       for (let i = 0; i < filterArr.length; i++) {
-        if (filterArr[i].service === service) {
+        if (filterArr[i].service == service) {
           return filterArr[i]
         }
       }
     },
     mosaicShow() {
-      if (this.filtershow !== 'mosaic') {
+      if (this.filtershow != 'mosaic') {
         this.CHANGE_FILTERSHOW('mosaic')
         if (this.mosaicKey) {
           this.addOrUpdateFilter(
@@ -1305,7 +1283,7 @@ export default {
       }
     },
     fastblurShow() {
-      if (this.filtershow !== 'fastblur') {
+      if (this.filtershow != 'fastblur') {
         this.CHANGE_FILTERSHOW('fastblur')
         if (this.mosaicKey) {
           this.addOrUpdateFilter(
@@ -1329,8 +1307,8 @@ export default {
       this.activechunk.chunk.filter[this.mosaicKey].parameter.disable = 1
       for (const i in this.filterList.mosaic) {
         if (
-          this.filterList.mosaic[i].service === filtershow &&
-          this.filterList.mosaic[i].parameter.disable === 1
+          this.filterList.mosaic[i].service == filtershow &&
+          this.filterList.mosaic[i].parameter.disable == 1
         ) {
           key = i
           this.activechunk.chunk.filter[i].parameter = {
@@ -1344,7 +1322,7 @@ export default {
           num++
         }
       }
-      if (num === 0 && filtershow === 'mosaic') {
+      if (num == 0 && filtershow == 'mosaic') {
         key = this.activechunk.chunk.filter.length
         this.activechunk.chunk.filter.push({
           service: 'mosaic',
@@ -1359,7 +1337,7 @@ export default {
             disable: 0 // 是否禁用滤镜
           }
         })
-      } else if (num === 0 && filtershow === 'fastblur') {
+      } else if (num == 0 && filtershow == 'fastblur') {
         key = this.activechunk.chunk.filter.length
         this.activechunk.chunk.filter.push({
           service: 'fastblur',
@@ -1377,18 +1355,18 @@ export default {
       }
 
       this.SET_CHANGE_FILTERSHOW_KEY(key)
-      if (num === 0) {
+      if (num == 0) {
         this.addFilter(this.activechunk.chunk.filter[key])
       } else {
         this.sendmessage()
       }
     },
     cuttingShow() {
-      if (this.filterList.cutting.parameter.disable === 1) {
+      if (this.filterList.cutting.parameter.disable == 1) {
         this.filterList.cutting.parameter.disable = 0
         this.sendmessage()
       }
-      if (this.filtershow !== 'cutting') {
+      if (this.filtershow != 'cutting') {
         this.CHANGE_FILTERSHOW('cutting')
       } else {
         this.CHANGE_FILTERSHOW('normal')
@@ -1421,9 +1399,6 @@ export default {
           this.filterList.grayscale.parameter.disable = 0
           break
         }
-        default: {
-          console.log('no such changeFilter type')
-        }
       }
       this.sendmessage()
     },
@@ -1431,28 +1406,28 @@ export default {
       const that = this
       switch (service) {
         case 'value': {
-          if (target.value === '') {
+          if (target.value == '') {
             target.value = parseFloat(that.filterList.rotate.parameter.value)
             break
           }
-          const num = parseFloat(target.value)
+          var num = parseFloat(target.value)
           if (num >= 360) {
-            target.value = parseInt(num - 360, 10)
+            target.value = parseInt(num - 360)
             break
           }
           if (num < 0) {
-            target.value = parseInt(num + 360, 10)
+            target.value = parseInt(num + 360)
             break
           }
-          target.value = parseInt(target.value, 10)
-          this.filterList.rotate.parameter.value = parseInt(target.value, 10)
+          target.value = parseInt(target.value)
+          this.filterList.rotate.parameter.value = parseInt(target.value)
           break
         }
         case 'scale': {
-          if (target.value === '') {
-            target.value = parseInt(that.filterList.rotate.parameter.scale, 10)
+          if (target.value == '') {
+            target.value = parseInt(that.filterList.rotate.parameter.scale)
           }
-          const num = parseFloat(target.value)
+          var num = parseFloat(target.value)
           if (num > 300) {
             target.value = 300
             break
@@ -1461,12 +1436,9 @@ export default {
             target.value = 0
             break
           }
-          target.value = parseInt(target.value, 10)
-          this.filterList.rotate.parameter.scale = parseInt(target.value, 10)
+          target.value = parseInt(target.value)
+          this.filterList.rotate.parameter.scale = parseInt(target.value)
           break
-        }
-        default: {
-          console.log('no such rotateInputblur type')
         }
       }
       this.filterList.rotate.parameter.disable = 0
@@ -1475,7 +1447,7 @@ export default {
     },
     cuttingsel(index) {
       this.writeFlag = index
-      if (index === 0) {
+      if (index == 0) {
         this.CHANGE_FILTERSHOW('normal')
         this.filterList.cutting.parameter.disable = 1
         this.sendmessage()
@@ -1485,13 +1457,12 @@ export default {
       this.filterList.cutting.parameter.shape = index
       this.sendmessage()
     },
-    // eslint-disable-next-line no-empty-function
     cutrotateInputblur() {},
     fzFilter(way) {
-      if (way === 'cz') {
+      if (way == 'cz') {
         for (const key in this.filterList.mirror) {
-          if (this.filterList.mirror[key].parameter.value === 6) {
-            if (this.filterList.mirror[key].parameter.disable === 1) {
+          if (this.filterList.mirror[key].parameter.value == 6) {
+            if (this.filterList.mirror[key].parameter.disable == 1) {
               this.filterList.mirror[key].parameter.disable = 0
             } else {
               this.filterList.mirror[key].parameter.disable = 1
@@ -1500,8 +1471,8 @@ export default {
         }
       } else {
         for (const k in this.filterList.mirror) {
-          if (this.filterList.mirror[k].parameter.value === 5) {
-            if (this.filterList.mirror[k].parameter.disable === 1) {
+          if (this.filterList.mirror[k].parameter.value == 5) {
+            if (this.filterList.mirror[k].parameter.disable == 1) {
               this.filterList.mirror[k].parameter.disable = 0
             } else {
               this.filterList.mirror[k].parameter.disable = 1
@@ -1517,6 +1488,8 @@ export default {
         chunk_id: this.activechunk.chunk.chunk_id,
         property: this.activechunk.chunk.filter
       })
+      if (res.code === 0) {
+      }
       if (res.code !== 0) {
         this.$notify({
           title: '提示',
@@ -1532,6 +1505,8 @@ export default {
         chunk_id: this.activechunk.chunk.chunk_id,
         filter: obj
       })
+      if (res.code === 0) {
+      }
       if (res.code !== 0) {
         console.warn(res.msg)
       }

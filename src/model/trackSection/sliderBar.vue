@@ -89,14 +89,12 @@ export default {
       const outerBarWidth = this.$refs.leftW.offsetWidth - 15
       let iLeft = e.clientX - this.x
       iLeft < 0 && (iLeft = 0)
-      console.log({ iLeft, outerBarWidth, width: this.$refs.leftN.style.width })
       if (
         iLeft + parseFloat(this.$refs.leftN.style.width) - 15 >
         outerBarWidth
       ) {
         iLeft = outerBarWidth - parseFloat(this.$refs.leftN.style.width) + 15
       }
-      console.log({ iLeft })
       this.left = iLeft
       const outleft =
         ((this.length / (this.slidernum.max - this.track_property.ratio) +

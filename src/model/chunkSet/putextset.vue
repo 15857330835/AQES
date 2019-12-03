@@ -248,7 +248,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 import timerdian from './timerdian'
-// import quickposition from './quickPosition'
+import quickposition from './quickPosition'
 import fontpick from './fontpick'
 import colorpick from './colorPick'
 import _ from 'lodash'
@@ -265,11 +265,11 @@ export default {
   },
   components: {
     timerdian,
-    // quickposition,
+    quickposition,
     fontpick,
     colorpick
   },
-  // created: function() {},
+  created: function() {},
   destroyed() {
     this.CHANGE_PROPERTYNUM(0)
   },
@@ -291,7 +291,7 @@ export default {
         return this.propertyOfnum.transparency
       },
       set: function(newValue) {
-        this.propertyOfnum.transparency = parseInt(newValue, 10)
+        this.propertyOfnum.transparency = parseInt(newValue)
       }
     },
     textTop: {
@@ -300,7 +300,7 @@ export default {
         return top
       },
       set: function(newValue) {
-        this.activechunk.chunk.filter[0].geometry_top = parseInt(newValue, 10)
+        this.activechunk.chunk.filter[0].geometry_top = parseInt(newValue)
       }
     },
     textW: {
@@ -308,20 +308,26 @@ export default {
         return this.propertyOfnum.w
       },
       set: function(newValue) {
-        this.propertyOfnum.w = parseInt(newValue, 10)
+        this.propertyOfnum.w = parseInt(newValue)
       }
     },
     bili: {
       get: function() {
+        if (this.isAsyncSetchart) {
+          this.biliVal =
+            this.wh >= 1 ? this.propertyOfnum.w : this.propertyOfnum.h
+          // this.billVal =  this.wh>=1?this.activeProperty[this.propertyNum].w:this.activeProperty[this.propertyNum].h
+          return this.biliVal
+        }
         return this.biliVal
       },
       set: function(newValue) {
         if (this.wh >= 1) {
-          this.propertyOfnum.w = parseInt(newValue, 10)
-          this.propertyOfnum.h = parseInt(newValue / this.wh, 10)
+          this.propertyOfnum.w = parseInt(newValue)
+          this.propertyOfnum.h = parseInt(newValue / this.wh)
         } else {
-          this.propertyOfnum.h = parseInt(newValue, 10)
-          this.propertyOfnum.w = parseInt(newValue * this.wh, 10)
+          this.propertyOfnum.h = parseInt(newValue)
+          this.propertyOfnum.w = parseInt(newValue * this.wh)
         }
       }
     },
@@ -329,18 +335,7 @@ export default {
       return this.propertyOfnum.w
     }
   },
-  watch: {
-    isAsyncSetchartL: {
-      handler: function(newVal, oldVal) {
-        if (newVal) {
-          // this.billVal =  this.wh>=1?this.activeProperty[this.propertyNum].w:this.activeProperty[this.propertyNum].h
-          this.billVal =
-            this.wh >= 1 ? this.propertyOfnum.w : this.propertyOfnum.h
-        }
-      },
-      immediate: true
-    }
-  },
+  watch: {},
   methods: {
     ...mapActions(['Post']),
     ...mapMutations([
@@ -403,7 +398,8 @@ export default {
         cmd: 'update_property',
         chunk_id: this.activechunk.chunk.chunk_id,
         geometry: geo.substr(0, geo.length - 1)
-      }
+      };
+(data.success = function() {}), (data.error = function() {})
       this.Post(data)
     },
     wChange(value) {
@@ -417,63 +413,61 @@ export default {
       this.flag = !this.flag
     },
     movetext: function(position) {
-      if (position === 'ldq') {
+      if (position == 'ldq') {
         this.activechunk.chunk.filter[0].halign = 0
       }
-      if (position === 'cdq') {
+      if (position == 'cdq') {
         this.activechunk.chunk.filter[0].halign = 1
       }
-      if (position === 'rdq') {
+      if (position == 'rdq') {
         this.activechunk.chunk.filter[0].halign = 2
       }
-      if (position === 'tdq') {
+      if (position == 'tdq') {
         this.activechunk.chunk.filter[0].valign = 0
       }
-      if (position === 'mdq') {
+      if (position == 'mdq') {
         this.activechunk.chunk.filter[0].valign = 1
       }
-      if (position === 'bdq') {
+      if (position == 'bdq') {
         this.activechunk.chunk.filter[0].valign = 2
       }
       this.sendmessage()
     },
     fontsizeinput: function(index, target) {
-      if (target.value === '') {
+      if (target.value == '') {
         this.activechunk.chunk.filter[index].size = 0
       } else {
-        this.activechunk.chunk.filter[index].size = parseInt(target.value, 10)
+        this.activechunk.chunk.filter[index].size = parseInt(target.value)
       }
       this.sendmessage()
     },
     changePosition(way, target) {
-      if (target.value === '') {
+      if (target.value == '') {
         target.value = 0
       } else {
-        target.value = parseInt(target.value, 10)
+        target.value = parseInt(target.value)
       }
 
-      if (way === 'x') {
-        const num1 =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.w
-        this.activeProperty[this.propertyNum].left = num1
+      if (way == 'x') {
+        var num = (parseInt(target.value) * 100) / this.systemmessage.player.w
+        this.activeProperty[this.propertyNum].left = num
       }
-      if (way === 'y') {
-        const num2 =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.h
-        this.activeProperty[this.propertyNum].top = num2
+      if (way == 'y') {
+        num = (parseInt(target.value) * 100) / this.systemmessage.player.h
+        this.activeProperty[this.propertyNum].top = num
       }
       this.tmdChange()
     },
     togglefont: function(index, style) {
-      if (style === 'weight') {
-        if (this.activechunk.chunk.filter[index].weight === 500) {
+      if (style == 'weight') {
+        if (this.activechunk.chunk.filter[index].weight == 500) {
           this.activechunk.chunk.filter[index].weight = 600
         } else {
           this.activechunk.chunk.filter[index].weight = 500
         }
       }
-      if (style === 'style') {
-        if (this.activechunk.chunk.filter[index].style === 'normal') {
+      if (style == 'style') {
+        if (this.activechunk.chunk.filter[index].style == 'normal') {
           this.activechunk.chunk.filter[index].style = 'italic'
         } else {
           this.activechunk.chunk.filter[index].style = 'normal'
@@ -486,20 +480,20 @@ export default {
       //     this.chunk.geometry = this.propertyTostr(this.textpositionArr)
       // }
       const that = this
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_filter',
-        chunk_id: this.activechunk.chunk.chunk_id,
-        property: this.activechunk.chunk.filter
-      }
+      const data = {};
+(data.type = 'chunk'),
+        (data.data = {
+          cmd: 'update_filter',
+          chunk_id: this.activechunk.chunk.chunk_id,
+          property: this.activechunk.chunk.filter
+        })
       data.error = function() {
         that.$notify({
           title: '提示',
           type: 'error',
           message: '操作失败！',
           position: 'bottom-right',
-          duration: that.notify.time
+          duration: this.notify.time
         })
       }
       this.Post(data)

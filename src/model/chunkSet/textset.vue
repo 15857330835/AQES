@@ -9,10 +9,8 @@
     <div class="content-sel-option">
       <div
         class="sel-option1 clearfix"
-        v-for="(filter, index) in this.activechunk.chunk.filter.filter(
-          item => item.type === 2
-        )"
-        :key="index"
+        v-for="(filter, index) in this.activechunk.chunk.filter"
+        v-if="filter.type == 2"
       >
         <div class="clearfix">
           <textarea
@@ -28,8 +26,12 @@
             @blur="blur"
           ></textarea>
           <span style="float:right">
-            <span class="textarealength">{{ filter.text.length }}</span
-            >/<span>{{ maxlength }}</span>
+            <span
+              class="textarealength"
+              v-html="activechunk.chunk.filter[index].text.length"
+            ></span
+            >/
+            <span v-html="maxlength"></span>
           </span>
         </div>
         <div
@@ -207,7 +209,6 @@ export default {
     fontpick,
     colorpick
   },
-  // created: function() {},
   destroyed() {
     this.CHANGE_PROPERTYNUM(0)
   },
@@ -226,15 +227,20 @@ export default {
     },
     bili: {
       get: function() {
+        if (this.isAsyncSetchart) {
+          this.billVal =
+            this.wh >= 1 ? this.propertyOfnum.w : this.propertyOfnum.h
+          return this.billVal
+        }
         return this.billVal
       },
       set: function(newValue) {
         if (this.wh >= 1) {
-          this.propertyOfnum.w = parseInt(newValue, 10)
-          this.propertyOfnum.h = parseInt(newValue / this.wh, 10)
+          this.propertyOfnum.w = parseInt(newValue)
+          this.propertyOfnum.h = parseInt(newValue / this.wh)
         } else {
-          this.propertyOfnum.h = parseInt(newValue, 10)
-          this.propertyOfnum.w = parseInt(newValue * this.wh, 10)
+          this.propertyOfnum.h = parseInt(newValue)
+          this.propertyOfnum.w = parseInt(newValue * this.wh)
         }
       }
     },
@@ -242,18 +248,7 @@ export default {
       return this.propertyOfnum.w
     }
   },
-  watch: {
-    isAsyncSetchartL: {
-      handler: function(newVal, oldVal) {
-        if (newVal) {
-          // this.billVal =  this.wh>=1?this.activeProperty[this.propertyNum].w:this.activeProperty[this.propertyNum].h
-          this.billVal =
-            this.wh >= 1 ? this.propertyOfnum.w : this.propertyOfnum.h
-        }
-      },
-      immediate: true
-    }
-  },
+  watch: {},
   methods: {
     ...mapActions(['Post']),
     ...mapMutations([
@@ -325,7 +320,8 @@ export default {
         cmd: 'update_property',
         chunk_id: this.activechunk.chunk.chunk_id,
         geometry: geo.substr(0, geo.length - 1)
-      }
+      };
+(data.success = function() {}), (data.error = function() {})
       this.Post(data)
     },
     wChange(value) {
@@ -335,42 +331,40 @@ export default {
       this.tmdChange()
     },
     fontsizeinput: function(index, target) {
-      if (target.value === '') {
+      if (target.value == '') {
         this.activechunk.chunk.filter[index].size = 0
       } else {
-        this.activechunk.chunk.filter[index].size = parseInt(target.value, 10)
+        this.activechunk.chunk.filter[index].size = parseInt(target.value)
       }
       this.sendmessage()
     },
     changePosition(way, target) {
-      if (target.value === '') {
+      if (target.value == '') {
         target.value = 0
       } else {
-        target.value = parseInt(target.value, 10)
+        target.value = parseInt(target.value)
       }
 
-      if (way === 'x') {
-        const num1 =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.w
-        this.activeProperty[this.propertyNum].left = num1
+      if (way == 'x') {
+        var num = (parseInt(target.value) * 100) / this.systemmessage.player.w
+        this.activeProperty[this.propertyNum].left = num
       }
-      if (way === 'y') {
-        const num2 =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.h
-        this.activeProperty[this.propertyNum].top = num2
+      if (way == 'y') {
+        num = (parseInt(target.value) * 100) / this.systemmessage.player.h
+        this.activeProperty[this.propertyNum].top = num
       }
       this.tmdChange()
     },
     togglefont: function(index, style) {
-      if (style === 'weight') {
-        if (this.activechunk.chunk.filter[index].weight === 500) {
+      if (style == 'weight') {
+        if (this.activechunk.chunk.filter[index].weight == 500) {
           this.activechunk.chunk.filter[index].weight = 600
         } else {
           this.activechunk.chunk.filter[index].weight = 500
         }
       }
-      if (style === 'style') {
-        if (this.activechunk.chunk.filter[index].style === 'normal') {
+      if (style == 'style') {
+        if (this.activechunk.chunk.filter[index].style == 'normal') {
           this.activechunk.chunk.filter[index].style = 'italic'
         } else {
           this.activechunk.chunk.filter[index].style = 'normal'
@@ -380,7 +374,6 @@ export default {
     },
     sendmessage: function(callback) {
       this.UPDATE_ALLOW_HISTORY_BACK(false)
-      const that = this
       chunkUpdateFilterApi({
         chunk_id: this.activechunk.chunk.chunk_id,
         property: this.activechunk.chunk.filter
@@ -389,37 +382,37 @@ export default {
           if (res.code === 0) {
             this.UPDATE_ALLOW_HISTORY_BACK(true)
           } else {
-            console.log(new Error('error'))
+            reject(new Error('error'))
           }
         })
-        .catch(() => {
+        .catch(err => {
           that.$notify({
             title: '提示',
             type: 'error',
             message: '操作失败！',
             position: 'bottom-right',
-            duration: that.notify.time
+            duration: this.notify.time
           })
         })
     },
     restore: function() {
-      const that = this
       chunkUpdateFilterApi({
         chunk_id: this.activechunk.chunk.chunk_id,
         property: this.copyFilter
       })
         .then(res => {
-          if (res.code !== 0) {
-            console.log(new Error('error'))
+          if (res.code === 0) {
+          } else {
+            reject(new Error('error'))
           }
         })
-        .catch(() => {
+        .catch(err => {
           that.$notify({
             title: '提示',
             type: 'error',
             message: '操作失败！',
             position: 'bottom-right',
-            duration: that.notify.time
+            duration: this.notify.time
           })
         })
     }
