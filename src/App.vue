@@ -1,7 +1,7 @@
 <template>
   <div
     :id="this.id"
-    :class="{ shadow: modalVoiceApplyIsShow }"
+    :class="{ shadow: modalVoiceApplyIsShow || chunksetshow }"
     style="height:100vh;background-color:#232323"
     v-cloak
     v-if="!this.startloading"
@@ -72,7 +72,8 @@ export default {
       'videooperShow',
       'exportVideoSetShow',
       'mzsectionShow',
-      'modalVoiceApplyIsShow'
+      'modalVoiceApplyIsShow',
+      'chunksetshow'
     ]),
 
     loadingShow: function() {

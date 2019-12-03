@@ -11,6 +11,7 @@
         class="sel-option1 clearfix"
         v-for="(filter, index) in this.activechunk.chunk.filter"
         v-if="filter.type == 2"
+        :key="index"
       >
         <div class="clearfix">
           <textarea
@@ -228,6 +229,7 @@ export default {
     bili: {
       get: function() {
         if (this.isAsyncSetchart) {
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
           this.billVal =
             this.wh >= 1 ? this.propertyOfnum.w : this.propertyOfnum.h
           return this.billVal
@@ -236,11 +238,11 @@ export default {
       },
       set: function(newValue) {
         if (this.wh >= 1) {
-          this.propertyOfnum.w = parseInt(newValue)
-          this.propertyOfnum.h = parseInt(newValue / this.wh)
+          this.propertyOfnum.w = parseInt(newValue, 10)
+          this.propertyOfnum.h = parseInt(newValue / this.wh, 10)
         } else {
-          this.propertyOfnum.h = parseInt(newValue)
-          this.propertyOfnum.w = parseInt(newValue * this.wh)
+          this.propertyOfnum.h = parseInt(newValue, 10)
+          this.propertyOfnum.w = parseInt(newValue * this.wh, 10)
         }
       }
     },
@@ -320,8 +322,7 @@ export default {
         cmd: 'update_property',
         chunk_id: this.activechunk.chunk.chunk_id,
         geometry: geo.substr(0, geo.length - 1)
-      };
-(data.success = function() {}), (data.error = function() {})
+      }
       this.Post(data)
     },
     wChange(value) {
@@ -331,40 +332,42 @@ export default {
       this.tmdChange()
     },
     fontsizeinput: function(index, target) {
-      if (target.value == '') {
+      if (target.value === '') {
         this.activechunk.chunk.filter[index].size = 0
       } else {
-        this.activechunk.chunk.filter[index].size = parseInt(target.value)
+        this.activechunk.chunk.filter[index].size = parseInt(target.value, 10)
       }
       this.sendmessage()
     },
     changePosition(way, target) {
-      if (target.value == '') {
+      if (target.value === '') {
         target.value = 0
       } else {
-        target.value = parseInt(target.value)
+        target.value = parseInt(target.value, 10)
       }
 
-      if (way == 'x') {
-        var num = (parseInt(target.value) * 100) / this.systemmessage.player.w
-        this.activeProperty[this.propertyNum].left = num
+      if (way === 'x') {
+        const num1 =
+          (parseInt(target.value, 10) * 100) / this.systemmessage.player.w
+        this.activeProperty[this.propertyNum].left = num1
       }
-      if (way == 'y') {
-        num = (parseInt(target.value) * 100) / this.systemmessage.player.h
-        this.activeProperty[this.propertyNum].top = num
+      if (way === 'y') {
+        const num2 =
+          (parseInt(target.value, 10) * 100) / this.systemmessage.player.h
+        this.activeProperty[this.propertyNum].top = num2
       }
       this.tmdChange()
     },
     togglefont: function(index, style) {
-      if (style == 'weight') {
-        if (this.activechunk.chunk.filter[index].weight == 500) {
+      if (style === 'weight') {
+        if (this.activechunk.chunk.filter[index].weight === 500) {
           this.activechunk.chunk.filter[index].weight = 600
         } else {
           this.activechunk.chunk.filter[index].weight = 500
         }
       }
-      if (style == 'style') {
-        if (this.activechunk.chunk.filter[index].style == 'normal') {
+      if (style === 'style') {
+        if (this.activechunk.chunk.filter[index].style === 'normal') {
           this.activechunk.chunk.filter[index].style = 'italic'
         } else {
           this.activechunk.chunk.filter[index].style = 'normal'
@@ -374,6 +377,8 @@ export default {
     },
     sendmessage: function(callback) {
       this.UPDATE_ALLOW_HISTORY_BACK(false)
+      const that = this
+      console.log({ property: this.activechunk.chunk.filter })
       chunkUpdateFilterApi({
         chunk_id: this.activechunk.chunk.chunk_id,
         property: this.activechunk.chunk.filter
@@ -382,10 +387,10 @@ export default {
           if (res.code === 0) {
             this.UPDATE_ALLOW_HISTORY_BACK(true)
           } else {
-            reject(new Error('error'))
+            console.log(new Error('error'))
           }
         })
-        .catch(err => {
+        .catch(() => {
           that.$notify({
             title: '提示',
             type: 'error',
@@ -396,23 +401,23 @@ export default {
         })
     },
     restore: function() {
+      const that = this
       chunkUpdateFilterApi({
         chunk_id: this.activechunk.chunk.chunk_id,
         property: this.copyFilter
       })
         .then(res => {
-          if (res.code === 0) {
-          } else {
-            reject(new Error('error'))
+          if (res.code !== 0) {
+            console.log(new Error('error'))
           }
         })
-        .catch(err => {
+        .catch(() => {
           that.$notify({
             title: '提示',
             type: 'error',
             message: '操作失败！',
             position: 'bottom-right',
-            duration: this.notify.time
+            duration: that.notify.time
           })
         })
     }
