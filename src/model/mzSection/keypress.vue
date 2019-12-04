@@ -814,10 +814,10 @@ export default {
           return
         }
         /* if(e.key === 'Control'){
-              this.SET_MUL_CONTROL(true)
-          }else{
-              this.SET_MUL_CONTROL(false)
-          } */
+                this.SET_MUL_CONTROL(true)
+            }else{
+                this.SET_MUL_CONTROL(false)
+            } */
         if (window.zindex === 1) {
           this.deleteKeypress(e)
           this.cutKeypress(e)
@@ -1054,4 +1054,84 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.keyPress {
+  background-image: url(../../img/keypress.png);
+  display: inline-block;
+  width: 30px;
+  height: 27px;
+  position: absolute;
+  right: 8px;
+  top: 0;
+  background-size: 100% 100%;
+
+  .keypress_set {
+    position: absolute;
+    top: 35px;
+    width: 440px;
+    background-color: #161616;
+    z-index: 1000;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+}
+
+.keypress_set_title {
+  position: relative;
+  height: 40px;
+  background-color: #2e2e2e;
+  line-height: 40px;
+  font-size: 18px;
+  text-align: center;
+
+  em {
+    font-style: normal;
+    position: absolute;
+    right: 0;
+    padding: 0 10px;
+    cursor: pointer;
+  }
+}
+
+.keypress_set {
+  &.active {
+    display: block;
+  }
+
+  label {
+    position: relative;
+  }
+
+  input[type='radio']:checked {
+    & + input[type='text'] {
+      border: 1px solid #00a9ff;
+    }
+  }
+}
+
+.keypress_set_contentL,
+.keypress_set_contentR {
+  float: left;
+  width: 50%;
+  border-right: 1px solid #2e2e2e;
+  box-sizing: border-box;
+}
+
+.keypress_set_contentL p,
+.keypress_set_contentR p {
+  margin: 5px;
+}
+
+.keypress_set_contentL input,
+.keypress_set_contentR input {
+  width: 90px;
+}
+
+.keypress_set_contentL i,
+.keypress_set_contentR i {
+  width: 80px;
+  display: inline-block;
+  font-style: normal;
+  text-align: center;
+}
+</style>

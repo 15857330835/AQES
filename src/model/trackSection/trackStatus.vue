@@ -121,4 +121,32 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.dolist1 {
+  position: absolute;
+  right: 26px;
+  top: 3px;
+  > span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background-size: 80% auto;
+    background-repeat: no-repeat;
+    &.lock {
+      background-image: url(../../img/suoding.png);
+      background-size: 60% auto;
+    }
+    &.unlock {
+      background-image: url(../../img/unlock.png);
+      background-size: 60% auto;
+    }
+    &.show {
+      background-image: url(../../img/xianshi.png);
+    }
+    &.hide {
+      background-image: url(../../img/yincang.png);
+    }
+  }
+}
+</style>

@@ -108,11 +108,14 @@ export default {
 
 <style lang="scss" scoped>
 .caption-box {
-  .edit_track_content {
-    border-bottom: 1px solid #141414;
-  }
   .edit_track_title {
-    position: relative;
+    .clearTrack {
+      position: absolute;
+      top: 0px;
+      right: 3px;
+      color: #333333;
+      cursor: pointer;
+    }
     .track-caption-mask {
       height: 100%;
       width: 100%;
@@ -121,6 +124,9 @@ export default {
       top: 0;
       z-index: 9999;
     }
+  }
+  .edit_track_content {
+    border-bottom: 1px solid #141414;
   }
 }
 </style>

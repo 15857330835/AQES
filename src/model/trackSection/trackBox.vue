@@ -364,6 +364,99 @@ export default {
 </script>
 
 <style lang="scss">
+.edit_track_title {
+  width: 160px;
+  height: 63px;
+  box-sizing: border-box;
+  border-right: 1px solid #141414;
+  border-bottom: 1px solid #141414;
+  float: left;
+  position: relative;
+
+  .icon {
+    width: 159px;
+    height: 26px;
+    position: relative;
+    top: 0;
+
+    .cicon {
+      background-image: url(../../img/ziti.png);
+      background-size: 100%;
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      position: relative;
+      top: 50%;
+      transform: translate(0, -50%);
+      margin: 0 6px;
+      opacity: 0.4;
+    }
+
+    .vicon {
+      background-image: url(../../img/vtrack.png);
+      background-size: 100%;
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      position: relative;
+      top: 50%;
+      transform: translate(0, -50%);
+      margin: 0 6px;
+    }
+
+    .aicon {
+      background-image: url(../../img/atrack.png);
+      background-size: 100%;
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      position: relative;
+      top: 50%;
+      transform: translate(0, -50%);
+      margin: 0 6px;
+    }
+
+    .vtitle,
+    .atitle {
+      display: inline-block;
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
+      width: 60px;
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+  }
+}
+
+.edit_track_contents {
+  float: left;
+  position: relative;
+  margin: 0 25px 0 10px;
+  width: calc(100% - 35px);
+  overflow: hidden;
+
+  .edit_track_content {
+    float: left;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-top: 1px solid #565656;
+    box-sizing: border-box;
+
+    .track_able_content {
+      min-width: 100%;
+      width: 100%;
+      height: 62px;
+      position: absolute;
+      left: 0;
+    }
+  }
+}
+
 .rename-track-box {
   background-color: #222;
   color: #fff;
@@ -382,12 +475,22 @@ export default {
   }
 }
 
-.track-box-left-mask {
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  top: 0;
-  z-index: 9999;
+#trackbox {
+  max-height: calc(100vh - 50vw * 9 / 16 - 250px);
+  overflow: hidden;
+  width: calc(100vw - 36px);
+
+  > div {
+    width: calc(100vw - 36px);
+  }
+
+  .track-box-left-mask {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    z-index: 9999;
+  }
 }
 </style>

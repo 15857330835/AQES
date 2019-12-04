@@ -1,0 +1,61 @@
+.content_top .znTitle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140px;
+  height: 100%;
+  line-height: 85px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.content_top .znTouse {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 21%;
+  display: none;
+  height: 100%;
+  line-height: 85px;
+  font-size: 24px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #00a9ff;
+  cursor: pointer;
+}
+
+.content_top:hover .znTouse {
+  display: inline-block;
+}
+
+.content_top .zmTouse {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: none;
+  height: 32px;
+  line-height: 32px;
+  font-size: 24px;
+  text-align: center;
+  background-color: #00a9ff;
+  cursor: pointer;
+}
+
+.content_top:hover .zmTouse {
+  display: inline-block;
+}
+
+.content_top.active .zmTouse {
+  display: none;
+}
+
+.content_top.active .zmSuccess {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../img/zmsuccess.jpg);
+  opacity: 0.6;
+}

@@ -259,7 +259,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .setchunkboxdx {
   width: 100%;
   height: 100%;
@@ -267,28 +267,94 @@ export default {
   top: 0;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1010;
-}
-.setchunkboxdx_content {
-  position: absolute;
-  width: 510px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #232323;
-  font-size: 14px;
-}
-
-/* .el-input__inner,.el-select-dropdown {
-        background-color:#1d1d1d;
-        border:1px solid #636363 !important;
-        font-size:14px !important;
-        color:rgb(170,170,170)
+  .setchunkboxdx_content {
+    position: absolute;
+    width: 510px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #232323;
+    font-size: 14px;
+    .content_title {
+      height: 40px;
+      line-height: 40px;
+      background-color: #2e2e2e;
+      text-align: left;
+      font-size: 14px;
+      padding-left: 20px;
     }
-    .el-select .el-input__inner:focus,.el-select .el-input__inner:hover, {
-        border-color: #636363;
+    .content_del {
+      float: right;
+      height: 40px;
+      width: 40px;
+      background-image: url(../../img/del.png);
+      line-height: 40px;
+      background-color: #2e2e2e;
+      text-align: left;
+      font-size: 14px;
+      cursor: pointer;
+      background-size: 40%;
     }
-    .el-select-dropdown__item.hover,.el-select-dropdown__item:hover{
-        background-color:#1d1d1d;
-        
-    } */
+    .content_text {
+      padding-top: 20px;
+      padding-left: 120px;
+      height: 20px;
+      position: relative;
+      span {
+        margin: 0;
+        display: inline-block;
+        /*transform: translate(-50%,-50%);*/
+      }
+    }
+    .content_input {
+      padding: 20px 0 10px 120px;
+      > span {
+        margin-right: 10px;
+      }
+      input[type='number'] {
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 12px;
+        height: 20px;
+        border: 1px solid #686868;
+        color: #e4e4e4;
+        -web-kit-appearance: none;
+        -moz-appearance: none;
+        -moz-appearance: textfield;
+        display: inline-block;
+        outline: 0;
+        padding: 0 1em;
+        text-decoration: none;
+        border-radius: 3px;
+        background-color: #1c1c1c;
+        width: 160px;
+      }
+    }
+    .content_bottom {
+      background-color: #2e2e2e;
+      height: 30px;
+      span {
+        float: right;
+        width: 40px;
+        height: 20px;
+        line-height: 18px;
+        margin-top: 5px;
+        /*margin-left: 10px;*/
+        margin-right: 10px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 3px;
+        box-sizing: border-box;
+      }
+      .con_click_make {
+        background-color: #00a9ff;
+        border: 1px solid #00a9ff;
+      }
+      .con_click_cancel {
+        background-color: #232323;
+        border: 1px solid #686868;
+      }
+    }
+  }
+}
 </style>

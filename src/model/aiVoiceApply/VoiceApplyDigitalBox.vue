@@ -217,6 +217,11 @@ export default {
         color: rgba(255, 255, 255, 1);
         border: 1px solid rgba(8, 143, 211, 1);
       }
+      &.unsureAi {
+        cursor: not-allowed !important;
+        background-color: transparent !important;
+        border: 1px solid #aaa !important;
+      }
     }
   }
 

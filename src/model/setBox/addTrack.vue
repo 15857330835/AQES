@@ -109,10 +109,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 /* 添加轨道的弹窗样式*/
-.addTrackprop,
-.setchunkboxdx {
+.addTrackprop {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -120,8 +119,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1010;
 }
-.trackProp_content,
-.setchunkboxdx_content {
+.trackProp_content {
   position: absolute;
   width: 510px;
   left: 50%;
@@ -129,94 +127,83 @@ export default {
   transform: translate(-50%, -50%);
   background-color: #232323;
   font-size: 14px;
-}
-.trackProp_content .content_title {
-  height: 40px;
-  line-height: 40px;
-  background-color: #2e2e2e;
-  text-align: left;
-  font-size: 14px;
-  padding-left: 20px;
-}
-.trackProp_content .content_text {
-  height: 70px;
-  text-align: center;
-  position: relative;
-}
-.trackProp_content .content_text span {
-  position: absolute;
-  margin: 0;
-  left: 50%;
-  top: 50%;
-  /*transform: translate(-50%,-50%);*/
-  width: 25%;
-}
-.trackProp_content .content_text span:nth-child(1) {
-  left: 30%;
-}
-.trackProp_content .content_text span:nth-child(2) {
-  left: 50%;
-}
-.trackProp_content .content_input {
-  height: 80px;
-  padding-top: 20px;
-  text-align: center;
-  position: relative;
-}
-.trackProp_content .content_input span {
-  margin-right: 10px;
-}
-.trackProp_content .content_input input[type='text'] {
-  box-sizing: border-box;
-  text-align: center;
-  font-size: 12px;
-  height: 20px;
-  border: 1px solid #686868;
-  color: #e4e4e4;
-  -web-kit-appearance: none;
-  -moz-appearance: none;
-  display: inline-block;
-  outline: 0;
-  padding: 0 1em;
-  text-decoration: none;
-  border-radius: 8px;
-  background-color: #1c1c1c;
-  width: 160px;
-}
-.trackProp_content .content_bottom {
-  background-color: #2e2e2e;
-  height: 30px;
-}
-.trackProp_content .content_sure {
-  background-color: #00a9ff;
-  border: 1px solid #00a9ff;
-  float: right;
-  margin-right: 10px;
-  margin-top: 6px;
-  width: 40px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 3px;
-}
-.content_bottom span {
-  float: right;
-  width: 40px;
-  height: 20px;
-  line-height: 18px;
-  margin-top: 5px;
-  /*margin-left: 10px;*/
-  margin-right: 10px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 3px;
-  box-sizing: border-box;
-}
-.trackProp_content .con_click_make {
-  background-color: #00a9ff;
-  border: 1px solid #00a9ff;
-}
-.trackProp_content .con_click_cancel {
-  background-color: #232323;
-  border: 1px solid #686868;
+  .content_title {
+    height: 40px;
+    line-height: 40px;
+    background-color: #2e2e2e;
+    text-align: left;
+    font-size: 14px;
+    padding-left: 20px;
+  }
+  .content_text {
+    height: 70px;
+    text-align: center;
+    position: relative;
+    span {
+      position: absolute;
+      margin: 0;
+      left: 50%;
+      top: 50%;
+      /*transform: translate(-50%,-50%);*/
+      width: 25%;
+      &:nth-child(1) {
+        left: 30%;
+      }
+      &:nth-child(2) {
+        left: 50%;
+      }
+    }
+  }
+  .content_input {
+    height: 80px;
+    padding-top: 20px;
+    text-align: center;
+    position: relative;
+    span {
+      margin-right: 10px;
+    }
+    input[type='text'] {
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 12px;
+      height: 20px;
+      border: 1px solid #686868;
+      color: #e4e4e4;
+      -web-kit-appearance: none;
+      -moz-appearance: none;
+      display: inline-block;
+      outline: 0;
+      padding: 0 1em;
+      text-decoration: none;
+      border-radius: 8px;
+      background-color: #1c1c1c;
+      width: 160px;
+    }
+  }
+  .content_bottom {
+    background-color: #2e2e2e;
+    height: 30px;
+    span {
+      float: right;
+      width: 40px;
+      height: 20px;
+      line-height: 18px;
+      margin-top: 5px;
+      /*margin-left: 10px;*/
+      margin-right: 10px;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 3px;
+      box-sizing: border-box;
+      &.con_click_make {
+        background-color: #00a9ff;
+        border: 1px solid #00a9ff;
+      }
+      &.con_click_cancel {
+        background-color: #232323;
+        border: 1px solid #686868;
+      }
+    }
+  }
 }
 </style>

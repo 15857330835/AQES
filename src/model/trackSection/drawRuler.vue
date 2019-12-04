@@ -539,99 +539,120 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 $active-color: #3b8dcb;
 .edit_ruler {
   position: relative;
+  .edit_ruler_title {
+    height: 58px;
+    width: 160px;
+    line-height: 58px;
+    text-align: center;
+    font-size: 12px;
+    float: left;
+    box-sizing: border-box;
+    border-bottom: 1px solid #141414;
+    border-right: 1px solid #141414;
+    position: relative;
+    .icon {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      /*position: absolute;*/
+      line-height: 58px;
+      margin: 20px 10px 0;
+      background-size: 100%;
+      cursor: pointer;
+      text-align: center;
+      &.addT {
+        background-image: url(../../img/addTrack.png);
+      }
+      &.xifu {
+        background-image: url(../../img/unxifu.png);
+        &.active {
+          background-image: url(../../img/xifu.png);
+        }
+      }
+    }
+  }
+  .edit_ruler_content {
+    width: calc(100% - 160px);
+    float: left;
+    > div {
+      margin: 0 25px 0 10px;
+      height: 58px;
+      box-sizing: border-box;
+      border-bottom: 1px solid #565656;
+    }
+  }
+  .export-time-line {
+    position: absolute;
+    height: 5px;
+    top: 58px;
+    background-color: $active-color;
+    z-index: 1;
+  }
+  .pin {
+    position: absolute;
+    height: 5px;
+    top: 58px;
+    z-index: 3;
+    &-left {
+      position: absolute;
+      transform: translateX(-20px);
+      height: 0;
+      width: 0;
+      border: 10px solid #aaa;
+      border-top-color: transparent;
+      border-left-color: transparent;
+      cursor: ew-resize;
+      left: 0;
+      &.active {
+        border: 10px solid $active-color;
+      }
+    }
+    &-right {
+      position: absolute;
+      transform: translateX(20px);
+      height: 0;
+      width: 0;
+      border: 10px solid #aaa;
+      border-top-color: transparent;
+      border-right-color: transparent;
+      cursor: ew-resize;
+      right: 0;
+      &.active {
+        border: 10px solid $active-color;
+      }
+    }
+  }
+  .maskForPin {
+    &-left {
+      height: 20px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transform: translateY(-5px) translateX(-2px);
+      z-index: 4;
+      height: 20px;
+      width: 162px;
+      background-color: #222;
+    }
+    &-right {
+      height: 20px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      transform: translateY(-5px) translateX(2px);
+      z-index: 4;
+      height: 20px;
+      width: 15px;
+      background-color: #222;
+    }
+  }
 }
+
 .extend-height {
   padding-bottom: 25px;
-}
-.export-time-line {
-  position: absolute;
-  height: 5px;
-  top: 58px;
-  background-color: $active-color;
-  z-index: 1;
-}
-
-.pin {
-  position: absolute;
-  height: 5px;
-  top: 58px;
-  z-index: 3;
-  &-left {
-    position: absolute;
-    transform: translateX(-20px);
-    height: 0;
-    width: 0;
-    border: 10px solid #aaa;
-    border-top-color: transparent;
-    border-left-color: transparent;
-    cursor: ew-resize;
-    left: 0;
-    &.active {
-      border: 10px solid $active-color;
-    }
-  }
-  &-right {
-    position: absolute;
-    transform: translateX(20px);
-    height: 0;
-    width: 0;
-    border: 10px solid #aaa;
-    border-top-color: transparent;
-    border-right-color: transparent;
-    cursor: ew-resize;
-    right: 0;
-    &.active {
-      border: 10px solid $active-color;
-    }
-  }
-}
-
-// .mask {
-//   width: 100%;
-//   height: 20px;
-//   position: absolute;
-//   bottom: 0;
-//   transform: translateY(-5px);
-//   display: flex;
-//   justify-content: space-between;
-//   z-index: 2;
-//   &-left {
-//     height: 100%;
-//     width: 170px;
-//     background-color: #222;
-//   }
-//   &-right {
-//     height: 100%;
-//     width: 23px;
-//     background-color: #222;
-//   }
-// }
-.maskForPin {
-  &-left {
-    height: 20px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    transform: translateY(-5px) translateX(-2px);
-    z-index: 4;
-    height: 20px;
-    width: 162px;
-    background-color: #222;
-  }
-  &-right {
-    height: 20px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    transform: translateY(-5px) translateX(2px);
-    z-index: 4;
-    height: 20px;
-    width: 15px;
-    background-color: #222;
-  }
 }
 </style>

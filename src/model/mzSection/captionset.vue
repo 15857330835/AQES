@@ -250,7 +250,7 @@ export default {
         )
       }
       // eslint-disable-next-line
-      const selectType = new SelectBox($('#zmstyleSelect'), a, fnBack2, {
+				const selectType = new SelectBox($('#zmstyleSelect'), a, fnBack2, {
         color: '#fff', // 输入框字体颜色
         height: 20,
         fontSize: 12,
@@ -464,9 +464,74 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.captionset_style {
+  height: 40px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.captionset_content {
+  height: calc(100% - 100px);
+  box-sizing: border-box;
+  padding: 10px 10px 0 10px;
+  overflow: hidden;
+}
+
+.captionset_contents {
+  &.active {
+    background-color: #131212;
+  }
+}
+
+.addCaption {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  background-image: url(../../img/addCaption.png);
+}
+
+.captiontext {
+  border-radius: 4px;
+  background-color: transparent;
+  color: #fff;
+  box-sizing: border-box;
+  height: 30px;
+  border: 1px solid transparent;
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  display: inline-block;
+  outline: 0;
+  padding: 0.2em;
+  text-decoration: none;
+  width: calc(100% - 250px);
+
+  &:focus {
+    border: 1px solid #00a9ff;
+  }
+
+  &.active {
+    border: 1px solid #00a9ff;
+  }
+}
+
+.captionsel_sure {
+  width: 90px;
+  background-color: #00a9ff;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 16px;
+  border-radius: 5px;
+  float: right;
+  margin-right: 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
 input[type='number'].styCap {
-  /* position: absolute;
-    top: 5px; */
   border-radius: 4px;
   background-color: #1d1d1d;
   color: #00a9ff;
@@ -474,7 +539,6 @@ input[type='number'].styCap {
   box-sizing: border-box;
   text-align: center;
   height: 30px;
-  box-sizing: border-box;
   border: 1px solid #636363;
   -webkit-appearance: none;
   -moz-appearance: textfield;
@@ -492,7 +556,6 @@ input[type='number'].styCap {
   line-height: 28px;
   overflow: hidden;
   display: flex;
-  /* padding: 4px; */
   margin-top: 5px;
 
   .icon-item {
@@ -500,9 +563,6 @@ input[type='number'].styCap {
     line-height: 28px;
     cursor: pointer;
     text-align: center;
-    // &:first-child{
-    //     cursor:default;
-    // }
   }
 }
 </style>

@@ -39,6 +39,7 @@
 <script>
 import { mapActions, mapMutations } from 'vuex'
 import { trackRenameApi } from '@/api/Track'
+
 export default {
   data: function() {
     return {
@@ -202,7 +203,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .dolist {
   position: absolute;
   width: 20px;
@@ -216,70 +217,83 @@ export default {
   background-color: #161616;
   border-radius: 3px;
   cursor: pointer;
-}
-.dolist .dolist_prop {
-  position: absolute;
-  top: 20px;
-  width: 100px;
-  background-color: #161616;
-  z-index: 1004;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.dolist .dolist_prop > div {
-  padding: 0 8px;
-  height: 24px;
-  cursor: pointer;
-  font-size: 0px;
-  line-height: 0;
-  position: relative;
-}
-.dolist .dolist_prop > div:hover {
-  background-color: #100c0c;
-}
-.dolist .dolist_prop > div > span:nth-child(1) {
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 14px;
-  height: 18px;
-  display: inline-block;
-  position: relative;
-  top: 50%;
-  transform: translate(0, -50%);
-  margin: 0 7px;
-}
-.dolist .dolist_prop > div.scgd > span:nth-child(1) {
-  background-image: url(../../img/del.png);
-}
-.dolist .dolist_prop > div.movetgd > span:nth-child(1) {
-  background-image: url(../../img/movett.png);
-  background-size: 80%;
-}
-.dolist .dolist_prop > div.movebgd > span:nth-child(1) {
-  background-image: url(../../img/movetb.png);
-  background-size: 80%;
-}
-.dolist .dolist_prop > div.movelgd > span:nth-child(1) {
-  background-image: url(../../img/movetl.png);
-  background-size: 80%;
-}
-.dolist .dolist_prop > div.movengd > span:nth-child(1) {
-  background-image: url(../../img/movetn.png);
-  background-size: 80%;
-}
-.dolist .dolist_prop > div.rename > span:nth-child(1) {
-  background-image: url(../../img/rename2.png);
-  background-size: 100%;
-}
-.dolist .dolist_prop > div > span:nth-child(2) {
-  font-size: 12px;
-  width: 60px;
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  transform: translate(0, -50%);
+
+  .dolist_prop {
+    position: absolute;
+    top: 20px;
+    width: 100px;
+    background-color: #161616;
+    z-index: 1004;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    > div {
+      padding: 0 8px;
+      height: 24px;
+      cursor: pointer;
+      font-size: 0px;
+      line-height: 0;
+      position: relative;
+
+      &:hover {
+        background-color: #100c0c;
+      }
+
+      > span {
+        &:nth-child(1) {
+          background-size: 100%;
+          background-repeat: no-repeat;
+          background-position: center;
+          width: 14px;
+          height: 18px;
+          display: inline-block;
+          position: relative;
+          top: 50%;
+          transform: translate(0, -50%);
+          margin: 0 7px;
+        }
+
+        &:nth-child(2) {
+          font-size: 12px;
+          width: 60px;
+          display: inline-block;
+          position: absolute;
+          top: 50%;
+          transform: translate(0, -50%);
+        }
+      }
+
+      &.scgd > span:nth-child(1) {
+        background-image: url(../../img/del.png);
+      }
+
+      &.movetgd > span:nth-child(1) {
+        background-image: url(../../img/movett.png);
+        background-size: 80%;
+      }
+
+      &.movebgd > span:nth-child(1) {
+        background-image: url(../../img/movetb.png);
+        background-size: 80%;
+      }
+
+      &.movelgd > span:nth-child(1) {
+        background-image: url(../../img/movetl.png);
+        background-size: 80%;
+      }
+
+      &.movengd > span:nth-child(1) {
+        background-image: url(../../img/movetn.png);
+        background-size: 80%;
+      }
+
+      &.rename > span:nth-child(1) {
+        background-image: url(../../img/rename2.png);
+        background-size: 100%;
+      }
+    }
+  }
 }
 </style>

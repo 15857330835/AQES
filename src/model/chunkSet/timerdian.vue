@@ -121,4 +121,37 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.timer {
+  position: absolute;
+  width: 11px;
+  height: 7px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  background-color: #b9b9b9;
+  cursor: pointer;
+  &.active {
+    background-color: #00a9ff;
+    span {
+      border-top: 5.5px solid #00a9ff;
+    }
+    & + .deldian {
+      position: absolute;
+      cursor: pointer;
+      width: 11px;
+      height: 11px;
+      background-image: url(../../img/del.png);
+      background-size: 100%;
+      background-repeat: no-repeat;
+      top: -15px;
+    }
+  }
+  span {
+    display: inline-block;
+    border: 5.5px solid transparent;
+    border-top: 5.5px solid #b9b9b9;
+    position: absolute;
+    top: 7px;
+  }
+}
+</style>

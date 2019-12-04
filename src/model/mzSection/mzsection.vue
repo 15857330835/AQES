@@ -83,6 +83,14 @@ export default {
 </script>
 
 <style>
+.lh {
+  width: 100%;
+  height: 0;
+  padding-top: calc(50% * 9 / 16);
+  padding-bottom: 67px;
+  position: relative;
+}
+
 .nces_videolist {
   width: calc(50% - 10px);
   height: 100%;

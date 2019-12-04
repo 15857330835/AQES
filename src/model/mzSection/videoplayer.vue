@@ -186,6 +186,7 @@ import newchartset from './newchartSet'
 import newfilterset from './newfilterSet'
 import newDynamicTextSet from './NewDynamicTextSet'
 import _ from 'lodash'
+
 export default {
   data: function() {
     return {
@@ -693,7 +694,7 @@ export default {
       LcpsPlayerInit(domain, function() {
         // var player = new LcpsPlayer(domain, stream, "rtcVideoID", "flashVideoID", "auto");
         // eslint-disable-next-line
-        const player = new LcpsPlayer(
+					const player = new LcpsPlayer(
           domain,
           stream,
           rtcVideoID,
@@ -726,27 +727,161 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .nces_videoplayer {
   height: 100%;
   float: right;
   position: absolute;
   top: 0;
   right: 0;
-}
-.videobackg {
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(51, 51, 51, 0.5),
-    rgba(51, 51, 51, 0.5) 5px,
-    rgba(68, 68, 68, 0.5) 0,
-    rgba(68, 68, 68, 0.5) 10px
-  );
-}
-.fullpage-in {
-  background-image: url('../../img/u5.png');
-}
-.fullpage-out {
-  background-image: url('../../img/u5_1.png');
+  width: 50%;
+
+  .player_title {
+    height: 27px;
+    background-color: #2e2e2e;
+
+    .fullpage-in {
+      background-image: url('../../img/u5.png');
+    }
+
+    .fullpage-out {
+      background-image: url('../../img/u5_1.png');
+    }
+
+    > span {
+      &:nth-child(1) {
+        background-image: url(../../img/u1.png);
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        /*vertical-align: middle;*/
+        float: left;
+        margin: 0 0;
+      }
+
+      &:nth-child(2) {
+        height: 30px;
+        line-height: 30px;
+        display: inline-block;
+        float: left;
+        font-size: 14px;
+      }
+
+      &:nth-child(3) {
+        /* background-image: url(../img/u5.png); */
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        background-size: 100%;
+        cursor: pointer;
+        float: right;
+        margin: 3px 10px 0 0;
+      }
+    }
+  }
+
+  .videobackg {
+    background: repeating-linear-gradient(
+      -45deg,
+      rgba(51, 51, 51, 0.5),
+      rgba(51, 51, 51, 0.5) 5px,
+      rgba(68, 68, 68, 0.5) 0,
+      rgba(68, 68, 68, 0.5) 10px
+    );
+  }
+
+  .video_control {
+    /*position: absolute;*/
+    /*bottom: 4px;*/
+    width: 100%;
+    height: 36px;
+    background-color: #232323;
+    line-height: 30px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    .control_Cleft {
+      float: left;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      > span {
+        width: 37px;
+        height: 37px;
+        display: inline-block;
+        cursor: pointer;
+
+        &:nth-child(1) {
+          background-image: url(../../img/u2.png);
+        }
+
+        &:nth-child(2) {
+          background-image: url(../../img/u3.png);
+
+          &.active {
+            background-image: url(../../img/u13.png);
+          }
+        }
+
+        &:nth-child(3) {
+          background-image: url(../../img/u4.png);
+        }
+      }
+    }
+
+    .control_Cright {
+      margin-right: 10px;
+      margin-top: 10px;
+      float: right;
+
+      > span {
+        &:nth-child(1) {
+          background-image: url(../../img/restart.png);
+          width: 20px;
+          height: 20px;
+          display: inline-block;
+          background-size: 100%;
+          cursor: pointer;
+          margin-right: 10px;
+        }
+
+        &:nth-child(2) {
+          background-image: url(../../img/quanping.png);
+          width: 20px;
+          height: 20px;
+          display: inline-block;
+          background-size: 100%;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .videoMovebox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    cursor: url(../../img/videoMove.png), pointer;
+    line-height: 7px;
+    font-weight: 900;
+    width: 10px;
+    left: -10px;
+    background-color: #161616;
+
+    span {
+      text-align: center;
+      width: 10px;
+      left: 0;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
 }
 </style>

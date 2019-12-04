@@ -1,0 +1,203 @@
+@media screen and (max-width: 1440px) {
+  #trackbox {
+    max-height: calc(100vh - 50vw * 9 / 16 - 250px);
+  }
+
+  .lh {
+    width: 100%;
+    height: 0;
+    padding-top: calc(35% * 9 / 16);
+    padding-bottom: 67px;
+    position: relative;
+  }
+
+  .nces_videolist {
+    width: calc(65% - 10px);
+    height: 100%;
+    position: absolute;
+    top: 0;
+  }
+
+  .nces_videoplayer {
+    width: 35%;
+    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .sel-option-con .con_filter.jxfz {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter.czfz {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter .xzfilter {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter.mosaic {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter.backplay {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter.cutting {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter.cuttingWay {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter.cuttingWay3 {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter.cuttingWay0 {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter.cuttingWay1 {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter.cuttingWay2 {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter.cuttingSet {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter.delCutting {
+    background-size: 30%;
+  }
+
+  .sel-option-con .con_filter:hover span {
+    bottom: -9px;
+  }
+
+  .sel-option-con .con_filter.angle {
+    height: 30px;
+  }
+
+  .sel-option-con .con_filter.ratio {
+    height: 30px;
+  }
+
+  .sel-option-con.mosic-pos {
+    margin-left: 95px;
+    height: 117px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: -20px;
+  }
+
+  /* .sel-option-con.mosic-pos{
+    height:234px;
+  }
+  .sel-option-con.mosic-pos .mosaic{
+    margin-bottom: 10px;
+  } */
+  .content-sel-option .sel-option {
+    padding: 3px 0;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .setContent {
+    position: absolute;
+    top: 32px;
+    padding-top: calc((35% + 5px) * 9 / 16 + 62px);
+    height: calc(100% - 40px);
+    background-color: #2e2e2e;
+    z-index: 100;
+    width: calc(65% - 34px);
+    box-sizing: border-box;
+  }
+
+  .setContent .setContent-do {
+    position: relative;
+    width: calc((100% + 29px) * 7 / 13 - 13px);
+    height: 100%;
+    margin-left: calc(100% + 11px);
+    background-color: #232323;
+  }
+
+  .imgsetprop .imgset_content,
+  .textsetprop .textset_content {
+    position: absolute;
+    width: 600px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #232323;
+    font-size: 12px;
+    overflow: hidden;
+  }
+
+  .textsetprop .textset_box,
+  .imgsetprop .imgset_box {
+    width: 580px;
+    height: 326.25px;
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+  }
+
+  .imgset_list {
+    height: 70px;
+    margin-top: 10px;
+  }
+
+  .imgset_list > div {
+    height: 70px;
+    width: 70px;
+  }
+
+  .imgsetprop #boxsel {
+    width: 580px;
+    height: 326.25px;
+  }
+}
+
+@media screen and (max-width: 1025px) {
+  #trackbox {
+    max-height: calc(100vh - 50vw * 9 / 16 - 290px);
+  }
+}
+
+@media screen and (max-width: 980px) {
+  #trackbox {
+    max-height: calc(100vh - 50vw * 9 / 16 - 300px);
+  }
+
+  .sel-option-con.mosic-pos {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: -20px;
+    margin-left: 54px;
+    height: 224px;
+  }
+
+  .sel-option-con.ar {
+    height: 60px;
+  }
+
+  .sel-option-con .con_filter.angle {
+    height: 30px;
+  }
+
+  .sel-option-con .con_filter.ratio {
+    width: 100%;
+    height: 30px;
+    margin-left: 57px;
+  }
+}

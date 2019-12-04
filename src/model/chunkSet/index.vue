@@ -41,8 +41,8 @@
         type="info"
         :loading="celBtnLoading"
         @click="handleCancel"
-        >{{ celBtnLoading ? '取消中' : '取消' }}</el-button
-      >
+        >{{ celBtnLoading ? '取消中' : '取消' }}
+      </el-button>
       <el-button class="do-sure" type="primary" @click="sure">确认</el-button>
     </div>
   </div>
@@ -54,6 +54,7 @@ import audioset from './audio'
 import textset from './textset'
 import putextset from './putextset'
 import dynamicTextSet from './dynamicTextSet'
+
 export default {
   data: function() {
     return {
@@ -275,55 +276,4 @@ export default {
 }
 </script>
 
-<style>
-.setContent {
-  position: absolute;
-  top: 32px;
-  height: calc(100% - 40px);
-  background-color: #2e2e2e;
-  z-index: 1004;
-  box-sizing: border-box;
-  font-size: 14px;
-  color: #909090;
-}
-.setContent .setContent-do {
-  height: 100%;
-  margin-left: calc(100% + 11px);
-  background-color: #232323;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.setContent-do button {
-  width: 110px;
-  height: 40px;
-  display: inline-block;
-  cursor: pointer;
-}
-/* .setContent-do .do-cel {
-  background-color: #666;
-}
-.setContent-do .do-sure {
-  background-color: #00a9ff;
-} */
-
-.setContent .el-slider {
-  height: 100%;
-}
-.setContent .el-slider__runway {
-  height: 2px;
-}
-.setContent .el-slider__button {
-  border: 2px solid #aaa;
-  background-color: #aaa;
-  width: 12px;
-  height: 12px;
-}
-.setContent .el-slider__button-wrapper {
-  top: -17px;
-}
-.setContent .el-slider__bar {
-  height: 2px;
-}
-</style>
+<style lang="scss" scoped></style>

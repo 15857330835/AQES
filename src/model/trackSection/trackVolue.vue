@@ -20,6 +20,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+
 export default {
   data: function() {
     return {}
@@ -80,33 +81,29 @@ export default {
 }
 </script>
 
-<style>
-.el-slider__runway.disabled .el-slider__button {
-  border: 2px solid #575050;
-  background-color: #575050;
-  width: 12px;
-  height: 12px;
-}
-.el-slider__button {
-  border: 2px solid #aaa;
-  background-color: #aaa;
-  width: 12px;
-  height: 12px;
-}
-.el-slider__bar {
-  background-color: #088fd3;
-}
-.el-slider__runway.disabled .el-slider__bar {
-  background-color: #1d5572;
-}
-
-.el-slider__runway {
-  background-color: #636363;
-}
-.el-slider__runway.disabled {
-  background-color: #3b3939;
-}
-.vol_content .el-slider__runway {
-  margin: 12px 0;
+<style lang="scss" scoped>
+.setvol {
+  width: 150px;
+  height: 30px;
+  margin: 0 auto;
+  .vol_clock {
+    height: 30px;
+    width: 18px;
+    float: left;
+    margin-right: 12px;
+    background-image: url(../../img/volumeOpen.png);
+    background-size: 100%;
+    cursor: pointer;
+    &.active {
+      background-image: url(../../img/volumeClose.png);
+    }
+  }
+  .vol_content {
+    height: 30px;
+    width: 110px;
+    box-sizing: border-box;
+    float: left;
+    position: relative;
+  }
 }
 </style>

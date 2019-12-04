@@ -1,0 +1,125 @@
+.loadProject {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 200;
+  display: none;
+  .loadProject_content {
+    position: absolute;
+    width: 600px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #232323;
+    font-size: 12px;
+    overflow: hidden;
+  }
+  .content_bottom {
+    background-color: #2e2e2e;
+    height: 30px;
+    span {
+      float: right;
+      width: 40px;
+      height: 20px;
+      line-height: 18px;
+      margin-top: 5px;
+      margin-right: 10px;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+    .con_click_make {
+      background-color: #00a9ff;
+      border: 1px solid #00a9ff;
+    }
+    .con_click_cancel {
+      background-color: #232323;
+      border: 1px solid #686868;
+    }
+  }
+}
+.loadProject_content {
+  .content_title {
+    height: 30px;
+    line-height: 30px;
+    background-color: #2e2e2e;
+    text-align: center;
+  }
+  .content_sel {
+    height: 80px;
+    position: relative;
+    .content_sel_checkbox {
+      left: 263px;
+    }
+    span {
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
+      left: 172px;
+    }
+    input {
+      position: absolute;
+      top: 45%;
+      transform: translate(0, -50%);
+      left: 260px;
+    }
+  }
+  .content_input {
+    height: 60px;
+    padding-top: 20px;
+    text-align: center;
+    position: relative;
+    span {
+      margin-right: 10px;
+    }
+    input[type="text"] {
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 12px;
+      height: 20px;
+      border: 1px solid #686868;
+      color: #e4e4e4;
+      -web-kit-appearance: none;
+      -moz-appearance: none;
+      display: inline-block;
+      outline: 0;
+      padding: 0 1em;
+      text-decoration: none;
+      border-radius: 8px;
+      background-color: #1c1c1c;
+      width: 160px;
+    }
+  }
+}
+.content_sel_checkbox {
+  input[type="checkbox"] {
+    & + label {
+      width: 52px;
+      background: #ccc;
+      height: 24px;
+      border-radius: 12px;
+      float: right;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
+      em {
+        width: 22px;
+        height: 22px;
+        float: left;
+        margin: 1px;
+        border-radius: 12px;
+        box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.1);
+        background: #fff;
+      }
+    }
+  }
+  input[type="checkbox"]:checked {
+    & + label {
+      background: #00a9ff;
+      em {
+        float: right;
+      }
+    }
+  }
+}

@@ -31,6 +31,7 @@
 </template>
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
+
 export default {
   data: function() {
     return {
@@ -68,4 +69,15 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.chunkboxdx {
+  background-repeat: repeat;
+  background-size: auto 100%;
+  background-image: url(../../img/and.png);
+  height: 24px;
+  top: 50%;
+  transform: translate(0, -50%);
+  position: absolute;
+  z-index: 40;
+}
+</style>
