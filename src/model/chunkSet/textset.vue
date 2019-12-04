@@ -378,7 +378,6 @@ export default {
     sendmessage: function(callback) {
       this.UPDATE_ALLOW_HISTORY_BACK(false)
       const that = this
-      console.log({ property: this.activechunk.chunk.filter })
       chunkUpdateFilterApi({
         chunk_id: this.activechunk.chunk.chunk_id,
         property: this.activechunk.chunk.filter
