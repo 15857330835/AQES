@@ -126,8 +126,8 @@ export default {
     }
   },
   created() {
-    this.currentNav = this.list[0]
     this.aspect_ratio = this.getAspectRatio()
+    this.currentNav = this.list[0]
   }
 }
 </script>
