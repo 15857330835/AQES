@@ -1134,4 +1134,40 @@ export default {
   font-style: normal;
   text-align: center;
 }
+.captiontext {
+  border-radius: 4px;
+  background-color: transparent;
+  color: #fff;
+  box-sizing: border-box;
+  height: 30px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  display: inline-block;
+  outline: 0;
+  padding: 0.2em;
+  text-decoration: none;
+  width: calc(100% - 250px);
+  &:focus {
+    border: 1px solid #00a9ff;
+  }
+  &.active {
+    border: 1px solid #00a9ff;
+  }
+}
+.captionsel_sure {
+  width: 90px;
+  background-color: #00a9ff;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 16px;
+  border-radius: 5px;
+  float: right;
+  margin-right: 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
 </style>

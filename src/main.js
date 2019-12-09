@@ -2,10 +2,11 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './css/index.css'
-import './css/chunkset.scss'
 import './css/comment.scss'
-import './css/ai_voice_pane.scss'
 import './css/bad_props.css'
+import './css/chunkset.scss'
+import './css/ai_voice_pane.scss'
+
 import './css/media_query.css'
 import './icons/iconfont.css' // 图标文件
 import store from './store/'
