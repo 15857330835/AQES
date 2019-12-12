@@ -1169,5 +1169,4 @@ export default {
   margin-top: 10px;
   cursor: pointer;
 }
-
 </style>
