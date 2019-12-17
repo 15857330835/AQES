@@ -334,27 +334,9 @@ export default {
       const isEmpty = this.all.caption.chunks.every(item => !item.text.length)
       if (!this.all.caption.chunks.length || isEmpty) {
         this.$alert('无字幕内容', '警告')
-        return
       } else {
         this.CHANGE_IS_OUT_TYPE_SHOW(true)
-        return
       }
-      $.post(
-        window.NCES.DOMAIN + '/api/caption',
-        JSON.stringify({
-          cmd: 'file_out',
-          file_type: 'srt'
-        }),
-        function(res) {
-          if (res.code === 0) {
-            const srcURI = window.NCES.DOMAIN + res.data.path
-            window.open(srcURI, '_blank')
-          } else {
-            console.log('res.msg')
-          }
-        },
-        'json'
-      )
     },
     addCaption() {
       const that = this

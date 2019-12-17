@@ -16,8 +16,8 @@
         </div>
       </div>
       <div class="content_bottom">
-        <span class="con_click_make" @click="add">确认</span
-        ><span class="con_click_cancel" @click="cel">取消</span>
+        <span class="con_click_make" @click="sureExport">确认</span
+        ><span class="con_click_cancel" @click="cancelExport">取消</span>
       </div>
     </div>
   </div>
@@ -55,11 +55,28 @@ export default {
     changeInput(type) {
       this.activeType = type
     },
-    add() {
+    sureExport() {
       this.CHANGE_IS_OUT_TYPE_SHOW(false)
+      const winRef = window.open('', '_blank')
+      $.post(
+        window.NCES.DOMAIN + '/api/caption',
+        JSON.stringify({
+          cmd: 'file_out',
+          file_type: this.activeType
+        }),
+        function(res) {
+          if (res.code === 0) {
+            const srcURI = window.NCES.DOMAIN + res.data.path
+            console.log(srcURI)
+            winRef.location = srcURI
+          } else {
+            console.log('res.msg')
+          }
+        },
+        'json'
+      )
     },
-    cel() {
-      console.log(1223)
+    cancelExport() {
       this.CHANGE_IS_OUT_TYPE_SHOW(false)
     }
   }
