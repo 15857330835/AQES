@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "eslint --ext .js,.vue src",
-    "lintfile": "eslint --fix /Users/arronking/Desktop/work/ncesOrigin/src/model/mzSection/ExportVideoSet.vue",
+    "lintfile": "eslint --fix /Users/arronking/Desktop/work/ncesOrigin/src/model/mzSection/ExportCaption.vue",
     "format": "prettier-eslint --write \"src/**/*.js\" \"src/**/*.vue\""
   },
   "dependencies": {

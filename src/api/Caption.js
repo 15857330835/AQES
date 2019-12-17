@@ -73,3 +73,9 @@ export const captionHiddenApi = (payload = {}) => {
   payload.cmd = 'hidden'
   return axios.post(url, JSON.stringify(payload))
 }
+
+// 获取字幕路径
+export const captionFileOutApi = (payload = {}) => {
+  payload.cmd = 'file_out'
+  return axios.post(url, JSON.stringify(payload))
+}

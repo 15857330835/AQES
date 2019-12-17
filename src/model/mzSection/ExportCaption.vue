@@ -1,5 +1,5 @@
 <template>
-  <div class="caption-type" v-if="isOutTypeShow">
+  <div class="caption-type" v-show="isOutTypeShow">
     <div class="caption-type-content">
       <div class="content_title">字幕格式选择</div>
       <div class="content_text">
@@ -19,12 +19,14 @@
         <span class="con_click_make" @click="sureExport">确认</span
         ><span class="con_click_cancel" @click="cancelExport">取消</span>
       </div>
+      <a :href="srcURI" download="" v-show="false" ref="loadElement"></a>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
+import { captionFileOutApi } from '@/api/Caption.js'
 
 export default {
   data() {
@@ -43,7 +45,8 @@ export default {
           id: 1003
         }
       ],
-      activeType: 'srt'
+      activeType: 'srt',
+      srcURI: ''
     }
   },
   computed: {
@@ -57,24 +60,23 @@ export default {
     },
     sureExport() {
       this.CHANGE_IS_OUT_TYPE_SHOW(false)
-      const winRef = window.open('', '_blank')
-      $.post(
-        window.NCES.DOMAIN + '/api/caption',
-        JSON.stringify({
-          cmd: 'file_out',
-          file_type: this.activeType
-        }),
-        function(res) {
+      captionFileOutApi({
+        file_type: this.activeType
+      })
+        .then(res => {
           if (res.code === 0) {
-            const srcURI = window.NCES.DOMAIN + res.data.path
-            console.log(srcURI)
-            winRef.location = srcURI
+            this.srcURI = window.NCES.DOMAIN + res.data.path
+            console.log(this.srcURI)
+            this.$nextTick(() => {
+              this.$refs.loadElement.click()
+            })
           } else {
             console.log('res.msg')
           }
-        },
-        'json'
-      )
+        })
+        .catch(err => {
+          console.log({ captionFileOutErr: err })
+        })
     },
     cancelExport() {
       this.CHANGE_IS_OUT_TYPE_SHOW(false)
