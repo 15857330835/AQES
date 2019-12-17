@@ -79,6 +79,10 @@ const UPDATE_AI_CHUNKS_POSITION = 'UPDATE_AI_CHUNKS_POSITION'
 const CHANGE_AI_VIEW_MASK_IS_SHOW = 'CHANGE_AI_VIEW_MASK_IS_SHOW'
 /* 智能语音自选段end */
 
+/* 字幕格式导出begin */
+const CHANGE_IS_OUT_TYPE_SHOW = 'CHANGE_IS_OUT_TYPE_SHOW'
+/* 字幕格式导出end */
+
 export default {
   [CHANGE_MYDIRSHOW](state, data) {
     state.mydirshow = data
@@ -808,6 +812,12 @@ export default {
   },
   [CHANGE_AI_VIEW_MASK_IS_SHOW](state, payload) {
     state.aiViewMaskIsShow = payload
-  }
+  },
   /* 智能语音自选段end */
+
+  /* 字幕格式导出begin */
+  [CHANGE_IS_OUT_TYPE_SHOW](state, payload) {
+    state.isOutTypeShow = payload
+  }
+  /* 字幕格式导出end */
 }

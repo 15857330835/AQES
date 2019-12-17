@@ -125,13 +125,15 @@
         </div>
       </div>
     </div>
-    <div
-      class="clearfix captionsel_sure"
-      @click="sure"
-      :style="{ position: 'absolute', right: '20px', bottom: '10px' }"
-    >
-      确认
+    <div class="clearfix btn-group">
+      <div class="captionsel_export" @click="captionExportHandler">
+        字幕导出
+      </div>
+      <div class="captionsel_sure" @click="captionSureHandler">
+        确认
+      </div>
     </div>
+    <ExportCaption></ExportCaption>
   </div>
 </template>
 
@@ -140,6 +142,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import { captionUpdateFontStyleApi } from '@/api/Caption'
 import capfontpick from './capfontpick'
 import capcolorpick from './capcolorpick'
+import ExportCaption from './ExportCaption'
 // import systemmes from './model/Systemmes'
 
 export default {
@@ -159,17 +162,19 @@ export default {
       // "halign":1,
       // "valign":1
       // }
+      isOutTypeShow: false
     }
   },
   components: {
     capfontpick,
-    capcolorpick
+    capcolorpick,
+    ExportCaption
   },
   created: function() {
     // this.font = this.all.caption.status.font
   },
   computed: {
-    ...mapState(['captionlist', 'all', 'activechunk', 'captionsetshow']),
+    ...mapState(['captionlist', 'all', 'activechunk']),
     captions: function() {
       return this.all.caption.chunks.length
     },
@@ -222,7 +227,11 @@ export default {
   },
   methods: {
     ...mapActions(['changeLoading', 'Post']),
-    ...mapMutations(['ACTIVE_CHUNK', 'CHANGE_CAPTIONSETSHOW']),
+    ...mapMutations([
+      'ACTIVE_CHUNK',
+      'CHANGE_CAPTIONSETSHOW',
+      'CHANGE_IS_OUT_TYPE_SHOW'
+    ]),
     initcaptionlist() {
       const a = []
       let str = ''
@@ -312,7 +321,7 @@ export default {
       )
       window.zindex = 1
     },
-    sure: function() {
+    captionSureHandler: function() {
       this.CHANGE_CAPTIONSETSHOW(false)
       const that = this
       if (window.type === 'caption') {
@@ -320,6 +329,32 @@ export default {
           that.INIT_CAPTIONLIST(res)
         })
       }
+    },
+    captionExportHandler: function() {
+      const isEmpty = this.all.caption.chunks.every(item => !item.text.length)
+      if (!this.all.caption.chunks.length || isEmpty) {
+        this.$alert('无字幕内容', '警告')
+        return
+      } else {
+        this.CHANGE_IS_OUT_TYPE_SHOW(true)
+        return
+      }
+      $.post(
+        window.NCES.DOMAIN + '/api/caption',
+        JSON.stringify({
+          cmd: 'file_out',
+          file_type: 'srt'
+        }),
+        function(res) {
+          if (res.code === 0) {
+            const srcURI = window.NCES.DOMAIN + res.data.path
+            window.open(srcURI, '_blank')
+          } else {
+            console.log('res.msg')
+          }
+        },
+        'json'
+      )
     },
     addCaption() {
       const that = this
@@ -517,18 +552,24 @@ export default {
   }
 }
 
-.captionsel_sure {
-  width: 90px;
-  background-color: #00a9ff;
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
-  font-size: 16px;
-  border-radius: 5px;
-  float: right;
-  margin-right: 20px;
-  margin-top: 10px;
-  cursor: pointer;
+.btn-group {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  .captionsel_sure,
+  .captionsel_export {
+    width: 90px;
+    background-color: #00a9ff;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 16px;
+    border-radius: 5px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
 }
 
 input[type='number'].styCap {

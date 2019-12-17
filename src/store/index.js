@@ -127,8 +127,12 @@ const state = {
   aiVoiceApplyStart: false,
   aiTrackPosition: [],
   aiChunksPosition: [],
-  aiViewMaskIsShow: false
+  aiViewMaskIsShow: false,
   /* 智能语音自选段end */
+
+  /* 字幕格式导出begin */
+  isOutTypeShow: false
+  /* 字幕格式导出end */
 }
 
 export default new Vuex.Store({
