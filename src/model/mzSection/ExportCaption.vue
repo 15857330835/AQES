@@ -19,7 +19,7 @@
         <span class="con_click_make" @click="sureExport">确认</span
         ><span class="con_click_cancel" @click="cancelExport">取消</span>
       </div>
-      <a :href="srcURI" download="" v-show="false" ref="loadElement"></a>
+      <a :href="targetURI" :download="'云非编字幕.'+activeType" v-show="false" ref="loadElement"></a>
     </div>
   </div>
 </template>
@@ -27,6 +27,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { captionFileOutApi } from '@/api/Caption.js'
+import axios from '@/http'
 
 export default {
   data() {
@@ -46,7 +47,8 @@ export default {
         }
       ],
       activeType: 'srt',
-      srcURI: ''
+      srcURI: '',
+      targetURI: ''
     }
   },
   computed: {
@@ -66,10 +68,21 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.srcURI = window.NCES.DOMAIN + res.data.path
-            console.log(this.srcURI)
-            this.$nextTick(() => {
-              this.$refs.loadElement.click()
-            })
+            axios
+              .get(this.srcURI)
+              .then(URI_res => {
+                const content = URI_res
+                const blob = new Blob([content])
+                this.targetURI = URL.createObjectURL(blob)
+                console.log(this.targetURI)
+                this.$nextTick(() => {
+                  this.$refs.loadElement.click()
+                  URL.revokeObjectURL(blob)
+                })
+              })
+              .catch(URI_err => {
+                console.log({ getURIErr: URI_err })
+              })
           } else {
             console.log('res.msg')
           }
