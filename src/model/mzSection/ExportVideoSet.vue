@@ -346,8 +346,21 @@ export default {
               // console.log({res})
               if (res.code === 0) {
                 this.confirmBtnLocked = false
+                const strADY =
+                  'https://console.aodianyun.com/nces/index.php?r=app/producerList#'
+                const strGDY =
+                  'https://consoles.guangdianyun.tv/console/Page/cloud'
+                let strTarget
+                if (
+                  window.NCES.diff_server &&
+                  window.NCES.diff_server === 'GuangdianCloud'
+                ) {
+                  strTarget = strGDY
+                } else {
+                  strTarget = strADY
+                }
                 this.$alert(
-                  `视频生成中,请前往<a href='https://console.aodianyun.com/nces/index.php?r=app/producerList#' target='_blank'>后台</a>查看生成进度!`,
+                  `视频生成中,请前往<a href=${strTarget} target='_blank'>后台</a>查看生成进度!`,
                   '生成成功',
                   {
                     dangerouslyUseHTMLString: true,

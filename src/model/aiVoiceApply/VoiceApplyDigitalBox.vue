@@ -112,7 +112,10 @@ export default {
     }
   },
   async mounted() {
-    if (window.NCES.captext) {
+    if (
+      window.NCES.diff_server &&
+      window.NCES.diff_server === 'GuangdianCloud'
+    ) {
       this.showCostMoney = false
       this.boxWidth = 420
     }
