@@ -4,13 +4,14 @@
       <div class="content_title">字幕格式选择</div>
       <div class="content_text">
         <div class="container">
-          <label v-for="(item, index) in typesData" :key="index"
+          <label v-for="item in typesData" :key="item.id"
             ><input
               type="radio"
-              :checked="index === 2"
+              :checked="item.type === activeType"
               name="caption-type"
-              value="index"
-            /><span class="type-info">&nbsp;*.{{ item }}</span></label
+              :value="item.type"
+              @change="changeInput(item.type)"
+            /><span class="type-info">&nbsp;*.{{ item.type }}</span></label
           >
         </div>
       </div>
@@ -28,7 +29,21 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   data() {
     return {
-      typesData: ['srt', 'ssa', 'ass']
+      typesData: [
+        {
+          type: 'srt',
+          id: 1001
+        },
+        {
+          type: 'ssa',
+          id: 1002
+        },
+        {
+          type: 'ass',
+          id: 1003
+        }
+      ],
+      activeType: 'srt'
     }
   },
   computed: {
@@ -37,6 +52,9 @@ export default {
   methods: {
     ...mapMutations(['CHANGE_IS_OUT_TYPE_SHOW']),
     ...mapActions(['Post']),
+    changeInput(type) {
+      this.activeType = type
+    },
     add() {
       this.CHANGE_IS_OUT_TYPE_SHOW(false)
     },
