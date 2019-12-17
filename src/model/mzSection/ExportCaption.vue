@@ -3,21 +3,16 @@
     <div class="caption-type-content">
       <div class="content_title">字幕格式选择</div>
       <div class="content_text">
-        <span
-          ><label
+        <div class="container">
+          <label v-for="(item, index) in typesData" :key="index"
             ><input
               type="radio"
-              checked="checked"
-              name="tracktypes"
-              value="1"
-            />&nbsp;视频 / 文本 / 图片</label
-          ></span
-        >
-        <span
-          ><label
-            ><input type="radio" name="tracktypes" value="2" />&nbsp;音频</label
-          ></span
-        >
+              :checked="index === 2"
+              name="caption-type"
+              value="index"
+            /><span class="type-info">&nbsp;*.{{ item }}</span></label
+          >
+        </div>
       </div>
       <div class="content_bottom">
         <span class="con_click_make" @click="add">确认</span
@@ -31,6 +26,11 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
+  data() {
+    return {
+      typesData: ['srt', 'ssa', 'ass']
+    }
+  },
   computed: {
     ...mapState(['isOutTypeShow'])
   },
@@ -49,7 +49,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* 添加轨道的弹窗样式*/
 .caption-type {
   width: 100%;
   height: 100%;
@@ -60,7 +59,7 @@ export default {
 }
 .caption-type-content {
   position: absolute;
-  width: 510px;
+  width: 380px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -76,21 +75,12 @@ export default {
   }
   .content_text {
     height: 70px;
-    text-align: center;
-    position: relative;
-    span {
-      position: absolute;
-      margin: 0;
-      left: 50%;
-      top: 50%;
-      /*transform: translate(-50%,-50%);*/
-      width: 25%;
-      &:nth-child(1) {
-        left: 30%;
-      }
-      &:nth-child(2) {
-        left: 50%;
-      }
+    .container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
     }
   }
   .content_bottom {
