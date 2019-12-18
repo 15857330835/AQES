@@ -97,11 +97,12 @@ export default {
           /(bmp|png|jpg|jpeg|mp3|wma|aac|flac|wav|mp4|m3u8|flv|avi|mkv|mov)$/g
         )
       ) {
-        if (this.source.url.match(/(m3u8)$/g)) {
-          url = this._url1
-        } else {
-          url = this._url2
-        }
+        url = this._url1
+        // if (this.source.url.match(/(m3u8)$/g)) {
+        //   url = this._url1
+        // } else {
+        //   url = this._url2
+        // }
       } else {
         url = this._url3
       }
