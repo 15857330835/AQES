@@ -119,6 +119,10 @@ export default {
       this.showCostMoney = false
       this.boxWidth = 420
     }
+    if (window.NCES.captext) {
+      this.showCostMoney = false
+      this.boxWidth = 420
+    }
   },
   methods: {
     ...mapMutations([

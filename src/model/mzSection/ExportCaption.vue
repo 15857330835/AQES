@@ -19,7 +19,12 @@
         <span class="con_click_make" @click="sureExport">确认</span
         ><span class="con_click_cancel" @click="cancelExport">取消</span>
       </div>
-      <a :href="targetURI" :download="'云非编字幕.'+activeType" v-show="false" ref="loadElement"></a>
+      <a
+        :href="targetURI"
+        :download="'云非编字幕.' + activeType"
+        v-show="false"
+        ref="loadElement"
+      ></a>
     </div>
   </div>
 </template>
