@@ -210,6 +210,9 @@ export default {
       'modalContent',
       'isTrackSelect'
     ]),
+    filterChunksArray() {
+      return this.trackarr.chunks.filter(chunk => chunk.chunk_type !== 5)
+    },
     isActive() {
       const chunkFlag =
         this.activechunk.chunk.chunk_id === this.chunk.chunk_id &&
@@ -1618,9 +1621,9 @@ export default {
         } else {
           if (
             this.chunk.track_start <
-            this.trackarr.chunks[this.index - 1].track_end
+            this.filterChunksArray[this.index - 1].track_end
           ) {
-            this.chunk.track_start = this.trackarr.chunks[
+            this.chunk.track_start = this.filterChunksArray[
               this.index - 1
             ].track_end
             this.chunk.src_start =
@@ -1656,7 +1659,7 @@ export default {
             this.chunk.src_end = this.chunk.track_end + this.chunk.src_start
           }
         } else {
-          if (left >= that.trackarr.chunks[that.index - 1].track_end) {
+          if (left >= that.filterChunksArray[that.index - 1].track_end) {
             this.chunk.track_start = left
             this.chunk.src_end =
               this.chunk.track_end -
@@ -1664,7 +1667,7 @@ export default {
               this.chunk.src_start
           } else {
             this.chunk.track_start =
-              that.trackarr.chunks[that.index - 1].track_end
+              that.filterChunksArray[that.index - 1].track_end
             this.chunk.src_end =
               this.chunk.track_end -
               this.chunk.track_start +
@@ -1673,13 +1676,178 @@ export default {
         }
       }
     },
-    async chunkUpdateLengthApi(data, callback) {
+    async chunkUpdateLengthApiHandler(data, callback) {
       const res = await chunkUpdateLengthApi(data)
       if (res.code !== 0) {
         callback && callback(res)
       }
       this.changeLoading()
       this.ACTIVE_CHUNK({ state: 'active' })
+    },
+    toLeftup(e_para) {
+      e_para.stopPropagation()
+      let e = e_para
+      this.chunkmove = ''
+      if (e.touches && e.touches.length > 0) {
+        e = e.touches[0]
+      }
+      if (this.openway === 'pc') {
+        $(document).unbind('mousemove')
+      }
+
+      let data = {}
+      this.flag = 0
+      // let check_res = this.check_chunk(this.chunk)
+      // if(check_res){
+      //     return
+      //   }
+      if (this.chunk.chunk_type === 1 || this.chunk.chunk_type === 2) {
+        data = {
+          chunk_id: this.chunk.chunk_id,
+          src_start: parseInt(this.chunk.src_start, 10),
+          track_start: parseInt(this.chunk.track_start, 10)
+        }
+      }
+      if (this.chunk.chunk_type === 3 || this.chunk.chunk_type === 4) {
+        data = {
+          chunk_id: this.chunk.chunk_id,
+          src_end: parseInt(this.chunk.src_end, 10),
+          track_start: parseInt(this.chunk.track_start, 10)
+        }
+      }
+      this.chunkUpdateLengthApiHandler(data, res => {
+        if (res.code === -1 && res.msg === 'mix video too much') {
+          this.mix_error({ src_id: this.chunk.src_id })
+        }
+      })
+    },
+    toRight(e_para) {
+      e_para.stopPropagation()
+      if (this.modalVoiceApplyIsShow) {
+        return
+      }
+      let e = e_para
+      this.chunkmove = 'right'
+      if (e.touches) {
+        e = e.touches[0]
+      }
+      this.flag = 1
+
+      this.oldpage = e.pageX
+      this.oldlefttrack = this.chunk.track_end
+      this.oldleftsrc = this.chunk.src_end
+      if (this.openway === 'pc') {
+        $(document).on('mousemove', this.toRightmove)
+        $(document).one('mouseup', this.toRightup)
+      }
+    },
+    toRightmove: function(e_para) {
+      e_para.stopPropagation()
+      let e = e_para
+      if (this.chunkmove !== 'right') {
+        return
+      }
+      if (e.touches && e.touches.length > 0) {
+        e = e.touches[0]
+      }
+      const that = this
+      if (this.activechunk.state !== 'moveing') {
+        this.ACTIVE_CHUNK({ state: 'moveing' })
+      }
+      if (that.chunk.chunk_type === 1 || that.chunk.chunk_type === 2) {
+        // 如果chunk类型是视频或者音频
+        let src_end =
+          that.oldleftsrc +
+          (e.pageX - this.oldpage) *
+            (this.slidernum.max - that.track_property.ratio)
+        if (src_end < this.chunk.src_start) {
+          src_end = this.chunk.src_start
+        }
+        if (!that.brepeat) {
+          if (src_end > this.max) {
+            this.chunk.track_end =
+              this.oldlefttrack + this.max - this.oldleftsrc
+            this.chunk.src_end = this.max
+          } else {
+            this.chunk.track_end = this.oldlefttrack + src_end - this.oldleftsrc
+            this.chunk.src_end = src_end
+          }
+        } else {
+          this.chunk.track_end = this.oldlefttrack + src_end - this.oldleftsrc
+          this.chunk.src_end = src_end
+        }
+        if (that.index !== that.filterChunksArray.length - 1) {
+          if (
+            this.chunk.track_end >
+            that.filterChunksArray[this.index + 1].track_start
+          ) {
+            this.chunk.src_end =
+              this.chunk.src_end +
+              that.filterChunksArray[this.index + 1].track_start -
+              this.oldlefttrack
+            this.chunk.track_end =
+              that.filterChunksArray[this.index + 1].track_start
+          }
+        }
+        // if (that.chunk.chunk_type === 2) {
+        //   if(!that.prepeat){
+        //        _target.css({'backgroundPosition':-this.src_start / (this.slidernum.max-that.property.ratio)+'px 0px'});
+        //   }
+        // }
+        // _target1.css({'width':(that.chunk.src_end-this.src_start) / (this.slidernum.max-that.property.ratio)});
+        // _target1.css({'left':this.track_start / (this.slidernum.max-that.property.ratio),'width':(that.chunk.track_end-this.track_start) / (this.slidernum.max-that.property.ratio)});
+      }
+      if (that.chunk.chunk_type === 3 || that.chunk.chunk_type === 4) {
+        let right =
+          this.oldlefttrack +
+          (e.pageX - this.oldpage) *
+            (this.slidernum.max - that.track_property.ratio)
+        if (right < this.chunk.track_start) {
+          right = this.chunk.track_start
+        }
+        if (that.index === that.filterChunksArray.length - 1) {
+          this.chunk.track_end = right
+        } else {
+          if (right > that.filterChunksArray[that.index + 1].track_start) {
+            this.chunk.track_end =
+              that.filterChunksArray[that.index + 1].track_start
+          } else {
+            this.chunk.track_end = right
+          }
+        }
+        this.chunk.src_end =
+          this.chunk.src_start + this.chunk.track_end - this.chunk.track_start
+      }
+    },
+    toRightup(e_para) {
+      e_para.stopPropagation()
+      let e = e_para
+      this.chunkmove = ''
+      if (e.touches && e.touches.length > 0) {
+        e = e.touches[0]
+      }
+      if (this.openway === 'pc') {
+        $(document).unbind('mousemove')
+      }
+      let data = {}
+      this.flag = 0
+      if (this.chunk.chunk_type === 1 || this.chunk.chunk_type === 2) {
+        data = {
+          chunk_id: this.chunk.chunk_id,
+          src_end: parseInt(this.chunk.src_end, 10)
+        }
+      }
+      if (this.chunk.chunk_type === 3 || this.chunk.chunk_type === 4) {
+        data = {
+          chunk_id: this.chunk.chunk_id,
+          src_end: parseInt(this.chunk.src_end, 10)
+        }
+      }
+      this.chunkUpdateLengthApiHandler(data, res => {
+        if (res.code === -1 && res.msg === 'mix video too much') {
+          this.mix_error({ src_id: this.chunk.src_id })
+        }
+      })
     },
     mix_error(data) {
       const source = this.sourceData.filter(item => {
@@ -1741,174 +1909,6 @@ export default {
         }
         return isAbleIndex > this.systemmessage.melt.max_video_mix
       }
-    },
-    toLeftup(e_para) {
-      e_para.stopPropagation()
-      let e = e_para
-      this.chunkmove = ''
-      const that = this
-      if (e.touches && e.touches.length > 0) {
-        e = e.touches[0]
-      }
-      if (this.openway === 'pc') {
-        $(document).unbind('mousemove')
-      }
-
-      let data = {}
-      that.flag = 0
-      // let check_res = this.check_chunk(that.chunk)
-      // if(check_res){
-      //     return
-      //   }
-      if (that.chunk.chunk_type === 1 || that.chunk.chunk_type === 2) {
-        data = {
-          chunk_id: that.chunk.chunk_id,
-          src_start: parseInt(this.chunk.src_start, 10),
-          track_start: parseInt(this.chunk.track_start, 10)
-        }
-      }
-      if (that.chunk.chunk_type === 3 || that.chunk.chunk_type === 4) {
-        data = {
-          chunk_id: that.chunk.chunk_id,
-          src_end: parseInt(this.chunk.src_end, 10),
-          track_start: parseInt(this.chunk.track_start, 10)
-        }
-      }
-
-      this.chunkUpdateLengthApi(data, res => {
-        if (res.code === -1 && res.msg === 'mix video too much') {
-          this.mix_error({ src_id: that.chunk.src_id })
-        }
-      })
-    },
-    toRight(e_para) {
-      e_para.stopPropagation()
-      if (this.modalVoiceApplyIsShow) {
-        return
-      }
-      let e = e_para
-      this.chunkmove = 'right'
-      if (e.touches) {
-        e = e.touches[0]
-      }
-      this.flag = 1
-
-      this.oldpage = e.pageX
-      this.oldlefttrack = this.chunk.track_end
-      this.oldleftsrc = this.chunk.src_end
-      if (this.openway === 'pc') {
-        $(document).on('mousemove', this.toRightmove)
-        $(document).one('mouseup', this.toRightup)
-      }
-    },
-    toRightmove: function(e_para) {
-      e_para.stopPropagation()
-      let e = e_para
-      if (this.chunkmove !== 'right') {
-        return
-      }
-      if (e.touches && e.touches.length > 0) {
-        e = e.touches[0]
-      }
-      const that = this
-      if (this.activechunk.state !== 'moveing') {
-        this.ACTIVE_CHUNK({ state: 'moveing' })
-      }
-      if (that.chunk.chunk_type === 1 || that.chunk.chunk_type === 2) {
-        // 如果chunk类型是视频或者音频
-        let src_end =
-          that.oldleftsrc +
-          (e.pageX - this.oldpage) *
-            (this.slidernum.max - that.track_property.ratio)
-        if (src_end < this.chunk.src_start) {
-          src_end = this.chunk.src_start
-        }
-        if (!that.brepeat) {
-          if (src_end > this.max) {
-            this.chunk.track_end =
-              this.oldlefttrack + this.max - this.oldleftsrc
-            this.chunk.src_end = this.max
-          } else {
-            this.chunk.track_end = this.oldlefttrack + src_end - this.oldleftsrc
-            this.chunk.src_end = src_end
-          }
-        } else {
-          this.chunk.track_end = this.oldlefttrack + src_end - this.oldleftsrc
-          this.chunk.src_end = src_end
-        }
-        if (that.index !== that.trackarr.chunks.length - 1) {
-          if (
-            this.chunk.track_end >
-            that.trackarr.chunks[this.index + 1].track_start
-          ) {
-            this.chunk.src_end =
-              this.chunk.src_end +
-              that.trackarr.chunks[this.index + 1].track_start -
-              this.oldlefttrack
-            this.chunk.track_end =
-              that.trackarr.chunks[this.index + 1].track_start
-          }
-        }
-        if (that.chunk.chunk_type === 2) {
-          // if(!that.prepeat){
-          //      _target.css({'backgroundPosition':-this.src_start / (this.slidernum.max-that.property.ratio)+'px 0px'});
-          // }
-        }
-        // _target1.css({'width':(that.chunk.src_end-this.src_start) / (this.slidernum.max-that.property.ratio)});
-        // _target1.css({'left':this.track_start / (this.slidernum.max-that.property.ratio),'width':(that.chunk.track_end-this.track_start) / (this.slidernum.max-that.property.ratio)});
-      }
-      if (that.chunk.chunk_type === 3 || that.chunk.chunk_type === 4) {
-        let right =
-          this.oldlefttrack +
-          (e.pageX - this.oldpage) *
-            (this.slidernum.max - that.track_property.ratio)
-        if (right < this.chunk.track_start) {
-          right = this.chunk.track_start
-        }
-        if (that.index === that.trackarr.chunks.length - 1) {
-          this.chunk.track_end = right
-        } else {
-          if (right > that.trackarr.chunks[that.index + 1].track_start) {
-            this.chunk.track_end =
-              that.trackarr.chunks[that.index + 1].track_start
-          } else {
-            this.chunk.track_end = right
-          }
-        }
-        this.chunk.src_end =
-          this.chunk.src_start + this.chunk.track_end - this.chunk.track_start
-      }
-    },
-    toRightup(e_para) {
-      e_para.stopPropagation()
-      let e = e_para
-      this.chunkmove = ''
-      const that = this
-      if (e.touches && e.touches.length > 0) {
-        e = e.touches[0]
-      }
-      if (this.openway === 'pc') {
-        $(document).unbind('mousemove')
-      }
-      let data = {}
-      that.flag = 0
-      if (that.chunk.chunk_type === 1 || that.chunk.chunk_type === 2) {
-        data = {
-          chunk_id: that.chunk.chunk_id,
-          src_end: parseInt(this.chunk.src_end, 10)
-        }
-      }
-      if (that.chunk.chunk_type === 3 || that.chunk.chunk_type === 4) {
-        data = {
-          chunk_id: that.chunk.chunk_id,
-          src_end: parseInt(this.chunk.src_end, 10)
-        }
-      }
-      this.chunkUpdateLengthApi(data, res => {
-        if (res.code === -1 && res.msg === 'mix video too much') {
-          this.mix_error({ src_id: that.chunk.src_id })
-        }
-      })
     },
     trackSelect(e) {
       e.stopPropagation()
