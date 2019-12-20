@@ -114,8 +114,12 @@
       >
         适应插入
       </p>
-      <p class="undisabled location-cover" @mousedown="coverHandler">位置覆盖</p>
-      <p class="undisabled content-replace" @mousedown="replaceHandler">内容替换</p>
+      <p class="undisabled location-cover" @mousedown="coverHandler">
+        位置覆盖
+      </p>
+      <p class="undisabled content-replace" @mousedown="replaceHandler">
+        内容替换
+      </p>
     </div>
     <div
       v-if="isAiSelect"
@@ -1485,9 +1489,21 @@ export default {
         this.all.tracks.a_track_list.find(
           item => item.track_id === this.movetrackid
         )
+      const downChunk = targetTrack.chunks.find(chunkItem => {
+        if (chunkItem.chunk_id !== this.chunk.chunk_id) {
+          return !(
+            upChunkStart > chunkItem.track_end ||
+            upChunkEnd < chunkItem.track_start
+          )
+        }
+        return false
+      })
+      if (downChunk) {
+        return downChunk
+      }
     },
     replaceHandler(e) {
-      this.getDownChunk()
+      const currentDownChunk = this.getDownChunk()
       e.stopPropagation()
       const that = this
       this.Post({
