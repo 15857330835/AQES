@@ -108,13 +108,14 @@
       }"
     >
       <p
-        class="charu"
+        class="adapted-insert"
         :class="this.index1 == this.index2 ? 'disabled' : 'undisabled'"
-        @mousedown="charu"
+        @mousedown="insertHandler"
       >
         适应插入
       </p>
-      <p class="undisabled fugai" @mousedown="fugai">位置覆盖</p>
+      <p class="undisabled location-cover" @mousedown="coverHandler">位置覆盖</p>
+      <p class="undisabled content-replace" @mousedown="replaceHandler">内容替换</p>
     </div>
     <div
       v-if="isAiSelect"
@@ -208,7 +209,8 @@ export default {
       'moveListCount',
       'modalVoiceApplyIsShow',
       'modalContent',
-      'isTrackSelect'
+      'isTrackSelect',
+      'all'
     ]),
     filterChunksArray() {
       return this.trackarr.chunks.filter(chunk => chunk.chunk_type !== 5)
@@ -1381,7 +1383,7 @@ export default {
       }
       this.CHANGE_MOVE_LIST_COUNT()
     },
-    charu(e) {
+    insertHandler(e) {
       if (e) {
         e.stopPropagation()
       }
@@ -1435,7 +1437,57 @@ export default {
         this.up = false
       }
     },
-    fugai(e) {
+    coverHandler(e) {
+      e.stopPropagation()
+      const that = this
+      this.Post({
+        type: 'chunk',
+        data: {
+          cmd: 'move',
+          chunk_list: [
+            {
+              chunk_id: this.chunk.chunk_id,
+              move_track_id: this.movetrackid,
+              move_track_start:
+                this.xifuindex ||
+                parseInt(
+                  this.start * (this.slidernum.max - this.track_property.ratio),
+                  10
+                ),
+              mode: 1
+            }
+          ]
+        },
+        success: function(res) {
+          that.changeLoading(function() {
+            that.move = false
+          })
+        },
+        error: function(res) {
+          that.move = false
+        }
+      })
+      this.ACTIVE_CHUNK({ state: 'active' })
+      this.up = false
+    },
+    getDownChunk() {
+      const upChunk = this.chunk
+      const upChunkStart =
+        (this.start + this.track_property.outLeft) *
+        (this.slidernum.max - this.track_property.ratio)
+      const upChunkEnd =
+        upChunkStart + (this.chunk.track_end - this.chunk.track_start)
+      console.log({ upChunkStart, upChunkEnd })
+      const targetTrack =
+        this.all.tracks.v_track_list.find(
+          item => item.track_id === this.movetrackid
+        ) ||
+        this.all.tracks.a_track_list.find(
+          item => item.track_id === this.movetrackid
+        )
+    },
+    replaceHandler(e) {
+      this.getDownChunk()
       e.stopPropagation()
       const that = this
       this.Post({

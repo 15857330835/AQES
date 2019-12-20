@@ -64,12 +64,13 @@
         v-show="this.clonediv.class == 'moveing1' && this.clonediv.up"
       >
         <p
-          class="charu"
+          class="adapted-insert"
           :class="this.index1 == this.index2 ? 'disabled' : 'undisabled'"
         >
           适应插入
         </p>
-        <p class="fugai undisabled">位置覆盖</p>
+        <p class="location-cover undisabled">位置覆盖</p>
+        <p class="content-replace undisabled">内容替换</p>
       </div>
     </div>
   </div>
@@ -1312,7 +1313,7 @@ export default {
               that.createChunk(data)
             } else {
               window.zindex = 5
-              $('.charu').one('mousedown', function(e2) {
+              $('.adapted-insert').one('mousedown', function(e2) {
                 e2.stopPropagation()
                 data = {
                   src_id: that.clonediv.src_id,
@@ -1327,8 +1328,23 @@ export default {
                 that.createChunk(data)
                 window.zindex = 1
               })
-              $('.fugai').one('mousedown', function(e3) {
+              $('.location-cover').one('mousedown', function(e3) {
                 e3.stopPropagation()
+                data = {
+                  src_id: that.clonediv.src_id,
+                  mode: 1,
+                  track_id: that.trackposition[i].id,
+                  track_type: that.trackposition[i].type,
+                  track_start: parseInt(left, 10),
+                  type: that.clonediv.type,
+                  status: that.clonediv.status,
+                  onlyVideo: that.clonediv.onlyvideo
+                }
+                that.createChunk(data)
+                window.zindex = 1
+              })
+              $('.content-replace').one('mousedown', function(e4) {
+                e4.stopPropagation()
                 data = {
                   src_id: that.clonediv.src_id,
                   mode: 1,
