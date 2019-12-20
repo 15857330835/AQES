@@ -165,6 +165,7 @@ export default {
     },
     backChunkhistory: function(func) {
       const that = this
+      console.log(that.historyindex)
       $.post(
         window.NCES.DOMAIN + '/api/history',
         JSON.stringify({ cmd: 'set', index: that.historyindex }),

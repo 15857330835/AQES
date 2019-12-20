@@ -229,9 +229,6 @@ export default {
       }),
       function(res) {
         if (res.code === 0) {
-          /* that.commit("ACTIVE_CHUNK", { chunk: "", state: "" });
-            that.commit("CLEAR_REST_ACTIVE_CHUNKS");
-            that.commit("EMPTY_ACTIVE_CHUNK"); */
           that.dispatch('changeLoading')
         }
         if (res.code !== 0) {
