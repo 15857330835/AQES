@@ -154,7 +154,8 @@ export default {
         src: '',
         jpg: '',
         class: ''
-      }
+      },
+      chunkPosition: {}
     }
   },
   computed: {
@@ -171,6 +172,9 @@ export default {
       'audioStatus',
       'systemmessage'
     ]),
+    tracksData() {
+      return this.all.tracks
+    },
     time1() {
       const length = Math.ceil((this.all.curr_track_len - 1) / 25)
       return length / 3
@@ -187,42 +191,17 @@ export default {
     },
     track_property() {
       return this.$store.state.all.track_property
-    },
-    chunkPosition() {
-      if (typeof this.all === 'undefined') {
-        return
-      } else {
-        const v = this.all.tracks.v_track_list
-        const a = this.all.tracks.a_track_list
-        const chunkPosition = { a: [], v: [] }
-        for (let i = 0; i < v.length; i++) {
-          chunkPosition.v[i] = []
-          for (let j = 0; j < v[i].chunks.length; j++) {
-            chunkPosition.v[i][j] = {}
-            chunkPosition.v[i][j].id = v[i].chunks[j].chunk_id
-            chunkPosition.v[i][j].min = v[i].chunks[j].track_start
-            chunkPosition.v[i][j].max = v[i].chunks[j].track_end
-            chunkPosition.v[i][j].type = v[i].chunks[j].chunk_type
-          }
-        }
-        for (let m = 0; m < a.length; m++) {
-          chunkPosition.a[m] = []
-          for (let n = 0; n < a[m].chunks.length; n++) {
-            chunkPosition.a[m][n] = {}
-            chunkPosition.a[m][n].id = a[m].chunks[n].chunk_id
-            chunkPosition.a[m][n].min = a[m].chunks[n].track_start
-            chunkPosition.a[m][n].max = a[m].chunks[n].track_end
-            chunkPosition.a[m][n].type = a[m].chunks[n].chunk_type
-          }
-        }
-        chunkPosition.v = chunkPosition.v.concat(chunkPosition.a)
-        return chunkPosition
-      }
     }
   },
   watch: {
     trackposition(v, old) {
       return v
+    },
+    tracksData: {
+      immediate: true,
+      handler: function() {
+        this.refreshChunkPosition()
+      }
     }
   },
   methods: {
@@ -261,7 +240,9 @@ export default {
       this.clonediv.imglist = []
       this.clonediv.obj = {}
     },
-    getChunkPosition: function(v, a) {
+    refreshChunkPosition() {
+      const v = this.all.tracks.v_track_list
+      const a = this.all.tracks.a_track_list
       const chunkPosition = { a: [], v: [] }
       for (let i = 0; i < v.length; i++) {
         chunkPosition.v[i] = []
