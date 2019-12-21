@@ -188,7 +188,7 @@ export default {
     track_property() {
       return this.$store.state.all.track_property
     },
-    chunkPosition(v_para, a_para) {
+    chunkPosition() {
       if (typeof this.all === 'undefined') {
         return
       } else {
@@ -1160,6 +1160,8 @@ export default {
     },
     // eslint-disable-next-line complexity
     mousemove: function(e_para) {
+      console.log(this.clonediv.width)
+      console.log(this.clonediv)
       e_para.preventDefault()
       e_para.stopPropagation()
       if (!this.chunkmove) {
