@@ -194,9 +194,6 @@ export default {
     }
   },
   watch: {
-    trackposition(v, old) {
-      return v
-    },
     tracksData: {
       immediate: true,
       handler: function() {
@@ -268,7 +265,7 @@ export default {
       this.chunkPosition = chunkPosition
     },
     // eslint-disable-next-line complexity
-    createChunk: function(data) {
+    createChunk(data) {
       const filterlist = JSON.parse(this.filterlist)
       const that = this
       if (!data.track_type) {
@@ -1141,8 +1138,6 @@ export default {
     },
     // eslint-disable-next-line complexity
     mousemove: function(e_para) {
-      console.log(this.clonediv.width)
-      console.log(this.clonediv)
       e_para.preventDefault()
       e_para.stopPropagation()
       if (!this.chunkmove) {
