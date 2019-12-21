@@ -89,6 +89,7 @@ import captionView from '@/model/mzSection/selectmz/captionView'
 import aiView from '@/model/mzSection/selectmz/aiView'
 import historyView from '@/model/mzSection/selectmz/historyView'
 import audioPlayer from '@/components/audioPlayer'
+import { transitionAddApi } from '@/api/Transition'
 
 export default {
   data() {
@@ -269,24 +270,19 @@ export default {
       const filterlist = JSON.parse(this.filterlist)
       const that = this
       if (!data.track_type) {
-        $.post(
-          window.NCES.DOMAIN + '/api/transition',
-          JSON.stringify(data),
-          function(res) {
-            if (res.code !== 0) {
-              that.$alert('动效时长大于素材时长，设置失败！', '提示消息', {
-                confirmButtonText: '确定',
-                callback: function() {
-                  window.zindex = 1
-                }
-              })
-              window.zindex = 0
-            }
-            that.changeLoading()
-            that.clonedivInit()
-          },
-          'json'
-        )
+        transitionAddApi(data).then(res => {
+          if (res.code !== 0) {
+            this.$alert('动效时长大于素材时长，设置失败！', '提示消息', {
+              confirmButtonText: '确定',
+              callback: function() {
+                window.zindex = 1
+              }
+            })
+            window.zindex = 0
+          }
+          this.changeLoading()
+          this.clonedivInit()
+        })
       } else {
         let serviceList
         if (window.zindex === 3) {
@@ -332,16 +328,23 @@ export default {
         }
 
         if (data.type !== null && data.type === 2) {
+          const transData = {
+            cmd: 'add',
+            mode: data.mode,
+            src_id: data.src_id,
+            track_id: data.track_id,
+            track_type: parseInt(data.track_type, 10),
+            track_start: data.track_start
+          }
+          if (data.src_start) {
+            transData.src_start = data.src_start
+          }
+          if (data.src_end) {
+            transData.src_end = data.src_end
+          }
           $.post(
             window.NCES.DOMAIN + '/api/chunk',
-            JSON.stringify({
-              cmd: 'add',
-              mode: data.mode,
-              src_id: data.src_id,
-              track_id: data.track_id,
-              track_type: parseInt(data.track_type, 10),
-              track_start: data.track_start
-            }),
+            JSON.stringify(transData),
             function(res) {
               if (res.code !== 0) {
                 console.warn(res.msg)
@@ -358,7 +361,6 @@ export default {
             return item.src_id === data.src_id
           })[0]
           if (source.status === -2 && source.src_type === 1) {
-            // this.systemmessage.melt.max_video_mix_spec
             that.$alert(
               '您添加的视频分辨率超出配置，请更改配置或选择分辨率较低的视频添加！',
               '错误'
@@ -366,47 +368,25 @@ export default {
             that.clonedivInit()
             return
           }
-          // if(source.status > 0 && source.src_type == 1 && source.v_height*source.v_width >= this.systemmessage.melt.max_video_mix_spec*0.9){
 
-          // let start = data.track_start
-          // let end = data.track_start +  source.sum_frame
-          // let v_track_list = this.$store.state.all.tracks.v_track_list
-          //       let isAbleIndex = 0
-          //       for(let v in v_track_list){
-          //           let chunks = v_track_list[v].chunks
-          //           if(isAbleIndex >= 5) break;
-          //           for(let chunk_key in chunks){
-          //             let chunk = chunks[chunk_key]
-
-          //             if( !(chunk.track_start < start && chunk.track_end <= start) || chunk.track_end > end && chunk.track_start <= end){
-
-          //               let chunk_source =  this.sourceData.filter((item)=>{ return item.src_id == chunk.src_id})[0]
-          //               if(chunk_source.v_height*chunk_source.v_width >= this.systemmessage.melt.max_video_mix_spec*0.9){
-          //                 if(++isAbleIndex>=this.systemmessage.melt.max_video_mix) break;
-          //               }
-
-          //             }
-          //           }
-          //       }
-
-          //   if(isAbleIndex > this.systemmessage.melt.max_video_mix){
-          //        this.$alert("同一时间段内混合的视频数量（"+source.v_width+"x"+source.v_height+"）超出资源配置上限，请删除此时间段内其他视频或选择分辨率较低的视频进行添加！","错误");
-          //        that.clonedivInit();
-          //        return
-          //   }
-          // }
-
+          const transData = {
+            cmd: 'add',
+            src_id: data.src_id,
+            mode: data.mode,
+            track_id: data.track_id,
+            track_type: parseInt(data.track_type, 10),
+            track_start: data.track_start,
+            filter: serviceList
+          }
+          if (data.src_start) {
+            transData.src_start = data.src_start
+          }
+          if (data.src_end) {
+            transData.src_end = data.src_end
+          }
           $.post(
             window.NCES.DOMAIN + '/api/chunk',
-            JSON.stringify({
-              cmd: 'add',
-              src_id: data.src_id,
-              mode: data.mode,
-              track_id: data.track_id,
-              track_type: parseInt(data.track_type, 10),
-              track_start: data.track_start,
-              filter: serviceList
-            }),
+            JSON.stringify(transData),
             function(res) {
               if (res.code !== 0) {
                 // console.warn(res.msg);
@@ -1208,25 +1188,49 @@ export default {
       }
       this.clonediv = clonediv_
     },
-    mouseup: function(e_para) {
+    getDownChunk(cloneDivTrackStart, cloneDivTrackId) {
+      const upChunkStart = cloneDivTrackStart
+      const upChunkEnd =
+        upChunkStart +
+        this.clonediv.width * (this.slidernum.max - this.track_property.ratio)
+      console.log({ upChunkStart, upChunkEnd })
+      const targetTrack =
+        this.all.tracks.v_track_list.find(
+          item => item.track_id === cloneDivTrackId
+        ) ||
+        this.all.tracks.a_track_list.find(
+          item => item.track_id === cloneDivTrackId
+        )
+      const downChunk = targetTrack.chunks.find(chunkItem => {
+        return !(
+          upChunkStart > chunkItem.track_end ||
+          upChunkEnd < chunkItem.track_start
+        )
+      })
+      if (downChunk) {
+        return downChunk
+      } else {
+        console.log('chunks inter-active failed')
+      }
+    },
+    mouseup(e_para) {
       this.chunkmove = false
       let e = e_para
       if (e.touches) {
         e = e.changedTouches[0]
       }
       this.clonediv.up = true
-      const that = this
       let num = 0
       $(document).unbind('mousemove')
-      clearInterval(that.timerLeft)
-      that.timerLeft = null
-      clearInterval(that.timerRight)
-      that.timerRight = null
+      clearInterval(this.timerLeft)
+      this.timerLeft = null
+      clearInterval(this.timerRight)
+      this.timerRight = null
       $.post(
         window.NCES.DOMAIN + '/api/track',
         JSON.stringify({
           cmd: 'property_append',
-          track_property: { outLeft: that.track_property.outLeft }
+          track_property: { outLeft: this.track_property.outLeft }
         }),
         function(res) {
           if (res.code !== 0) {
@@ -1235,109 +1239,125 @@ export default {
         },
         'json'
       )
-      for (let i = 0; i < that.trackposition.length; i++) {
+      for (let i = 0; i < this.trackposition.length; i++) {
         if (
-          e.pageX > that.trackposition[i].minX &&
-          e.pageX < that.trackposition[i].maxX &&
-          e.pageY > that.trackposition[i].minY - $('#trackbox').scrollTop() &&
-          e.pageY < that.trackposition[i].maxY - $('#trackbox').scrollTop() &&
-          (that.clonediv.class === 'moveing' ||
-            that.clonediv.class === 'moveing1')
+          e.pageX > this.trackposition[i].minX &&
+          e.pageX < this.trackposition[i].maxX &&
+          e.pageY > this.trackposition[i].minY - $('#trackbox').scrollTop() &&
+          e.pageY < this.trackposition[i].maxY - $('#trackbox').scrollTop() &&
+          (this.clonediv.class === 'moveing' ||
+            this.clonediv.class === 'moveing1')
         ) {
           let left = null
-          if (that.xifuindex != null) {
-            left = that.xifuindex
+          if (this.xifuindex != null) {
+            left = this.xifuindex
           } else {
             left =
               (e.pageX -
-                that.trackposition[i].minX -
+                this.trackposition[i].minX -
                 30 +
-                that.track_property.outLeft >
+                this.track_property.outLeft >
               0
                 ? parseInt(
                     e.pageX -
-                      that.trackposition[i].minX -
+                      this.trackposition[i].minX -
                       30 +
-                      that.track_property.outLeft,
+                      this.track_property.outLeft,
                     10
                   )
                 : 0) *
-              (that.slidernum.max - that.track_property.ratio)
+              (this.slidernum.max - this.track_property.ratio)
           }
           if (this.clonediv.type === 5) {
             const data = {
               cmd: 'add',
-              a_chunk_id: that.chunkPosition.v[i][that.xifuindex].id,
-              b_chunk_id: that.chunkPosition.v[i][that.xifuindex + 1].id,
+              a_chunk_id: this.chunkPosition.v[i][this.xifuindex].id,
+              b_chunk_id: this.chunkPosition.v[i][this.xifuindex + 1].id,
               transition: this.clonediv.obj
             }
-            that.INIT_CHUNKS()
-            that.createChunk(data)
+            this.INIT_CHUNKS()
+            this.createChunk(data)
 
             return
           } else {
-            that.INIT_CHUNKS()
+            this.INIT_CHUNKS()
             let data
-            if (that.clonediv.class === 'moveing') {
+            if (this.clonediv.class === 'moveing') {
               data = {
-                src_id: that.clonediv.src_id,
-                track_id: that.trackposition[i].id,
-                track_type: that.trackposition[i].type,
+                src_id: this.clonediv.src_id,
+                track_id: this.trackposition[i].id,
+                track_type: this.trackposition[i].type,
                 track_start: parseInt(left, 10),
-                type: that.clonediv.type,
-                status: that.clonediv.status,
-                onlyVideo: that.clonediv.onlyvideo
+                type: this.clonediv.type,
+                status: this.clonediv.status,
+                onlyVideo: this.clonediv.onlyvideo
               }
-              that.createChunk(data)
+              this.createChunk(data)
             } else {
+              // moving1的冲突状态
               window.zindex = 5
-              $('.adapted-insert').one('mousedown', function(e2) {
+              $('.adapted-insert').one('mousedown', e2 => {
                 e2.stopPropagation()
                 data = {
-                  src_id: that.clonediv.src_id,
+                  src_id: this.clonediv.src_id,
                   mode: 3,
-                  track_id: that.trackposition[i].id,
-                  track_type: that.trackposition[i].type,
+                  track_id: this.trackposition[i].id,
+                  track_type: this.trackposition[i].type,
                   track_start: parseInt(left, 10),
-                  type: that.clonediv.type,
-                  status: that.clonediv.status,
-                  onlyVideo: that.clonediv.onlyvideo
+                  type: this.clonediv.type,
+                  status: this.clonediv.status,
+                  onlyVideo: this.clonediv.onlyvideo
                 }
-                that.createChunk(data)
+                this.createChunk(data)
                 window.zindex = 1
               })
-              $('.location-cover').one('mousedown', function(e3) {
+              $('.location-cover').one('mousedown', e3 => {
                 e3.stopPropagation()
                 data = {
-                  src_id: that.clonediv.src_id,
+                  src_id: this.clonediv.src_id,
                   mode: 1,
-                  track_id: that.trackposition[i].id,
-                  track_type: that.trackposition[i].type,
+                  track_id: this.trackposition[i].id,
+                  track_type: this.trackposition[i].type,
                   track_start: parseInt(left, 10),
-                  type: that.clonediv.type,
-                  status: that.clonediv.status,
-                  onlyVideo: that.clonediv.onlyvideo
+                  type: this.clonediv.type,
+                  status: this.clonediv.status,
+                  onlyVideo: this.clonediv.onlyvideo
                 }
-                that.createChunk(data)
+                this.createChunk(data)
                 window.zindex = 1
               })
-              $('.content-replace').one('mousedown', function(e4) {
+              $('.content-replace').one('mousedown', e4 => {
                 e4.stopPropagation()
-                data = {
-                  src_id: that.clonediv.src_id,
-                  mode: 1,
-                  track_id: that.trackposition[i].id,
-                  track_type: that.trackposition[i].type,
-                  track_start: parseInt(left, 10),
-                  type: that.clonediv.type,
-                  status: that.clonediv.status,
-                  onlyVideo: that.clonediv.onlyvideo
+                const currentDownChunk = this.getDownChunk(
+                  left,
+                  this.trackposition[i].id
+                )
+                if (!currentDownChunk) {
+                  // todos错误处理
                 }
-                that.createChunk(data)
+                data = {
+                  src_id: this.clonediv.src_id,
+                  mode: 1,
+                  track_id: this.trackposition[i].id,
+                  track_type: this.trackposition[i].type,
+                  track_start: currentDownChunk.track_start,
+                  src_start: currentDownChunk.src_start,
+                  src_end: currentDownChunk.src_end,
+                  type: this.clonediv.type,
+                  status: this.clonediv.status,
+                  onlyVideo: this.clonediv.onlyvideo
+                }
+                console.log(this.clonediv)
+                console.log(currentDownChunk)
+                console.log(
+                  currentDownChunk.src_start,
+                  currentDownChunk.src_end
+                )
+                this.createChunk(data)
                 window.zindex = 1
               })
-              $('html').one('mousedown', function() {
-                that.clonedivInit()
+              $('html').one('mousedown', () => {
+                this.clonedivInit()
                 window.zindex = 1
               })
             }
@@ -1347,8 +1367,8 @@ export default {
         } else {
           num++
         }
-        if (num === that.trackposition.length) {
-          that.clonedivInit()
+        if (num === this.trackposition.length) {
+          this.clonedivInit()
         }
       }
     },
