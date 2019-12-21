@@ -44,6 +44,7 @@ export default {
     },
     _url1() {
       return (
+        this.source.mp4 ||
         this.source.mp4_1080 ||
         this.source.mp4_720 ||
         this.source.mp4_480 ||
@@ -64,6 +65,7 @@ export default {
         this.source.mp4_720 ||
         this.source.mp4_480 ||
         this.source.url ||
+        this.source.mp4 ||
         this.source.m3u8 ||
         this.source.m3u8_1080 ||
         this.source.m3u8_720 ||
@@ -76,13 +78,14 @@ export default {
     },
     _url3() {
       return (
+        this.source.mp4 ||
         this.source.mp4_1080 ||
         this.source.mp4_720 ||
         this.source.mp4_480 ||
+        this.source.m3u8 ||
         this.source.m3u8_1080 ||
         this.source.m3u8_720 ||
         this.source.m3u8_480 ||
-        this.source.m3u8 ||
         this.source.mp4_360 ||
         this.source.mp4_240 ||
         this.source.m3u8_360 ||

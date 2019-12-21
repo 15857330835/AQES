@@ -117,7 +117,11 @@
       <p class="undisabled location-cover" @mousedown="coverHandler">
         位置覆盖
       </p>
-      <p class="undisabled content-replace" @mousedown="replaceHandler">
+      <p
+        class="undisabled content-replace"
+        @mousedown="replaceHandler"
+        v-if="false"
+      >
         内容替换
       </p>
     </div>

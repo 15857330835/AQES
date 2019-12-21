@@ -171,15 +171,15 @@ export default {
       'audioStatus',
       'systemmessage'
     ]),
-    time1: function() {
+    time1() {
       const length = Math.ceil((this.all.curr_track_len - 1) / 25)
       return length / 3
     },
-    time2: function() {
+    time2() {
       const length = Math.ceil((this.all.curr_track_len - 1) / 25)
       return length >= 60 ? (length - 60) / 5 + 60 : 60
     },
-    trantime: function() {
+    trantime() {
       const length = Math.ceil((this.all.curr_track_len - 1) / 25)
       return Math.ceil(
         length / 3 + (length >= 60 ? (length - 60) / 5 + 60 : 60)
@@ -188,7 +188,7 @@ export default {
     track_property() {
       return this.$store.state.all.track_property
     },
-    chunkPosition: function(v_para, a_para) {
+    chunkPosition(v_para, a_para) {
       if (typeof this.all === 'undefined') {
         return
       } else {
