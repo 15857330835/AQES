@@ -204,6 +204,12 @@ export default {
       }
       setTimeout(function() {
         that.clearChunkhistory()
+        const left = parseFloat($('#edit_tip_line').css('left'))
+        if (left < 0 || left + 199 > $('.nces_edit').width()) {
+          $('#edit_tip_line').hide()
+        } else {
+          $('#edit_tip_line').show()
+        }
       }, 0)
     },
     back() {
@@ -266,12 +272,12 @@ export default {
       }
       setTimeout(() => {
         const left = parseFloat($('#edit_tip_line').css('left'))
-        if (left < 0 || left > $('#ruler').width()) {
+        if (left < 0 || left + 199 > $('.nces_edit').width()) {
           $('#edit_tip_line').hide()
         } else {
           $('#edit_tip_line').show()
         }
-      }, 300)
+      }, 0)
     }
   }
 }
