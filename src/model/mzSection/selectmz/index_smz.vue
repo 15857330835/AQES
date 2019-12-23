@@ -90,6 +90,7 @@ import aiView from '@/model/mzSection/selectmz/aiView'
 import historyView from '@/model/mzSection/selectmz/historyView'
 import audioPlayer from '@/components/audioPlayer'
 import { transitionAddApi } from '@/api/Transition'
+import { chunkUpdateLengthApi } from '@/api/Chunk'
 
 export default {
   data() {
@@ -389,7 +390,6 @@ export default {
             JSON.stringify(transData),
             function(res) {
               if (res.code !== 0) {
-                // console.warn(res.msg);
                 if (res.code === -1 && res.msg === 'mix video too much') {
                   that.mix_error({ src_id: data.src_id })
                 }
@@ -849,7 +849,6 @@ export default {
       }
     },
     mousedown: function(e_para) {
-      // console.log({'event': e})
       let e = e_para
       if (
         $(e.target).parents('.' + window.NCES.drag_ele).length !== 0 ||
@@ -1281,7 +1280,7 @@ export default {
             return
           } else {
             this.INIT_CHUNKS()
-            let data
+            let data = {}
             if (this.clonediv.class === 'moveing') {
               data = {
                 src_id: this.clonediv.src_id,
@@ -1327,34 +1326,73 @@ export default {
                 window.zindex = 1
               })
               $('.content-replace').one('mousedown', e4 => {
+                console.log(this.clonediv.type, 'count')
                 e4.stopPropagation()
-                const currentDownChunk = this.getDownChunk(
+                let currentDownChunk = this.getDownChunk(
                   left,
                   this.trackposition[i].id
                 )
                 if (!currentDownChunk) {
                   // todos错误处理
                 }
-                data = {
+                const commonData = {
                   src_id: this.clonediv.src_id,
                   mode: 1,
                   track_id: this.trackposition[i].id,
                   track_type: this.trackposition[i].type,
                   track_start: currentDownChunk.track_start,
-                  src_start: currentDownChunk.src_start,
-                  src_end: currentDownChunk.src_end,
                   type: this.clonediv.type,
                   status: this.clonediv.status,
                   onlyVideo: this.clonediv.onlyvideo
                 }
-                console.log(this.clonediv)
-                console.log(currentDownChunk)
-                console.log(
-                  currentDownChunk.src_start,
-                  currentDownChunk.src_end
-                )
-                this.createChunk(data)
-                window.zindex = 1
+                if (this.clonediv.type === 2 || this.clonediv.type === 3) {
+                  data.src_start = 0
+                  data.src_end =
+                    currentDownChunk.src_end - currentDownChunk.src_start
+                  this.createChunk(Object.assign(data, commonData))
+                  window.zindex = 1
+                } else if (
+                  this.clonediv.type === 0 ||
+                  this.clonediv.type === 1
+                ) {
+                  const cloneDivTrackWidth =
+                    this.clonediv.width *
+                    (this.slidernum.max - this.track_property.ratio)
+                  if (
+                    cloneDivTrackWidth <=
+                    currentDownChunk.src_end - currentDownChunk.src_start
+                  ) {
+                    const updateLengthData = {
+                      chunk_id: currentDownChunk.chunk_id,
+                      src_end: parseInt(
+                        currentDownChunk.src_start + cloneDivTrackWidth,
+                        10
+                      )
+                    }
+                    chunkUpdateLengthApi(updateLengthData)
+                      .then(res => {
+                        if (res.code === 0) {
+                          currentDownChunk = res.data
+                          console.log(currentDownChunk, 'successed!')
+                          // data.src_start = currentDownChunk.src_start
+                          // data.src_end = currentDownChunk.src_end
+                          this.createChunk(Object.assign(data, commonData))
+                          window.zindex = 1
+                        } else {
+                          console.log('updateLength failed')
+                        }
+                      })
+                      .catch(err => {
+                        console.log('chunkUpdateLengthApiError:', err)
+                      })
+                  } else {
+                    data.src_start = 0
+                    data.src_end =
+                      currentDownChunk.src_end - currentDownChunk.src_start
+                    this.createChunk(Object.assign(data, commonData))
+                    window.zindex = 1
+                  }
+                }
               })
               $('html').one('mousedown', () => {
                 this.clonedivInit()
@@ -1440,7 +1478,7 @@ export default {
         )
       }
     },
-    loadimg: function(src, url) {
+    loadimg(src, url) {
       const that = this
       const img = new Image()
       img.style.position = 'absolute'
