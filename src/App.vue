@@ -181,7 +181,7 @@ export default {
     // checkstatus() {
     //   const that = this
     // },
-    getFilter: function() {
+    getFilter() {
       const that = this
       $.post(
         window.NCES.DOMAIN + '/api/filter',

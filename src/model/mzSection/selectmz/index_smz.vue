@@ -176,7 +176,8 @@ export default {
       'slidernum',
       'Mrzydata',
       'audioStatus',
-      'systemmessage'
+      'systemmessage',
+      'currentDownChunk'
     ]),
     tracksData() {
       return this.all.tracks
@@ -219,7 +220,8 @@ export default {
       'CHANGE_MYDIRSHOW',
       'ACTIVE_CHUNK',
       'UPDATE_CHUNK_POSITION',
-      'INIT_CHUNKS'
+      'INIT_CHUNKS',
+      'CHANGE_CURRENT_DOWN_CHUNK'
     ]),
     handleNavClick(title, component) {
       this.isSelect = title
@@ -270,8 +272,15 @@ export default {
       chunkPosition.v = chunkPosition.v.concat(chunkPosition.a)
       this.chunkPosition = chunkPosition
     },
+    extendsFilterHandler(resData) {
+      console.log('123456')
+      this.changeLoading()
+      this.clonedivInit()
+      this.ACTIVE_CHUNK({ chunk: resData.data, state: 'active' })
+      this.UPDATE_CHUNK_POSITION()
+    },
     // eslint-disable-next-line complexity
-    createChunk(data, geoString) {
+    createChunk(data, geoString, extendsFilter) {
       const filterlist = JSON.parse(this.filterlist)
       console.log(filterlist)
       const that = this
@@ -361,10 +370,14 @@ export default {
                     if (resp.code !== 0) {
                       console.warn(resp.msg)
                     } else {
-                      this.changeLoading()
-                      this.clonedivInit()
-                      this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
-                      this.UPDATE_CHUNK_POSITION()
+                      if (extendsFilter === true) {
+                        this.extendsFilterHandler(resp)
+                      } else {
+                        this.changeLoading()
+                        this.clonedivInit()
+                        this.ACTIVE_CHUNK({ chunk: resp.data, state: 'active' })
+                        this.UPDATE_CHUNK_POSITION()
+                      }
                     }
                   })
                 }
@@ -429,10 +442,14 @@ export default {
                     if (resp.code !== 0) {
                       console.warn(resp.msg)
                     } else {
-                      this.changeLoading()
-                      this.clonedivInit()
-                      this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
-                      this.UPDATE_CHUNK_POSITION()
+                      if (extendsFilter === true) {
+                        this.extendsFilterHandler(resp)
+                      } else {
+                        this.changeLoading()
+                        this.clonedivInit()
+                        this.ACTIVE_CHUNK({ chunk: resp.data, state: 'active' })
+                        this.UPDATE_CHUNK_POSITION()
+                      }
                     }
                   })
                 }
@@ -1382,19 +1399,21 @@ export default {
               })
               $('.content-replace').one('mousedown', e4 => {
                 e4.stopPropagation()
-                let currentDownChunk = this.getDownChunk(
+                const currentDownChunk = this.getDownChunk(
                   left,
                   this.trackposition[i].id
                 )
                 if (!currentDownChunk) {
                   // todos错误处理
+                } else {
+                  this.CHANGE_CURRENT_DOWN_CHUNK(currentDownChunk)
                 }
                 const commonData = {
                   src_id: this.clonediv.src_id,
                   mode: 1,
                   track_id: this.trackposition[i].id,
                   track_type: this.trackposition[i].type,
-                  track_start: currentDownChunk.track_start,
+                  track_start: this.currentDownChunk.track_start,
                   type: this.clonediv.type,
                   status: this.clonediv.status,
                   onlyVideo: this.clonediv.onlyvideo
@@ -1402,10 +1421,12 @@ export default {
                 if (this.clonediv.type === 2 || this.clonediv.type === 3) {
                   data.src_start = 0
                   data.src_end =
-                    currentDownChunk.src_end - currentDownChunk.src_start
+                    this.currentDownChunk.src_end -
+                    this.currentDownChunk.src_start
                   this.createChunk(
                     Object.assign(data, commonData),
-                    currentDownChunk.geometry
+                    this.currentDownChunk.geometry,
+                    true
                   )
                   window.zindex = 1
                 } else if (
@@ -1417,22 +1438,24 @@ export default {
                     (this.slidernum.max - this.track_property.ratio)
                   if (
                     cloneDivTrackWidth <=
-                    currentDownChunk.src_end - currentDownChunk.src_start
+                    this.currentDownChunk.src_end -
+                      this.currentDownChunk.src_start
                   ) {
                     const updateLengthData = {
-                      chunk_id: currentDownChunk.chunk_id,
+                      chunk_id: this.currentDownChunk.chunk_id,
                       src_end: parseInt(
-                        currentDownChunk.src_start + cloneDivTrackWidth,
+                        this.currentDownChunk.src_start + cloneDivTrackWidth,
                         10
                       )
                     }
                     chunkUpdateLengthApi(updateLengthData)
                       .then(res => {
                         if (res.code === 0) {
-                          currentDownChunk = res.data
+                          this.CHANGE_CURRENT_DOWN_CHUNK(res.data)
                           this.createChunk(
                             commonData,
-                            currentDownChunk.geometry
+                            this.currentDownChunk.geometry,
+                            true
                           )
                           window.zindex = 1
                         } else {
@@ -1445,10 +1468,12 @@ export default {
                   } else {
                     data.src_start = 0
                     data.src_end =
-                      currentDownChunk.src_end - currentDownChunk.src_start
+                      this.currentDownChunk.src_end -
+                      this.currentDownChunk.src_start
                     this.createChunk(
                       Object.assign(data, commonData),
-                      currentDownChunk.geometry
+                      this.currentDownChunk.geometry,
+                      true
                     )
                     window.zindex = 1
                   }

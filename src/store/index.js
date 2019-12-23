@@ -131,8 +131,10 @@ const state = {
   /* 智能语音自选段end */
 
   /* 字幕格式导出begin */
-  isOutTypeShow: false
+  isOutTypeShow: false,
   /* 字幕格式导出end */
+
+  currentDownChunk: {}
 }
 
 export default new Vuex.Store({
