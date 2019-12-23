@@ -90,7 +90,11 @@ import aiView from '@/model/mzSection/selectmz/aiView'
 import historyView from '@/model/mzSection/selectmz/historyView'
 import audioPlayer from '@/components/audioPlayer'
 import { transitionAddApi } from '@/api/Transition'
-import { chunkUpdateLengthApi } from '@/api/Chunk'
+import {
+  chunkAddApi,
+  chunkUpdateLengthApi,
+  chunkUpdatePropertyApi
+} from '@/api/Chunk'
 
 export default {
   data() {
@@ -267,8 +271,9 @@ export default {
       this.chunkPosition = chunkPosition
     },
     // eslint-disable-next-line complexity
-    createChunk(data) {
+    createChunk(data, geoString) {
       const filterlist = JSON.parse(this.filterlist)
+      console.log(filterlist)
       const that = this
       if (!data.track_type) {
         transitionAddApi(data).then(res => {
@@ -330,7 +335,6 @@ export default {
 
         if (data.type !== null && data.type === 2) {
           const transData = {
-            cmd: 'add',
             mode: data.mode,
             src_id: data.src_id,
             track_id: data.track_id,
@@ -343,20 +347,43 @@ export default {
           if (data.src_end) {
             transData.src_end = data.src_end
           }
-          $.post(
-            window.NCES.DOMAIN + '/api/chunk',
-            JSON.stringify(transData),
-            function(res) {
+          if (geoString) {
+            chunkAddApi(transData)
+              .then(res => {
+                if (res.code !== 0) {
+                  console.warn(res.msg)
+                } else {
+                  const updatePropertData = {
+                    chunk_id: res.data.chunk_id,
+                    geometry: geoString
+                  }
+                  chunkUpdatePropertyApi(updatePropertData).then(resp => {
+                    if (resp.code !== 0) {
+                      console.warn(resp.msg)
+                    } else {
+                      this.changeLoading()
+                      this.clonedivInit()
+                      this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
+                      this.UPDATE_CHUNK_POSITION()
+                    }
+                  })
+                }
+              })
+              .catch(err => {
+                console.log('chunkAddErr', err)
+              })
+          } else {
+            chunkAddApi(transData).then(res => {
               if (res.code !== 0) {
                 console.warn(res.msg)
+              } else {
+                this.changeLoading()
+                this.clonedivInit()
+                this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
+                this.UPDATE_CHUNK_POSITION()
               }
-              that.changeLoading()
-              that.clonedivInit()
-              that.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
-              that.UPDATE_CHUNK_POSITION()
-            },
-            'json'
-          )
+            })
+          }
         } else if (data.type !== null) {
           const source = this.sourceData.filter(item => {
             return item.src_id === data.src_id
@@ -371,7 +398,6 @@ export default {
           }
 
           const transData = {
-            cmd: 'add',
             src_id: data.src_id,
             mode: data.mode,
             track_id: data.track_id,
@@ -385,22 +411,51 @@ export default {
           if (data.src_end) {
             transData.src_end = data.src_end
           }
-          $.post(
-            window.NCES.DOMAIN + '/api/chunk',
-            JSON.stringify(transData),
-            function(res) {
+          if (geoString) {
+            chunkAddApi(transData)
+              .then(res => {
+                if (res.code !== 0) {
+                  if (res.code === -1 && res.msg === 'mix video too much') {
+                    that.mix_error({ src_id: data.src_id })
+                  } else {
+                    console.warn(res.msg)
+                  }
+                } else {
+                  const updatePropertData = {
+                    chunk_id: res.data.chunk_id,
+                    geometry: geoString
+                  }
+                  chunkUpdatePropertyApi(updatePropertData).then(resp => {
+                    if (resp.code !== 0) {
+                      console.warn(resp.msg)
+                    } else {
+                      this.changeLoading()
+                      this.clonedivInit()
+                      this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
+                      this.UPDATE_CHUNK_POSITION()
+                    }
+                  })
+                }
+              })
+              .catch(err => {
+                console.log('chunkAddErr', err)
+              })
+          } else {
+            chunkAddApi(transData).then(res => {
               if (res.code !== 0) {
                 if (res.code === -1 && res.msg === 'mix video too much') {
                   that.mix_error({ src_id: data.src_id })
+                } else {
+                  console.warn(res.msg)
                 }
+              } else {
+                this.changeLoading()
+                this.clonedivInit()
+                this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
+                this.UPDATE_CHUNK_POSITION()
               }
-              that.changeLoading()
-              that.clonedivInit()
-              that.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
-              that.UPDATE_CHUNK_POSITION()
-            },
-            'json'
-          )
+            })
+          }
         } else {
           if (data.status === -2) {
             that.$alert(
@@ -1326,7 +1381,6 @@ export default {
                 window.zindex = 1
               })
               $('.content-replace').one('mousedown', e4 => {
-                console.log(this.clonediv.type, 'count')
                 e4.stopPropagation()
                 let currentDownChunk = this.getDownChunk(
                   left,
@@ -1349,7 +1403,10 @@ export default {
                   data.src_start = 0
                   data.src_end =
                     currentDownChunk.src_end - currentDownChunk.src_start
-                  this.createChunk(Object.assign(data, commonData))
+                  this.createChunk(
+                    Object.assign(data, commonData),
+                    currentDownChunk.geometry
+                  )
                   window.zindex = 1
                 } else if (
                   this.clonediv.type === 0 ||
@@ -1373,10 +1430,10 @@ export default {
                       .then(res => {
                         if (res.code === 0) {
                           currentDownChunk = res.data
-                          console.log(currentDownChunk, 'successed!')
-                          // data.src_start = currentDownChunk.src_start
-                          // data.src_end = currentDownChunk.src_end
-                          this.createChunk(Object.assign(data, commonData))
+                          this.createChunk(
+                            commonData,
+                            currentDownChunk.geometry
+                          )
                           window.zindex = 1
                         } else {
                           console.log('updateLength failed')
@@ -1389,7 +1446,10 @@ export default {
                     data.src_start = 0
                     data.src_end =
                       currentDownChunk.src_end - currentDownChunk.src_start
-                    this.createChunk(Object.assign(data, commonData))
+                    this.createChunk(
+                      Object.assign(data, commonData),
+                      currentDownChunk.geometry
+                    )
                     window.zindex = 1
                   }
                 }
