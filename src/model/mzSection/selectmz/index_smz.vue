@@ -177,7 +177,9 @@ export default {
       'Mrzydata',
       'audioStatus',
       'systemmessage',
-      'currentDownChunk'
+      'currentDownChunk',
+      'sourceIndexMap',
+      'chunkIndexMap'
     ]),
     tracksData() {
       return this.all.tracks
@@ -272,12 +274,21 @@ export default {
       chunkPosition.v = chunkPosition.v.concat(chunkPosition.a)
       this.chunkPosition = chunkPosition
     },
-    extendsFilterHandler(resData) {
-      console.log('123456')
+    endRefresh(res) {
       this.changeLoading()
       this.clonedivInit()
-      this.ACTIVE_CHUNK({ chunk: resData.data, state: 'active' })
+      this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
       this.UPDATE_CHUNK_POSITION()
+    },
+    extendsFilterHandler() {
+      // 只考虑video-img-audio之间的filter继承
+      const cloneTypeStr = this.sourceIndexMap.get(this.clonediv.type)
+      const downTypeStr = this.chunkIndexMap.get(
+        this.currentDownChunk.chunk_type
+      )
+      if (cloneTypeStr === downTypeStr) {
+        return this.currentDownChunk.filter
+      }
     },
     // eslint-disable-next-line complexity
     createChunk(data, geoString, extendsFilter) {
@@ -370,14 +381,7 @@ export default {
                     if (resp.code !== 0) {
                       console.warn(resp.msg)
                     } else {
-                      if (extendsFilter === true) {
-                        this.extendsFilterHandler(resp)
-                      } else {
-                        this.changeLoading()
-                        this.clonedivInit()
-                        this.ACTIVE_CHUNK({ chunk: resp.data, state: 'active' })
-                        this.UPDATE_CHUNK_POSITION()
-                      }
+                      this.endRefresh(resp)
                     }
                   })
                 }
@@ -390,10 +394,7 @@ export default {
               if (res.code !== 0) {
                 console.warn(res.msg)
               } else {
-                this.changeLoading()
-                this.clonedivInit()
-                this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
-                this.UPDATE_CHUNK_POSITION()
+                this.endRefresh(res)
               }
             })
           }
@@ -409,7 +410,9 @@ export default {
             that.clonedivInit()
             return
           }
-
+          if (extendsFilter === true) {
+            serviceList = this.extendsFilterHandler()
+          }
           const transData = {
             src_id: data.src_id,
             mode: data.mode,
@@ -442,14 +445,7 @@ export default {
                     if (resp.code !== 0) {
                       console.warn(resp.msg)
                     } else {
-                      if (extendsFilter === true) {
-                        this.extendsFilterHandler(resp)
-                      } else {
-                        this.changeLoading()
-                        this.clonedivInit()
-                        this.ACTIVE_CHUNK({ chunk: resp.data, state: 'active' })
-                        this.UPDATE_CHUNK_POSITION()
-                      }
+                      this.endRefresh(resp)
                     }
                   })
                 }
@@ -466,10 +462,7 @@ export default {
                   console.warn(res.msg)
                 }
               } else {
-                this.changeLoading()
-                this.clonedivInit()
-                this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
-                this.UPDATE_CHUNK_POSITION()
+                this.endRefresh(res)
               }
             })
           }

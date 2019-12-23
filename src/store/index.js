@@ -134,7 +134,25 @@ const state = {
   isOutTypeShow: false,
   /* 字幕格式导出end */
 
-  currentDownChunk: {}
+  currentDownChunk: {},
+  filterIndexMap: new Map([
+    [1, 'video'],
+    [2, 'text'],
+    [3, 'img'],
+    [4, 'audio']
+  ]),
+  sourceIndexMap: new Map([
+    [1, 'video'],
+    [2, 'text'],
+    [3, 'img'],
+    [0, 'audio']
+  ]),
+  chunkIndexMap: new Map([
+    [1, 'video'],
+    [3, 'text'],
+    [4, 'img'],
+    [2, 'audio']
+  ])
 }
 
 export default new Vuex.Store({
