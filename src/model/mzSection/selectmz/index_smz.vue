@@ -280,14 +280,32 @@ export default {
       this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
       this.UPDATE_CHUNK_POSITION()
     },
-    extendsFilterHandler() {
+    extendsFilterHandler(initServiceList) {
       // 只考虑video-img-audio之间的filter继承
+      console.log(initServiceList)
       const cloneTypeStr = this.sourceIndexMap.get(this.clonediv.type)
       const downTypeStr = this.chunkIndexMap.get(
         this.currentDownChunk.chunk_type
       )
       if (cloneTypeStr === downTypeStr) {
         return this.currentDownChunk.filter
+      }
+      const clone_down_compare = `${cloneTypeStr}_${downTypeStr}`
+      switch (clone_down_compare) {
+        case 'video_img': {
+          const volumnService = initServiceList.find(item => {
+            return item.service === 'volumn'
+          })
+          return [volumnService, ...this.currentDownChunk.filter]
+        }
+        case 'img_video': {
+          return this.currentDownChunk.filter.filter(item => {
+            return item.service !== 'volumn'
+          })
+        }
+        default: {
+          console.log('nothing')
+        }
       }
     },
     // eslint-disable-next-line complexity
@@ -411,7 +429,7 @@ export default {
             return
           }
           if (extendsFilter === true) {
-            serviceList = this.extendsFilterHandler()
+            serviceList = this.extendsFilterHandler(serviceList)
           }
           const transData = {
             src_id: data.src_id,
@@ -1488,7 +1506,7 @@ export default {
         }
       }
     },
-    getImgs: function() {
+    getImgs() {
       const that = this
       const endposition =
         this.clonediv.frame >
