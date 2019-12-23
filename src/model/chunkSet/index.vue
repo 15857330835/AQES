@@ -63,7 +63,7 @@ export default {
     }
   },
   watch: {
-    chunksetshow: function() {
+    chunksetshow() {
       if (this.chunksetshow) {
         const that = this
         $.post(
@@ -101,14 +101,14 @@ export default {
     track_property() {
       return this.$store.state.all.track_property
     },
-    videoselw: function() {
+    videoselw() {
       if (this.clientwidth >= 1440) {
         return 100 - this.track_property.fanwei['1920'].now * 100 + '%'
       } else {
         return 100 - this.track_property.fanwei['1440'].now * 100 + '%'
       }
     },
-    paddingtop: function() {
+    paddingtop() {
       if (this.clientwidth >= 1440) {
         return (
           ((this.clientwidth - 36) *
@@ -127,7 +127,7 @@ export default {
         )
       }
     },
-    videosurew: function() {
+    videosurew() {
       if (this.clientwidth >= 1440) {
         return this.track_property.fanwei['1920'].now
       } else {
@@ -143,7 +143,7 @@ export default {
       'CHANGE_FILTERSHOW',
       'SET_HISTORYINDEX'
     ]),
-    clearChunkhistory: function() {
+    clearChunkhistory() {
       // 清除chunk内部设置的记录
       const that = this
       const data = {}
@@ -163,7 +163,7 @@ export default {
       }
       this.Post(data)
     },
-    backChunkhistory: function(func) {
+    backChunkhistory(func) {
       const that = this
       console.log(that.historyindex)
       $.post(
@@ -192,7 +192,7 @@ export default {
         'json'
       )
     },
-    sure: function() {
+    sure() {
       const that = this
       this.classname = 'content-sel_O1'
       this.CHANGE_CHUNKSETSHOW(false)
@@ -261,7 +261,7 @@ export default {
         this.cel()
       }, 500)
     },
-    cel: function() {
+    cel() {
       if (this.allowHistoryBack) {
         this.back()
         this.celBtnLoading = false

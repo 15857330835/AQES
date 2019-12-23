@@ -1029,7 +1029,7 @@ export default {
         y: pos[1]
       }
     },
-    down: function(e, time) {
+    down(e, time) {
       const that = this
       this.timer = setTimeout(function() {
         that.mousedown(e)
@@ -1101,7 +1101,6 @@ export default {
       this.CLEAR_MOVE_LIST_DATA()
       this.CHANGE_MOVE_RESULT_FLAG(0)
       this.CLEAR_MOVE_LIST_COUNT()
-
       // *** 保存拖动时鼠标原始坐标
       this.CHANGE_ORIGIN_MOUSE_POS({
         x: e.pageX,
@@ -1131,7 +1130,7 @@ export default {
       // this.ACTIVE_CHUNK({chunk: this.chunk, state: "active"});
       // *** active块多选时的处理
       this.multiActiveHandler()
-
+      console.log(this.activechunk.chunk.track_start, 'downdata')
       this.UPDATE_CHUNK_POSITION() // active块变化时更新chunkPosition(delChunk & ghostsChunk)
       this.UPDATE_AI_CHUNKS_POSITION()
 
@@ -1158,6 +1157,7 @@ export default {
 
       // this.addHandler(document, "mouseup", this.stopDrag); //绑定stopDrag
       // event.preventDefault && event.preventDefault(); //阻止默认事件
+      console.log(this.activechunk.chunk.track_start, 'downdata')
     },
     mousemove(e_para) {
       e_para.preventDefault()
@@ -1341,6 +1341,7 @@ export default {
       }
       this.CHANGE_MOVE_LIST_COUNT()
       this.UPDATE_CHUNK_POSITION()
+      console.log(this.activechunk.chunk.track_start, 'updata')
     },
     async restMouseup(e) {
       if (this.chunkmove !== 'all') {
@@ -1542,6 +1543,7 @@ export default {
     },
     dblclick() {
       // console.log("dblclick: ", JSON.parse(JSON.stringify(this.activechunk)))
+      this.ACTIVE_CHUNK({ chunk: this.chunk, state: 'active' })
       console.log('dblclick')
       if (this.modalVoiceApplyIsShow) {
         return
