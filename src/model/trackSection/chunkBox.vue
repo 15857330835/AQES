@@ -617,7 +617,7 @@ export default {
     },
     // eslint-disable-next-line no-empty-function
     temp() {},
-    loadimg: function(url_para) {
+    loadimg(url_para) {
       let url = url_para
       const that = this
       const img = new Image()
@@ -1959,10 +1959,8 @@ export default {
           }
           if (that.chunk.chunk_type === 2) {
             if (res.data.v_codec) {
-              // that.prevImg = "//cdn.aodianyun.com/nces/v2/img/audioimg.png"
               that.prevImg = '//cdn.aodianyun.com/nces/v2/img/audioimg.png'
             } else {
-              // that.prevImg = (res.data.preview_img!=null)?(NCES.DOMAIN+res.data.preview_img):"//cdn.aodianyun.com/nces/v2/img/audioimg.png"
               that.prevImg =
                 res.data.preview_img != null
                   ? window.NCES.DOMAIN + res.data.preview_img
@@ -1970,7 +1968,6 @@ export default {
             }
           }
           if (that.chunk.chunk_type === 4) {
-            // window[that.chunk.src_id] = res.data.preview_img;
             that.prevImg = window.NCES.DOMAIN + res.data.preview_img
             // var data = new Date().getTime()
             // that.loadimgs(res.data.preview_img,function (url) {
@@ -1983,20 +1980,13 @@ export default {
       )
     }
   },
-  // mounted: function() {
-  //   const that = this
-  //   $(document).on('mousedown', function() {
-  //     that.up = false
-  //     that.move = false
-  //     if (that.activechunk.state !== 'active') {
-  //       that.ACTIVE_CHUNK({ state: 'active' })
-  //     }
-  //   })
-  // },
   updated() {
     if (this.moveResultFlag === 1 || this.moveResultFlag === 2) {
       this.move = false
     }
+  },
+  beforeDestroy() {
+    console.log('this chunk be destoried')
   }
 }
 </script>
