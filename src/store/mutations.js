@@ -83,8 +83,6 @@ const CHANGE_AI_VIEW_MASK_IS_SHOW = 'CHANGE_AI_VIEW_MASK_IS_SHOW'
 const CHANGE_IS_OUT_TYPE_SHOW = 'CHANGE_IS_OUT_TYPE_SHOW'
 /* 字幕格式导出end */
 
-const CHANGE_CURRENT_DOWN_CHUNK = 'CHANGE_CURRENT_DOWN_CHUNK'
-
 export default {
   [CHANGE_MYDIRSHOW](state, data) {
     state.mydirshow = data
@@ -820,10 +818,6 @@ export default {
   /* 字幕格式导出begin */
   [CHANGE_IS_OUT_TYPE_SHOW](state, payload) {
     state.isOutTypeShow = payload
-  },
-  /* 字幕格式导出end */
-
-  [CHANGE_CURRENT_DOWN_CHUNK](state, payload) {
-    state.currentDownChunk = payload
   }
+  /* 字幕格式导出end */
 }

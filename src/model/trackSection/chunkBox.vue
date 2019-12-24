@@ -117,13 +117,6 @@
       <p class="undisabled location-cover" @mousedown="coverHandler">
         位置覆盖
       </p>
-      <p
-        class="undisabled content-replace"
-        @mousedown="replaceHandler"
-        v-if="false"
-      >
-        内容替换
-      </p>
     </div>
     <div
       v-if="isAiSelect"
@@ -1441,68 +1434,6 @@ export default {
       }
     },
     coverHandler(e) {
-      e.stopPropagation()
-      const that = this
-      this.Post({
-        type: 'chunk',
-        data: {
-          cmd: 'move',
-          chunk_list: [
-            {
-              chunk_id: this.chunk.chunk_id,
-              move_track_id: this.movetrackid,
-              move_track_start:
-                this.xifuindex ||
-                parseInt(
-                  this.start * (this.slidernum.max - this.track_property.ratio),
-                  10
-                ),
-              mode: 1
-            }
-          ]
-        },
-        success: function(res) {
-          that.changeLoading(function() {
-            that.move = false
-          })
-        },
-        error: function(res) {
-          that.move = false
-        }
-      })
-      this.ACTIVE_CHUNK({ state: 'active' })
-      this.up = false
-    },
-    getDownChunk() {
-      const upChunk = this.chunk
-      const upChunkStart =
-        (this.start + this.track_property.outLeft) *
-        (this.slidernum.max - this.track_property.ratio)
-      const upChunkEnd =
-        upChunkStart + (this.chunk.track_end - this.chunk.track_start)
-      console.log({ upChunkStart, upChunkEnd })
-      const targetTrack =
-        this.all.tracks.v_track_list.find(
-          item => item.track_id === this.movetrackid
-        ) ||
-        this.all.tracks.a_track_list.find(
-          item => item.track_id === this.movetrackid
-        )
-      const downChunk = targetTrack.chunks.find(chunkItem => {
-        if (chunkItem.chunk_id !== this.chunk.chunk_id) {
-          return !(
-            upChunkStart > chunkItem.track_end ||
-            upChunkEnd < chunkItem.track_start
-          )
-        }
-        return false
-      })
-      if (downChunk) {
-        return downChunk
-      }
-    },
-    replaceHandler(e) {
-      const currentDownChunk = this.getDownChunk()
       e.stopPropagation()
       const that = this
       this.Post({

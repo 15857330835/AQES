@@ -70,7 +70,9 @@
           适应插入
         </p>
         <p class="location-cover undisabled">位置覆盖</p>
-        <p class="content-replace undisabled">内容替换</p>
+        <p class="content-replace undisabled" v-show="isReplaceShow">
+          内容替换
+        </p>
       </div>
     </div>
   </div>
@@ -90,11 +92,7 @@ import aiView from '@/model/mzSection/selectmz/aiView'
 import historyView from '@/model/mzSection/selectmz/historyView'
 import audioPlayer from '@/components/audioPlayer'
 import { transitionAddApi } from '@/api/Transition'
-import {
-  chunkAddApi,
-  chunkUpdateLengthApi,
-  chunkUpdatePropertyApi
-} from '@/api/Chunk'
+import { chunkAddApi, chunkReplaceApi } from '@/api/Chunk'
 
 export default {
   data() {
@@ -162,7 +160,7 @@ export default {
         class: ''
       },
       chunkPosition: {},
-      initFilter: []
+      isReplaceShow: false
     }
   },
   computed: {
@@ -178,7 +176,6 @@ export default {
       'Mrzydata',
       'audioStatus',
       'systemmessage',
-      'currentDownChunk',
       'sourceIndexMap',
       'chunkIndexMap'
     ]),
@@ -223,8 +220,7 @@ export default {
       'CHANGE_MYDIRSHOW',
       'ACTIVE_CHUNK',
       'UPDATE_CHUNK_POSITION',
-      'INIT_CHUNKS',
-      'CHANGE_CURRENT_DOWN_CHUNK'
+      'INIT_CHUNKS'
     ]),
     handleNavClick(title, component) {
       this.isSelect = title
@@ -281,31 +277,17 @@ export default {
       this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
       this.UPDATE_CHUNK_POSITION()
     },
-    extendsFilterHandler(cloneTypeStr, downTypeStr, cloneServiceList) {
-      // 只有video-img-audio之间可以继承，audio不用特别处理
-      if (cloneTypeStr === downTypeStr) {
-        return this.initFilter
-      }
-      const clone_down_compare = `${cloneTypeStr}_${downTypeStr}`
-      switch (clone_down_compare) {
-        case 'video_img': {
-          const volumnService = cloneServiceList.find(item => {
-            return item.service === 'volume'
-          })
-          return [volumnService, ...this.initFilter]
+    replaceChunk(data) {
+      chunkReplaceApi(data).then(res => {
+        if (res.code !== 0) {
+          console.warn(res.msg)
+        } else {
+          this.endRefresh(res)
         }
-        case 'img_video': {
-          return this.initFilter.filter(item => {
-            return item.service !== 'volume'
-          })
-        }
-        default: {
-          console.log('nothing')
-        }
-      }
+      })
     },
     // eslint-disable-next-line complexity
-    createChunk(data, geoString, extendsFilter) {
+    createChunk(data) {
       const filterlist = JSON.parse(this.filterlist)
       const that = this
       if (!data.track_type) {
@@ -374,43 +356,13 @@ export default {
             track_type: parseInt(data.track_type, 10),
             track_start: data.track_start
           }
-          if (data.src_start) {
-            transData.src_start = data.src_start
-          }
-          if (data.src_end) {
-            transData.src_end = data.src_end
-          }
-          if (geoString) {
-            chunkAddApi(transData)
-              .then(res => {
-                if (res.code !== 0) {
-                  console.warn(res.msg)
-                } else {
-                  const updatePropertData = {
-                    chunk_id: res.data.chunk_id,
-                    geometry: geoString
-                  }
-                  chunkUpdatePropertyApi(updatePropertData).then(resp => {
-                    if (resp.code !== 0) {
-                      console.warn(resp.msg)
-                    } else {
-                      this.endRefresh(resp)
-                    }
-                  })
-                }
-              })
-              .catch(err => {
-                console.log('chunkAddErr', err)
-              })
-          } else {
-            chunkAddApi(transData).then(res => {
-              if (res.code !== 0) {
-                console.warn(res.msg)
-              } else {
-                this.endRefresh(res)
-              }
-            })
-          }
+          chunkAddApi(transData).then(res => {
+            if (res.code !== 0) {
+              console.warn(res.msg)
+            } else {
+              this.endRefresh(res)
+            }
+          })
         } else if (data.type !== null) {
           const source = this.sourceData.filter(item => {
             return item.src_id === data.src_id
@@ -423,19 +375,6 @@ export default {
             that.clonedivInit()
             return
           }
-          if (extendsFilter === true) {
-            const cloneTypeString = this.sourceIndexMap.get(this.clonediv.type)
-            const downTypeString = this.chunkIndexMap.get(
-              this.currentDownChunk.chunk_type
-            )
-            if (cloneTypeString !== 'text' && downTypeString !== 'text') {
-              serviceList = this.extendsFilterHandler(
-                cloneTypeString,
-                downTypeString,
-                serviceList
-              )
-            }
-          }
           const transData = {
             src_id: data.src_id,
             mode: data.mode,
@@ -444,51 +383,17 @@ export default {
             track_start: data.track_start,
             filter: serviceList
           }
-          if (data.src_start) {
-            transData.src_start = data.src_start
-          }
-          if (data.src_end) {
-            transData.src_end = data.src_end
-          }
-          if (geoString) {
-            chunkAddApi(transData)
-              .then(res => {
-                if (res.code !== 0) {
-                  if (res.code === -1 && res.msg === 'mix video too much') {
-                    that.mix_error({ src_id: data.src_id })
-                  } else {
-                    console.warn(res.msg)
-                  }
-                } else {
-                  const updatePropertData = {
-                    chunk_id: res.data.chunk_id,
-                    geometry: geoString
-                  }
-                  chunkUpdatePropertyApi(updatePropertData).then(resp => {
-                    if (resp.code !== 0) {
-                      console.warn(resp.msg)
-                    } else {
-                      this.endRefresh(resp)
-                    }
-                  })
-                }
-              })
-              .catch(err => {
-                console.log('chunkAddErr', err)
-              })
-          } else {
-            chunkAddApi(transData).then(res => {
-              if (res.code !== 0) {
-                if (res.code === -1 && res.msg === 'mix video too much') {
-                  that.mix_error({ src_id: data.src_id })
-                } else {
-                  console.warn(res.msg)
-                }
+          chunkAddApi(transData).then(res => {
+            if (res.code !== 0) {
+              if (res.code === -1 && res.msg === 'mix video too much') {
+                that.mix_error({ src_id: data.src_id })
               } else {
-                this.endRefresh(res)
+                console.warn(res.msg)
               }
-            })
-          }
+            } else {
+              this.endRefresh(res)
+            }
+          })
         } else {
           if (data.status === -2) {
             that.$alert(
@@ -1363,13 +1268,11 @@ export default {
             }
             this.INIT_CHUNKS()
             this.createChunk(data)
-
             return
           } else {
             this.INIT_CHUNKS()
-            let data = {}
             if (this.clonediv.class === 'moveing') {
-              data = {
+              const commonData = {
                 src_id: this.clonediv.src_id,
                 track_id: this.trackposition[i].id,
                 track_type: this.trackposition[i].type,
@@ -1378,13 +1281,34 @@ export default {
                 status: this.clonediv.status,
                 onlyVideo: this.clonediv.onlyvideo
               }
-              this.createChunk(data)
+              this.createChunk(commonData)
             } else {
               // moving1的冲突状态
+              const currentDownChunk = this.getDownChunk(
+                left,
+                this.trackposition[i].id
+              )
+              if (!currentDownChunk) {
+                console.warn('get down chunk failed')
+              }
+              const cloneTypeString = this.sourceIndexMap.get(
+                this.clonediv.type
+              )
+              const downTypeString = this.chunkIndexMap.get(
+                currentDownChunk.chunk_type
+              )
+              if (
+                cloneTypeString === downTypeString &&
+                cloneTypeString !== 'text'
+              ) {
+                this.isReplaceShow = true
+              } else {
+                this.isReplaceShow = false
+              }
               window.zindex = 5
               $('.adapted-insert').one('mousedown', e2 => {
                 e2.stopPropagation()
-                data = {
+                const insertData = {
                   src_id: this.clonediv.src_id,
                   mode: 3,
                   track_id: this.trackposition[i].id,
@@ -1394,12 +1318,12 @@ export default {
                   status: this.clonediv.status,
                   onlyVideo: this.clonediv.onlyvideo
                 }
-                this.createChunk(data)
+                this.createChunk(insertData)
                 window.zindex = 1
               })
               $('.location-cover').one('mousedown', e3 => {
                 e3.stopPropagation()
-                data = {
+                const coverData = {
                   src_id: this.clonediv.src_id,
                   mode: 1,
                   track_id: this.trackposition[i].id,
@@ -1409,91 +1333,17 @@ export default {
                   status: this.clonediv.status,
                   onlyVideo: this.clonediv.onlyvideo
                 }
-                this.createChunk(data)
+                this.createChunk(coverData)
                 window.zindex = 1
               })
               $('.content-replace').one('mousedown', e4 => {
                 e4.stopPropagation()
-                const currentDownChunk = this.getDownChunk(
-                  left,
-                  this.trackposition[i].id
-                )
-                if (!currentDownChunk) {
-                  // todos错误处理
-                } else {
-                  this.CHANGE_CURRENT_DOWN_CHUNK(currentDownChunk)
-                  this.initFilter = [...currentDownChunk.filter]
+                const replaceData = {
+                  chunk_id: currentDownChunk.chunk_id,
+                  src_id: this.clonediv.src_id
                 }
-                const commonData = {
-                  src_id: this.clonediv.src_id,
-                  mode: 1,
-                  track_id: this.trackposition[i].id,
-                  track_type: this.trackposition[i].type,
-                  track_start: this.currentDownChunk.track_start,
-                  type: this.clonediv.type,
-                  status: this.clonediv.status,
-                  onlyVideo: this.clonediv.onlyvideo
-                }
-                if (this.clonediv.type === 2 || this.clonediv.type === 3) {
-                  data.src_start = 0
-                  data.src_end =
-                    this.currentDownChunk.src_end -
-                    this.currentDownChunk.src_start
-                  this.createChunk(
-                    Object.assign(data, commonData),
-                    this.currentDownChunk.geometry,
-                    true
-                  )
-                  window.zindex = 1
-                } else if (
-                  this.clonediv.type === 0 ||
-                  this.clonediv.type === 1
-                ) {
-                  const cloneDivTrackWidth =
-                    this.clonediv.width *
-                    (this.slidernum.max - this.track_property.ratio)
-                  if (
-                    cloneDivTrackWidth <=
-                    this.currentDownChunk.src_end -
-                      this.currentDownChunk.src_start
-                  ) {
-                    const updateLengthData = {
-                      chunk_id: this.currentDownChunk.chunk_id,
-                      src_end: parseInt(
-                        this.currentDownChunk.src_start + cloneDivTrackWidth,
-                        10
-                      )
-                    }
-                    chunkUpdateLengthApi(updateLengthData)
-                      .then(res => {
-                        if (res.code === 0) {
-                          this.CHANGE_CURRENT_DOWN_CHUNK(res.data)
-                          this.createChunk(
-                            commonData,
-                            this.currentDownChunk.geometry,
-                            true
-                          )
-                          window.zindex = 1
-                        } else {
-                          console.log('updateLength failed')
-                        }
-                      })
-                      .catch(err => {
-                        console.log('chunkUpdateLengthApiError:', err)
-                      })
-                  } else {
-                    data.src_start = 0
-                    data.src_end =
-                      this.currentDownChunk.src_end -
-                      this.currentDownChunk.src_start
-                    this.createChunk(
-                      Object.assign(data, commonData),
-                      this.currentDownChunk.geometry,
-                      true
-                    )
-                    window.zindex = 1
-                  }
-                }
+                this.replaceChunk(replaceData)
+                window.zindex = 1
               })
               $('html').one('mousedown', () => {
                 this.clonedivInit()

@@ -53,6 +53,12 @@ export const chunkUpdateLengthApi = (payload = {}) => {
   return axios.post(url, JSON.stringify(payload))
 }
 
+// 替换源
+export const chunkReplaceApi = (payload = {}) => {
+  payload.cmd = 'replace'
+  return axios.post(url, JSON.stringify(payload))
+}
+
 // 添加
 export const chunkAddApi = (payload = {}) => {
   payload.cmd = 'add'
