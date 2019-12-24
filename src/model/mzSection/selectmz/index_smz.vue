@@ -93,6 +93,7 @@ import historyView from '@/model/mzSection/selectmz/historyView'
 import audioPlayer from '@/components/audioPlayer'
 import { transitionAddApi } from '@/api/Transition'
 import { chunkAddApi, chunkReplaceApi } from '@/api/Chunk'
+import { trackPropertyAppendApi } from '@/api/Track'
 
 export default {
   data() {
@@ -1336,15 +1337,49 @@ export default {
                 this.createChunk(coverData)
                 window.zindex = 1
               })
-              $('.content-replace').one('mousedown', e4 => {
-                e4.stopPropagation()
-                const replaceData = {
-                  chunk_id: currentDownChunk.chunk_id,
-                  src_id: this.clonediv.src_id
-                }
-                this.replaceChunk(replaceData)
-                window.zindex = 1
-              })
+              if (this.isReplaceShow) {
+                $('.content-replace').one('mousedown', e4 => {
+                  e4.stopPropagation()
+                  if (
+                    window.localStorage.getItem(
+                      'notShowReplaceTip_aodianyun'
+                    ) !== 'true_aodianyun' &&
+                    !this.track_property.not_show_replace_tip
+                  ) {
+                    this.$confirm(
+                      '为保证效果，建议使用长度相近素材替换',
+                      '确认信息',
+                      {
+                        confirmButtonText: '确认',
+                        cancelButtonText: '不再提示'
+                      }
+                    )
+                      .then(() => {
+                        console.log('用户确认替换')
+                      })
+                      .catch(action => {
+                        window.localStorage.setItem(
+                          'notShowReplaceTip_aodianyun',
+                          'true_aodianyun'
+                        )
+                        trackPropertyAppendApi({
+                          track_property: { not_show_replace_tip: true }
+                        }).then(res => {
+                          if (res.code === 0) {
+                            console.log('add notShowReplaceTip success')
+                            this.changeLoading()
+                          }
+                        })
+                      })
+                  }
+                  const replaceData = {
+                    chunk_id: currentDownChunk.chunk_id,
+                    src_id: this.clonediv.src_id
+                  }
+                  this.replaceChunk(replaceData)
+                  window.zindex = 1
+                })
+              }
               $('html').one('mousedown', () => {
                 this.clonedivInit()
                 window.zindex = 1
