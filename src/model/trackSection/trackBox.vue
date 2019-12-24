@@ -97,7 +97,7 @@
                 v-for="(chunk, index1) in tracks.chunks.filter(
                   chunk => chunk.chunk_type !== 5
                 )"
-                :key="chunk.chunk_id"
+                :key="chunk.chunk_id + chunk.src_id"
                 :chunk="chunk"
                 :trackid="tracks.track_id"
                 :trackarr="tracks"
@@ -146,7 +146,7 @@
                 v-for="(chunk, index1) in tracks.chunks.filter(
                   chunk => chunk.chunk_type !== 5
                 )"
-                :key="chunk.chunk_id"
+                :key="chunk.chunk_id + chunk.src_id"
                 :trackid="tracks.track_id"
                 :chunk="chunk"
                 :trackarr="tracks"
