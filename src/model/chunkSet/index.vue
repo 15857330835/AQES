@@ -200,17 +200,25 @@ export default {
       this.changeLoading()
       this.refreshActiveChunk()
       if (this.activechunk.chunk.chunk_type === 2) {
-        return
+        setTimeout(function() {
+          const left = parseFloat($('#edit_tip_line').css('left'))
+          if (left < 0 || left + 199 > $('.nces_edit').width()) {
+            $('#edit_tip_line').hide()
+          } else {
+            $('#edit_tip_line').show()
+          }
+        }, 0)
+      } else {
+        setTimeout(function() {
+          that.clearChunkhistory()
+          const left = parseFloat($('#edit_tip_line').css('left'))
+          if (left < 0 || left + 199 > $('.nces_edit').width()) {
+            $('#edit_tip_line').hide()
+          } else {
+            $('#edit_tip_line').show()
+          }
+        }, 0)
       }
-      setTimeout(function() {
-        that.clearChunkhistory()
-        const left = parseFloat($('#edit_tip_line').css('left'))
-        if (left < 0 || left + 199 > $('.nces_edit').width()) {
-          $('#edit_tip_line').hide()
-        } else {
-          $('#edit_tip_line').show()
-        }
-      }, 0)
     },
     back() {
       const that = this

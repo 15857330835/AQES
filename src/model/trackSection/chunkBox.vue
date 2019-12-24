@@ -1547,6 +1547,8 @@ export default {
         function(res) {
           if (res.code !== 0) {
             console.log(res.msg)
+          } else {
+            console.log('to chunkset refresh pointer ok')
           }
         },
         'json'
