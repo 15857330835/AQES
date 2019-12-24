@@ -1073,6 +1073,13 @@ export default {
       if (e.touches) {
         e = e.touches[0]
       }
+      if (this.up) {
+        this.up = false
+        this.move = false
+        if (this.activechunk.state !== 'active') {
+          this.ACTIVE_CHUNK({ state: 'active' })
+        }
+      }
       // 智能语音单击选择块，切换modal内容
       if (this.modalVoiceApplyIsShow && this.modalContent !== 'digitalInfo') {
         this.CHANGE_MODAL_CONTENT('digitalInfo')
@@ -1919,7 +1926,7 @@ export default {
       this.CHANGE_IS_TRACK_SELECT(false)
     }
   },
-  created: function() {
+  created() {
     const that = this
     if (this.chunk.preview_img != null) {
       if (this.chunk.preview_img.indexOf('nces') !== -1) {
