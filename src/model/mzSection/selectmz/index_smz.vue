@@ -161,7 +161,8 @@ export default {
         jpg: '',
         class: ''
       },
-      chunkPosition: {}
+      chunkPosition: {},
+      initFilter: []
     }
   },
   computed: {
@@ -280,27 +281,22 @@ export default {
       this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
       this.UPDATE_CHUNK_POSITION()
     },
-    extendsFilterHandler(initServiceList) {
-      // 只考虑video-img-audio之间的filter继承
-      console.log(initServiceList)
-      const cloneTypeStr = this.sourceIndexMap.get(this.clonediv.type)
-      const downTypeStr = this.chunkIndexMap.get(
-        this.currentDownChunk.chunk_type
-      )
+    extendsFilterHandler(cloneTypeStr, downTypeStr, cloneServiceList) {
+      // 只有video-img-audio之间可以继承，audio不用特别处理
       if (cloneTypeStr === downTypeStr) {
-        return this.currentDownChunk.filter
+        return this.initFilter
       }
       const clone_down_compare = `${cloneTypeStr}_${downTypeStr}`
       switch (clone_down_compare) {
         case 'video_img': {
-          const volumnService = initServiceList.find(item => {
-            return item.service === 'volumn'
+          const volumnService = cloneServiceList.find(item => {
+            return item.service === 'volume'
           })
-          return [volumnService, ...this.currentDownChunk.filter]
+          return [volumnService, ...this.initFilter]
         }
         case 'img_video': {
-          return this.currentDownChunk.filter.filter(item => {
-            return item.service !== 'volumn'
+          return this.initFilter.filter(item => {
+            return item.service !== 'volume'
           })
         }
         default: {
@@ -311,7 +307,6 @@ export default {
     // eslint-disable-next-line complexity
     createChunk(data, geoString, extendsFilter) {
       const filterlist = JSON.parse(this.filterlist)
-      console.log(filterlist)
       const that = this
       if (!data.track_type) {
         transitionAddApi(data).then(res => {
@@ -429,7 +424,17 @@ export default {
             return
           }
           if (extendsFilter === true) {
-            serviceList = this.extendsFilterHandler(serviceList)
+            const cloneTypeString = this.sourceIndexMap.get(this.clonediv.type)
+            const downTypeString = this.chunkIndexMap.get(
+              this.currentDownChunk.chunk_type
+            )
+            if (cloneTypeString !== 'text' && downTypeString !== 'text') {
+              serviceList = this.extendsFilterHandler(
+                cloneTypeString,
+                downTypeString,
+                serviceList
+              )
+            }
           }
           const transData = {
             src_id: data.src_id,
@@ -1275,7 +1280,6 @@ export default {
       const upChunkEnd =
         upChunkStart +
         this.clonediv.width * (this.slidernum.max - this.track_property.ratio)
-      console.log({ upChunkStart, upChunkEnd })
       const targetTrack =
         this.all.tracks.v_track_list.find(
           item => item.track_id === cloneDivTrackId
@@ -1418,6 +1422,7 @@ export default {
                   // todos错误处理
                 } else {
                   this.CHANGE_CURRENT_DOWN_CHUNK(currentDownChunk)
+                  this.initFilter = [...currentDownChunk.filter]
                 }
                 const commonData = {
                   src_id: this.clonediv.src_id,
