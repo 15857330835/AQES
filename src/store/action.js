@@ -520,7 +520,7 @@ export default {
     if (res.code === 0) {
       commit('SET_DIR_LIST', { data: res.data, isAdd: index !== 1 })
       commit('SET_LIB_LOADING', false)
-      data && data.callback(res)
+      data.callback && data.callback(res)
     }
   },
   libClear({ state, commit, dispatch }) {

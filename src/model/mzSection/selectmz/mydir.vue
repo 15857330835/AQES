@@ -979,7 +979,7 @@ export default {
       e.currentTarget.firstChild.style.display = hide
     }
   },
-  mounted: function() {
+  mounted() {
     const that = this
     $(document).click(() => {
       that.tipobj.show = false

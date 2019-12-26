@@ -314,6 +314,12 @@ export default {
       this.CHANGE_EXPORT_VIDEO_SET_SHOW(false)
     },
     handleComfirmBtnClick() {
+      let selfCid = 'null'
+      window.NCES.backStr &&
+        window.NCES.backStr(cidData => {
+          selfCid = cidData
+        })
+      console.log({ selfCid })
       const data = {
         // name: this.form.name,
         out_file_type: this.form.out_file_type,
@@ -327,7 +333,10 @@ export default {
         r: this.form.r,
         track_start: this.trackStart,
         track_end: this.trackEnd,
-        mss_title: this.form.mss_title
+        mss_title: this.form.mss_title,
+        extend_parameter: {
+          self_cid: selfCid
+        }
         // mss_stream: this.form.mss_stream
       }
       if (this.form.export_model === 0) {
@@ -348,8 +357,7 @@ export default {
                 this.confirmBtnLocked = false
                 const strADY =
                   'https://console.aodianyun.com/nces/index.php?r=app/producerList#'
-                const strGDY =
-                  'https://consoles.guangdianyun.tv/console/Page/cloud'
+                const strGDY = `http://${window.location.hostname}/console/Page/cloud/nces/lcps_produce`
                 let strTarget
                 if (
                   window.NCES.diff_server &&
