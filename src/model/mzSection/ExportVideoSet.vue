@@ -314,12 +314,17 @@ export default {
       this.CHANGE_EXPORT_VIDEO_SET_SHOW(false)
     },
     handleComfirmBtnClick() {
-      let selfCid = 'null'
+      let selfAid
       window.NCES.backStr &&
-        window.NCES.backStr(cidData => {
-          selfCid = cidData
+        window.NCES.backStr(aidData => {
+          selfAid = aidData
         })
-      console.log({ selfCid })
+      console.log({ selfAid })
+      if (selfAid) {
+        selfAid = '_' + selfAid
+      } else {
+        selfAid = ''
+      }
       const data = {
         // name: this.form.name,
         out_file_type: this.form.out_file_type,
@@ -333,10 +338,7 @@ export default {
         r: this.form.r,
         track_start: this.trackStart,
         track_end: this.trackEnd,
-        mss_title: this.form.mss_title,
-        extend_parameter: {
-          self_cid: selfCid
-        }
+        mss_title: this.form.mss_title + selfAid
         // mss_stream: this.form.mss_stream
       }
       if (this.form.export_model === 0) {
