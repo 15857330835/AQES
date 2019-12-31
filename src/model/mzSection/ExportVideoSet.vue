@@ -320,9 +320,7 @@ export default {
           selfAid = aidData
         })
       console.log({ selfAid })
-      if (selfAid) {
-        selfAid = '_' + selfAid
-      } else {
+      if (!selfAid) {
         selfAid = ''
       }
       const data = {
