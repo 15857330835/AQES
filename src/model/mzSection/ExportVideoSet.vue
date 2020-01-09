@@ -397,9 +397,6 @@ export default {
       this.form.vb = this.resolutions[this.form.resolution].vb
       // eslint-disable-next-line no-empty-function
       this.$refs.form.validate(valid => {}) // 重新校验以刷新页面
-    },
-    refreshStatus() {
-      
     }
   },
   created() {
