@@ -425,13 +425,13 @@ export default {
     fanwei['1920'].now = 0.5
     this.PROPERTY_FANWEI(fanwei)
     window.zindex = 1
-    this.UPDATE_SLIDER_NUM(
-      Object.assign(this.$store.state.slidernum, { max: 30.1, min: 24.6 })
-    )
+    // this.UPDATE_SLIDER_NUM(
+    //   Object.assign(this.$store.state.slidernum, { max: 30.1, min: 24.6 })
+    // )
+    // this.PROPERTY_RATIO(0)
     this.PROPERTY_OUTLEFT(0)
-    this.PROPERTY_RATIO(0)
     trackPropertyAppendApi({
-      track_property: { ratio: 0, outLeft: 0 }
+      track_property: { outLeft: 0 }
     }).then(res => {
       if (res.code === 0 && !this.exportVideoSetShow) {
         this.changeLoading()

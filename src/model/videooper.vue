@@ -29,7 +29,8 @@ export default {
       'filterlist',
       'systemmessage',
       'restActiveChunks',
-      'ghostsPosition'
+      'ghostsPosition',
+      'slidernum'
     ]),
     pointer() {
       return this.$store.state.all.pointer
@@ -402,6 +403,48 @@ export default {
     click(str) {
       this.CHANGE_BOXSET(str)
     },
+
+    after_ratio(middle_raito) {
+      if (middle_raito === null) {
+        return null
+      }
+      let math_ratio = Math.round((middle_raito + 0.15) / 0.25) * 0.25 - 0.15
+      // 超出范围的放大缩小无效（ratio在服务器端同步）
+      math_ratio =
+        math_ratio < this.slidernum.max - 0.25
+          ? math_ratio
+          : this.slidernum.max - 0.25
+      math_ratio =
+        math_ratio > this.slidernum.min ? math_ratio : this.slidernum.min
+      return math_ratio
+    },
+    setSliderNum(length, visTimerWidth) {
+      if (length > 0) {
+        const max = 30.1
+        const min = 24.6
+        let displayNumMin = 30.1 - Math.round(length / 5) / 100
+        displayNumMin = Math.round((displayNumMin + 0.15) / 0.25) * 0.25 - 0.15
+        const newSliderNumMin = displayNumMin < min ? displayNumMin : min
+
+        const displayWidth = Math.floor(visTimerWidth / 50) * 50
+        let displayNum = 30.1 - Math.round((length / displayWidth) * 100) / 100
+        displayNum = displayNum <= max ? displayNum : max
+        console.log({ newSliderNumMin, max })
+
+        this.UPDATE_SLIDER_NUM({
+          min: newSliderNumMin,
+          max: max,
+          length: 100,
+          btnStep: 0.25
+        })
+        console.log('set outleft')
+        setTimeout(() => {
+          this.PROPERTY_OUTLEFT(0)
+        }, 0)
+        const ratio = displayNum
+        return this.after_ratio(ratio)
+      }
+    },
     handleExportVideoClick() {
       this.CHANGE_VIDEOOPER_SHOW(false)
       this.CHANGE_TRACK_BOX_SHOW(false)
@@ -419,16 +462,17 @@ export default {
       const trackWidth = document.querySelector('.edit_ruler_content>div')
         .offsetWidth
       const videoFrames = this.$store.state.all.curr_track_len
-      const totalRatio = videoFrames / trackWidth
-      // set the max and min value of ratio slider
-      this.UPDATE_SLIDER_NUM(
-        Object.assign(this.$store.state.slidernum, { max: totalRatio, min: 0 })
-      )
-      this.PROPERTY_OUTLEFT(0) // set outleft to zero
+      // const totalRatio = videoFrames / trackWidth
+      // // set the max and min value of ratio slider
+      // this.UPDATE_SLIDER_NUM(
+      //   Object.assign(this.$store.state.slidernum, { max: totalRatio, min: 0 })
+      // )
+      // this.PROPERTY_OUTLEFT(0) // set outleft to zero
+      const after_ratio = this.setSliderNum(videoFrames, trackWidth)
 
-      this.PROPERTY_RATIO(0) // set ratio to zero
+      this.PROPERTY_RATIO(after_ratio) // set ratio to zero
       trackPropertyAppendApi({
-        track_property: { ratio: 0, outLeft: 0 }
+        track_property: { ratio: after_ratio, outLeft: 0 }
       }).then(res => {
         if (res.code === 0 && !this.exportVideoSetShow) {
           this.changeLoading()
