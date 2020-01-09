@@ -18,7 +18,12 @@
               :min="slidernum.min"
               :step="0.25"
             ></el-slider>
-            <span class="right_scale" @click="ratioScale" title="全览"></span>
+            <span
+              class="right_scale"
+              v-show="!exportVideoSetShow"
+              @click="ratioScale"
+              title="全览"
+            ></span>
             <span class="right_jian" @click="ratioCut(0.25)"></span>
             <span class="right_jia" @click="ratioAdd(0.25)"></span>
           </div>

@@ -301,7 +301,8 @@ export default {
       'CHANGE_SELECTMZ_SHOW',
       'UPDATE_SLIDER_NUM',
       'PROPERTY_OUTLEFT',
-      'PROPERTY_RATIO'
+      'PROPERTY_RATIO',
+      'CHANGE_TRACK_ABLE_WIDTH'
     ]),
     ...mapActions(['changeLoading']),
     blockShortcuts() {
@@ -396,6 +397,9 @@ export default {
       this.form.vb = this.resolutions[this.form.resolution].vb
       // eslint-disable-next-line no-empty-function
       this.$refs.form.validate(valid => {}) // 重新校验以刷新页面
+    },
+    refreshStatus() {
+      
     }
   },
   created() {
@@ -428,13 +432,14 @@ export default {
     // this.UPDATE_SLIDER_NUM(
     //   Object.assign(this.$store.state.slidernum, { max: 30.1, min: 24.6 })
     // )
-    // this.PROPERTY_RATIO(0)
+    this.PROPERTY_RATIO(24.6)
     this.PROPERTY_OUTLEFT(0)
     trackPropertyAppendApi({
-      track_property: { outLeft: 0 }
+      track_property: { ratio: 24.6, outLeft: 0 }
     }).then(res => {
       if (res.code === 0 && !this.exportVideoSetShow) {
         this.changeLoading()
+        this.CHANGE_TRACK_ABLE_WIDTH()
       }
       if (res.code !== 0) {
         console.warn(res.msg)

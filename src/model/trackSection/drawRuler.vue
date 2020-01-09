@@ -223,11 +223,7 @@ export default {
       } else {
         parent = null
       }
-      while (
-        parent &&
-        parent.tagName.toUpperCase() !== 'BODY' &&
-        parent.tagName.toUpperCase() !== 'HTML'
-      ) {
+      while (parent && parent.tagName !== 'BODY' && parent.tagName !== 'HTML') {
         // account for any scrolled
         // ancestors
         pos[0] -= parent.scrollLeft
@@ -443,16 +439,16 @@ export default {
     pointerSetEnd: _.throttle(function() {
       pointerSetApi({ position: this.trackEnd })
     }, 200),
-    handlePinLeftMouseDown(e_para) {
-      let e = e_para || window.event
-      if (e.touches) {
-        e = e.touches[0]
+    handlePinLeftMouseDown(e_out_para) {
+      let e_out = e_out_para || window.event
+      if (e_out.touches) {
+        e_out = e_out.touches[0]
       }
       let _trackStart
-      const move = e2_para => {
-        let e2 = e2_para
-        if (e2.touches) {
-          e2 = e2.touches[0]
+      const move = e_para => {
+      	let e = e_para
+        if (e.touches) {
+          e = e.touches[0]
         }
         let iLeft = e.clientX - this.baseX - 20 // 20是游标的宽度
         if (iLeft < 0) {
@@ -467,7 +463,7 @@ export default {
         this.UPDATE_POINTER_POSITION(_trackStart)
         this.UPDATE_TRACK_START(_trackStart)
       }
-      const up = e3 => {
+      const up = () => {
         document.removeEventListener('mousemove', move)
         document.removeEventListener('mousemove', this.pointerSetStart)
         document.removeEventListener('mouseup', up)
@@ -483,16 +479,16 @@ export default {
       document.addEventListener('touchmove', this.pointerSetStart)
       document.addEventListener('touchend', up)
     },
-    handlePinRightMouseDown(e_para) {
-      let e = e_para || window.event
-      if (e.touches) {
-        e = e.touches[0]
+    handlePinRightMouseDown(e_out_para) {
+      let e_out = e_out_para || window.event
+      if (e_out.touches) {
+        e_out = e_out.touches[0]
       }
       let _trackEnd
-      const move = e2_para => {
-        let e2 = e2_para
-        if (e2.touches) {
-          e2 = e2.touches[0]
+      const move = e_para => {
+        let e = e_para
+        if (e.touches) {
+          e = e.touches[0]
         }
         let iLeft = e.clientX - this.baseX - 20 // 20是游标的宽度
         if (iLeft < 0) {
@@ -508,7 +504,7 @@ export default {
         this.UPDATE_POINTER_POSITION(_trackEnd)
         this.UPDATE_TRACK_END(_trackEnd)
       }
-      const up = e3 => {
+      const up = () => {
         document.removeEventListener('mousemove', move)
         document.removeEventListener('mousemove', this.pointerSetEnd)
         document.removeEventListener('mouseup', up)
