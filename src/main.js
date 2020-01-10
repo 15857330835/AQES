@@ -14,6 +14,9 @@ import App from './App.vue'
 import Unable from './model/Unable.vue'
 import fullscreen from 'vue-fullscreen' // 引入网页全屏插件
 import axios from './http'
+import arms from './config/arms'
+
+arms('huh7k89btk@82b6363cdf92ece')
 
 Vue.use(fullscreen)
 Vue.use(ElementUI)
