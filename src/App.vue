@@ -8,7 +8,7 @@
   >
     <systemmes></systemmes>
     <mzsection></mzsection>
-    <videooper v-if="videooperShow"></videooper>
+    <videooper v-show="videooperShow && !chunksetshow"></videooper>
     <tracksection></tracksection>
     <chunkset></chunkset>
     <!-- <savevideo v-if ="this.boxset == 'savevideo'&&!this.startloading"></savevideo> -->

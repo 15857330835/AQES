@@ -650,7 +650,7 @@ export default {
           e.key === this.trankeyPress.cut.normalKey[0] ||
           e.key === this.trankeyPress.cut.normalKey[1]
         ) {
-          e.returnvalue = false
+          e.returnValue = false
           e.preventDefault()
           this.cutchunk()
         }
@@ -667,7 +667,7 @@ export default {
           e.key === this.trankeyPress.copy.normalKey[0] ||
           e.key === this.trankeyPress.copy.normalKey[1]
         ) {
-          e.returnvalue = false
+          e.returnValue = false
           // this.fuzhi()
         }
       }
@@ -683,7 +683,7 @@ export default {
           e.key === this.trankeyPress.paste.normalKey[0] ||
           e.key === this.trankeyPress.paste.normalKey[1]
         ) {
-          e.returnvalue = false
+          e.returnValue = false
           this.zhantiechunk()
         }
       }
@@ -699,7 +699,7 @@ export default {
           e.key === this.trankeyPress.redo.normalKey[0] ||
           e.key === this.trankeyPress.redo.normalKey[1]
         ) {
-          e.returnvalue = false
+          e.returnValue = false
           e.preventDefault()
           this.nextTemp(2)
         }
@@ -716,7 +716,7 @@ export default {
           e.key === this.trankeyPress.revoke.normalKey[0] ||
           e.key === this.trankeyPress.revoke.normalKey[1]
         ) {
-          e.returnvalue = false
+          e.returnValue = false
           e.preventDefault()
           this.lastTemp(2)
         }
@@ -731,7 +731,7 @@ export default {
         (e.key === this.trankeyPress.save.normalKey[0] ||
           e.key === this.trankeyPress.save.normalKey[1])
       ) {
-        e.returnvalue = false
+        e.returnValue = false
         e.preventDefault()
         this.CHANGE_BOXSET('savevideo')
       }
@@ -747,7 +747,7 @@ export default {
           e.key === this.trankeyPress.last_frame.normalKey[0] ||
           e.key === this.trankeyPress.last_frame.normalKey[1]
         ) {
-          e.returnvalue = false
+          e.returnValue = false
           this.lastindex()
         }
       }
@@ -763,7 +763,7 @@ export default {
           e.key === this.trankeyPress.next_frame.normalKey[0] ||
           e.key === this.trankeyPress.next_frame.normalKey[1]
         ) {
-          e.returnvalue = false
+          e.returnValue = false
           this.nextindex()
         }
       }
@@ -779,7 +779,7 @@ export default {
           e.key === this.trankeyPress.play.normalKey[0] ||
           e.key === this.trankeyPress.play.normalKey[1]
         ) {
-          e.returnvalue = false
+          e.returnValue = false
           this.videoplay()
         }
       }
@@ -795,7 +795,7 @@ export default {
           e.key === this.trankeyPress.select_all.normalKey[0] ||
           e.key === this.trankeyPress.select_all.normalKey[1]
         ) {
-          e.returnvalue = false
+          e.returnValue = false
           if (this.modalVoiceApplyIsShow) {
             return
           }
