@@ -239,7 +239,6 @@
     box-sizing: border-box;
     font-size: 14px;
     color: #909090;
-    overflow: hidden;
 
     .setContent-do {
       height: 100%;
@@ -291,6 +290,7 @@
     position: absolute;
     top: 27px;
     background-color: #232323;
+    overflow: hidden;
   }
 }
 .setContent-sel {

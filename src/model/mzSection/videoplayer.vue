@@ -610,7 +610,6 @@ export default {
     },
     mousedown: function(e_para) {
       // 视频播放器宽度调节
-      console.log(123)
       this.videomove = true
       let e = e_para
       if (e.touches) {
