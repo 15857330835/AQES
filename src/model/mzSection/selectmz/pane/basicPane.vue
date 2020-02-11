@@ -102,13 +102,13 @@ export default {
             dynamicImg: `//${item.preview_img_gif}`
           }
         }
-        if (item.category === '动效列表') {
+        if (typeof item.category === 'undefined') {
           // 动效列表的特殊情况
           return {
             staticImg: `//${item.preview_img}`,
+            dynamicImg: `//${item.preview_img_gif}`,
             textId: item.text_id,
-            title: item.name,
-            dynamicImg: `//${item.preview_img_gif}`
+            title: item.name
           }
         }
         if (item.service) {
