@@ -107,22 +107,16 @@ export default {
         {
           title: '动效列表',
           interface: {
-            list: payload => {
-              openapiTextTemplateList(
-                {
-                  status: 2
-                },
-                payload
-              )
-            },
-            search: payload => {
-              openapiTextTemplateSearch(
-                {
-                  status: 2
-                },
-                payload
-              )
-            }
+            list: _.partial(openapiTextTemplateList, {
+              category: '',
+              aspect_ratio: this.aspect_ratio,
+              status: 2
+            }),
+            search: _.partial(openapiTextTemplateSearch, {
+              category: '',
+              aspect_ratio: this.aspect_ratio,
+              status: 2
+            })
           },
           sourceType: 'text_id',
           flag: 2
