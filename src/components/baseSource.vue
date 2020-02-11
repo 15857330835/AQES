@@ -76,7 +76,7 @@ export default {
       return !!this.source.service
     },
     backgroundColor() {
-      return this.source.source === 'image_id' ? '#fff' : 'transparent'
+      return this.source.source === 'image_id' ? '#fff' : '#000'
     },
     audioControlShow() {
       return this.source.source === 'audio_id'

@@ -20,7 +20,12 @@
 <script>
 import mzAside from '@/components/mzAside'
 import pane from '@/model/mzSection/selectmz/pane/basicPane'
-import { openapiTextList, openapiTextSearch } from '@/api/OpenApi'
+import {
+  openapiTextList,
+  openapiTextSearch,
+  openapiTextTemplateList,
+  openapiTextTemplateSearch
+} from '@/api/OpenApi'
 import _ from 'lodash'
 export default {
   components: {
@@ -94,6 +99,19 @@ export default {
             search: _.partial(openapiTextSearch, {
               category: '动态文本',
               aspect_ratio: this.aspect_ratio
+            })
+          },
+          sourceType: 'text_id',
+          flag: 2
+        },
+        {
+          title: '动效列表',
+          interface: {
+            list: _.partial(openapiTextTemplateList, {
+              status: 2
+            }),
+            search: _.partial(openapiTextTemplateSearch, {
+              status: 2
             })
           },
           sourceType: 'text_id',

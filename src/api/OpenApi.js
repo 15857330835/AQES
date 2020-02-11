@@ -41,6 +41,20 @@ export const openapiTextSearch = (fixedPayload, payload = {}) => {
     JSON.stringify(newPayload)
   )
 }
+export const openapiTextTemplateList = (fixedPayload, payload = {}) => {
+  const newPayload = Object.assign(defaultPayload, payload, fixedPayload)
+  return axios.post(
+    '//openapi.aodianyun.com/v3/NCES.GetTextTemplateList',
+    JSON.stringify(newPayload)
+  )
+}
+export const openapiTextTemplateSearch = (fixedPayload, payload = {}) => {
+  const newPayload = Object.assign(defaultPayload, payload, fixedPayload)
+  return axios.post(
+    '//openapi.aodianyun.com/v3/NCES.SearchTextTemplate',
+    JSON.stringify(newPayload)
+  )
+}
 export const openapiFontList = (payload = {}) => {
   const newPayload = Object.assign(defaultPayload, payload)
   return axios.post(

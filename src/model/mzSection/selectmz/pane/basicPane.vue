@@ -102,6 +102,15 @@ export default {
             dynamicImg: `//${item.preview_img_gif}`
           }
         }
+        if (item.category === '动效列表') {
+          // 动效列表的特殊情况
+          return {
+            staticImg: `//${item.preview_img}`,
+            textId: item.text_id,
+            title: item.name,
+            dynamicImg: `//${item.preview_img_gif}`
+          }
+        }
         if (item.service) {
           // 转场特效的特殊情况
           return {
@@ -127,6 +136,9 @@ export default {
     async fetchMore() {
       const res = await this.getData.list({ page: this.page++, num: this.num })
       if (res.Flag === 100) {
+        if (typeof res.data === 'undefined') {
+          res.data = res.List
+        }
         this.UPDATE_MRZY_DATA([...this.Mrzydata, ...res.data])
         const formatedData = this.transferData(res.data)
         this.sources = this.sources.concat(formatedData)
@@ -139,6 +151,9 @@ export default {
         // search接口必须要传入search_str参数,否则不能返回数据
         res = await this.getData.search({ search_str: this.title })
         if (this.isSuccess(res)) {
+          if (typeof res.data === 'undefined') {
+            res.data = res.List
+          }
           this.UPDATE_MRZY_DATA(res.data)
           this.sources = this.transferData(res.data)
           this.changeLoadingStatus(res.data)
@@ -152,6 +167,9 @@ export default {
       this.page = 1
       const res = await this.getData.list({ page: this.page++, num: this.num })
       if (this.isSuccess(res)) {
+        if (typeof res.data === 'undefined') {
+          res.data = res.List
+        }
         this.UPDATE_MRZY_DATA(res.data)
         this.sources = this.transferData(res.data)
         this.changeLoadingStatus(res.data)
