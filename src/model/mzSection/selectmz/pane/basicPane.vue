@@ -108,7 +108,11 @@ export default {
             staticImg: `//${item.preview_img}`,
             dynamicImg: `//${item.preview_img_gif}`,
             textId: item.text_id,
-            title: item.name
+            title: item.name,
+            url: item.url,
+            from: item[this.sourceType],
+            flag: this.flag,
+            source: this.sourceType
           }
         }
         if (item.service) {
