@@ -122,6 +122,16 @@ export default {
           flag: 2
         }
       ]
+    },
+    filterList() {
+      if (
+        window.NCES.diff_server &&
+        window.NCES.diff_server === 'GuangdianCloud'
+      ) {
+        return this.list.filter(item => item.title !== '动效列表')
+      } else {
+        return this.list
+      }
     }
   },
   methods: {
