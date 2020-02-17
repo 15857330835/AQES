@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mzAside :list="list" @selectLi="handleSelectLi"></mzAside>
+    <mzAside :list="filterList" @selectLi="handleSelectLi"></mzAside>
     <div
       class="videolist_right"
       @mousedown.left="handleMouseDown"
@@ -129,9 +129,8 @@ export default {
         window.NCES.diff_server === 'GuangdianCloud'
       ) {
         return this.list.filter(item => item.title !== '动效列表')
-      } else {
-        return this.list
       }
+      return this.list
     }
   },
   methods: {
