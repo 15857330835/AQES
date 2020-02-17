@@ -102,6 +102,15 @@ export default {
             dynamicImg: `//${item.preview_img_gif}`
           }
         }
+        if (item.service) {
+          // 转场特效的特殊情况
+          return {
+            staticImg: `${item.preview_img_jpg}`,
+            dynamicImg: `${item.preview_img_gif}`,
+            title: item.name,
+            service: item.service
+          }
+        }
         if (typeof item.category === 'undefined') {
           // 动效列表的特殊情况
           return {
@@ -113,15 +122,6 @@ export default {
             from: item[this.sourceType],
             flag: this.flag,
             source: this.sourceType
-          }
-        }
-        if (item.service) {
-          // 转场特效的特殊情况
-          return {
-            staticImg: `${item.preview_img_jpg}`,
-            dynamicImg: `${item.preview_img_gif}`,
-            title: item.name,
-            service: item.service
           }
         }
         return {
