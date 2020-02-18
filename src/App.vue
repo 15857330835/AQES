@@ -138,28 +138,33 @@ export default {
   },
   mounted() {
     // 浏览器大小改变后更新轨道位置(*** 主要是videoBox的宽高比例控制不变)
-    window.addEventListener('resize', this.throttleResize)
+    window.addEventListener('resize', this.mixedResize)
     // 监听是否可以多选
     window.addEventListener('keydown', this.keydownEvent)
     window.addEventListener('keyup', this.keyupEvent)
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.throttleResize)
+    window.removeEventListener('resize', this.mixedResize)
     window.removeEventListener('keydown', this.keydownEvent)
     window.removeEventListener('keyup', this.keyupEvent)
   },
   methods: {
     throttleResize: _.throttle(function() {
-      this.UPDATE_TRACKBOX()
-      this.UPDATE_TRACKPOSITION()
-      this.UPDATE_CAPTIONPOSITION()
-
       this.CHANGE_CLIENTWIDTH($(document).width())
-      this.GET_OPENWAY()
       this.CHANGE_VIS_TIMER_WIDTH(
         document.querySelector('.edit_track_contents').offsetWidth
       )
     }, 200),
+    debounceResize: _.debounce(function() {
+      this.GET_OPENWAY()
+      setTimeout(() => {
+        this.UPDATE_TRACK_MIX()
+      }, 1000)
+    }),
+    mixedResize() {
+      this.throttleResize()
+      this.debounceResize()
+    },
     ...mapActions([
       'changeLoading',
       'getSourcedata',
@@ -172,9 +177,7 @@ export default {
       'GET_OPENWAY',
       'INIT_CAPTIONLIST',
       'INIT_FILTERLIST',
-      'UPDATE_TRACKBOX',
-      'UPDATE_TRACKPOSITION',
-      'UPDATE_CAPTIONPOSITION',
+      'UPDATE_TRACK_MIX',
       'CHANGE_IS_MULTI_SELECT',
       'CHANGE_VIS_TIMER_WIDTH'
     ]),

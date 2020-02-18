@@ -8,6 +8,7 @@ const PROPERTY_FANWEI = 'PROPERTY_FANWEI' // 自定义属性fanwei
 const UPDATE_TRACKS = 'UPDATE_TRACKS' //
 const ACTIVE_CHUNK = 'ACTIVE_CHUNK' // 更新选中的轨道快
 // const UPDATA_ACTIVECHUNK = 'UPDATA_ACTIVECHUNK' // 更新选中的轨道块的属性
+const UPDATE_TRACK_MIX = 'UPDATE_TRACK_MIX'
 const UPDATE_TRACKBOX = 'UPDATE_TRACKBOX' // 设置轨道区域的范围
 const UPDATE_TRACKPOSITION = 'UPDATE_TRACKPOSITION' // 设置每个轨道的范围
 const UPDATE_CAPTIONPOSITION = 'UPDATE_CAPTIONPOSITION' // 设置字幕轨道的范围
@@ -192,6 +193,40 @@ export default {
   },
   [SET_SOURCEDATA](state, data) {
     state.sourceData = data
+  },
+  [UPDATE_TRACK_MIX](state) {
+    // UPDATE_TRACKBOX
+    const data = {}
+    data.minX = $('.edit_track_contents').offset().left
+    data.maxX = data.minX + $('.edit_track_contents').innerWidth()
+    data.minY = $('#trackbox').offset().top
+    data.maxY = $('#trackbox').innerHeight() + data.minY
+    state.trackbox = data
+
+    // UPDATE_TRACKPOSITION
+    const tracklist = $('#trackbox .edit_track_content')
+    const arr = []
+    for (let i = 0, len = tracklist.length; i < len; i++) {
+      arr.push({})
+      arr[i].minX = $('.edit_track_contents').offset().left
+      arr[i].maxX = arr[i].minX + $('.edit_track_contents').innerWidth()
+      arr[i].minY = $(tracklist[i]).offset().top + $('#trackbox').scrollTop()
+      arr[i].maxY = arr[i].minY + $(tracklist[i]).innerHeight()
+      arr[i].id = tracklist[i].getAttribute('id')
+      arr[i].type = parseInt(tracklist[i].getAttribute('track_type'), 10)
+      arr[i].able = tracklist[i].getAttribute('able')
+    }
+    state.trackposition = arr
+    setTimeout(() => {
+      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 58)
+    }, 0)
+
+    // UPDATE_CAPTIONPOSITION
+    state.trackcaption.minX = $('.edit_track_contents').offset().left
+    state.trackcaption.maxX =
+      state.trackcaption.minX + $('.edit_track_contents').innerWidth()
+    state.trackcaption.minY = tracklist.offset().top
+    state.trackcaption.maxY = state.trackcaption.minY + tracklist.innerHeight()
   },
   [UPDATE_TRACKBOX](state) {
     const data = {}

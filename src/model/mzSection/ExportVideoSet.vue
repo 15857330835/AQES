@@ -302,7 +302,8 @@ export default {
       'UPDATE_SLIDER_NUM',
       'PROPERTY_OUTLEFT',
       'PROPERTY_RATIO',
-      'CHANGE_TRACK_ABLE_WIDTH'
+      'CHANGE_TRACK_ABLE_WIDTH',
+      'UPDATE_TRACK_MIX'
     ]),
     ...mapActions(['changeLoading']),
     blockShortcuts() {
@@ -313,6 +314,12 @@ export default {
     },
     handleCancleBtnClick() {
       this.CHANGE_EXPORT_VIDEO_SET_SHOW(false)
+      this.refreshTrackMix()
+    },
+    refreshTrackMix() {
+      setTimeout(() => {
+        this.UPDATE_TRACK_MIX()
+      }, 1000)
     },
     handleComfirmBtnClick() {
       let selfAid
@@ -376,17 +383,20 @@ export default {
                     confirmButtonText: '确定',
                     callback: action => {
                       this.CHANGE_EXPORT_VIDEO_SET_SHOW(false)
+                      this.refreshTrackMix()
                     }
                   }
                 )
               } else {
                 console.err(res.msg)
                 // reject(new Error(res.msg))
+                this.refreshTrackMix()
               }
             })
             .catch(() => {
               this.confirmBtnLocked = false
               this.$alert(`服务器忙,请稍后重试`, '生成失败')
+              this.refreshTrackMix()
             })
         } else {
           return false
