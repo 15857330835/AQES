@@ -98,8 +98,8 @@
             <div class = "sel-option-name">透明度</div>
             <div class = "sel-option-con">
                 <div style = "float:right;position: relative;width:60px;height:100%">
-                    <input type="number"  step = 1 class = "sty" style = "color:#00A9FF;background-color:transparent;border:none;top:0;height:100%" v-model.number="activeProperty[propertyNum].transparency"  @blur="tmdChange"/>
-                    <span style = "float:right;color:#00A9FF">%</span>
+                    <input type="number"  step = 1 class = "sty" style = "color:#61ded0;background-color:transparent;border:none;top:0;height:100%" v-model.number="activeProperty[propertyNum].transparency"  @blur="tmdChange"/>
+                    <span style = "float:right;color:#61ded0">%</span>
                 </div>
                 <div style = "position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)">
                     <el-slider v-model='activeProperty[propertyNum].transparency'  @change = "tmdChange"   mini :max = '100' :min = '0' :step = '1'></el-slider>
@@ -113,11 +113,11 @@
             <input
               type="number"
               class="sty"
-              style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+              style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
               v-model="bili"
               @blur="wChange"
             />
-            <span style="float:right;color:#00A9FF">%</span>
+            <span style="float:right;color:#61ded0">%</span>
           </div>
           <div
             style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"

@@ -88,7 +88,7 @@ input[type="checkbox"] {
   visibility: hidden;
 }
 
-input[type="checkbox"] + label {
+input[type="checkbox"]+label {
   display: inline-block;
   width: 14px;
   height: 14px;
@@ -96,7 +96,7 @@ input[type="checkbox"] + label {
   background-size: 100%;
 }
 
-input[type="checkbox"]:checked + label {
+input[type="checkbox"]:checked+label {
   background: url(../img/checked.png) no-repeat;
   background-size: 100%;
 }
@@ -119,7 +119,7 @@ label input[type="radio"]:after {
 }
 
 label input[type="radio"]:checked:after {
-  background: #00a9ff;
+  background: #61ded0;
   border: 2px solid #fff;
 }
 
@@ -141,13 +141,13 @@ label input[type="radio"]:checked:after {
   height: 20px;
   padding: 0px;
   border: none;
-  color: #00a9ff;
+  color: #61ded0;
   background-color: transparent;
   width: 60px;
 
   top: 5px;
   border-radius: 4px;
-  color: #00a9ff;
+  color: #61ded0;
   box-sizing: border-box;
   text-align: center;
   box-sizing: border-box;
@@ -168,6 +168,7 @@ label input[type="radio"]:checked:after {
   width: 20px;
   top: -16px;
 }
+
 /*保存视频弹窗样式end*/
 /*end*/
 
@@ -209,9 +210,9 @@ input.mui-switch::before {
 }
 
 input.mui-switch:checked {
-  border-color: #00a9ff;
-  box-shadow: #00a9ff 0 0 0 16px inset;
-  background-color: #00a9ff;
+  border-color: #61ded0;
+  box-shadow: #61ded0 0 0 0 16px inset;
+  background-color: #61ded0;
 }
 
 input.mui-switch:checked:before {
@@ -228,7 +229,7 @@ input.mui-switch.mui-switch-animbg:before {
 
 input.mui-switch.mui-switch-animbg:checked {
   box-shadow: #dfdfdf 0 0 0 0 inset;
-  background-color: #00a9ff;
+  background-color: #61ded0;
   transition: border-color 0.4s, background-color ease 0.4s;
 }
 
@@ -238,7 +239,7 @@ input.mui-switch.mui-switch-animbg:checked:before {
 
 input.mui-switch.mui-switch-anim {
   transition: border cubic-bezier(0, 0, 0, 1) 0.4s,
-  box-shadow cubic-bezier(0, 0, 0, 1) 0.4s;
+    box-shadow cubic-bezier(0, 0, 0, 1) 0.4s;
 }
 
 input.mui-switch.mui-switch-anim:before {
@@ -246,8 +247,8 @@ input.mui-switch.mui-switch-anim:before {
 }
 
 input.mui-switch.mui-switch-anim:checked {
-  box-shadow: #00a9ff 0 0 0 16px inset;
-  background-color: #00a9ff;
+  box-shadow: #61ded0 0 0 0 16px inset;
+  background-color: #61ded0;
   transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s;
 }
 
@@ -271,7 +272,7 @@ input.mui-switch.mui-switch-anim:checked:before {
 }
 
 .el-slider__bar {
-  background-color: #088fd3;
+  background-color: #61ded0;
 }
 
 .el-slider__runway.disabled .el-slider__bar {
@@ -291,8 +292,8 @@ input.mui-switch.mui-switch-anim:checked:before {
 }
 
 .right .el-slider__button {
-  border: 2px solid #02a7ff;
-  background-color: #02a7ff;
+  border: 2px solid #61ded0;
+  background-color: #61ded0;
   width: 12px;
   height: 12px;
 }
@@ -320,22 +321,26 @@ input.mui-switch.mui-switch-anim:checked:before {
 }
 
 #progressbar .nanobar .bar {
-  background: #00a9ff;
+  background: #61ded0;
   border-radius: 4px;
 }
 
-.el-input__inner, .el-select-dropdown {
-  background-color: #232323; /* #1d1d1d; */
+.el-input__inner,
+.el-select-dropdown {
+  background-color: #232323;
+  /* #1d1d1d; */
   border: 1px solid #636363 !important;
   font-size: 14px !important;
   color: rgb(170, 170, 170)
 }
 
-.el-select .el-input__inner:focus, .el-select .el-input__inner:hover {
+.el-select .el-input__inner:focus,
+.el-select .el-input__inner:hover {
   border-color: #636363;
 }
 
-.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+.el-select-dropdown__item.hover,
+.el-select-dropdown__item:hover {
   background-color: #1d1d1d;
 
 }
@@ -382,6 +387,7 @@ div.loadingImg {
   from {
     -webkit-transform: rotate(0deg);
   }
+
   to {
     -webkit-transform: rotate(360deg);
   }
@@ -391,6 +397,7 @@ div.loadingImg {
   from {
     -moz-transform: rotate(0deg);
   }
+
   to {
     -moz-transform: rotate(359deg);
   }
@@ -400,6 +407,7 @@ div.loadingImg {
   from {
     -o-transform: rotate(0deg);
   }
+
   to {
     -o-transform: rotate(359deg);
   }
@@ -409,6 +417,7 @@ div.loadingImg {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(359deg);
   }
@@ -454,22 +463,26 @@ div.loadingImg {
 }
 
 @keyframes loading {
+
   0%,
   60%,
   100% {
     transform: scale(1);
   }
+
   30% {
     transform: scaleY(3);
   }
 }
 
 @-webkit-keyframes loading {
+
   0%,
   60%,
   100% {
     transform: scale(1);
   }
+
   30% {
     transform: scaleY(3);
   }

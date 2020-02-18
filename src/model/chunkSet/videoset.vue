@@ -37,11 +37,11 @@
                 type="number"
                 step="1"
                 class="sty"
-                style="width:40px;color:#00A9FF;background-color:transparent;border:none;top:0;right:10px;height:100%"
+                style="width:40px;color:#61ded0;background-color:transparent;border:none;top:0;right:10px;height:100%"
                 :value="this.filterList.rotate.parameter.value"
                 @blur="rotateInputblur('value', $event.currentTarget)"
               />
-              <i style="float:right;margin-right:5px;color:#00A9FF">°</i>
+              <i style="float:right;margin-right:5px;color:#61ded0">°</i>
             </div>
             <div class="con_filter ratio">
               <div class="sel-option-name" style="font-size:12px">缩放比</div>
@@ -55,11 +55,11 @@
                     max="100"
                     step="1"
                     class="sty"
-                    style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                    style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                     :value="this.filterList.rotate.parameter.scale"
                     @blur="rotateInputblur('scale', $event.currentTarget)"
                   />
-                  <span style="float:right;color:#00A9FF">%</span>
+                  <span style="float:right;color:#61ded0">%</span>
                 </div>
                 <div
                   style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -140,11 +140,11 @@
                     max="100"
                     min="0"
                     step="1"
-                    style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                    style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                     :value="blurV"
                     disabled
                   />
-                  <span style="float:right;color:#00A9FF"></span>
+                  <span style="float:right;color:#61ded0"></span>
                 </div>
                 <div
                   style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -273,11 +273,11 @@
               type="number"
               step="1"
               class="sty"
-              style="width:40px;color:#00A9FF;background-color:transparent;top: 50%;transform: translate(0px, -50%);"
+              style="width:40px;color:#61ded0;background-color:transparent;top: 50%;transform: translate(0px, -50%);"
               :value="parseInt(this.filterList.cutting.parameter.rotate)"
               @blur="cutrotateInputblur($event.currentTarget)"
             />
-            <i style="color:#00A9FF;position:absolute;left:45px">°</i>
+            <i style="color:#61ded0;position:absolute;left:45px">°</i>
           </div>
         </div>
       </div>
@@ -301,11 +301,11 @@
                 max="5"
                 min="0.2"
                 step="0.2"
-                style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 :value="speed"
                 disabled
               />
-              <span style="float:right;color:#00A9FF"></span>
+              <span style="float:right;color:#61ded0"></span>
             </div>
             <div
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -350,11 +350,11 @@
                 max="100"
                 step="1"
                 class="sty"
-                style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 :value="parseInt(this.filterList.volume.parameter.value * 100)"
                 @blur="filterInputblur('volume', $event.currentTarget)"
               />
-              <span style="float:right;color:#00A9FF">%</span>
+              <span style="float:right;color:#61ded0">%</span>
             </div>
             <div
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -381,11 +381,11 @@
                 max="10"
                 min="0"
                 step="0.1"
-                style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 v-model="fade_in"
                 @blur="filterInputblur('volume_fade_in', $event.currentTarget)"
               />
-              <span style="float:right;color:#00A9FF">s</span>
+              <span style="float:right;color:#61ded0">s</span>
             </div>
             <div
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -412,11 +412,11 @@
                 max="10"
                 min="0"
                 step="0.1"
-                style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 v-model="fade_out"
                 @blur="filterInputblur('volume_fade_out', $event.currentTarget)"
               />
-              <span style="float:right;color:#00A9FF">s</span>
+              <span style="float:right;color:#61ded0">s</span>
             </div>
             <div
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -464,13 +464,13 @@
               <input
                 type="number"
                 class="sty"
-                style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 max="200"
                 min="0"
                 v-model.number="setbili"
                 @blur="wChange"
               />
-              <span style="float:right;color:#00A9FF">%</span>
+              <span style="float:right;color:#61ded0">%</span>
             </div>
             <div
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -494,14 +494,14 @@
                 type="number"
                 step="1"
                 class="sty"
-                style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 max="100"
                 min="0"
                 v-model.number="activeProperty[propertyNum].transparency"
                 @blur="tmdChange"
               />
               <!-- :value = "this.propertyOfnum.transparency" -->
-              <span style="float:right;color:#00A9FF">%</span>
+              <span style="float:right;color:#61ded0">%</span>
             </div>
             <div
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -576,13 +576,13 @@
                 max="200"
                 step="1"
                 class="sty"
-                style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 :value="
                   parseInt(this.filterList.bcs.parameter.brightness * 100)
                 "
                 @blur="filterInputblur('brightness', $event.currentTarget)"
               />
-              <span style="float:right;color:#00A9FF"></span>
+              <span style="float:right;color:#61ded0"></span>
             </div>
             <div
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -611,11 +611,11 @@
                 max="200"
                 step="1"
                 class="sty"
-                style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 :value="parseInt(this.filterList.bcs.parameter.contrast * 100)"
                 @blur="filterInputblur('contrast', $event.currentTarget)"
               />
-              <span style="float:right;color:#00A9FF"></span>
+              <span style="float:right;color:#61ded0"></span>
             </div>
             <div
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -644,13 +644,13 @@
                 max="200"
                 step="1"
                 class="sty"
-                style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 :value="
                   parseInt(this.filterList.bcs.parameter.saturation * 100)
                 "
                 @blur="filterInputblur('saturation', $event.currentTarget)"
               />
-              <span style="float:right;color:#00A9FF"></span>
+              <span style="float:right;color:#61ded0"></span>
             </div>
             <div
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -679,11 +679,11 @@
                 max="150"
                 step="1"
                 class="sty"
-                style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 :value="parseInt(this.filterList.coloring.parameter.value)"
                 @blur="filterInputblur('coloring', $event.currentTarget)"
               />
-              <span style="float:right;color:#00A9FF"></span>
+              <span style="float:right;color:#61ded0"></span>
             </div>
             <div
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"

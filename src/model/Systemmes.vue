@@ -18,7 +18,7 @@
     <div :style="{ float: 'right', color: color }">
       <span
         v-show="false"
-        style="background-color: #00A9FF;border: 1px solid #00a9ff;display:inline-block;margin-right: 10px;margin-top: 6px;width: 40px;text-align: center;cursor: pointer;border-radius: 3px"
+        style="background-color: #61ded0;border: 1px solid #61ded0;display:inline-block;margin-right: 10px;margin-top: 6px;width: 40px;text-align: center;cursor: pointer;border-radius: 3px"
         >销毁</span
       >
     </div>

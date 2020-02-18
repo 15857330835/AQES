@@ -589,7 +589,7 @@ nces.prototype.getProject = function (res) {
     var center = ''
     var str = NCES.strOfname==undefined?'':NCES.strOfname
    if(loadProject!=undefined){
-     center = '<div class = "wdgc_content" style = "border:1px solid #00A9FF">\
+     center = '<div class = "wdgc_content" style = "border:1px solid #61ded0">\
                         <div class = "wdgc_content_mes">\
                           <div class = "mes_list clearfix">\
                             <div class = "mes_list_img"><img src="//cdn.aodianyun.com/nces/v1/img/gcdemo.png" alt="" height=70px /></div>\
@@ -604,12 +604,12 @@ nces.prototype.getProject = function (res) {
                           </div>\
                         </div>\
                         <div class = "wdgc_content_del">\
-                          <span style = "color:#00A9FF">当前工程</span>\
+                          <span style = "color:#61ded0">当前工程</span>\
                           <span title = "加载工程" style = "left:10px" class= "btn_set u-icon" data-type = "project" data-id = "'+loadProject.project_id+'"></span>\
                         </div>\
                       </div> '
    }else{
-         center = '<div class = "wdgc_content" style = "border:1px solid #00A9FF;height:50px">\
+         center = '<div class = "wdgc_content" style = "border:1px solid #61ded0;height:50px">\
                        \
                         <div style = "height:40px;text-align:center;">\
                           <span style = "line-height:40px; color:red">暂无当前工程</span>\

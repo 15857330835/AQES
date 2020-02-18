@@ -31,7 +31,7 @@ export default {
   width: 100%;
   position: absolute;
   z-index: 1004;
-  border: 3px solid #088fd3;
+  border: 3px solid #61ded0;
   box-sizing: border-box;
 }
 </style>

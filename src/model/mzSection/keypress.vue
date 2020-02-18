@@ -1104,7 +1104,7 @@ export default {
 
   input[type='radio']:checked {
     & + input[type='text'] {
-      border: 1px solid #00a9ff;
+      border: 1px solid #61ded0;
     }
   }
 }
@@ -1150,15 +1150,15 @@ export default {
   text-decoration: none;
   width: calc(100% - 250px);
   &:focus {
-    border: 1px solid #00a9ff;
+    border: 1px solid #61ded0;
   }
   &.active {
-    border: 1px solid #00a9ff;
+    border: 1px solid #61ded0;
   }
 }
 .captionsel_sure {
   width: 90px;
-  background-color: #00a9ff;
+  background-color: #61ded0;
   height: 30px;
   text-align: center;
   line-height: 30px;

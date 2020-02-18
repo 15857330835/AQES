@@ -107,7 +107,7 @@
                 (this.activechunk.chunk.src_end -
                   this.activechunk.chunk.src_start) +
               '%',
-            backgroundColor: '#00a9ff'
+            backgroundColor: '#61ded0'
           }"
         ></div>
       </div>
@@ -128,10 +128,10 @@
               this.activechunk.chunk.chunk_type != 5)
         "
         @click="adddian"
-        style="float:left;margin: 0 20px;width:11px;height:7px;border-top-left-radius:2px;border-top-right-radius:2px;background-color:#00A9FF;position:relative;top:14px;cursor:pointer"
+        style="float:left;margin: 0 20px;width:11px;height:7px;border-top-left-radius:2px;border-top-right-radius:2px;background-color:#61ded0;position:relative;top:14px;cursor:pointer"
       >
         <span
-          style="display:inline-block;border: 5.5px solid transparent;border-top:5.5px solid #00A9FF;position:absolute;top:7px"
+          style="display:inline-block;border: 5.5px solid transparent;border-top:5.5px solid #61ded0;position:absolute;top:7px"
         ></span>
       </div>
       <div style="float:left;line-height:40px ;" v-if="!this.chunksetshow">

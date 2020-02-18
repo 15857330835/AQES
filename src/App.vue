@@ -287,7 +287,7 @@ export default {
 }
 
 .active.fchunkbox {
-  border: 3px solid #088fd3;
+  border: 3px solid #61ded0;
 }
 
 .moveing.fchunkbox {

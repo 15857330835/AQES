@@ -272,14 +272,14 @@ export default {
         text-align: center;
         display: inline-block;
         border-radius: 5px;
-        // background-color: #00A9FF;
+        // background-color: #61ded0;
         border: 1px solid rgba(121, 121, 121, 1);
         cursor: pointer;
         &:first-child {
           margin-right: 50px;
         }
         &:last-child {
-          background-color: #00a9ff;
+          background-color: #61ded0;
         }
       }
       // .con_click{

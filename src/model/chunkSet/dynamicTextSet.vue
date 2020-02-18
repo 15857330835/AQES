@@ -116,12 +116,12 @@
             <input
               type="number"
               class="sty"
-              style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+              style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
               :value="parseFloat(parameter.geometry_h).toFixed(0)"
               @change="handleBiliInputChange"
               @blur="wChange"
             />
-            <span style="float:right;color:#00A9FF">%</span>
+            <span style="float:right;color:#61ded0">%</span>
           </div>
           <div
             style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"

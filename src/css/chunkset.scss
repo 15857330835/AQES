@@ -231,57 +231,57 @@
 
 
 .setContent {
-    position: absolute;
-    top: 32px;
-    height: calc(100% - 40px);
-    background-color: #2e2e2e;
-    z-index: 1004;
-    box-sizing: border-box;
-    font-size: 14px;
-    color: #909090;
+  position: absolute;
+  top: 32px;
+  height: calc(100% - 40px);
+  background-color: #2e2e2e;
+  z-index: 1004;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #909090;
 
-    .setContent-do {
-      height: 100%;
-      margin-left: calc(100% + 11px);
-      background-color: #232323;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  .setContent-do {
+    height: 100%;
+    margin-left: calc(100% + 11px);
+    background-color: #232323;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-      button {
-        width: 110px;
-        height: 40px;
-        display: inline-block;
-        cursor: pointer;
-      }
+    button {
+      width: 110px;
+      height: 40px;
+      display: inline-block;
+      cursor: pointer;
     }
-
-    .el-slider {
-      height: 100%;
-
-      .el-slider__runway {
-        height: 2px;
-      }
-
-      .el-slider__button {
-        border: 2px solid #aaa;
-        background-color: #aaa;
-        width: 12px;
-        height: 12px;
-      }
-
-      .el-slider__button-wrapper {
-        top: -17px;
-      }
-
-      .el-slider__bar {
-        height: 2px;
-      }
-    }
-
-
   }
+
+  .el-slider {
+    height: 100%;
+
+    .el-slider__runway {
+      height: 2px;
+    }
+
+    .el-slider__button {
+      border: 2px solid #aaa;
+      background-color: #aaa;
+      width: 12px;
+      height: 12px;
+    }
+
+    .el-slider__button-wrapper {
+      top: -17px;
+    }
+
+    .el-slider__bar {
+      height: 2px;
+    }
+  }
+
+
+}
 
 .setContent {
   .setContent-sel {
@@ -293,6 +293,7 @@
     overflow: hidden;
   }
 }
+
 .setContent-sel {
   .content-sel-title {
     height: 27px;
@@ -302,11 +303,13 @@
     top: -27px;
     color: #fff;
   }
+
   .content-sel-option {
     padding: 10px 15px 0;
     z-index: -1;
   }
 }
+
 .content-sel-title {
   .title-left {
     .u-icon {
@@ -314,37 +317,45 @@
       width: 27px;
       height: 27px;
     }
+
     .setpng {
       background-image: url(../img/set1.png);
       background-size: 80%;
       margin-right: 30px;
+
       &.active {
         background-image: url(../img/set2.png);
         background-size: 80%;
       }
     }
+
     .filterpng {
       background-image: url(../img/filter1.png);
       background-size: 80%;
       margin-right: 30px;
+
       &.active {
         background-image: url(../img/filter2.png);
         background-size: 80%;
       }
     }
+
     .writepng {
       background-image: url(../img/write.png);
       background-size: 80%;
       margin-right: 30px;
+
       &.active {
         background-image: url(../img/write_active.png);
         background-size: 80%;
       }
     }
+
     .textpng {
       background-image: url(../img/text.png);
     }
   }
+
   .title-right {
     float: right;
     width: 50px;
@@ -353,23 +364,28 @@
     cursor: pointer;
   }
 }
+
 .content-sel-option {
   .sel-option {
     padding: 10px 0;
     height: 60px;
     line-height: 60px;
   }
+
   .sel-option-small {
     padding: 10px 0;
     height: 45px;
     line-height: 45px;
   }
+
   .sel-option3 {
     padding: 10px 0;
     line-height: 60px;
   }
+
   .sel-option1 {
     padding: 3px 0;
+
     textarea {
       outline: none;
       background-color: #1d1d1d;
@@ -382,18 +398,21 @@
     }
   }
 }
+
 .sel-option .sel-option-name,
 .sel-option3 .sel-option-name {
   float: left;
   width: 70px;
   height: 100%;
 }
+
 .sel-option .sel-option-con,
 .sel-option3 .sel-option-con {
   float: left;
   width: calc(100% - 70px);
   height: 100%;
 }
+
 .sel-option-con {
   &.mosic-pos {
     height: 117px;
@@ -406,117 +425,145 @@
     margin-top: -45px;
     margin-left: 95px;
   }
+
   .con_filter {
     float: left;
     margin: 0 30px;
     position: relative;
     height: 100%;
     box-sizing: border-box;
+
     &.angle {
       width: 110px;
       height: 60px;
       margin-left: 34px;
     }
+
     &.ratio {
       width: calc(100% - 184px);
       height: 60px;
       margin: 0px;
     }
+
     &.jxfz {
       background-image: url(../img/spfanzhuan.png);
       cursor: pointer;
     }
+
     &.czfz {
       background-image: url(../img/czfanzhuan.png);
       cursor: pointer;
     }
+
     &.mosaic {
       background-image: url(../img/mosaic1.png);
       cursor: pointer;
+
       .active {
         background-image: url(../img/check_mark.png);
         height: 26px;
       }
     }
+
     &.fastbur {
       background-image: url(../img/fastbur.png);
       cursor: pointer;
+
       .active {
         background-image: url(../img/check_mark.png);
         height: 26px;
       }
     }
+
     &.backplay {
       background-image: url(../img/backplay.png);
       cursor: pointer;
       background-size: 50%;
     }
+
     &.cutting {
       background-image: url(../img/cutting.png);
       cursor: pointer;
+
       &.active {
         background-image: url(../img/cuttingActive.png);
       }
     }
+
     &.cuttingWay {
       background-image: url(../img/cuttingway.png);
       cursor: pointer;
       background-size: 60%;
     }
+
     &.cuttingWay3 {
       background-image: url(../img/cuttingway3.png);
       cursor: pointer;
       background-size: 60%;
     }
+
     &.cuttingWay0 {
       background-image: url(../img/cuttingway0.png);
       cursor: pointer;
       background-size: 60%;
     }
+
     &.cuttingWay1 {
       background-image: url(../img/cuttingway1.png);
       cursor: pointer;
       background-size: 60%;
     }
+
     &.cuttingWay2 {
       background-image: url(../img/cuttingway2.png);
       cursor: pointer;
       background-size: 60%;
     }
+
     &.cuttingSet {
       background-image: url(../img/cuttingSet.png);
       cursor: pointer;
       background-size: 60%;
     }
+
     &.delCutting {
       background-image: url(../img/delCutting.png);
       cursor: pointer;
       background-size: 60%;
     }
+
     .xzfilter {
       background-image: url(../img/rotate.png);
       cursor: pointer;
     }
+
     &.activ {
-      border: 1px solid #00a9ff;
+      border: 1px solid #61ded0;
     }
+
     &.filter_normal {
       background-image: url(../img/normal.png);
     }
+
     &.filter_puguang {
       background-image: url(../img/puguang.png);
     }
+
     &.filter_faguang {
       background-image: url(../img/faguang.png);
     }
+
     &.filter_mohu {
       background-image: url(../img/mohu.png);
     }
+
     &.filter_blackwhite {
       background-image: url(../img/blackwhite.png);
     }
-    & > span {
+
+    &>span {
       display: none;
+
       &.filter_title {
         display: inline-block;
         position: absolute;
@@ -526,8 +573,9 @@
         height: 12px;
       }
     }
+
     &:hover {
-      & > span {
+      &>span {
         display: inline-block;
         text-align: center;
         width: 100%;
@@ -537,12 +585,14 @@
       }
     }
   }
+
   &.ar {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
   }
 }
+
 .sel-option3 {
   .sel-option-con {
     .con_filter {
@@ -554,8 +604,9 @@
     }
   }
 }
-.sel-option-con .con_filter > span.filter_title,
-.sel-option-con .con_filter:hover > span.filter_title {
+
+.sel-option-con .con_filter>span.filter_title,
+.sel-option-con .con_filter:hover>span.filter_title {
   display: inline-block;
   position: absolute;
   text-align: center;
@@ -564,14 +615,17 @@
   width: 100%;
   height: 12px;
 }
+
 .volumeset_quick {
   background-image: url(../img/volumeOpen.png);
   background-position-x: 0;
   background-size: 35%;
+
   &.active {
     background-image: url(../img/volumeClose.png);
   }
 }
+
 .sel-option {
   .sel-option-back {
     height: 100%;
@@ -582,6 +636,7 @@
     cursor: pointer;
   }
 }
+
 /*具体选项样式*/
 .sel-option input[type="number"].sty,
 .sel-option1 input[type="number"].sty {
@@ -589,7 +644,7 @@
   top: 5px;
   border-radius: 4px;
   background-color: #1d1d1d;
-  color: #00a9ff;
+  color: #61ded0;
   box-sizing: border-box;
   text-align: center;
   height: 30px;
@@ -603,32 +658,39 @@
   text-decoration: none;
   width: 60px;
 }
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   appearance: none;
 }
+
 /*马赛克模块样式*/
 .mosaicBoxs {
   width: 100%;
   height: 100%;
   cursor: crosshair;
   position: relative;
+
   .mosaicBox {
     position: absolute;
     box-sizing: border-box;
     cursor: move;
   }
 }
+
 .mosaicBox {
   &.active {
     border: 1px dashed #0d9812;
+
     .delMosaic {
       display: block;
     }
   }
+
   .delMosaic {
     width: 20px;
     height: 20px;
@@ -639,13 +701,13 @@ input[type="number"]::-webkit-inner-spin-button {
     background-image: url(../img/del.png);
     cursor: pointer;
     background-size: 80%;
+
     &.top {
       top: -20px;
     }
+
     &.bottom {
       bottom: -20px;
     }
   }
 }
-
-

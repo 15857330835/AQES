@@ -268,7 +268,7 @@ export default {
   position: relative;
   height: 0;
   margin: 0 25px 0 170px;
-  background-color: #088fd3;
+  background-color: #61ded0;
   top: -32px;
   z-index: 1004;
   font-size: 12px;
@@ -281,7 +281,7 @@ export default {
   left: 60px;
   width: 1px;
   height: calc(100vh - 50vw * 9 / 16 - 203px);
-  background-color: #088fd3;
+  background-color: #61ded0;
   left: 0px;
 }
 .is-playing {
@@ -297,7 +297,7 @@ export default {
 .nces_edit .edit_tip .edit_tip_line .edit_tip_title {
   position: absolute;
   display: flex;
-  background-color: #088fd3;
+  background-color: #61ded0;
   /* width: 61px; */
   /* padding-left: 5px;
   padding-right: 5px; */
@@ -310,7 +310,7 @@ export default {
 .nces_edit .edit_tip .edit_tip_line .edit_tip_title:after {
   content: '';
   border: 5px solid transparent;
-  border-top: 5px solid #088fd3;
+  border-top: 5px solid #61ded0;
   position: absolute;
   bottom: -10px;
   left: 50%;

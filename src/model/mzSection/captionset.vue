@@ -526,11 +526,11 @@ export default {
   width: calc(100% - 250px);
 
   &:focus {
-    border: 1px solid #00a9ff;
+    border: 1px solid #61ded0;
   }
 
   &.active {
-    border: 1px solid #00a9ff;
+    border: 1px solid #61ded0;
   }
 }
 
@@ -541,7 +541,7 @@ export default {
   .captionsel_sure,
   .captionsel_export {
     width: 90px;
-    background-color: #00a9ff;
+    background-color: #61ded0;
     height: 30px;
     text-align: center;
     line-height: 30px;
@@ -557,7 +557,7 @@ export default {
 input[type='number'].styCap {
   border-radius: 4px;
   background-color: #1d1d1d;
-  color: #00a9ff;
+  color: #61ded0;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   text-align: center;

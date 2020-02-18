@@ -22,11 +22,11 @@
               max="100"
               step="1"
               class="sty"
-              style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+              style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
               :value="parseInt(this.filterList.volume.parameter.value * 100)"
               @blur="filterInputblur('volume', $event.currentTarget)"
             />
-            <span style="float:right;color:#00A9FF">%</span>
+            <span style="float:right;color:#61ded0">%</span>
           </div>
           <div
             style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -59,11 +59,11 @@
               max="5"
               min="0.2"
               step="0.2"
-              style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+              style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
               :value="speed"
               disabled
             />
-            <span style="float:right;color:#00A9FF"></span>
+            <span style="float:right;color:#61ded0"></span>
           </div>
           <div
             style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -99,11 +99,11 @@
               max="10"
               min="0"
               step="0.1"
-              style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+              style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
               v-model="fade_in"
               @blur="filterInputblur('volume_fade_in', $event.currentTarget)"
             />
-            <span style="float:right;color:#00A9FF">s</span>
+            <span style="float:right;color:#61ded0">s</span>
           </div>
           <div
             style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
@@ -130,11 +130,11 @@
               max="10"
               min="0"
               step="0.1"
-              style="color:#00A9FF;background-color:transparent;border:none;top:0;height:100%"
+              style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
               v-model="fade_out"
               @blur="filterInputblur('volume_fade_out', $event.currentTarget)"
             />
-            <span style="float:right;color:#00A9FF">s</span>
+            <span style="float:right;color:#61ded0">s</span>
           </div>
           <div
             style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"

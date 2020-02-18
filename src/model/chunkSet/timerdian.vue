@@ -131,9 +131,9 @@ export default {
   background-color: #b9b9b9;
   cursor: pointer;
   &.active {
-    background-color: #00a9ff;
+    background-color: #61ded0;
     span {
-      border-top: 5.5px solid #00a9ff;
+      border-top: 5.5px solid #61ded0;
     }
     & + .deldian {
       position: absolute;

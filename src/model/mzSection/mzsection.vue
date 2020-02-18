@@ -142,11 +142,11 @@ export default {
 }
 
 .listTitle ul li.active {
-  color: #00a9ff;
+  color: #61ded0;
 }
 
 .listTitle ul li:hover {
-  color: #00a9ff;
+  color: #61ded0;
 }
 
 .videolist_left .list_leftlist {
@@ -164,11 +164,11 @@ export default {
 }
 
 .videolist_left .list_leftlist > li:hover {
-  color: #00a9ff;
+  color: #61ded0;
 }
 
 .videolist_left .list_leftlist > li.active {
-  color: #00a9ff;
+  color: #61ded0;
 }
 
 .videolist_right {
@@ -341,7 +341,7 @@ export default {
 }
 
 .bottom_tips span {
-  color: #00a9ff;
+  color: #61ded0;
 }
 
 .bottom_tips .uploadfile {
@@ -390,7 +390,7 @@ export default {
 }
 
 .bottom_fanye .now {
-  color: #00a9ff;
+  color: #61ded0;
 }
 
 .prop {
@@ -485,8 +485,8 @@ export default {
 }
 
 .content_click .content_click_make {
-  background-color: #00a9ff;
-  border: 1px solid #00a9ff;
+  background-color: #61ded0;
+  border: 1px solid #61ded0;
 }
 
 .content_click .content_click_cancel {

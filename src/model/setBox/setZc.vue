@@ -347,8 +347,8 @@ export default {
         box-sizing: border-box;
       }
       .con_click_make {
-        background-color: #00a9ff;
-        border: 1px solid #00a9ff;
+        background-color: #61ded0;
+        border: 1px solid #61ded0;
       }
       .con_click_cancel {
         background-color: #232323;
