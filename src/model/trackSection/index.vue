@@ -172,6 +172,6 @@ export default {
 <style lang="scss" scoped>
 .nces_edit {
   margin: 2px;
-  background-color: #232323;
+  background-color: #1c232a;
 }
 </style>

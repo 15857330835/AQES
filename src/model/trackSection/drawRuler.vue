@@ -410,8 +410,8 @@ export default {
 
         if (i % 100 === 0) {
           // 起点x坐标10像素，画厘米线
-          ctx.moveTo(0, 43)
-          ctx.lineTo(0, 58)
+          ctx.moveTo(0, 32)
+          ctx.lineTo(0, 42)
           const s = i * (this.slidernum.max - that.track_property.ratio) // 帧数*每个px对应的帧数
           // var s = i * (30.0).toFixed(1);
           // console.log(s);
@@ -421,12 +421,12 @@ export default {
           ctx.fillText(text, 0 - txtWidth / 2, 25)
         } else if (i % 50 === 0) {
           // 每隔0.5cm画间隔线
-          ctx.moveTo(0, 48)
-          ctx.lineTo(0, 58)
+          ctx.moveTo(0, 35)
+          ctx.lineTo(0, 42)
         } else if (i % 10 === 0) {
           // 画毫米线
-          ctx.moveTo(0, 53)
-          ctx.lineTo(0, 58)
+          ctx.moveTo(0, 37)
+          ctx.lineTo(0, 42)
         }
         ctx.stroke()
         ctx.translate(1, 0) // 每隔10像素移动一次，达到画线效果
@@ -446,7 +446,7 @@ export default {
       }
       let _trackStart
       const move = e_para => {
-      	let e = e_para
+        let e = e_para
         if (e.touches) {
           e = e.touches[0]
         }
@@ -540,9 +540,9 @@ $active-color: #3b8dcb;
 .edit_ruler {
   position: relative;
   .edit_ruler_title {
-    height: 58px;
+    height: 42px;
     width: 160px;
-    line-height: 58px;
+    line-height: 42px;
     text-align: center;
     font-size: 12px;
     float: left;
@@ -551,13 +551,13 @@ $active-color: #3b8dcb;
     border-right: 1px solid #141414;
     position: relative;
     .icon {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       display: inline-block;
       /*position: absolute;*/
       line-height: 58px;
-      margin: 20px 10px 0;
-      background-size: 100%;
+      margin: 12px 10px 0;
+      background-size: contain;
       cursor: pointer;
       text-align: center;
       &.addT {
@@ -565,8 +565,10 @@ $active-color: #3b8dcb;
       }
       &.xifu {
         background-image: url(../../img/unxifu.png);
+        background-repeat: no-repeat;
         &.active {
           background-image: url(../../img/xifu.png);
+          background-repeat: no-repeat;
         }
       }
     }
@@ -576,7 +578,7 @@ $active-color: #3b8dcb;
     float: left;
     > div {
       margin: 0 25px 0 10px;
-      height: 58px;
+      height: 42px;
       box-sizing: border-box;
       border-bottom: 1px solid #565656;
     }

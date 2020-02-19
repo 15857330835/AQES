@@ -250,7 +250,7 @@ export default {
     }
   },
   mounted: function() {
-    $('#edit_tip_line').height($('.nces_edit').height() + 32 - 58)
+    $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
     if (this.left < 0 || this.left > $('#ruler').width()) {
       $('#edit_tip_line').hide()
     }
@@ -271,7 +271,9 @@ export default {
   background-color: #61ded0;
   top: -32px;
   z-index: 1004;
-  font-size: 12px;
+  font-size: 11px;
+  color: #151a20;
+  letter-spacing: 2px;
 }
 .nces_edit .edit_tip #edit_track_contents {
   position: relative;
@@ -298,13 +300,14 @@ export default {
   position: absolute;
   display: flex;
   background-color: #61ded0;
-  /* width: 61px; */
-  /* padding-left: 5px;
-  padding-right: 5px; */
   text-align: center;
   left: 50%;
   transform: translate(-50%, 0);
   cursor: ew-resize;
+  display: inline-block;
+  width: 76px;
+  height: 20px;
+  line-height: 20px;
 }
 
 .nces_edit .edit_tip .edit_tip_line .edit_tip_title:after {

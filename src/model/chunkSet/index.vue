@@ -34,7 +34,7 @@
     ></dynamicTextSet>
     <div
       class="setContent-do"
-      :style="{ width: 'calc((100vw - 36px) * ' + this.videosurew + ')' }"
+      :style="{ width: 'calc(100vw * ' + this.videosurew + ')' }"
     >
       <el-button
         class="do-cel"

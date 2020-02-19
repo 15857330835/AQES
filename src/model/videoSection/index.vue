@@ -90,7 +90,7 @@ export default {
           .resize()
         // $("#trackbox").css('max-height',$(document).height() - width * 9 / 16 - 260 - 5);
         // $("#trackbox").css('max-height',350);
-        $('#edit_tip_line').height($('.nces_edit').height() + 32 - 58)
+        $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
         $('.setContent').css({
           'padding-top': ((width + 5) * 9) / 16 + 70 + 'px',
           width: $('.lh').width() - width - 10 + 'px'

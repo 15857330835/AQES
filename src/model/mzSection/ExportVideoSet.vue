@@ -119,6 +119,7 @@
       <div class="footer">
         <el-button
           type="primary btn"
+          style="backgroundColor:#61ded0;border:none;"
           @click="handleComfirmBtnClick"
           :loading="confirmBtnLocked"
           >{{ confirmBtnLocked ? '请稍等' : '确认导出' }}</el-button
@@ -255,19 +256,13 @@ export default {
     videoHeight_: function() {
       if (this.clientwidth >= 1440) {
         return (
-          ((this.clientwidth - 36) *
-            this.track_property.fanwei['1920'].now *
-            9) /
-            16 +
-          67
+          (this.clientwidth * this.track_property.fanwei['1920'].now * 9) / 16 +
+          30
         )
       } else {
         return (
-          ((this.clientwidth - 36) *
-            this.track_property.fanwei['1440'].now *
-            9) /
-            16 +
-          67
+          (this.clientwidth * this.track_property.fanwei['1440'].now * 9) / 16 +
+          30
         )
       }
     },
@@ -462,7 +457,7 @@ $font-color: #909399;
   top: 0;
   z-index: 1004;
   background-color: #222;
-  margin-top: 32px;
+  margin-top: 50px;
   overflow: hidden;
 
   .el-slider__marks-text {
@@ -494,7 +489,6 @@ $font-color: #909399;
     white-space: nowrap;
   }
   .export-tip {
-    // margin-top: 40px;
     text-align: center;
     color: $font-color;
     font-size: 12px;

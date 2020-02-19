@@ -486,90 +486,60 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .nces_videooper {
-  height: 30px;
+  height: 42px;
   position: relative;
   background-color: #151a20;
-}
-
-.nces_videooper .oper_sel {
-  position: absolute;
-  /*left: 10px;*/
-  top: 4px;
-  /*bottom: -20px;*/
-  display: inline-block;
-  z-index: 10;
-}
-
-.nces_videooper .oper_sel > span {
-  display: inline-block;
-  width: 23px;
-  height: 23px;
-  padding: 0 10px 0 10px;
-  margin-left: 5px;
-  cursor: pointer;
-  background-position: center;
-  background-size: 23px 23px;
-  background-repeat: no-repeat;
-}
-
-.nces_videooper .oper_sel > span:nth-child(1) {
-  background-image: url(../img/trackBack.png);
-  /* background-size: 85%; */
-}
-
-.nces_videooper .oper_sel > span:nth-child(2) {
-  background-image: url(../img/trackreset.png);
-  /* background-size: 85%; */
-}
-
-.nces_videooper .oper_sel > span:nth-child(3) {
-  background-image: url(../img/edit.png);
-  /* background-size: 90%; */
-}
-
-.nces_videooper .oper_sel > span:nth-child(4) {
-  background-image: url(../img/delete.png);
-  /* background-size: 85%; */
-}
-
-.nces_videooper .oper_sel > span:nth-child(5) {
-  /* background-size: 115%; */
-  background-image: url(../img/avleave.png);
-}
-
-.nces_videooper .oper_sel > span:nth-child(6) {
-  /* background-size: 68%; */
-
-  background-image: url(../img/chunkset.png);
-}
-
-.nces_videooper .oper_sel > span:nth-child(7) {
-  /* background-size: 68%; */
-
-  background-image: url(../img/record.png);
-}
-
-.nces_videooper .oper_sel > span:nth-child(8) {
-  /* background-size: 68%; */
-
-  background-image: url(../img/zhantie.png);
-}
-
-.nces_videooper .oper_sel > span:nth-child(9) {
-  background-image: url(../img/save.png);
-  /* background-size: 85%; */
-}
-
-.nces_videooper .oper_sel > span:nth-child(10) {
-  /* background-size: 80%; */
-  background-image: url(../img/newsave.png);
-}
-
-.nces_videooper .oper_sel > span:nth-child(11) {
-  /* background-size: 80%; */
-
-  background-image: url(../img/export.png);
+  .oper_sel {
+    position: absolute;
+    top: 11px;
+    display: inline-block;
+    z-index: 10;
+    & > span {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      padding: 0 10px 0 10px;
+      margin-left: 5px;
+      cursor: pointer;
+      background-position: center;
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+      &:nth-child(1) {
+        background-image: url(../img/trackBack.png);
+      }
+      &:nth-child(2) {
+        background-image: url(../img/trackreset.png);
+      }
+      &:nth-child(3) {
+        background-image: url(../img/edit.png);
+      }
+      &:nth-child(4) {
+        background-image: url(../img/delete.png);
+      }
+      &:nth-child(5) {
+        background-image: url(../img/avleave.png);
+      }
+      &:nth-child(6) {
+        background-image: url(../img/chunkset.png);
+      }
+      &:nth-child(7) {
+        background-image: url(../img/record.png);
+      }
+      &:nth-child(8) {
+        background-image: url(../img/zhantie.png);
+      }
+      &:nth-child(9) {
+        background-image: url(../img/save.png);
+      }
+      &:nth-child(10) {
+        background-image: url(../img/newsave.png);
+      }
+      &:nth-child(11) {
+        background-image: url(../img/export.png);
+      }
+    }
+  }
 }
 </style>

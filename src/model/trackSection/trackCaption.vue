@@ -2,7 +2,7 @@
   <div class="clearfix caption-box" id="captionbox">
     <div style="width:160px;float:left">
       <div class="clearfix">
-        <div class="edit_track_title" style="height:30px">
+        <div class="edit_track_title">
           <div class="icon">
             <span class="cicon"></span>
             <span class="vtitle">字幕轨道</span>
@@ -108,7 +108,10 @@ export default {
 
 <style lang="scss" scoped>
 .caption-box {
+  width: 100vw;
   .edit_track_title {
+    height: 30px;
+    border-bottom: none;
     .clearTrack {
       position: absolute;
       top: 0px;
@@ -126,7 +129,7 @@ export default {
     }
   }
   .edit_track_content {
-    border-bottom: 1px solid #141414;
+    border-top: 1px solid #565656;
   }
 }
 </style>

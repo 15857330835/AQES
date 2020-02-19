@@ -5,7 +5,7 @@
   >
     <div
       class="nces_videolist"
-      :style="{ width: 'calc(' + this.videoselw + ' - 10px)' }"
+      :style="{ width: 'calc(' + this.videoselw + ' - 20px)' }"
     >
       <selectmz v-show="!this.captionsetshow && selectmzShow"></selectmz>
       <captionset v-if="this.captionsetshow"></captionset>
@@ -41,19 +41,13 @@ export default {
     height: function() {
       if (this.clientwidth >= 1440) {
         return (
-          ((this.clientwidth - 36) *
-            this.track_property.fanwei['1920'].now *
-            9) /
-            16 +
-          67
+          (this.clientwidth * this.track_property.fanwei['1920'].now * 9) / 16 +
+          70
         )
       } else {
         return (
-          ((this.clientwidth - 36) *
-            this.track_property.fanwei['1440'].now *
-            9) /
-            16 +
-          67
+          (this.clientwidth * this.track_property.fanwei['1440'].now * 9) / 16 +
+          70
         )
       }
     },

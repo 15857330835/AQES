@@ -76,103 +76,115 @@
       <div style="float:left;width:calc(100% - 160px)" class="clearfix">
         <div class="edit_track_contents clearfix" ref="trackbox">
           <div
+            class="track-item-outer"
             v-for="(tracks, index) in track.v_track_list"
             :key="tracks.track_id"
-            :id="tracks.track_id"
-            class="clearfix edit_track_content"
-            :track_type="tracks.track_type"
-            :able="tracks.bhidden || tracks.block"
-            style="height:63px"
           >
             <div
-              class="track_able_content"
-              :style="{
-                width:
-                  length / (slidernum.max - track_property.ratio) + 100 + 'px',
-                left: -track_property.outLeft + 'px'
-              }"
+              :id="tracks.track_id"
+              class="clearfix edit_track_content"
+              :track_type="tracks.track_type"
+              :able="tracks.bhidden || tracks.block"
+              style="height:63px"
             >
-              <chunkbox
-                :trackMark="index"
-                v-for="(chunk, index1) in tracks.chunks.filter(
-                  chunk => chunk.chunk_type !== 5
-                )"
-                :key="chunk.chunk_id + chunk.src_id"
-                :chunk="chunk"
-                :trackid="tracks.track_id"
-                :trackarr="tracks"
-                :tracktype="tracks.track_type"
-                :index="index1"
-              ></chunkbox>
-              <chunkdx
-                v-for="chunk in tracks.chunks.filter(
-                  chunk => chunk.chunk_type === 5
-                )"
-                :key="chunk.chunk_id"
-                :trackarr="tracks"
-                :trackid="tracks.track_id"
-                :chunk="chunk"
-              ></chunkdx>
+              <div
+                class="track_able_content"
+                :style="{
+                  width:
+                    length / (slidernum.max - track_property.ratio) +
+                    100 +
+                    'px',
+                  left: -track_property.outLeft + 'px'
+                }"
+              >
+                <chunkbox
+                  :trackMark="index"
+                  v-for="(chunk, index1) in tracks.chunks.filter(
+                    chunk => chunk.chunk_type !== 5
+                  )"
+                  :key="chunk.chunk_id + chunk.src_id"
+                  :chunk="chunk"
+                  :trackid="tracks.track_id"
+                  :trackarr="tracks"
+                  :tracktype="tracks.track_type"
+                  :index="index1"
+                ></chunkbox>
+                <chunkdx
+                  v-for="chunk in tracks.chunks.filter(
+                    chunk => chunk.chunk_type === 5
+                  )"
+                  :key="chunk.chunk_id"
+                  :trackarr="tracks"
+                  :trackid="tracks.track_id"
+                  :chunk="chunk"
+                ></chunkdx>
+              </div>
+              <trackhide
+                :track="tracks"
+                :type="'v_track_list'"
+                :index="index"
+              ></trackhide>
+              <track-mask
+                :track="tracks"
+                :type="'v_track_list'"
+                :index="index"
+              ></track-mask>
             </div>
-            <trackhide
-              :track="tracks"
-              :type="'v_track_list'"
-              :index="index"
-            ></trackhide>
-            <track-mask
-              :track="tracks"
-              :type="'v_track_list'"
-              :index="index"
-            ></track-mask>
           </div>
           <div
-            style="height:63px"
+            class="track-item-outer"
             v-for="(tracks, index) in this.track.a_track_list"
             :key="tracks.track_id"
-            :id="tracks.track_id"
-            class="clearfix edit_track_content"
-            :track_type="tracks.track_type"
-            :able="tracks.block || tracks.bhidden"
           >
             <div
-              class="track_able_content"
-              :style="{
-                width:
-                  length / (slidernum.max - track_property.ratio) + 100 + 'px',
-                left: -track_property.outLeft + 'px'
-              }"
+              style="height:63px"
+              :id="tracks.track_id"
+              class="clearfix edit_track_content"
+              :track_type="tracks.track_type"
+              :able="tracks.block || tracks.bhidden"
             >
-              <chunkbox
-                v-for="(chunk, index1) in tracks.chunks.filter(
-                  chunk => chunk.chunk_type !== 5
-                )"
-                :key="chunk.chunk_id + chunk.src_id"
-                :trackid="tracks.track_id"
-                :chunk="chunk"
-                :trackarr="tracks"
-                :tracktype="tracks.track_type"
-                :index="index1"
-              ></chunkbox>
-              <chunkdx
-                v-for="chunk in tracks.chunks.filter(
-                  chunk => chunk.chunk_type === 5
-                )"
-                :key="chunk.chunk_id"
-                :trackid="tracks.track_id"
-                :trackarr="tracks"
-                :chunk="chunk"
-              ></chunkdx>
+              <div
+                class="track_able_content"
+                :style="{
+                  width:
+                    length / (slidernum.max - track_property.ratio) +
+                    100 +
+                    'px',
+                  left: -track_property.outLeft + 'px'
+                }"
+              >
+                <chunkbox
+                  v-for="(chunk, index1) in tracks.chunks.filter(
+                    chunk => chunk.chunk_type !== 5
+                  )"
+                  :key="chunk.chunk_id + chunk.src_id"
+                  :trackid="tracks.track_id"
+                  :chunk="chunk"
+                  :trackarr="tracks"
+                  :tracktype="tracks.track_type"
+                  :index="index1"
+                ></chunkbox>
+                <chunkdx
+                  v-for="chunk in tracks.chunks.filter(
+                    chunk => chunk.chunk_type === 5
+                  )"
+                  :key="chunk.chunk_id"
+                  :trackid="tracks.track_id"
+                  :trackarr="tracks"
+                  :chunk="chunk"
+                ></chunkdx>
+              </div>
+              <trackhide
+                :track="tracks"
+                :type="'a_track_list'"
+                :index="index"
+              ></trackhide>
+              <track-mask
+                :track="tracks"
+                :type="'v_track_list'"
+                :index="index"
+              ></track-mask>
             </div>
-            <trackhide
-              :track="tracks"
-              :type="'a_track_list'"
-              :index="index"
-            ></trackhide>
-            <track-mask
-              :track="tracks"
-              :type="'v_track_list'"
-              :index="index"
-            ></track-mask>
           </div>
         </div>
       </div>
@@ -311,7 +323,7 @@ export default {
         that.UPDATE_TRACKBOX()
         that.UPDATE_TRACKPOSITION(5)
         that.UPDATE_CAPTIONPOSITION()
-        $('#edit_tip_line').height($('.nces_edit').height() + 32 - 58)
+        $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
       }, 0)
     },
     track: {
@@ -381,7 +393,8 @@ export default {
 
     .cicon {
       background-image: url(../../img/ziti.png);
-      background-size: 100%;
+      background-repeat: no-repeat;
+      background-size: 95%;
       width: 18px;
       height: 18px;
       display: inline-block;
@@ -393,6 +406,7 @@ export default {
 
     .vicon {
       background-image: url(../../img/vtrack.png);
+      background-repeat: no-repeat;
       background-size: 100%;
       width: 18px;
       height: 18px;
@@ -405,7 +419,8 @@ export default {
 
     .aicon {
       background-image: url(../../img/atrack.png);
-      background-size: 100%;
+      background-repeat: no-repeat;
+      background-size: 95%;
       width: 18px;
       height: 18px;
       display: inline-block;
@@ -434,16 +449,20 @@ export default {
 .edit_track_contents {
   float: left;
   position: relative;
-  margin: 0 25px 0 10px;
-  width: calc(100% - 35px);
+  width: 100%;
   overflow: hidden;
-
+  > .track-item-outer {
+    height: 63px;
+    padding: 0 25px 0 10px;
+    &:nth-of-type(2n + 1) {
+      background-color: #151a20;
+    }
+  }
   .edit_track_content {
     float: left;
     width: 100%;
     height: 100%;
     position: relative;
-    border-top: 1px solid #565656;
     box-sizing: border-box;
 
     .track_able_content {
@@ -477,10 +496,10 @@ export default {
 #trackbox {
   max-height: calc(100vh - 50vw * 9 / 16 - 250px);
   overflow: hidden;
-  width: calc(100vw - 36px);
+  width: 100vw;
 
   > div {
-    width: calc(100vw - 36px);
+    width: 100vw;
   }
 
   .track-box-left-mask {

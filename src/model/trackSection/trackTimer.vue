@@ -250,9 +250,8 @@ export default {
 <style lang="scss" scoped>
 .time_track {
   position: fixed;
-  width: calc(100% - 36px);
+  width: 100%;
   bottom: -4px;
-  left: 18px;
   background-color: #151a20;
   .time_track_title {
     position: relative;
@@ -313,6 +312,8 @@ export default {
           height: 12px;
           width: 12px;
           background-image: url(../../img/minify.png);
+          background-repeat: no-repeat;
+          background-size: 110%;
           display: inline-block;
           top: 50%;
           transform: translateY(-50%);
@@ -324,6 +325,8 @@ export default {
           height: 12px;
           width: 12px;
           background-image: url(../../img/magnify.png);
+          background-repeat: no-repeat;
+          background-size: 110%;
           display: inline-block;
           top: 50%;
           transform: translateY(-50%);

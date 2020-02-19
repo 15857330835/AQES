@@ -218,7 +218,7 @@ export default {
     }
     state.trackposition = arr
     setTimeout(() => {
-      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 58)
+      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
     }, 0)
 
     // UPDATE_CAPTIONPOSITION
@@ -254,7 +254,7 @@ export default {
     }
     state.trackposition = arr
     setTimeout(() => {
-      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 58)
+      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
     }, 0)
   },
   [UPDATE_CAPTIONPOSITION](state, data) {

@@ -1,8 +1,7 @@
 <template>
   <div class="nces_videoplayer" :style="{ width: this.videoselw }">
     <div class="player_title">
-      <span class="u-icon"></span>
-      <span>{{ this.v }}</span>
+      <span class="u-icon">{{ this.v }}</span>
       <span
         @click="fullpage"
         class="u-icon"
@@ -13,10 +12,7 @@
         }"
       ></span>
     </div>
-    <div
-      class="videobackg"
-      style="width:100%;height:calc(100% - 63px);position:relative"
-    >
+    <div class="videobackg">
       <div
         id="videobackg"
         :style="{
@@ -409,7 +405,7 @@ export default {
         // $(document).height() - (width * 9) / 16 - num - 8
         'calc(100vh - ' + num + ' - ' + trackbox_max_height + 'px)'
       )
-      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 58)
+      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
     },
     fullpage: function() {
       // 网页全屏方法
@@ -735,45 +731,35 @@ export default {
   width: 50%;
 
   .player_title {
-    height: 27px;
-    background-color: #2e2e2e;
+    height: 30px;
+    background-color: #212931;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
 
     .fullpage-in {
-      background-image: url('../../img/u5.png');
+      background: url('../../img/u5.png');
+      transform: scale(0.7);
     }
 
     .fullpage-out {
-      background-image: url('../../img/u5_1.png');
+      background: url('../../img/u5.png');
+      transform: scale(0.7);
     }
 
     > span {
       &:nth-child(1) {
-        background-image: url(../../img/u1.png);
-        width: 30px;
-        height: 30px;
-        display: inline-block;
-        /*vertical-align: middle;*/
-        float: left;
-        margin: 0 0;
+        background: url(../../img/u1.png) 0 center no-repeat;
+        text-indent: 25px;
+        line-height: 30px;
       }
 
       &:nth-child(2) {
-        height: 30px;
-        line-height: 30px;
-        display: inline-block;
-        float: left;
-        font-size: 14px;
-      }
-
-      &:nth-child(3) {
-        /* background-image: url(../img/u5.png); */
         width: 20px;
         height: 20px;
-        display: inline-block;
         background-size: 100%;
         cursor: pointer;
-        float: right;
-        margin: 3px 10px 0 0;
       }
     }
   }
@@ -786,14 +772,15 @@ export default {
       rgba(68, 68, 68, 0.5) 0,
       rgba(68, 68, 68, 0.5) 10px
     );
+    width: 100%;
+    height: calc(100% - 66px);
+    position: relative;
   }
 
   .video_control {
-    /*position: absolute;*/
-    /*bottom: 4px;*/
     width: 100%;
     height: 36px;
-    background-color: #232323;
+    background-color: #212931;
     line-height: 30px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -815,18 +802,22 @@ export default {
 
         &:nth-child(1) {
           background-image: url(../../img/u2.png);
+          transform: scale(0.8);
         }
 
         &:nth-child(2) {
           background-image: url(../../img/u3.png);
+          transform: scale(0.8);
 
           &.active {
             background-image: url(../../img/u13.png);
+            transform: scale(0.8);
           }
         }
 
         &:nth-child(3) {
           background-image: url(../../img/u4.png);
+          transform: scale(0.8);
         }
       }
     }
@@ -839,6 +830,7 @@ export default {
       > span {
         &:nth-child(1) {
           background-image: url(../../img/restart.png);
+          transform: scale(0.8);
           width: 20px;
           height: 20px;
           display: inline-block;
@@ -870,7 +862,8 @@ export default {
     line-height: 7px;
     font-weight: 900;
     width: 20px;
-    left: -10px;
+    left: -20px;
+    box-sizing: border-box;
     background-color: #212931;
     border-left: 1px solid #151a20;
     border-right: 2px solid #151a20;
@@ -880,7 +873,7 @@ export default {
       width: 10px;
       height: 20px;
       top: 50%;
-      transform: translate(5px, -50%);
+      transform: translate(3px, -50%);
       background: url(../../img/left_move.png) no-repeat;
       background-size: contain;
     }
