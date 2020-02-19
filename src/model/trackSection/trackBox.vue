@@ -389,7 +389,6 @@ export default {
       top: 50%;
       transform: translate(0, -50%);
       margin: 0 6px;
-      opacity: 0.4;
     }
 
     .vicon {

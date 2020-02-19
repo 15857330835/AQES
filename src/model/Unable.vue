@@ -1,7 +1,7 @@
 <template>
   <div id="nces">
     <div
-      style="width:100%;height:100%;display:block;background-color:#161616;color:#ccc; "
+      style="width:100%;height:100%;display:block;background-color:#151a20;color:#ccc; "
       class="prop"
     >
       <div

@@ -1,6 +1,6 @@
 <template>
   <div class="title-search">
-    <span class="search-label">标题 :</span>
+    <span class="search-label">标题 </span>
     <el-input
       class="input-search"
       v-model="innerTitle"
@@ -47,4 +47,34 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss">
+.title-search {
+  padding: 0 18px;
+  line-height: 50px;
+  background-color: #212931;
+  .search-label {
+    margin-right: 10px;
+  }
+  .input-search {
+    display: inline-block;
+    width: auto;
+    input {
+      width: 120px;
+      height: 25px;
+      background-color: rgb(48, 56, 64);
+      border: 1px solid rgb(57, 65, 73);
+      border-radius: 3px;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 12px;
+      color: #e4e4e4;
+      -web-kit-appearance: none;
+      -moz-appearance: none;
+      display: inline-block;
+      outline: 0;
+      padding: 0 1em;
+      text-decoration: none;
+    }
+  }
+}
+</style>

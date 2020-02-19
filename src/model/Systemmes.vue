@@ -136,54 +136,48 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
 .nces_sys {
   width: 100%;
-  height: 30px;
-  border-bottom: 2px solid rgba(27, 27, 27, 1);
-  background-color: #161616;
+  height: 50px;
+  background-color: #151a20;
+  .sys_title {
+    display: inline-block;
+    line-height: 50px;
+    text-indent: 15px;
+    .t1 {
+      width: 80px;
+      border-right: 1px solid #3f3f3f;
+      font-size: 16px;
+      padding: 0 10px 0 0;
+      height: 100%;
+    }
+    .t2 {
+      font-size: 14px;
+      padding: 0 10px;
+      height: 100%;
+    }
+  }
+  .sys_message {
+    display: inline-block;
+    line-height: 30px;
+    font-size: 12px;
+    & > span {
+      opacity: 0.7;
+      padding: 0 8px;
+      &.hide {
+        display: none;
+      }
+      &.warn {
+        color: #efc443;
+        opacity: 1;
+      }
+      &.danger {
+        opacity: 1;
+        color: red;
+      }
+    }
+  }
 }
 
-.nces_sys .sys_title {
-  display: inline-block;
-  /*width: 200px;*/
-  line-height: 30px;
-}
-
-.nces_sys .sys_title .t1 {
-  width: 80px;
-  border-right: 1px solid #3f3f3f;
-  font-size: 16px;
-  padding: 0 10px 0 0;
-  height: 100%;
-}
-
-.nces_sys .sys_title .t2 {
-  font-size: 14px;
-  padding: 0 10px;
-  height: 100%;
-}
-
-.nces_sys .sys_message {
-  display: inline-block;
-  line-height: 30px;
-  font-size: 12px;
-}
-
-.nces_sys .sys_message > span {
-  opacity: 0.7;
-  padding: 0 8px;
-}
-.nces_sys .sys_message > span.hide {
-  display: none;
-}
-.nces_sys .sys_message > span.warn {
-  color: #efc443;
-  opacity: 1;
-}
-.nces_sys .sys_message > span.danger {
-  opacity: 1;
-
-  color: red;
-}
 </style>

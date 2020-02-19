@@ -253,7 +253,7 @@ export default {
   width: calc(100% - 36px);
   bottom: -4px;
   left: 18px;
-  background-color: #161616;
+  background-color: #151a20;
   .time_track_title {
     position: relative;
     width: 160px;
@@ -312,7 +312,7 @@ export default {
           position: absolute;
           height: 12px;
           width: 12px;
-          background-image: url(../../img/us.png);
+          background-image: url(../../img/minify.png);
           display: inline-block;
           top: 50%;
           transform: translateY(-50%);
@@ -323,7 +323,7 @@ export default {
           position: absolute;
           height: 12px;
           width: 12px;
-          background-image: url(../../img/ub.png);
+          background-image: url(../../img/magnify.png);
           display: inline-block;
           top: 50%;
           transform: translateY(-50%);

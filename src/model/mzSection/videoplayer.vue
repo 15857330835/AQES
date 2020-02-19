@@ -174,9 +174,7 @@
       @touchend="mouseend"
       v-show="!exportVideoSetShow"
     >
-      <span>·</span>
-      <span>·</span>
-      <span>·</span>
+      <span class="move-icon"></span>
     </div>
   </div>
 </template>
@@ -871,16 +869,20 @@ export default {
     cursor: url(../../img/videoMove.png), pointer;
     line-height: 7px;
     font-weight: 900;
-    width: 10px;
+    width: 20px;
     left: -10px;
-    background-color: #161616;
+    background-color: #212931;
+    border-left: 1px solid #151a20;
+    border-right: 2px solid #151a20;
 
     span {
       text-align: center;
       width: 10px;
-      left: 0;
+      height: 20px;
       top: 50%;
-      transform: translate(0, -50%);
+      transform: translate(5px, -50%);
+      background: url(../../img/left_move.png) no-repeat;
+      background-size: contain;
     }
   }
 }

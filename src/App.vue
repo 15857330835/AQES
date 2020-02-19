@@ -336,6 +336,6 @@ export default {
   line-height: 56px;
 }
 .shadow {
-  background-color: #161616 !important;
+  background-color: #151a20 !important;
 }
 </style>

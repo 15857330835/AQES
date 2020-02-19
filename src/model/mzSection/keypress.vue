@@ -1069,7 +1069,7 @@ export default {
     position: absolute;
     top: 35px;
     width: 440px;
-    background-color: #161616;
+    background-color: #151a20;
     z-index: 1000;
     left: 50%;
     transform: translate(-50%, 0);

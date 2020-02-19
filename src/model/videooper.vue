@@ -490,7 +490,7 @@ export default {
 .nces_videooper {
   height: 30px;
   position: relative;
-  background-color: #161616;
+  background-color: #151a20;
 }
 
 .nces_videooper .oper_sel {
@@ -525,12 +525,12 @@ export default {
 }
 
 .nces_videooper .oper_sel > span:nth-child(3) {
-  background-image: url(../img/u92.png);
+  background-image: url(../img/edit.png);
   /* background-size: 90%; */
 }
 
 .nces_videooper .oper_sel > span:nth-child(4) {
-  background-image: url(../img/u94.png);
+  background-image: url(../img/delete.png);
   /* background-size: 85%; */
 }
 
@@ -570,6 +570,6 @@ export default {
 .nces_videooper .oper_sel > span:nth-child(11) {
   /* background-size: 80%; */
 
-  background-image: url(../img/u96.png);
+  background-image: url(../img/export.png);
 }
 </style>

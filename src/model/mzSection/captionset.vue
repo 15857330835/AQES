@@ -270,7 +270,7 @@ export default {
         borderRadius: 3,
         borderWidth: 1, // 边线宽度
         backgroundColor: '#1d1d1d', // 背景色颜色
-        hoverColor: '#161616', // 下拉框HOVER颜色
+        hoverColor: '#151a20', // 下拉框HOVER颜色
         arrowBorderWidth: 0, // 箭头左侧分割线宽度。如果为0则不显示
         placeholder: '', // 默认提示
         defalut: str,

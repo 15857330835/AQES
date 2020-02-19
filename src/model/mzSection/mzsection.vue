@@ -101,81 +101,11 @@ export default {
 .listContent {
   height: calc(100% - 27px);
 }
-
-.videolist_left {
-  width: 100px;
-  float: left;
-  border-right: 1px solid #161616;
-  height: 100%;
-}
-
-.listTitle {
-  height: 27px;
-  line-height: 27px;
-  font-size: 12px;
-  background-color: #2e2e2e;
-  border-bottom: 1px solid #282828;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.listTitle span:nth-child(1) {
-  background-image: url(../../img/u6.png);
-  display: inline-block;
-  width: 14px;
-  height: 12px;
-  position: absolute;
-  top: 50%;
-  left: 8px;
-  transform: translate(0, -50%);
-}
-
-.listTitle ul {
-  display: inline-block;
-  padding-left: 30px;
-}
-
-.listTitle ul li {
-  float: left;
-  padding: 0 10px;
-  cursor: pointer;
-}
-
-.listTitle ul li.active {
-  color: #61ded0;
-}
-
-.listTitle ul li:hover {
-  color: #61ded0;
-}
-
-.videolist_left .list_leftlist {
-  background-color: #232323;
-  padding: 10px 10px;
-  font-size: 12px;
-  box-sizing: border-box;
-  height: 100%;
-}
-
-.videolist_left .list_leftlist > li {
-  line-height: 25px;
-  cursor: pointer;
-  color: #e4e4e4;
-}
-
-.videolist_left .list_leftlist > li:hover {
-  color: #61ded0;
-}
-
-.videolist_left .list_leftlist > li.active {
-  color: #61ded0;
-}
-
 .videolist_right {
-  width: calc(100% - 102px);
+  width: calc(100% - 100px);
   float: left;
   height: 100%;
-  background-color: #232323;
+  background-color: #1c232a;
   position: relative;
   font-size: 12px;
 }
@@ -345,7 +275,7 @@ export default {
 }
 
 .bottom_tips .uploadfile {
-  background-color: #161616;
+  background-color: #151a20;
   height: 20px;
   line-height: 20px;
   border-radius: 10px;

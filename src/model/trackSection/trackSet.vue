@@ -214,7 +214,6 @@ export default {
   background-size: 70%;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #161616;
   border-radius: 3px;
   cursor: pointer;
 
@@ -222,7 +221,7 @@ export default {
     position: absolute;
     top: 20px;
     width: 100px;
-    background-color: #161616;
+    background-color: #151a20;
     z-index: 1004;
     -webkit-user-select: none;
     -moz-user-select: none;

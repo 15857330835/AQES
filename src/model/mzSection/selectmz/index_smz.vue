@@ -1,7 +1,6 @@
 <template>
   <div class="clearfix mzsection" style="height:100%;">
     <div class="listTitle">
-      <span></span>
       <ul class="listTitle_select">
         <li
           v-for="(item, index) in nav"
@@ -9,7 +8,8 @@
           @click="handleNavClick(item.title, item.component)"
           :class="{ active: item.title == isSelect }"
         >
-          {{ item.title }}
+          <span :class="item.name"></span>
+          <span class="tab-title">{{ item.title }}</span>
         </li>
       </ul>
     </div>
@@ -99,15 +99,15 @@ export default {
   data() {
     return {
       nav: [
-        { title: '媒资', component: mzView },
-        { title: '视频', component: videoView },
-        { title: '图片', component: imageView },
-        { title: '音乐', component: musicView },
-        { title: '文本', component: textView },
-        { title: '转场', component: transitionView },
-        { title: '字幕', component: captionView },
-        { title: '智能', component: aiView },
-        { title: '我的历史', component: historyView }
+        { title: '媒资', component: mzView, name: 'tab-media' },
+        { title: '视频', component: videoView, name: 'tab-video' },
+        { title: '图片', component: imageView, name: 'tab-image' },
+        { title: '音乐', component: musicView, name: 'tab-music' },
+        { title: '文本', component: textView, name: 'tab-text' },
+        { title: '转场', component: transitionView, name: 'tab-trans' },
+        { title: '字幕', component: captionView, name: 'tab-caption' },
+        { title: '智能', component: aiView, name: 'tab-intell' },
+        { title: '我的历史', component: historyView, name: 'tab-history' }
       ],
       isSelect: '媒资',
       currentComponent: mzView,
@@ -1500,4 +1500,102 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+$base-url: '../../../';
+.listTitle {
+  height: 50px;
+  font-size: 12px;
+  background-color: #212931;
+  position: relative;
+  border-bottom: 2px solid #151a20;
+  ul {
+    display: inline-block;
+    height: 100%;
+    li {
+      float: left;
+      padding: 5px 15px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 40px;
+      position: relative;
+      > span:first-of-type {
+        cursor: pointer;
+        height: 16px;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+      .tab-media {
+        background-image: url($base-url+'img/media.png');
+      }
+      .tab-video {
+        background-image: url($base-url+'img/vtrack.png');
+      }
+      .tab-image {
+        background-image: url($base-url+'img/image.png');
+      }
+      .tab-music {
+        background-image: url($base-url+'img/atrack.png');
+      }
+      .tab-text {
+        background-image: url($base-url+'img/text.png');
+      }
+      .tab-trans {
+        background-image: url($base-url+'img/trans.png');
+      }
+      .tab-caption {
+        background-image: url($base-url+'img/ziti.png');
+      }
+      .tab-intell {
+        background-image: url($base-url+'img/idea.png');
+      }
+      .tab-history {
+        background-image: url($base-url+'img/history.png');
+      }
+      &.active,
+      &:hover {
+        color: #61ded0;
+        &::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 1px;
+          top: 50px;
+          left: 0;
+          z-index: 99;
+          background-color: #61ded0;
+        }
+        .tab-media {
+          background-image: url($base-url+'img/media_a.png');
+        }
+        .tab-video {
+          background-image: url($base-url+'img/vtrack_a.png');
+        }
+        .tab-image {
+          background-image: url($base-url+'img/image_a.png');
+        }
+        .tab-music {
+          background-image: url($base-url+'img/atrack_a.png');
+        }
+        .tab-text {
+          background-image: url($base-url+'img/text_a.png');
+        }
+        .tab-trans {
+          background-image: url($base-url+'img/trans_a.png');
+        }
+        .tab-caption {
+          background-image: url($base-url+'img/ziti_a.png');
+        }
+        .tab-intell {
+          background-image: url($base-url+'img/idea_a.png');
+        }
+        .tab-history {
+          background-image: url($base-url+'img/history_a.png');
+        }
+      }
+    }
+  }
+}
+</style>

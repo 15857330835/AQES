@@ -191,34 +191,6 @@ export default {
     padding: 0 18px;
     line-height: 50px;
   }
-  .title-search {
-    padding: 0 18px;
-    line-height: 50px;
-    .search-label {
-      margin-right: 10px;
-    }
-    .input-search {
-      display: inline-block;
-      width: auto;
-      input {
-        box-sizing: border-box;
-        text-align: center;
-        font-size: 12px;
-        height: 20px;
-        border: 1px solid #686868;
-        color: #e4e4e4;
-        -web-kit-appearance: none;
-        -moz-appearance: none;
-        display: inline-block;
-        outline: 0;
-        padding: 0 1em;
-        text-decoration: none;
-        border-radius: 8px;
-        background-color: #1c1c1c;
-        width: 120px;
-      }
-    }
-  }
   .main {
     position: relative;
     height: calc(100% - 90px);
