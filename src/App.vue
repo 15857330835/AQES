@@ -2,7 +2,7 @@
   <div
     :id="this.id"
     :class="{ shadow: modalVoiceApplyIsShow || chunksetshow }"
-    style="height:100vh;background-color:#232323"
+    style="height:100vh;"
     v-cloak
     v-if="!this.startloading"
   >

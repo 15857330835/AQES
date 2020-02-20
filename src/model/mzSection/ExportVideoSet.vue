@@ -456,7 +456,6 @@ $font-color: #909399;
   position: absolute;
   top: 0;
   z-index: 1004;
-  background-color: #222;
   margin-top: 50px;
   overflow: hidden;
 
@@ -464,11 +463,10 @@ $font-color: #909399;
     font-size: 12px;
   }
   .header {
-    background-color: #2e2e2e;
-    height: 27px;
-    line-height: 27px;
+    height: 30px;
+    line-height: 30px;
     font-size: 14px;
-    padding-left: 10px;
+    padding-left: 15px;
   }
   .form {
     .el-form-item__label {

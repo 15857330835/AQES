@@ -536,7 +536,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$active-color: #3b8dcb;
+$active-color: #61ded0;
 .edit_ruler {
   position: relative;
   .edit_ruler_title {
@@ -634,7 +634,7 @@ $active-color: #3b8dcb;
       z-index: 4;
       height: 20px;
       width: 162px;
-      background-color: #222;
+      // background-color: #222;
     }
     &-right {
       height: 20px;
@@ -645,7 +645,7 @@ $active-color: #3b8dcb;
       z-index: 4;
       height: 20px;
       width: 15px;
-      background-color: #222;
+      // background-color: #222;
     }
   }
 }
