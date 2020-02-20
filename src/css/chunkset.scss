@@ -232,9 +232,9 @@
 
 .setContent {
   position: absolute;
-  top: 32px;
-  height: calc(100% - 40px);
-  background-color: #2e2e2e;
+  top: 50px;
+  height: calc(100% - 58px);
+  background-color: #212931;
   z-index: 1004;
   box-sizing: border-box;
   font-size: 14px;
@@ -243,7 +243,7 @@
   .setContent-do {
     height: 100%;
     margin-left: calc(100% + 11px);
-    background-color: #232323;
+    background-color: #1C232A;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -286,21 +286,21 @@
 .setContent {
   .setContent-sel {
     width: 100%;
-    height: calc(100% - 27px);
+    height: calc(100% - 30px);
     position: absolute;
-    top: 27px;
-    background-color: #232323;
+    top: 30px;
+    background-color: #1C232A;
     overflow: hidden;
   }
 }
 
 .setContent-sel {
   .content-sel-title {
-    height: 27px;
-    line-height: 27px;
+    height: 30px;
+    line-height: 30px;
     padding: 0 15px;
     position: absolute;
-    top: -27px;
+    top: -30px;
     color: #fff;
   }
 

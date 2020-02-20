@@ -163,7 +163,7 @@
       </div>
     </div>
     <div
-      class="videoMovebox"
+      :class="{ videoMovebox: true, 'set-active': chunksetshow }"
       @mousedown="openway == 'pc' ? mousedown($event) : temp()"
       @touchstart="mousedown"
       @touchmove="mousemove"
@@ -205,13 +205,13 @@ export default {
       'showwhat',
       'clientwidth',
       'systemmessage',
-      'chunksetshow',
       'activechunk',
       'propertyNum',
       'activeProperty',
       'filtershow',
       'openway',
       'changepos',
+      'chunksetshow',
       'exportVideoSetShow'
     ]),
     length() {
@@ -867,6 +867,12 @@ export default {
     background-color: #212931;
     border-left: 1px solid #151a20;
     border-right: 2px solid #151a20;
+    &.set-active {
+      background-color: transparent;
+      span {
+        transform: translate(8px, -50%) scale(0.8);
+      }
+    }
 
     span {
       text-align: center;

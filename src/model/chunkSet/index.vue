@@ -43,7 +43,13 @@
         @click="handleCancel"
         >{{ celBtnLoading ? '取消中' : '取消' }}
       </el-button>
-      <el-button class="do-sure" type="primary" @click="sure">确认</el-button>
+      <el-button
+        class="do-sure"
+        type="primary"
+        @click="sure"
+        style="backgroundColor:#61ded0;border:none;"
+        >确认</el-button
+      >
     </div>
   </div>
 </template>
