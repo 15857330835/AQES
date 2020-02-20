@@ -42,7 +42,7 @@ export default {
   computed: {
     ...mapState(['modalVoiceApplyIsShow', 'mzHeight', 'modalContent']),
     modalHeight() {
-      return this.mzHeight + 122
+      return this.mzHeight + 137
     }
   },
   created() {
@@ -78,7 +78,6 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-    margin: 0 18px;
     height: 300px;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1;

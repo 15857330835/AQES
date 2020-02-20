@@ -14,7 +14,7 @@
         :rules="rules"
         label-width="100px"
         size="mini"
-        style="margin-top: 20px;"
+        style="margin-top: 16px;"
         class="form"
         ref="form"
       >
@@ -257,12 +257,12 @@ export default {
       if (this.clientwidth >= 1440) {
         return (
           (this.clientwidth * this.track_property.fanwei['1920'].now * 9) / 16 +
-          30
+          60
         )
       } else {
         return (
           (this.clientwidth * this.track_property.fanwei['1440'].now * 9) / 16 +
-          30
+          60
         )
       }
     },
@@ -490,7 +490,7 @@ $font-color: #909399;
     text-align: center;
     color: $font-color;
     font-size: 12px;
-    min-height: 80px;
+    min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;

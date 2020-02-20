@@ -452,8 +452,8 @@ export default {
       this.CHANGE_SELECTMZ_SHOW(false)
       // resize and fix the scale between video and left section
       const fanwei = this.$store.state.all.track_property.fanwei
-      fanwei['1440'].now = 0.66
-      fanwei['1920'].now = 0.66
+      fanwei['1440'].now = 0.6
+      fanwei['1920'].now = 0.6
       this.PROPERTY_FANWEI(fanwei)
 
       // block main shortcuts like delete

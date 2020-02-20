@@ -305,7 +305,7 @@ export default {
   transform: translate(-50%, 0);
   cursor: ew-resize;
   display: inline-block;
-  width: 76px;
+  width: 96px;
   height: 20px;
   line-height: 20px;
 }
@@ -320,7 +320,6 @@ export default {
   transform: translate(-50%, 0);
 }
 .location-left {
-  /* background-color: red; */
   float: left;
   width: 16px;
   height: 16px;
@@ -328,6 +327,7 @@ export default {
   background-size: 100%;
   background-repeat: no-repeat;
   cursor: pointer;
+  transform: translate(2px, 1px);
 }
 .location-right {
   float: right;
@@ -337,6 +337,6 @@ export default {
   background-repeat: no-repeat;
   background-size: 100%;
   cursor: pointer;
-  transform: translateX(2px);
+  transform: translate(-2px, 1px);
 }
 </style>

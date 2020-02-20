@@ -586,14 +586,14 @@ $active-color: #61ded0;
   .export-time-line {
     position: absolute;
     height: 5px;
-    top: 58px;
+    top: 42px;
     background-color: $active-color;
     z-index: 1;
   }
   .pin {
     position: absolute;
     height: 5px;
-    top: 58px;
+    top: 42px;
     z-index: 3;
     &-left {
       position: absolute;

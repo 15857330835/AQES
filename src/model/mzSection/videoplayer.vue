@@ -870,8 +870,11 @@ export default {
     &.set-active {
       background-color: transparent;
       z-index: 666;
+      width: 10px;
+      border: none;
+      left: -10px;
       span {
-        transform: translate(8px, -50%) scale(0.8);
+        transform: translate(-1px, -50%) scale(0.8);
       }
     }
 
