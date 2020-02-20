@@ -123,6 +123,20 @@ label input[type="radio"]:checked:after {
 
 /*资源模块样式s*/
 
+/* 初始化loading样式begin */
+.el-loading-spinner .el-loading-text {
+  color: #61ded0;
+}
+
+.el-loading-spinner .path {
+  stroke: #61ded0;
+}
+
+.el-loading-spinner i {
+  color: #61ded0;
+}
+/* 初始化loading样式end */
+
 /*保存视频弹窗样式begin*/
 .content_select .outOption1 {
   padding-left: 183px;
@@ -486,3 +500,4 @@ div.loadingImg {
     transform: scaleY(3);
   }
 }
+
