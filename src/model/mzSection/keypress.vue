@@ -1079,7 +1079,7 @@ export default {
 .keypress_set_title {
   position: relative;
   height: 40px;
-  background-color: #2e2e2e;
+  background-color: #303840;
   line-height: 40px;
   font-size: 18px;
   text-align: center;

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="clearfix captionsetBox"
-    style="height:100%;backgroundColor:#232323;display: flex;flex-direction: column;"
-  >
+  <div class="clearfix captionsetBox">
     <div class="captionset_style">
       <span
         style="display:inline-block;height:100%;float:left;margin-left:40px;line-height:40px"
@@ -481,6 +478,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.captionsetBox {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .captionset_style {
   height: 40px;
   box-sizing: border-box;
@@ -551,6 +553,7 @@ export default {
     margin-right: 20px;
     margin-top: 10px;
     cursor: pointer;
+    color: #151a20;
   }
 }
 
