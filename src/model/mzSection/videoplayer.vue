@@ -869,6 +869,7 @@ export default {
     border-right: 2px solid #151a20;
     &.set-active {
       background-color: transparent;
+      z-index: 666;
       span {
         transform: translate(8px, -50%) scale(0.8);
       }

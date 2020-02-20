@@ -290,7 +290,6 @@
     position: absolute;
     top: 30px;
     background-color: #1C232A;
-    overflow: hidden;
   }
 }
 
@@ -325,29 +324,26 @@
 
       &.active {
         background-image: url(../img/set2.png);
-        background-size: 80%;
       }
     }
 
     .filterpng {
       background-image: url(../img/filter1.png);
-      background-size: 80%;
+      background-size: 88%;
       margin-right: 30px;
 
       &.active {
         background-image: url(../img/filter2.png);
-        background-size: 80%;
       }
     }
 
     .writepng {
-      background-image: url(../img/write.png);
-      background-size: 80%;
+      background-image: url(../img/write1.png);
+      background-size: 75%;
       margin-right: 30px;
 
       &.active {
-        background-image: url(../img/write_active.png);
-        background-size: 80%;
+        background-image: url(../img/write2.png);
       }
     }
 
