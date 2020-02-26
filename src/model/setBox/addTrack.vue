@@ -198,6 +198,7 @@ export default {
       &.con_click_make {
         background-color: #61ded0;
         border: 1px solid #61ded0;
+        color: #333;
       }
       &.con_click_cancel {
         background-color: #232323;

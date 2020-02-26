@@ -553,7 +553,7 @@ export default {
     margin-right: 20px;
     margin-top: 10px;
     cursor: pointer;
-    color: #151a20;
+    color: #333;
   }
 }
 

@@ -1,10 +1,8 @@
 <template>
   <div class="keyPress">
-    <div
-      style="height:100%;cursor:pointer"
-      title="快捷键"
-      @click="changeShow"
-    ></div>
+    <div class="keypress_out" title="快捷键" @click="changeShow">
+      <span>快捷键</span>
+    </div>
     <div class="keypress_set" v-show="this.keypressStaus">
       <div class="keypress_set_title">快捷键<em @click="changeShow">X</em></div>
       <div class="keypress_set_content">
@@ -1056,18 +1054,32 @@ export default {
 
 <style lang="scss" scoped>
 .keyPress {
-  background-image: url(../../img/keypress.png);
+  background: url(../../img/keypress.png) center top no-repeat;
   display: inline-block;
-  width: 30px;
-  height: 27px;
+  width: 60px;
+  height: 50px;
+  background-size: 30px 27px;
   position: absolute;
-  right: 8px;
+  right: 0;
   top: 0;
-  background-size: 100% 100%;
+
+  .keypress_out {
+    height: 100%;
+    cursor: pointer;
+    position: relative;
+    > span {
+      width: 100%;
+      text-align: center;
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
 
   .keypress_set {
     position: absolute;
-    top: 35px;
+    top: 26px;
     width: 440px;
     background-color: #151a20;
     z-index: 1000;

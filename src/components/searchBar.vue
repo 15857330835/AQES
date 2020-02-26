@@ -62,7 +62,7 @@ export default {
       width: 120px;
       height: 25px;
       background-color: rgb(48, 56, 64);
-      border: 1px solid rgb(57, 65, 73);
+      border: 1px solid #394149 !important;
       border-radius: 3px;
       box-sizing: border-box;
       text-align: center;
