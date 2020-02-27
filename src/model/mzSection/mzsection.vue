@@ -93,7 +93,7 @@ export default {
 }
 
 .listContent {
-  height: calc(100% - 27px);
+  height: calc(100% - 50px);
 }
 .videolist_right {
   width: calc(100% - 100px);
