@@ -73,7 +73,7 @@
         </div>
         <div class="track-box-left-mask" v-if="modalVoiceApplyIsShow"></div>
       </div>
-      <div style="float:left;width:calc(100% - 160px)" class="clearfix">
+      <div class="bg-container clearfix">
         <div class="edit_track_contents clearfix" ref="trackbox">
           <div
             v-for="(tracks, index) in track.v_track_list"
@@ -433,7 +433,16 @@ export default {
     }
   }
 }
-
+.bg-container {
+  float: left;
+  width: calc(100% - 160px);
+  background-image: repeating-linear-gradient(
+    #151a20,
+    #151a20 62px,
+    #1c232a 63px,
+    #1c232a 126px
+  );
+}
 .edit_track_contents {
   float: left;
   position: relative;
