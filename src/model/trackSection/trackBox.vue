@@ -76,115 +76,103 @@
       <div style="float:left;width:calc(100% - 160px)" class="clearfix">
         <div class="edit_track_contents clearfix" ref="trackbox">
           <div
-            class="track-item-outer"
             v-for="(tracks, index) in track.v_track_list"
             :key="tracks.track_id"
+            :id="tracks.track_id"
+            class="clearfix edit_track_content"
+            :track_type="tracks.track_type"
+            :able="tracks.bhidden || tracks.block"
+            style="height:63px"
           >
             <div
-              :id="tracks.track_id"
-              class="clearfix edit_track_content"
-              :track_type="tracks.track_type"
-              :able="tracks.bhidden || tracks.block"
-              style="height:63px"
+              class="track_able_content"
+              :style="{
+                width:
+                  length / (slidernum.max - track_property.ratio) + 100 + 'px',
+                left: -track_property.outLeft + 'px'
+              }"
             >
-              <div
-                class="track_able_content"
-                :style="{
-                  width:
-                    length / (slidernum.max - track_property.ratio) +
-                    100 +
-                    'px',
-                  left: -track_property.outLeft + 'px'
-                }"
-              >
-                <chunkbox
-                  :trackMark="index"
-                  v-for="(chunk, index1) in tracks.chunks.filter(
-                    chunk => chunk.chunk_type !== 5
-                  )"
-                  :key="chunk.chunk_id + chunk.src_id"
-                  :chunk="chunk"
-                  :trackid="tracks.track_id"
-                  :trackarr="tracks"
-                  :tracktype="tracks.track_type"
-                  :index="index1"
-                ></chunkbox>
-                <chunkdx
-                  v-for="chunk in tracks.chunks.filter(
-                    chunk => chunk.chunk_type === 5
-                  )"
-                  :key="chunk.chunk_id"
-                  :trackarr="tracks"
-                  :trackid="tracks.track_id"
-                  :chunk="chunk"
-                ></chunkdx>
-              </div>
-              <trackhide
-                :track="tracks"
-                :type="'v_track_list'"
-                :index="index"
-              ></trackhide>
-              <track-mask
-                :track="tracks"
-                :type="'v_track_list'"
-                :index="index"
-              ></track-mask>
+              <chunkbox
+                :trackMark="index"
+                v-for="(chunk, index1) in tracks.chunks.filter(
+                  chunk => chunk.chunk_type !== 5
+                )"
+                :key="chunk.chunk_id + chunk.src_id"
+                :chunk="chunk"
+                :trackid="tracks.track_id"
+                :trackarr="tracks"
+                :tracktype="tracks.track_type"
+                :index="index1"
+              ></chunkbox>
+              <chunkdx
+                v-for="chunk in tracks.chunks.filter(
+                  chunk => chunk.chunk_type === 5
+                )"
+                :key="chunk.chunk_id"
+                :trackarr="tracks"
+                :trackid="tracks.track_id"
+                :chunk="chunk"
+              ></chunkdx>
             </div>
+            <trackhide
+              :track="tracks"
+              :type="'v_track_list'"
+              :index="index"
+            ></trackhide>
+            <track-mask
+              :track="tracks"
+              :type="'v_track_list'"
+              :index="index"
+            ></track-mask>
           </div>
           <div
-            class="track-item-outer"
+            style="height:63px"
             v-for="(tracks, index) in this.track.a_track_list"
             :key="tracks.track_id"
+            :id="tracks.track_id"
+            class="clearfix edit_track_content"
+            :track_type="tracks.track_type"
+            :able="tracks.block || tracks.bhidden"
           >
             <div
-              style="height:63px"
-              :id="tracks.track_id"
-              class="clearfix edit_track_content"
-              :track_type="tracks.track_type"
-              :able="tracks.block || tracks.bhidden"
+              class="track_able_content"
+              :style="{
+                width:
+                  length / (slidernum.max - track_property.ratio) + 100 + 'px',
+                left: -track_property.outLeft + 'px'
+              }"
             >
-              <div
-                class="track_able_content"
-                :style="{
-                  width:
-                    length / (slidernum.max - track_property.ratio) +
-                    100 +
-                    'px',
-                  left: -track_property.outLeft + 'px'
-                }"
-              >
-                <chunkbox
-                  v-for="(chunk, index1) in tracks.chunks.filter(
-                    chunk => chunk.chunk_type !== 5
-                  )"
-                  :key="chunk.chunk_id + chunk.src_id"
-                  :trackid="tracks.track_id"
-                  :chunk="chunk"
-                  :trackarr="tracks"
-                  :tracktype="tracks.track_type"
-                  :index="index1"
-                ></chunkbox>
-                <chunkdx
-                  v-for="chunk in tracks.chunks.filter(
-                    chunk => chunk.chunk_type === 5
-                  )"
-                  :key="chunk.chunk_id"
-                  :trackid="tracks.track_id"
-                  :trackarr="tracks"
-                  :chunk="chunk"
-                ></chunkdx>
-              </div>
-              <trackhide
-                :track="tracks"
-                :type="'a_track_list'"
-                :index="index"
-              ></trackhide>
-              <track-mask
-                :track="tracks"
-                :type="'v_track_list'"
-                :index="index"
-              ></track-mask>
+              <chunkbox
+                v-for="(chunk, index1) in tracks.chunks.filter(
+                  chunk => chunk.chunk_type !== 5
+                )"
+                :key="chunk.chunk_id + chunk.src_id"
+                :trackid="tracks.track_id"
+                :chunk="chunk"
+                :trackarr="tracks"
+                :tracktype="tracks.track_type"
+                :index="index1"
+              ></chunkbox>
+              <chunkdx
+                v-for="chunk in tracks.chunks.filter(
+                  chunk => chunk.chunk_type === 5
+                )"
+                :key="chunk.chunk_id"
+                :trackid="tracks.track_id"
+                :trackarr="tracks"
+                :chunk="chunk"
+              ></chunkdx>
             </div>
+            <trackhide
+              :track="tracks"
+              :type="'a_track_list'"
+              :index="index"
+            ></trackhide>
+            <track-mask
+              :track="tracks"
+              :type="'v_track_list'"
+              :index="index"
+            ></track-mask>
           </div>
         </div>
       </div>
@@ -449,15 +437,10 @@ export default {
 .edit_track_contents {
   float: left;
   position: relative;
-  width: 100%;
+  margin: 0 25px 0 10px;
+  width: calc(100% - 35px);
   overflow: hidden;
-  > .track-item-outer {
-    height: 63px;
-    padding: 0 25px 0 10px;
-    &:nth-of-type(2n + 1) {
-      background-color: #151a20;
-    }
-  }
+
   .edit_track_content {
     float: left;
     width: 100%;

@@ -659,7 +659,7 @@ export default {
             ) < 10 &&
             this.track_property.xifuFlag
           ) {
-            this.x = 188 - this.track_property.outLeft
+            this.x = 170 - this.track_property.outLeft
             this.xifuindex = 0
             faaa++
           }
@@ -677,7 +677,7 @@ export default {
             this.x =
               this.delchunkposition.v[i][m].max /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              170 -
               this.track_property.outLeft
             this.xifuindex = this.delchunkposition.v[i][m].max
             faaa++
@@ -696,7 +696,7 @@ export default {
             this.x =
               this.delchunkposition.v[i][m].min /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              170 -
               this.track_property.outLeft
             this.xifuindex = this.delchunkposition.v[i][m].min
             faaa++
@@ -719,7 +719,7 @@ export default {
                 this.chunk.track_end +
                 this.chunk.track_start) /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              170 -
               this.track_property.outLeft
             this.xifuindex =
               this.delchunkposition.v[i][m].min -
@@ -745,7 +745,7 @@ export default {
                 this.chunk.track_end +
                 this.chunk.track_start) /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              170 -
               this.track_property.outLeft
             this.xifuindex =
               this.delchunkposition.v[i][m].max -
@@ -1111,7 +1111,6 @@ export default {
       const that = this
       this.x = this.getElementPos(this.chunk.chunk_id).x
       this.y = this.getElementPos(this.chunk.chunk_id).y - 1
-
       // *** 保存拖动时激活块坐标
       this.CHANGE_ACTIVE_CHUNK_POS({
         x: this.x,
