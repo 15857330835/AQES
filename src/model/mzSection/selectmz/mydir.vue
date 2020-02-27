@@ -1030,7 +1030,6 @@ export default {
   height: 100%;
   left: 0;
   top: 0;
-  background: #232323;
 
   .search-box {
     display: inline-block;
@@ -1044,11 +1043,14 @@ export default {
       display: inline-block;
       width: auto;
       input {
+        width: 120px;
+        height: 25px;
+        background-color: rgb(48, 56, 64);
+        border: 1px solid #394149 !important;
+        border-radius: 3px;
         box-sizing: border-box;
         text-align: center;
         font-size: 12px;
-        height: 20px;
-        border: 1px solid #686868;
         color: #e4e4e4;
         -web-kit-appearance: none;
         -moz-appearance: none;
@@ -1056,9 +1058,6 @@ export default {
         outline: 0;
         padding: 0 1em;
         text-decoration: none;
-        border-radius: 8px;
-        background-color: #1c1c1c;
-        width: 120px;
       }
     }
   }
@@ -1067,6 +1066,7 @@ export default {
     padding: 0 18px;
     line-height: 50px;
     position: relative;
+    background-color: #212931;
   }
   .mydir-bottom {
     height: calc(100% - 50px);

@@ -411,6 +411,7 @@ export default {
 .content_click .content_click_make {
   background-color: #61ded0;
   border: 1px solid #61ded0;
+  color: #333;
 }
 
 .content_click .content_click_cancel {

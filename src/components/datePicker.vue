@@ -40,8 +40,8 @@ export default {
 </script>
 <style lang="scss">
 $font-size: #e4e4e4;
-$backgroundColor: #222;
-$backgroundColorDarken: #1b1b1b;
+$backgroundColor: #212931;
+$backgroundColorDarken: rgb(48, 56, 64);
 .ad-datepicker {
   display: inline-block;
   .el-input__inner {

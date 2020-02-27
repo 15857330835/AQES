@@ -190,6 +190,7 @@ export default {
   .datepicker {
     padding: 0 18px;
     line-height: 50px;
+    background-color: #212931;
   }
   .main {
     position: relative;
