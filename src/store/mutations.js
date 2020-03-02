@@ -84,6 +84,7 @@ const CHANGE_AI_VIEW_MASK_IS_SHOW = 'CHANGE_AI_VIEW_MASK_IS_SHOW'
 const CHANGE_IS_OUT_TYPE_SHOW = 'CHANGE_IS_OUT_TYPE_SHOW'
 /* 字幕格式导出end */
 
+const CHANGE_IS_ADD_CAPTION = 'CHANGE_IS_ADD_CAPTION'
 export default {
   [CHANGE_MYDIRSHOW](state, data) {
     state.mydirshow = data
@@ -853,6 +854,10 @@ export default {
   /* 字幕格式导出begin */
   [CHANGE_IS_OUT_TYPE_SHOW](state, payload) {
     state.isOutTypeShow = payload
-  }
+  },
   /* 字幕格式导出end */
+
+  [CHANGE_IS_ADD_CAPTION](state, payload) {
+    state.isAddCaption = payload
+  }
 }

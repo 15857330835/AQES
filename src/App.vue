@@ -255,12 +255,18 @@ export default {
         })
     },
     keydownEvent(e) {
-      if (e.key === 'Control' || e.key === 'Meta') {
+      const onlyCtrl =
+        e.key === 'Control' && !e.shiftKey && !e.altKey && !e.metaKey
+      const onlyMeta =
+        e.key === 'Meta' && !e.shiftKey && !e.altKey && !e.ctrlKey
+      if ((onlyCtrl || onlyMeta) && window.zindex === 1) {
         this.CHANGE_IS_MULTI_SELECT(true)
+      } else {
+        this.CHANGE_IS_MULTI_SELECT(false)
       }
     },
     keyupEvent(e) {
-      if (e.key === 'Control' || e.key === 'Meta') {
+      if (!e.ctrlKey && !e.metaKey) {
         this.CHANGE_IS_MULTI_SELECT(false)
       }
     }

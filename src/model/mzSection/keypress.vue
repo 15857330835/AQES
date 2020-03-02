@@ -97,13 +97,13 @@
           </p>
           <p style="color:#939191">
             <label
-              ><i>全屏预览</i
+              ><i>多选</i
               ><input
                 class="captiontext"
                 style="color:#939191"
                 disabled
                 type="text"
-                value="双击视频"
+                value="Ctl+鼠标左键"
             /></label>
           </p>
         </div>
@@ -178,15 +178,29 @@
                 :value="this.keypress.save"
             /></label>
           </p>
+          <p>
+            <label @click="click"
+              ><i>添加字幕</i
+              ><input
+                type="radio"
+                name="keypress"
+                style="position:absolute;height:30px;opacity:0"
+                @keydown.stop="inputdown($event, 'add_caption')"/><input
+                class="captiontext"
+                type="text"
+                disabled
+                :value="this.keypress.add_caption"
+            /></label>
+          </p>
           <p style="color:#939191">
             <label
-              ><i>多选</i
+              ><i>全屏预览</i
               ><input
                 class="captiontext"
                 style="color:#939191"
                 disabled
                 type="text"
-                value="Ctl+鼠标左键"
+                value="双击视频"
             /></label>
           </p>
         </div>
@@ -217,7 +231,8 @@ export default {
       'all',
       'restActiveChunks',
       'ghostsPosition',
-      'modalVoiceApplyIsShow'
+      'modalVoiceApplyIsShow',
+      'captionsetshow'
     ]),
     loadingShow: function() {
       return this.startloading || this.onloading
@@ -270,6 +285,9 @@ export default {
             ob.normalKey = [arr[i].toLowerCase(), arr[i]]
             continue
           }
+          if (arr[i] === '') {
+            continue
+          }
           switch (arr[i]) {
             case 'Alt': {
               ob.altKey = true
@@ -286,6 +304,10 @@ export default {
             }
             case 'Space': {
               ob.normalKey = [' ', 'Spacebar']
+              break
+            }
+            case 'Enter': {
+              ob.normalKey = ['Enter']
               break
             }
             case 'Delete': {
@@ -353,7 +375,8 @@ export default {
       'POP_REST_ACTIVE_CHUNKS',
       'ACTIVE_CHUNK',
       'CHANGE_ACTIVE_CHUNK',
-      'UPDATE_CHUNK_POSITION'
+      'UPDATE_CHUNK_POSITION',
+      'CHANGE_IS_ADD_CAPTION'
     ]),
     click(e) {
       e.stopPropagation()
@@ -734,6 +757,23 @@ export default {
         this.CHANGE_BOXSET('savevideo')
       }
     },
+    addCapKeyPress(e) {
+      if (!this.captionsetshow) {
+        return
+      }
+      if (
+        e.altKey === this.trankeyPress.add_caption.altKey &&
+        (e.metaKey === this.trankeyPress.add_caption.metaKey ||
+          e.ctrlKey === this.trankeyPress.add_caption.ctrlKey) &&
+        e.shiftKey === this.trankeyPress.add_caption.shiftKey &&
+        (e.key === this.trankeyPress.add_caption.normalKey[0] ||
+          e.key === this.trankeyPress.add_caption.normalKey[1])
+      ) {
+        e.returnValue = false
+        e.preventDefault()
+        this.CHANGE_IS_ADD_CAPTION(true)
+      }
+    },
     lastFrameKeypress(e) {
       if (
         e.altKey === this.trankeyPress.last_frame.altKey &&
@@ -824,13 +864,14 @@ export default {
           this.redoKeypress(e)
           this.revokeKeypress(e)
           this.saveKeyPress(e)
+          // 全选
+          this.allSelectKeyPress(e)
+          this.addCapKeyPress(e)
         }
         if (window.zindex === 1 || window.zindex === 2) {
           this.lastFrameKeypress(e)
           this.nextFrameKeypress(e)
           this.playKeypress(e)
-          // 全选
-          this.allSelectKeyPress(e)
         }
         if (window.zindex === 3) {
           if (
@@ -909,6 +950,7 @@ export default {
     },
     inputdown: function(e, type) {
       // 修改快捷键事件
+      console.log(e)
       const that = this
       e.stopPropagation()
       e.preventDefault()
@@ -964,6 +1006,12 @@ export default {
         case 32: {
           obj.normalKey.name = 'Space'
           obj.normalKey.code = 32
+          break
+        }
+
+        case 13: {
+          obj.normalKey.name = 'Enter'
+          obj.normalKey.code = 13
           break
         }
 

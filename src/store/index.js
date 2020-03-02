@@ -134,6 +134,7 @@ const state = {
   isOutTypeShow: false,
   /* 字幕格式导出end */
 
+  isAddCaption: false,
   filterIndexMap: new Map([
     [1, 'video'],
     [2, 'text'],

@@ -12,113 +12,114 @@
 
       <span style="float:right" class="addCaption" @click="addCaption"></span>
     </div>
-    <div
-      :style="{ padding: '0 0 0 117px', display: 'flex', 'flex-wrap': 'wrap' }"
-    >
-      <div
-        style="position:relative;height:30px;float:left;padding-top:5px"
-        class="clearfix"
-      >
-        <capfontpick
-          :holder="font"
-          :style="{ width: '180px' }"
-          @change="fontChange"
-        ></capfontpick>
-      </div>
-      <div class="clearfix" style="float:left">
-        <input
-          type="number"
-          :value="fontSize"
-          class="styCap"
-          min="0"
-          max="96"
-          @blur="fontSizeChange($event.currentTarget)"
-        />
-      </div>
-      <div class="clearfix" style="float:left">
-        <div class="font-textcolor" :style="{ float: 'left' }">
-          <capcolorpick
+    <div class="cap-up-container">
+      <div class="captionset_set">
+        <div class="captionset_font clearfix">
+          <capfontpick
             :holder="font"
-            :type="'font'"
+            :style="{ width: '180px' }"
             @change="fontChange"
-          ></capcolorpick>
+          ></capfontpick>
         </div>
-      </div>
-      <div
-        title="粗体"
-        class="font-width font-option"
-        :class="font.weight > 500 ? 'active' : ''"
-        @click="togglefont('weight')"
-      >
-        <div></div>
-      </div>
-      <div
-        title="斜体"
-        class="font-style font-option"
-        :class="font.style != 'normal' ? 'active' : ''"
-        @click="togglefont('style')"
-      >
-        <div></div>
-      </div>
-      <div class="clearfix" style="float:left">
-        <div class="font-textProfile" :style="{ float: 'left' }">
-          <capcolorpick
-            :holder="font"
-            :type="'b'"
-            text="文本轮廓"
-            @change="fontChange"
-          ></capcolorpick>
+        <div class="clearfix" style="float:left">
+          <input
+            type="number"
+            :value="fontSize"
+            class="styCap"
+            min="0"
+            max="96"
+            @blur="fontSizeChange($event.currentTarget)"
+          />
         </div>
-      </div>
-      <div class="clearfix" style="float:left">
-        <div class="textBorder">
-          <div class="font-textoutline">
-            <div class="icon"></div>
+        <div class="clearfix" style="float:left">
+          <div class="font-textcolor" :style="{ float: 'left' }">
+            <capcolorpick
+              :holder="font"
+              :type="'font'"
+              @change="fontChange"
+            ></capcolorpick>
           </div>
-          <div class="el-icon-minus icon-item" @click="setoutline(-1)"></div>
-          <span>{{ outline }}</span
-          ><span>磅</span>
-          <div class="el-icon-plus icon-item" @click="setoutline(1)"></div>
         </div>
-      </div>
-      <div class="clearfix" style="float:left">
-        <div class="font-geshibeijingse" :style="{ float: 'left' }">
-          <!-- iconfont icon-geshibeijingse -->
-          <capcolorpick
-            :holder="font"
-            :type="'backg'"
-            @change="fontChange"
-          ></capcolorpick>
-        </div>
-      </div>
-    </div>
-
-    <div class="captionset_content" :style="{ height: 'calc(100% - 155px)' }">
-      <div>
         <div
-          class="captionset_contents"
-          v-for="(chunk, index) in this.all.caption.chunks"
-          :key="chunk.chunk_id"
-          :class="chunk.chunk_id == activechunk.chunk.chunk_id ? 'active' : ''"
+          title="粗体"
+          class="font-width font-option"
+          :class="font.weight > 500 ? 'active' : ''"
+          @click="togglefont('weight')"
         >
-          <span
-            style="display:inline-block;width:200px;height:30px;line-height:30px"
-            @click="textinput(index, chunk, false)"
+          <div></div>
+        </div>
+        <div
+          title="斜体"
+          class="font-style font-option"
+          :class="font.style != 'normal' ? 'active' : ''"
+          @click="togglefont('style')"
+        >
+          <div></div>
+        </div>
+        <div class="clearfix" style="float:left">
+          <div class="font-textProfile" :style="{ float: 'left' }">
+            <capcolorpick
+              :holder="font"
+              :type="'b'"
+              text="文本轮廓"
+              @change="fontChange"
+            ></capcolorpick>
+          </div>
+        </div>
+        <div class="clearfix" style="float:left">
+          <div class="textBorder">
+            <div class="font-textoutline">
+              <div class="icon"></div>
+            </div>
+            <div class="el-icon-minus icon-item" @click="setoutline(-1)"></div>
+            <span>{{ outline }}</span
+            ><span>磅</span>
+            <div class="el-icon-plus icon-item" @click="setoutline(1)"></div>
+          </div>
+        </div>
+        <div class="clearfix" style="float:left">
+          <div class="font-geshibeijingse" :style="{ float: 'left' }">
+            <!-- iconfont icon-geshibeijingse -->
+            <capcolorpick
+              :holder="font"
+              :type="'backg'"
+              @change="fontChange"
+            ></capcolorpick>
+          </div>
+        </div>
+      </div>
+
+      <div class="captionset_content">
+        <div>
+          <div
+            class="captionset_contents"
+            v-for="(chunk, index) in this.all.caption.chunks"
+            :key="chunk.chunk_id"
+            :class="
+              chunk.chunk_id == activechunk.chunk.chunk_id ? 'active' : ''
+            "
           >
             <span
-              v-html="trantime(chunk.track_start)"
-              style="margin-left:30px"
-            ></span
-            >&nbsp;~&nbsp;<span v-html="trantime(chunk.track_end)"></span></span
-          ><input
-            placeholder="点击此处修改内容"
-            v-model="chunk.text"
-            maxlength="80"
-            @focus="textinput(index, chunk, true)"
-            @blur="blur($event.currentTarget, chunk.chunk_id)"
-            class="captiontext"
-            type="text"
-          />
+              style="display:inline-block;width:200px;height:30px;line-height:30px"
+              @click="textinput(index, chunk, false)"
+            >
+              <span
+                v-html="trantime(chunk.track_start)"
+                style="margin-left:30px"
+              ></span
+              >&nbsp;~&nbsp;<span
+                v-html="trantime(chunk.track_end)"
+              ></span></span
+            ><input
+              placeholder="点击此处修改内容"
+              v-model="chunk.text"
+              maxlength="80"
+              @focus="textinput(index, chunk, true)"
+              @blur="blur($event.currentTarget, chunk.chunk_id)"
+              class="captiontext"
+              type="text"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -171,7 +172,7 @@ export default {
     // this.font = this.all.caption.status.font
   },
   computed: {
-    ...mapState(['captionlist', 'all', 'activechunk']),
+    ...mapState(['captionlist', 'all', 'activechunk', 'isAddCaption']),
     captions: function() {
       return this.all.caption.chunks.length
     },
@@ -220,6 +221,12 @@ export default {
           .getNiceScroll()
           .resize()
       }, 750)
+    },
+    isAddCaption(newVal) {
+      if (newVal) {
+        this.addCaption()
+      }
+      this.CHANGE_IS_ADD_CAPTION(false)
     }
   },
   methods: {
@@ -227,7 +234,8 @@ export default {
     ...mapMutations([
       'ACTIVE_CHUNK',
       'CHANGE_CAPTIONSETSHOW',
-      'CHANGE_IS_OUT_TYPE_SHOW'
+      'CHANGE_IS_OUT_TYPE_SHOW',
+      'CHANGE_IS_ADD_CAPTION'
     ]),
     initcaptionlist() {
       const a = []
@@ -482,23 +490,37 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-.captionset_style {
-  height: 40px;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.captionset_content {
-  height: calc(100% - 100px);
-  box-sizing: border-box;
-  padding: 10px 10px 0 10px;
-  overflow: hidden;
-}
-
-.captionset_contents {
-  &.active {
-    background-color: #131212;
+  .captionset_style {
+    height: 40px;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .cap-up-container {
+    height: calc(100% - 106px);
+    display: flex;
+    flex-direction: column;
+    .captionset_set {
+      padding: 0 0 0 117px;
+      display: flex;
+      flex-wrap: wrap;
+      .captionset_font {
+        position: relative;
+        height: 30px;
+        float: left;
+        padding-top: 5px;
+      }
+    }
+    .captionset_content {
+      box-sizing: border-box;
+      padding: 10px 10px 0 10px;
+      overflow: hidden;
+      flex: 1;
+      .captionset_contents {
+        &.active {
+          background-color: #131212;
+        }
+      }
+    }
   }
 }
 
