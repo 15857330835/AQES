@@ -48,15 +48,11 @@ export default {
   },
   props: ['track', 'index', 'tracks'],
   updated() {
-    $('#trackbox')
-      .getNiceScroll()
-      .resize()
+    this.CHANGE_IS_REFRESH_TRACK_BOX_BS(true)
   },
   methods: {
     ...mapActions(['Post', 'changeLoading']),
-    ...mapMutations({
-      UPDATE_TRACKPOSITION: 'UPDATE_TRACKPOSITION'
-    }),
+    ...mapMutations(['UPDATE_TRACKPOSITION', 'CHANGE_IS_REFRESH_TRACK_BOX_BS']),
     tracksetShow(e) {
       e.stopPropagation()
       if (this.track.block) {

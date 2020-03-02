@@ -197,10 +197,6 @@ export default {
     height: calc(100% - 90px);
     overflow-y: hidden;
     outline: none;
-    .bscroll-indicator {
-      background-color: rgb(170, 170, 170) !important;
-      border: none !important;
-    }
   }
 }
 .source-list-enter-active,

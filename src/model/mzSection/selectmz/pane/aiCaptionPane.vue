@@ -78,10 +78,6 @@ export default {
     &.highest {
       height: 100%;
     }
-    .bscroll-indicator {
-      background-color: rgb(170, 170, 170) !important;
-      border: none !important;
-    }
   }
 }
 .source-list-enter-active,

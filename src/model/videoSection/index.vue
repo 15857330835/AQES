@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
   data: function() {
     return {}
@@ -43,6 +43,7 @@ export default {
     ...mapState(['v'])
   },
   methods: {
+    ...mapMutations(['CHANGE_IS_REFRESH_CAPTION_SET_BS']),
     fullpage: function() {
       // 网页全屏方法
       // eslint-disable-next-line no-undef
@@ -55,7 +56,7 @@ export default {
         // Ignore or do something else
       }
     },
-    mousedown: function(e_para) {
+    mousedown(e_para) {
       const e = e_para || window.event
       const lh = $('.lh')
       const nces_videoplayer = $('.nces_videoplayer')
@@ -85,9 +86,7 @@ export default {
         $('.video_option')
           .getNiceScroll()
           .resize()
-        $('.captionset_content')
-          .getNiceScroll()
-          .resize()
+        this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
         // $("#trackbox").css('max-height',$(document).height() - width * 9 / 16 - 260 - 5);
         // $("#trackbox").css('max-height',350);
         $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)

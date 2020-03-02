@@ -1086,58 +1086,6 @@ export default {
     height: calc(100% - 50px);
     overflow-y: hidden;
     position: relative;
-    .bscroll-container {
-      .content_mes {
-        .input-search {
-          display: inline-block;
-          width: auto;
-          input {
-            box-sizing: border-box;
-            text-align: center;
-            font-size: 12px;
-            height: 20px;
-            border: 1px solid #686868;
-            color: #e4e4e4;
-            -web-kit-appearance: none;
-            -moz-appearance: none;
-            display: inline-block;
-            outline: 0;
-            padding: 0 1em;
-            text-decoration: none;
-            border-radius: 8px;
-            background-color: #1c1c1c;
-            width: 100px;
-          }
-        }
-      }
-    }
-    .bscroll-indicator {
-      background-color: rgb(170, 170, 170) !important;
-      border: none !important;
-      .content_mes {
-        .input-search {
-          display: inline-block;
-          width: auto;
-          input {
-            box-sizing: border-box;
-            text-align: center;
-            font-size: 12px;
-            height: 20px;
-            border: 1px solid #686868;
-            color: #e4e4e4;
-            -web-kit-appearance: none;
-            -moz-appearance: none;
-            display: inline-block;
-            outline: 0;
-            padding: 0 1em;
-            text-decoration: none;
-            border-radius: 8px;
-            background-color: #1c1c1c;
-            width: 120px;
-          }
-        }
-      }
-    }
   }
   .mydir-bottom-title {
     height: 40px;
@@ -1239,10 +1187,6 @@ export default {
     .upfilelist_content_select {
       position: relative;
       overflow-y: hidden;
-      .bscroll-indicator {
-        background-color: rgb(170, 170, 170) !important;
-        border: none !important;
-      }
     }
   }
   .upfilelist .newDir_content {

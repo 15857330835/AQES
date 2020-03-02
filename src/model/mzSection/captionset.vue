@@ -89,8 +89,8 @@
         </div>
       </div>
 
-      <div class="captionset_content">
-        <div>
+      <div class="captionset_content track-box bscroll" ref="bscroll">
+        <div class="bscroll-container">
           <div
             class="captionset_contents"
             v-for="(chunk, index) in this.all.caption.chunks"
@@ -137,29 +137,15 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
+import BScroll from 'better-scroll'
 import { captionUpdateFontStyleApi } from '@/api/Caption'
 import capfontpick from './capfontpick'
 import capcolorpick from './capcolorpick'
 import ExportCaption from './ExportCaption'
-// import systemmes from './model/Systemmes'
 
 export default {
   data: function() {
     return {
-      // font:{
-      // "font":"黑体",
-      // "family":"Noto Sans S Chinese",
-      // "size":34,
-      // "weight":600,
-      // "style":"normal",
-      // "fgcolour":"#FFFFFFFF",
-      // "bgcolour":"#00000000",
-      // "olcolour":"#FF000000",
-      // "outline":0,
-      // "pad":0,
-      // "halign":1,
-      // "valign":1
-      // }
       isOutTypeShow: false
     }
   },
@@ -168,11 +154,14 @@ export default {
     capcolorpick,
     ExportCaption
   },
-  created: function() {
-    // this.font = this.all.caption.status.font
-  },
   computed: {
-    ...mapState(['captionlist', 'all', 'activechunk', 'isAddCaption']),
+    ...mapState([
+      'captionlist',
+      'all',
+      'activechunk',
+      'isAddCaption',
+      'isRefreshCaptionSetBS'
+    ]),
     captions: function() {
       return this.all.caption.chunks.length
     },
@@ -217,9 +206,7 @@ export default {
   watch: {
     captions: function() {
       setTimeout(function() {
-        $('.captionset_content')
-          .getNiceScroll()
-          .resize()
+        this.aBScroll.refresh()
       }, 750)
     },
     isAddCaption(newVal) {
@@ -227,6 +214,12 @@ export default {
         this.addCaption()
       }
       this.CHANGE_IS_ADD_CAPTION(false)
+    },
+    isRefreshCaptionSetBS(newVal) {
+      if (newVal) {
+        this.CHANGE_IS_REFRESH_CAPTION_SET_BS(false)
+        this.aBScroll.refresh()
+      }
     }
   },
   methods: {
@@ -235,7 +228,8 @@ export default {
       'ACTIVE_CHUNK',
       'CHANGE_CAPTIONSETSHOW',
       'CHANGE_IS_OUT_TYPE_SHOW',
-      'CHANGE_IS_ADD_CAPTION'
+      'CHANGE_IS_ADD_CAPTION',
+      'CHANGE_IS_REFRESH_CAPTION_SET_BS'
     ]),
     initcaptionlist() {
       const a = []
@@ -408,11 +402,8 @@ export default {
       }
       data.success = function(res) {
         that.changeLoading(function() {
-          $('.captionset_content')
-            .getNiceScroll()
-            .resize()
+          this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
         })
-        console.log(res.data)
         that.ACTIVE_CHUNK({
           chunk: res.data,
           index: that.activechunk.index + 1
@@ -466,20 +457,24 @@ export default {
       this.outline = parseInt(this.font.outline, 10) + step
       this.fontUpdate(this.font)
     },
-    textinput: function(index, chunk, changeindex) {
+    textinput(index, chunk, changeindex) {
       this.ACTIVE_CHUNK({ chunk: chunk, index: index })
       if (changeindex) {
         window.zindex = 0
       }
     }
   },
-  mounted: function() {
+  mounted() {
     this.initcaptionlist()
-    $('.captionset_content').niceScroll({
-      cursorcolor: '#AAAAAA',
-      cursorborder: '1px solid #AAAAAA',
-      horizrailenabled: false,
-      enablescrollonselection: true
+    const bscrollDom = this.$refs.bscroll
+    this.aBScroll = new BScroll(bscrollDom, {
+      mouseWheel: true,
+      click: true,
+      tap: true,
+      scrollbar: {
+        fade: true,
+        interactive: true
+      }
     })
   }
 }

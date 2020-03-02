@@ -135,6 +135,11 @@ const state = {
   /* 字幕格式导出end */
 
   isAddCaption: false,
+
+  /* BS滚动begin */
+  isRefreshTrackBoxBS: false,
+  isRefreshCaptionSetBS: false,
+  /* BS滚动end */
   filterIndexMap: new Map([
     [1, 'video'],
     [2, 'text'],

@@ -1,6 +1,11 @@
 <template>
-  <div id="trackbox" @mousedown="clearActiveChunks">
-    <div class="edit_track clearfix">
+  <div
+    id="trackbox"
+    @mousedown="clearActiveChunks"
+    class="track-box bscroll"
+    ref="bscroll"
+  >
+    <div class="edit_track clearfix bscroll-container">
       <div
         style="width:160px;float:left;position:relative"
         @mousedown="failClick"
@@ -182,10 +187,10 @@
 </template>
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
+import BScroll from 'better-scroll'
 import trackstatus from './trackStatus'
 import trackset from './trackSet'
 import trackvolue from './trackVolue'
-// import trackbox from "./trackBox";
 import chunkdx from './chunkDx'
 import chunkbox from './chunkBox'
 import trackhide from './trackHide'
@@ -212,7 +217,8 @@ export default {
       'slidernum',
       'moveResultFlag',
       'modalVoiceApplyIsShow',
-      'isTrackSelect'
+      'isTrackSelect',
+      'isRefreshTrackBoxBS'
     ]),
     track() {
       return this.$store.state.all.tracks
@@ -241,7 +247,8 @@ export default {
       'UPDATE_CAPTIONPOSITION',
       'CLEAR_REST_ACTIVE_CHUNKS',
       'EMPTY_ACTIVE_CHUNK',
-      'UPDATE_CHUNK_POSITION'
+      'UPDATE_CHUNK_POSITION',
+      'CHANGE_IS_REFRESH_TRACK_BOX_BS'
     ]),
     // mouseenter(e) {},
     changeTrackboxSize() {
@@ -305,7 +312,7 @@ export default {
     }
   },
   watch: {
-    tracknum: function() {
+    tracknum() {
       const that = this
       setTimeout(function() {
         that.UPDATE_TRACKBOX()
@@ -313,19 +320,16 @@ export default {
         that.UPDATE_CAPTIONPOSITION()
         $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
       }, 0)
+      this.aBScroll.refresh()
     },
-    track: {
-      handler: function(newVal) {
-        setTimeout(() => {
-          $('#trackbox')
-            .getNiceScroll()
-            .resize()
-        }, 0)
-      },
-      immediate: true
+    isRefreshTrackBoxBS(newVal) {
+      if (newVal) {
+        this.CHANGE_IS_REFRESH_TRACK_BOX_BS(false)
+        this.aBScroll.refresh()
+      }
     }
   },
-  mounted: function() {
+  mounted() {
     // 获取可视区域图片的方法
     this.getnowimg()
     // 初始化获取轨道有效区域
@@ -341,13 +345,15 @@ export default {
     this.UPDATE_TRACKPOSITION(5)
     this.UPDATE_CAPTIONPOSITION()
 
-    // 轨道区域滚动条
-    $('#trackbox').niceScroll({
-      cursorcolor: '#AAAAAA',
-      cursorborder: '1px solid #AAAAAA',
-      enablekeyboard: false,
-      horizrailenabled: false,
-      enablescrollonselection: false
+    const bscrollDom = this.$refs.bscroll
+    this.aBScroll = new BScroll(bscrollDom, {
+      mouseWheel: true,
+      click: true,
+      tap: true,
+      scrollbar: {
+        fade: true,
+        interactive: true
+      }
     })
     // 可视区域的配置选项
     // const data = {

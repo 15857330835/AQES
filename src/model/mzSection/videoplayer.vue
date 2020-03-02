@@ -270,7 +270,9 @@ export default {
       'PROPERTY_FANWEI',
       'CHANGE_ACTIVEPROPERTY',
       'CHANGE_PROPERTYNUM',
-      'ADD_REFRESH_KEY'
+      'ADD_REFRESH_KEY',
+      'CHANGE_IS_REFRESH_TRACK_BOX_BS',
+      'CHANGE_IS_REFRESH_CAPTION_SET_BS'
     ]),
     ...mapActions([
       'postPointer',
@@ -407,7 +409,7 @@ export default {
       )
       $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
     },
-    fullpage: function() {
+    fullpage() {
       // 网页全屏方法
       // const callback = () => {
       //   this.ADD_REFRESH_KEY()
@@ -434,7 +436,7 @@ export default {
         this.$fullscreen.exit({ callback: this.buffResizeScreen })
       }
     },
-    videoRefresh: function() {
+    videoRefresh() {
       // 刷新播放器
       $.post(
         window.NCES.DOMAIN + '/api/player',
@@ -468,7 +470,7 @@ export default {
         this.lasttime = Date.now()
       }
     },
-    fullscreen: function(e) {
+    fullscreen(e) {
       // h5播放器全屏
       if (!this.isFullScreen) {
         // video未全屏
@@ -510,7 +512,7 @@ export default {
 
       // }
     },
-    mousemove: function(e_para) {
+    mousemove(e_para) {
       if (!this.videomove) {
         return
       }
@@ -545,9 +547,6 @@ export default {
       $('.video_option')
         .getNiceScroll()
         .resize()
-      $('#trackbox')
-        .getNiceScroll()
-        .resize()
       $('.mydir-bottom-content')
         .getNiceScroll()
         .resize()
@@ -578,15 +577,13 @@ export default {
       $('.video_option')
         .getNiceScroll()
         .resize()
-      $('#trackbox')
-        .getNiceScroll()
-        .resize()
       $('.mydir-bottom-content')
         .getNiceScroll()
         .resize()
+      this.CHANGE_IS_REFRESH_TRACK_BOX_BS(true)
       this.resizeScreen()
     },
-    mouseend: function(e) {
+    mouseend(e) {
       this.videomove = false
       const data = {}
       data.type = 'track'
@@ -601,8 +598,11 @@ export default {
       if (this.openway === 'pc') {
         $(document).unbind('mousemove')
       }
+      console.log('123')
+      this.CHANGE_IS_REFRESH_TRACK_BOX_BS(true)
+      this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
     },
-    mousedown: function(e_para) {
+    mousedown(e_para) {
       // 视频播放器宽度调节
       this.videomove = true
       let e = e_para
@@ -628,7 +628,7 @@ export default {
       }
     }
   },
-  mounted: function() {
+  mounted() {
     const that = this
     this.resizeScreen()
     window.addEventListener('resize', this.throttleResizeScreen)

@@ -160,6 +160,8 @@ export default {
       setTimeout(() => {
         this.UPDATE_TRACK_MIX()
       }, 1000)
+      this.CHANGE_IS_REFRESH_TRACK_BOX_BS(true)
+      this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
     }),
     mixedResize() {
       this.throttleResize()
@@ -179,7 +181,9 @@ export default {
       'INIT_FILTERLIST',
       'UPDATE_TRACK_MIX',
       'CHANGE_IS_MULTI_SELECT',
-      'CHANGE_VIS_TIMER_WIDTH'
+      'CHANGE_VIS_TIMER_WIDTH',
+      'CHANGE_IS_REFRESH_TRACK_BOX_BS',
+      'CHANGE_IS_REFRESH_CAPTION_SET_BS'
     ]),
     // checkstatus() {
     //   const that = this
