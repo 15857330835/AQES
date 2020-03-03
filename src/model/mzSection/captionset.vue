@@ -116,6 +116,7 @@
               maxlength="80"
               @focus="textinput(index, chunk, true)"
               @blur="blur($event.currentTarget, chunk.chunk_id)"
+              @keydown.stop="keydownHandler($event, chunk.chunk_id)"
               class="captiontext"
               type="text"
             />
@@ -144,7 +145,7 @@ import capcolorpick from './capcolorpick'
 import ExportCaption from './ExportCaption'
 
 export default {
-  data: function() {
+  data() {
     return {
       isOutTypeShow: false
     }
@@ -160,6 +161,8 @@ export default {
       'all',
       'activechunk',
       'isAddCaption',
+      'captionsetshow',
+      'trankeyPress',
       'isRefreshCaptionSetBS'
     ]),
     captions: function() {
@@ -204,8 +207,8 @@ export default {
     }
   },
   watch: {
-    captions: function() {
-      setTimeout(function() {
+    captions() {
+      setTimeout(() => {
         this.aBScroll.refresh()
       }, 750)
     },
@@ -231,6 +234,24 @@ export default {
       'CHANGE_IS_ADD_CAPTION',
       'CHANGE_IS_REFRESH_CAPTION_SET_BS'
     ]),
+    keydownHandler(e, id) {
+      if (!this.captionsetshow) {
+        return
+      }
+      if (
+        e.altKey === this.trankeyPress.add_caption.altKey &&
+        (e.metaKey === this.trankeyPress.add_caption.metaKey ||
+          e.ctrlKey === this.trankeyPress.add_caption.ctrlKey) &&
+        e.shiftKey === this.trankeyPress.add_caption.shiftKey &&
+        (e.key === this.trankeyPress.add_caption.normalKey[0] ||
+          e.key === this.trankeyPress.add_caption.normalKey[1])
+      ) {
+        e.returnValue = false
+        e.preventDefault()
+        this.blur(e.currentTarget, id)
+        this.CHANGE_IS_ADD_CAPTION(true)
+      }
+    },
     initcaptionlist() {
       const a = []
       let str = ''
@@ -278,7 +299,7 @@ export default {
         retur: true
       })
     },
-    trantime: function(s_para) {
+    trantime(s_para) {
       let s = s_para
       let h = Math.floor(s / 1500)
       let m = Math.floor((s % 1500) / 25)
@@ -288,7 +309,7 @@ export default {
       h < 10 && (h = '0' + h)
       return h + ':' + m + ':' + s // 00:00:00
     },
-    blur: function(target, id) {
+    blur(target, id) {
       const that = this
       const data = {}
       data.type = 'caption'
@@ -402,7 +423,7 @@ export default {
       }
       data.success = function(res) {
         that.changeLoading(function() {
-          this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
+          that.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
         })
         that.ACTIVE_CHUNK({
           chunk: res.data,

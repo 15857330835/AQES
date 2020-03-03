@@ -135,6 +135,7 @@ const state = {
   /* 字幕格式导出end */
 
   isAddCaption: false,
+  trankeyPress: {},
 
   /* BS滚动begin */
   isRefreshTrackBoxBS: false,

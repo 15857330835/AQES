@@ -215,13 +215,13 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import { deepClone } from '@/utils'
 
 export default {
-  data: function() {
+  data() {
     return { keypress: {}, keypressStaus: false, fuzhistatus: false }
   },
   //   components: {
   //   		systemmes,
   //   },
-  created: function() {
+  created() {
     this.getKeypress()
   },
   computed: {
@@ -234,10 +234,10 @@ export default {
       'modalVoiceApplyIsShow',
       'captionsetshow'
     ]),
-    loadingShow: function() {
+    loadingShow() {
       return this.startloading || this.onloading
     },
-    trankeyPress: function() {
+    trankeyPress() {
       const obj = {}
       for (const key of Object.keys(this.keypress)) {
         const ob = {
@@ -343,7 +343,11 @@ export default {
       return this.$store.state.all.pointer
     }
   },
-  watch: {},
+  watch: {
+    trankeyPress(newVal) {
+      this.CHANGE_TRANKEY_PRESS(newVal)
+    }
+  },
   methods: {
     ...mapActions([
       'postPointer',
@@ -376,7 +380,8 @@ export default {
       'ACTIVE_CHUNK',
       'CHANGE_ACTIVE_CHUNK',
       'UPDATE_CHUNK_POSITION',
-      'CHANGE_IS_ADD_CAPTION'
+      'CHANGE_IS_ADD_CAPTION',
+      'CHANGE_TRANKEY_PRESS'
     ]),
     click(e) {
       e.stopPropagation()
@@ -866,7 +871,7 @@ export default {
           this.saveKeyPress(e)
           // 全选
           this.allSelectKeyPress(e)
-          this.addCapKeyPress(e)
+          // this.addCapKeyPress(e)
         }
         if (window.zindex === 1 || window.zindex === 2) {
           this.lastFrameKeypress(e)
@@ -898,7 +903,7 @@ export default {
       this.keypressStaus = !this.keypressStaus
       $('.keypress_set input').prop('checked', false)
     },
-    getKeypress: function() {
+    getKeypress() {
       // 获取快捷键配置选项
       const that = this
       const formkey = {

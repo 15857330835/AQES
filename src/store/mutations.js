@@ -91,6 +91,8 @@ const CHANGE_IS_REFRESH_TRACK_BOX_BS = 'CHANGE_IS_REFRESH_TRACK_BOX_BS'
 const CHANGE_IS_REFRESH_CAPTION_SET_BS = 'CHANGE_IS_REFRESH_CAPTION_SET_BS'
 /* BS滚动end */
 
+const CHANGE_TRANKEY_PRESS = 'CHANGE_TRANKEY_PRESS'
+
 export default {
   [CHANGE_MYDIRSHOW](state, data) {
     state.mydirshow = data
@@ -871,5 +873,8 @@ export default {
   },
   [CHANGE_IS_REFRESH_CAPTION_SET_BS](state, payload) {
     state.isRefreshCaptionSetBS = payload
+  },
+  [CHANGE_TRANKEY_PRESS](state, payload) {
+    state.trankeyPress = payload
   }
 }

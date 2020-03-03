@@ -598,7 +598,6 @@ export default {
       if (this.openway === 'pc') {
         $(document).unbind('mousemove')
       }
-      console.log('123')
       this.CHANGE_IS_REFRESH_TRACK_BOX_BS(true)
       this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
     },
