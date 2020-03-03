@@ -8,7 +8,7 @@
       :style="{ width: 'calc(' + this.videoselw + ' - 20px)' }"
     >
       <selectmz v-show="!this.captionsetshow && selectmzShow"></selectmz>
-      <captionset v-show="this.captionsetshow"></captionset>
+      <captionset v-if="this.captionsetshow"></captionset>
     </div>
     <videoplayer v-if="systemmessage.player"></videoplayer>
   </div>
