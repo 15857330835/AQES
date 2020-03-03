@@ -25,6 +25,18 @@ const isDev = process.env.NODE_ENV !== 'production'
 Vue.config.performance = isDev
 
 const ie = window.NCES.Define()
+Vue.directive('focus', {
+  inserted: function(el, obj) {
+    if (obj.value) {
+      el.focus()
+    }
+  },
+  componentUpdated: function(el, obj) {
+    if (obj.value) {
+      el.focus()
+    }
+  }
+})
 // eslint-disable-next-line no-unused-vars
 let vm
 if (ie === 6 || ie === 7 || ie === 8 || ie === 9 || ie === 10) {

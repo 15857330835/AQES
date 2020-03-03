@@ -116,9 +116,11 @@
               maxlength="80"
               @focus="textinput(index, chunk, true)"
               @blur="blur($event.currentTarget, chunk.chunk_id)"
-              @keydown.stop="keydownHandler($event, chunk.chunk_id)"
+              @keydown.stop="keydownHandler($event, chunk.chunk_id, index)"
               class="captiontext"
               type="text"
+              v-focus="focusIndex === index"
+              @click.stop="focusIndex = index"
             />
           </div>
         </div>
@@ -138,7 +140,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
-import BScroll from 'better-scroll'
+// import BScroll from 'better-scroll'
 import { captionUpdateFontStyleApi } from '@/api/Caption'
 import capfontpick from './capfontpick'
 import capcolorpick from './capcolorpick'
@@ -147,7 +149,8 @@ import ExportCaption from './ExportCaption'
 export default {
   data() {
     return {
-      isOutTypeShow: false
+      isOutTypeShow: false,
+      focusIndex: -1
     }
   },
   components: {
@@ -165,10 +168,10 @@ export default {
       'trankeyPress',
       'isRefreshCaptionSetBS'
     ]),
-    captions: function() {
+    captionsLen() {
       return this.all.caption.chunks.length
     },
-    loadingShow: function() {
+    loadingShow() {
       return this.startloading || this.onloading
     },
     font: {
@@ -207,9 +210,12 @@ export default {
     }
   },
   watch: {
-    captions() {
-      setTimeout(() => {
-        this.aBScroll.refresh()
+    captionsLen() {
+      // this.$nextTick(() => this.aBScroll.refresh())
+      setTimeout(function() {
+        $('.captionset_content')
+          .getNiceScroll()
+          .resize()
       }, 750)
     },
     isAddCaption(newVal) {
@@ -221,7 +227,12 @@ export default {
     isRefreshCaptionSetBS(newVal) {
       if (newVal) {
         this.CHANGE_IS_REFRESH_CAPTION_SET_BS(false)
-        this.aBScroll.refresh()
+        // this.$nextTick(() => this.aBScroll.refresh())
+        setTimeout(function() {
+          $('.captionset_content')
+            .getNiceScroll()
+            .resize()
+        }, 750)
       }
     }
   },
@@ -234,11 +245,27 @@ export default {
       'CHANGE_IS_ADD_CAPTION',
       'CHANGE_IS_REFRESH_CAPTION_SET_BS'
     ]),
-    keydownHandler(e, id) {
+    // eslint-disable-next-line complexity
+    keydownHandler(e, id, i) {
       if (!this.captionsetshow) {
         return
       }
+      const isNormal = !e.shiftKey && !e.altKey && !e.metaKey && !e.ctrlKey
       if (
+        isNormal &&
+        (e.keyCode === 13 ||
+          e.key === 'Enter' ||
+          e.keyCode === 40 ||
+          e.key === 'ArrowDown')
+      ) {
+        if (i < this.captionsLen - 1) {
+          this.focusIndex = i + 1
+        }
+      } else if (isNormal && (e.keyCode === 38 || e.key === 'ArrowUp')) {
+        if (i > 0) {
+          this.focusIndex = i - 1
+        }
+      } else if (
         e.altKey === this.trankeyPress.add_caption.altKey &&
         (e.metaKey === this.trankeyPress.add_caption.metaKey ||
           e.ctrlKey === this.trankeyPress.add_caption.ctrlKey) &&
@@ -249,7 +276,7 @@ export default {
         e.returnValue = false
         e.preventDefault()
         this.blur(e.currentTarget, id)
-        this.CHANGE_IS_ADD_CAPTION(true)
+        this.addCaption()
       }
     },
     initcaptionlist() {
@@ -310,6 +337,7 @@ export default {
       return h + ':' + m + ':' + s // 00:00:00
     },
     blur(target, id) {
+      this.focusIndex = -1
       const that = this
       const data = {}
       data.type = 'caption'
@@ -487,15 +515,21 @@ export default {
   },
   mounted() {
     this.initcaptionlist()
-    const bscrollDom = this.$refs.bscroll
-    this.aBScroll = new BScroll(bscrollDom, {
-      mouseWheel: true,
-      click: true,
-      tap: true,
-      scrollbar: {
-        fade: true,
-        interactive: true
-      }
+    // const bscrollDom = this.$refs.bscroll
+    // this.aBScroll = new BScroll(bscrollDom, {
+    //   mouseWheel: true,
+    //   click: true,
+    //   tap: true,
+    //   scrollbar: {
+    //     fade: false,
+    //     interactive: true
+    //   }
+    // })
+    $('.captionset_content').niceScroll({
+      cursorcolor: '#AAAAAA',
+      cursorborder: '1px solid #AAAAAA',
+      horizrailenabled: false,
+      enablescrollonselection: true
     })
   }
 }

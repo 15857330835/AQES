@@ -123,7 +123,8 @@ export default {
       'ACTIVE_CHUNK',
       'CHANGE_CAPTIONSETSHOW',
       'PROPERTY_OUTLEFT',
-      'CLEAR_REST_ACTIVE_CHUNKS'
+      'CLEAR_REST_ACTIVE_CHUNKS',
+      'CHANGE_IS_REFRESH_CAPTION_SET_BS'
     ]),
     // eslint-disable-next-line no-empty-function
     temp() {},
@@ -525,6 +526,7 @@ export default {
     },
     dblclick() {
       this.CHANGE_CAPTIONSETSHOW(true)
+      this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
     },
     toLeft: function(e_para) {
       e_para.stopPropagation()
