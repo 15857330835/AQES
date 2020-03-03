@@ -762,23 +762,23 @@ export default {
         this.CHANGE_BOXSET('savevideo')
       }
     },
-    addCapKeyPress(e) {
-      if (!this.captionsetshow) {
-        return
-      }
-      if (
-        e.altKey === this.trankeyPress.add_caption.altKey &&
-        (e.metaKey === this.trankeyPress.add_caption.metaKey ||
-          e.ctrlKey === this.trankeyPress.add_caption.ctrlKey) &&
-        e.shiftKey === this.trankeyPress.add_caption.shiftKey &&
-        (e.key === this.trankeyPress.add_caption.normalKey[0] ||
-          e.key === this.trankeyPress.add_caption.normalKey[1])
-      ) {
-        e.returnValue = false
-        e.preventDefault()
-        this.CHANGE_IS_ADD_CAPTION(true)
-      }
-    },
+    // addCapKeyPress(e) {
+    //   if (!this.captionsetshow) {
+    //     return
+    //   }
+    //   if (
+    //     e.altKey === this.trankeyPress.add_caption.altKey &&
+    //     (e.metaKey === this.trankeyPress.add_caption.metaKey ||
+    //       e.ctrlKey === this.trankeyPress.add_caption.ctrlKey) &&
+    //     e.shiftKey === this.trankeyPress.add_caption.shiftKey &&
+    //     (e.key === this.trankeyPress.add_caption.normalKey[0] ||
+    //       e.key === this.trankeyPress.add_caption.normalKey[1])
+    //   ) {
+    //     e.returnValue = false
+    //     e.preventDefault()
+    //     this.CHANGE_IS_ADD_CAPTION(true)
+    //   }
+    // },
     lastFrameKeypress(e) {
       if (
         e.altKey === this.trankeyPress.last_frame.altKey &&
@@ -1099,7 +1099,7 @@ export default {
       return
     }
   },
-  mounted: function() {
+  mounted() {
     this.initkeypress()
   }
 }
