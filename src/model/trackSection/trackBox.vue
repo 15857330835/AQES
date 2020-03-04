@@ -187,7 +187,7 @@
 </template>
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
-import BScroll from 'better-scroll'
+// import BScroll from 'better-scroll'
 import trackstatus from './trackStatus'
 import trackset from './trackSet'
 import trackvolue from './trackVolue'
@@ -320,12 +320,22 @@ export default {
         that.UPDATE_CAPTIONPOSITION()
         $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
       }, 0)
-      this.aBScroll.refresh()
+      // this.aBScroll.refresh()
+      setTimeout(() => {
+        $('#trackbox')
+          .getNiceScroll()
+          .resize()
+      }, 0)
     },
     isRefreshTrackBoxBS(newVal) {
       if (newVal) {
         this.CHANGE_IS_REFRESH_TRACK_BOX_BS(false)
-        this.aBScroll.refresh()
+        // this.aBScroll.refresh()
+        setTimeout(() => {
+          $('#trackbox')
+            .getNiceScroll()
+            .resize()
+        }, 0)
       }
     }
   },
@@ -345,16 +355,23 @@ export default {
     this.UPDATE_TRACKPOSITION(5)
     this.UPDATE_CAPTIONPOSITION()
 
-    const bscrollDom = this.$refs.bscroll
-    this.aBScroll = new BScroll(bscrollDom, {
-      mouseWheel: true,
-      click: true,
-      tap: true,
-      scrollbar: {
-        fade: true,
-        interactive: true
-      }
+    $('#trackbox').niceScroll({
+      cursorcolor: '#AAAAAA',
+      cursorborder: '1px solid #AAAAAA',
+      enablekeyboard: false,
+      horizrailenabled: false,
+      enablescrollonselection: false
     })
+    // const bscrollDom = this.$refs.bscroll
+    // this.aBScroll = new BScroll(bscrollDom, {
+    //   mouseWheel: true,
+    //   click: true,
+    //   tap: true,
+    //   scrollbar: {
+    //     fade: true,
+    //     interactive: true
+    //   }
+    // })
     // 可视区域的配置选项
     // const data = {
     //   track_start: 0,
