@@ -94,6 +94,8 @@ import audioPlayer from '@/components/audioPlayer'
 import { transitionAddApi } from '@/api/Transition'
 import { chunkAddApi, chunkReplaceApi } from '@/api/Chunk'
 import { trackPropertyAppendApi } from '@/api/Track'
+import _ from 'lodash'
+import axios from '@/http'
 
 export default {
   data() {
@@ -161,7 +163,8 @@ export default {
         class: ''
       },
       chunkPosition: {},
-      isReplaceShow: false
+      isReplaceShow: false,
+      textFlag: false
     }
   },
   computed: {
@@ -223,6 +226,62 @@ export default {
       'UPDATE_CHUNK_POSITION',
       'INIT_CHUNKS'
     ]),
+    multiMediaHandler(res) {
+      console.log(res)
+      if (!res.data.a_codec && !this.textFlag) {
+        this.clonediv.onlyvideo = true
+      }
+      this.clonediv.src_id = res.data.src_id
+      if (res.code === 0) {
+        if (res.data.status <= 0) {
+          // if(NCES.tip_ele){
+          //     $(e.target).parent().find('.'+NCES.tip_ele).show()
+          // }
+          console.log(`{res.data.status}:status no ready`)
+          this.clonedivInit()
+          return
+        } else {
+          this.getSourcedata()
+          this.clonediv.type = res.data.src_type
+          console.log(this.clonediv.type)
+          if (this.clonediv.type === 3) {
+            this.clonediv.width =
+              250 / (this.slidernum.max - this.track_property.ratio)
+            const pre_ = res.data.preview_img.replace(/https?:/, '')
+            this.clonediv.bgimg = `url(${pre_})`
+            console.log(this.clonediv.bgimg)
+            this.clonediv.frame = 250
+          } else if (this.clonediv.type === 2) {
+            this.clonediv.width =
+              250 / (this.slidernum.max - this.track_property.ratio)
+            this.clonediv.bgimg = 'url(//' + res.data.preview_img + ')'
+            this.clonediv.frame = 250
+          } else if (this.clonediv.type === 1) {
+            if (typeof res.data.v_codec !== 'undefined') {
+              this.clonediv.type = 1
+            } else {
+              this.clonediv.type = 0
+            }
+            this.clonediv.frame = res.data.sum_frame
+            this.clonediv.src_id = res.data.src_id
+            this.clonediv.width =
+              res.data.sum_frame /
+              (this.slidernum.max - this.track_property.ratio)
+            if (res.data.brepeat) {
+              this.clonediv.bgimg = 'url(' + res.data.preview_img + ')'
+            } else {
+              this.getImgs()
+            }
+          }
+        }
+        if (res.code !== 0) {
+          console.warn('失败')
+          // $('.tipProp_content p').html('网络波动，请刷新重试！')
+          // $('.tipProp').show()
+          this.clonedivInit()
+        }
+      }
+    },
     handleNavClick(title, component) {
       this.isSelect = title
       this.currentComponent = component
@@ -431,6 +490,7 @@ export default {
           (this.sourceData[i].original_from || this.sourceData[i].from) ===
             'http://' + this.clonediv.src_url
         ) {
+          console.log('has is true')
           has = true
           this.clonediv.type = this.sourceData[i].src_type
           this.clonediv.src_id = this.sourceData[i].src_id
@@ -441,21 +501,19 @@ export default {
           if (this.clonediv.type === 3) {
             this.clonediv.width =
               250 / (this.slidernum.max - that.track_property.ratio)
-            this.clonediv.bgimg =
-              'url(' +
-              (this.sourceData[i].preview_img.indexOf('http') === -1
+            const pre_ =
+              this.sourceData[i].preview_img.indexOf('http') === -1
                 ? window.NCES.DOMAIN
-                : '') +
-              this.sourceData[i].preview_img +
-              ')'
+                : ''
+            this.clonediv.bgimg = `url(${pre_}${this.sourceData[i].preview_img})`
+            console.log(this.clonediv.bgimg)
             this.clonediv.bgsize = 'auto 100%'
             this.clonediv.frame = 250
           }
           if (this.clonediv.type === 2) {
             this.clonediv.width =
               250 / (this.slidernum.max - that.track_property.ratio)
-            this.clonediv.bgimg =
-              'url(//' + this.sourceData[i].preview_img + ')'
+            this.clonediv.bgimg = `url(//${this.sourceData[i].preview_img})`
             this.clonediv.bgsize = 'auto 100%'
             this.clonediv.frame = 250
           }
@@ -473,11 +531,8 @@ export default {
             this.clonediv.bgsize = '100px 56px'
 
             if (this.sourceData[i].brepeat) {
-              this.clonediv.bgimg =
-                'url(' +
-                window.NCES.DOMAIN +
-                that.sourceData[i].preview_img +
-                ')'
+              const pre_ = window.NCES.DOMAIN
+              this.clonediv.bgimg = `url(${pre_}${that.sourceData[i].preview_img})`
             } else {
               this.getImgs()
             }
@@ -489,65 +544,18 @@ export default {
     textHandler(j) {
       const that = this
       if (this.Mrzydata[j].text_id === this.clonediv.src_from) {
-        $.post(
-          window.NCES.DOMAIN + '/api/source',
-          JSON.stringify({
-            cmd: 'copy',
-            src_type: 2,
-            content: that.Mrzydata[j]
-          }),
-          function(res) {
-            that.clonediv.src_id = res.data.src_id
-            if (res.code === 0) {
-              if (res.data.status <= 0) {
-                // if(NCES.tip_ele){
-                //     $(e.target).parent().find('.'+NCES.tip_ele).show()
-                // }
-                that.clonedivInit()
-
-                return
-              } else {
-                that.getSourcedata()
-                that.clonediv.type = res.data.src_type
-                if (that.clonediv.type === 3) {
-                  that.clonediv.width =
-                    250 / (that.slidernum.max - that.track_property.ratio)
-                  that.clonediv.bgimg =
-                    'url(' + res.data.preview_img.replace(/https?:/, '') + ')'
-                  that.clonediv.frame = 250
-                }
-                if (that.clonediv.type === 2) {
-                  that.clonediv.width =
-                    250 / (that.slidernum.max - that.track_property.ratio)
-                  that.clonediv.bgimg = 'url(//' + res.data.preview_img + ')'
-                  that.clonediv.frame = 250
-                }
-                if (that.clonediv.type === 1) {
-                  if (typeof res.data.v_codec !== 'undefined') {
-                    that.clonediv.type = 1
-                  } else {
-                    that.clonediv.type = 0
-                  }
-                  that.clonediv.frame = res.data.sum_frame
-                  that.clonediv.src_id = res.data.src_id
-                  that.clonediv.width =
-                    res.data.sum_frame /
-                    (that.slidernum.max - that.track_property.ratio)
-                  that.getImgs()
-                }
-              }
-              if (res.code !== 0) {
-                console.warn('失败')
-                that.clonedivInit()
-              }
-            }
-          },
-          'json'
-        )
+        const data = {
+          cmd: 'copy',
+          src_type: 2,
+          content: that.Mrzydata[j]
+        }
+        this.textFlag = true
+        axios
+          .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
+          .then(this.multiMediaHandler)
       }
     },
     audioHandler(j) {
-      const that = this
       if (this.Mrzydata[j].audio_id === this.clonediv.src_from) {
         const data = {
           cmd: 'add',
@@ -556,62 +564,13 @@ export default {
           src_name: this.Mrzydata[j].name,
           brepeat: true
         }
-        $.post(
-          window.NCES.DOMAIN + '/api/source',
-          JSON.stringify(data),
-          function(res) {
-            if (!res.data.a_codec) {
-              that.clonediv.onlyvideo = true
-            }
-            that.clonediv.src_id = res.data.src_id
-            if (res.code === 0) {
-              if (res.data.status <= 0) {
-                // if(NCES.tip_ele){
-                //     $(e.target).parent().find('.'+NCES.tip_ele).show()
-                // }
-
-                that.clonedivInit()
-
-                return
-              } else {
-                that.getSourcedata()
-                that.clonediv.type = res.data.src_type
-                if (that.clonediv.type === 3) {
-                  that.clonediv.width =
-                    250 / (that.slidernum.max - that.track_property.ratio)
-                  that.clonediv.bgimg =
-                    'url(' + res.data.preview_img.replace(/https?:/, '') + ')'
-                  that.clonediv.frame = 250
-                }
-
-                if (that.clonediv.type === 1) {
-                  if (typeof res.data.v_codec !== 'undefined') {
-                    that.clonediv.type = 1
-                  } else {
-                    that.clonediv.type = 0
-                  }
-                  that.clonediv.frame = res.data.sum_frame
-                  that.clonediv.src_id = res.data.src_id
-                  that.clonediv.width =
-                    res.data.sum_frame /
-                    (that.slidernum.max - that.track_property.ratio)
-                  that.getImgs()
-                }
-              }
-              if (res.code !== 0) {
-                console.warn('失败')
-                // $('.tipProp_content p').html('网络波动，请刷新重试！')
-                // $('.tipProp').show()
-                that.clonedivInit()
-              }
-            }
-          },
-          'json'
-        )
+        this.textFlag = false
+        axios
+          .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
+          .then(this.multiMediaHandler)
       }
     },
     videoHandler(j) {
-      const that = this
       let data
       if (this.Mrzydata[j].video_id === this.clonediv.src_from) {
         if (
@@ -634,126 +593,27 @@ export default {
             brepeat: true
           }
         }
-        $.post(
-          window.NCES.DOMAIN + '/api/source',
-          JSON.stringify(data),
-          function(res) {
-            if (!res.data.a_codec) {
-              that.clonediv.onlyvideo = true
-            }
-            that.clonediv.src_id = res.data.src_id
-            if (res.code === 0) {
-              if (res.data.status <= 0) {
-                // if(NCES.tip_ele){
-                //     $(e.target).parent().find('.'+NCES.tip_ele).show()
-                // }
-                // if(res.data.status == -2){
-                //   that.$alert("视频分辨率超出！","警告")
-                // }
-                that.clonedivInit()
-
-                return
-              } else {
-                that.getSourcedata()
-                that.clonediv.type = res.data.src_type
-                if (that.clonediv.type === 3) {
-                  that.clonediv.width =
-                    250 / (that.slidernum.max - that.track_property.ratio)
-                  that.clonediv.bgimg =
-                    'url(' + res.data.preview_img.replace(/https?:/, '') + ')'
-                  that.clonediv.frame = 250
-                }
-                if (that.clonediv.type === 1) {
-                  if (typeof res.data.v_codec !== 'undefined') {
-                    that.clonediv.type = 1
-                  } else {
-                    that.clonediv.type = 0
-                  }
-                  that.clonediv.frame = res.data.sum_frame
-                  that.clonediv.src_id = res.data.src_id
-                  that.clonediv.width =
-                    res.data.sum_frame /
-                    (that.slidernum.max - that.track_property.ratio)
-                  if (res.data.brepeat) {
-                    that.clonediv.bgimg = 'url(' + res.data.preview_img + ')'
-                  } else {
-                    that.getImgs()
-                  }
-                }
-              }
-              if (res.code !== 0) {
-                console.warn('失败')
-                // $('.tipProp_content p').html('网络波动，请刷新重试！')
-                // $('.tipProp').show()
-                that.clonedivInit()
-              }
-            }
-          },
-          'json'
-        )
+        this.textFlag = false
+        axios
+          .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
+          .then(this.multiMediaHandler)
       }
     },
     imagehandler(j) {
-      const that = this
+      console.log('imagehandler')
       if (this.Mrzydata[j].image_id === this.clonediv.src_from) {
-        $.post(
-          window.NCES.DOMAIN + '/api/source',
-          JSON.stringify({
-            cmd: 'add',
-            src_from: 'http://' + that.Mrzydata[j].url,
-            src_type: 3
-          }),
-          function(res) {
-            if (!res.data.a_codec) {
-              that.clonediv.onlyvideo = true
-            }
-            that.clonediv.src_id = res.data.src_id
-            if (res.code === 0) {
-              if (res.data.status <= 0) {
-                // if(NCES.tip_ele){
-                //     $(e.target).parent().find('.'+NCES.tip_ele).show()
-                // }
-                that.clonedivInit()
-
-                return
-              } else {
-                that.getSourcedata()
-                that.clonediv.type = res.data.src_type
-                if (that.clonediv.type === 3) {
-                  that.clonediv.width =
-                    250 / (that.slidernum.max - that.track_property.ratio)
-                  that.clonediv.bgimg =
-                    'url(' + res.data.preview_img.replace(/https?:/, '') + ')'
-                  that.clonediv.frame = 250
-                }
-                if (that.clonediv.type === 1) {
-                  if (typeof res.data.v_codec !== 'undefined') {
-                    that.clonediv.type = 1
-                  } else {
-                    that.clonediv.type = 0
-                  }
-                  that.clonediv.frame = res.data.sum_frame
-                  that.clonediv.src_id = res.data.src_id
-                  that.clonediv.width =
-                    res.data.sum_frame /
-                    (that.slidernum.max - that.track_property.ratio)
-                  that.getImgs()
-                }
-              }
-              if (res.code !== 0) {
-                console.warn('失败')
-                // $('.tipProp_content p').html('网络波动，请刷新重试！')
-                // $('.tipProp').show()
-                that.clonedivInit()
-              }
-            }
-          },
-          'json'
-        )
+        const data = {
+          cmd: 'add',
+          src_from: 'http://' + this.Mrzydata[j].url,
+          src_type: 3
+        }
+        this.textFlag = false
+        axios
+          .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
+          .then(this.multiMediaHandler)
       }
     },
     sourcedataNone() {
-      // console.log("none");
       const that = this
       if (this.clonediv.service) {
         for (let m = 0; m < this.Mrzydata.length; m++) {
@@ -768,6 +628,7 @@ export default {
         }
       } else {
         if (this.clonediv.source) {
+          console.log(this.Mrzydata)
           for (let j = 0; j < this.Mrzydata.length; j++) {
             if (this.clonediv.source === 'text_id') {
               this.textHandler(j)
@@ -842,7 +703,7 @@ export default {
         }
       }
     },
-    mousedown: function(e_para) {
+    mousedown(e_para) {
       let e = e_para
       if (
         $(e.target).parents('.' + window.NCES.drag_ele).length !== 0 ||
@@ -1124,8 +985,9 @@ export default {
       clonediv_.x = e.pageX - 30
       clonediv_.y = e.pageY - 30
       if (this.clonediv.able === false) {
+        console.log(this.clonediv.able)
+        console.log(_.cloneDeep(this.clonediv))
         clonediv_.able = true
-
         const has = this.sourcedataHas() // 判断是否已经加载过
         if (!has) {
           console.log('load source')
