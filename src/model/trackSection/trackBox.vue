@@ -262,7 +262,7 @@ export default {
       this.$prompt('请输入轨道名称', '轨道重命名', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        customClass: 'rename-track-box'
+        customClass: 'rename-decide-box'
       })
         .then(({ value }) => {
           trackRenameApi({
@@ -491,7 +491,7 @@ export default {
   }
 }
 
-.rename-track-box {
+.rename-decide-box {
   background-color: #222;
   color: #fff;
   border: none;

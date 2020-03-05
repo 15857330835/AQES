@@ -123,20 +123,6 @@ label input[type="radio"]:checked:after {
 
 /*资源模块样式s*/
 
-/* 初始化loading样式begin */
-.el-loading-spinner .el-loading-text {
-  color: #61ded0;
-}
-
-.el-loading-spinner .path {
-  stroke: #61ded0;
-}
-
-.el-loading-spinner i {
-  color: #61ded0;
-}
-/* 初始化loading样式end */
-
 /*保存视频弹窗样式begin*/
 .content_select .outOption1 {
   padding-left: 183px;
@@ -268,7 +254,7 @@ input.mui-switch.mui-switch-anim:checked:before {
   transition: left 0.3s;
 }
 
-/* 特殊组件样式begin */
+/* el组件样式begin */
 .el-slider__runway.disabled .el-slider__button {
   border: 2px solid #575050;
   background-color: #575050;
@@ -300,6 +286,18 @@ input.mui-switch.mui-switch-anim:checked:before {
   background-color: #3b3939;
 }
 
+.el-loading-spinner .el-loading-text {
+  color: #61ded0;
+}
+
+.el-loading-spinner .path {
+  stroke: #61ded0;
+}
+
+.el-loading-spinner i {
+  color: #61ded0;
+}
+
 .vol_content .el-slider__runway {
   margin: 12px 0;
 }
@@ -319,6 +317,51 @@ input.mui-switch.mui-switch-anim:checked:before {
   background-color: #636363;
 }
 
+.el-input__inner,
+.el-select-dropdown {
+  background-color: rgb(48, 56, 64);
+  border: 1px solid #394149 !important;
+  font-size: 14px !important;
+  color: rgb(170, 170, 170)
+}
+
+.el-select .el-input__inner:focus,
+.el-select .el-input__inner:hover {
+  border-color: #636363;
+}
+
+.el-select-dropdown__item.hover,
+.el-select-dropdown__item:hover {
+  background-color: #1d1d1d;
+}
+
+.rename-decide-box,
+.export-decide-box {
+  .el-button {
+
+    &:focus,
+    &:hover {
+      color: #606266;
+      border-color: #dcdfe6;
+      background-color: #fff;
+    }
+  }
+
+  .el-button--primary {
+    color: #333 !important;
+    background-color: #61ded0 !important;
+    border-color: #61ded0 !important;
+
+    &:focus,
+    &:hover {
+      color: #333 !important;
+      background-color: #61ded0 !important;
+      border-color: #61ded0 !important;
+    }
+  }
+}
+/* el组件样式end */
+
 #progressbar {
   height: 10px;
   background: #fff;
@@ -336,25 +379,6 @@ input.mui-switch.mui-switch-anim:checked:before {
 #progressbar .nanobar .bar {
   background: #61ded0;
   border-radius: 4px;
-}
-
-.el-input__inner,
-.el-select-dropdown {
-  background-color: rgb(48, 56, 64);
-  border: 1px solid #394149 !important;
-  font-size: 14px !important;
-  color: rgb(170, 170, 170)
-}
-
-.el-select .el-input__inner:focus,
-.el-select .el-input__inner:hover {
-  border-color: #636363;
-}
-
-.el-select-dropdown__item.hover,
-.el-select-dropdown__item:hover {
-  background-color: #1d1d1d;
-
 }
 
 .onLoading {

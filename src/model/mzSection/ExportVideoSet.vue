@@ -116,7 +116,7 @@
         <span class="u-icon"></span>
         请调节输出时长去确认视频生成范围，无需调节可直接确认生成！
       </div>
-      <div class="footer">
+      <div class="footer export-decide-box">
         <el-button
           type="primary btn"
           style="backgroundColor:#61ded0;border:none;"
@@ -516,14 +516,6 @@ $font-color: #909399;
     .btn {
       margin: 20px;
       height: 40px;
-    }
-    .dark-btn {
-      background-color: #000;
-      border: none;
-      color: white;
-      &:hover {
-        background-color: #151515;
-      }
     }
   }
 }

@@ -1110,7 +1110,7 @@ export default {
       }
     },
     // eslint-disable-next-line complexity
-    mousemove: function(e_para) {
+    mousemove(e_para) {
       e_para.preventDefault()
       e_para.stopPropagation()
       if (!this.chunkmove) {
