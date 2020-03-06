@@ -228,19 +228,23 @@ export default {
     ]),
     multiMediaHandler(res) {
       console.log(res)
-      if (!this.mediaType === 'text' && !res.data.a_codec) {
-        this.clonediv.onlyvideo = true
-      }
-      this.clonediv.src_id = res.data.src_id
       if (res.code === 0) {
         if (res.data.status <= 0) {
           // if(NCES.tip_ele){
           //     $(e.target).parent().find('.'+NCES.tip_ele).show()
           // }
           console.log(`{res.data.status}:status no ready`)
-          this.clonedivInit()
+          if (this.mediaType === 'muliti' && res.data.status === -2) {
+            this.clonediv.status = res.data.status
+          } else {
+            this.clonedivInit()
+          }
           return
         } else {
+          if (!this.mediaType === 'text' && !res.data.a_codec) {
+            this.clonediv.onlyvideo = true
+          }
+          this.clonediv.src_id = res.data.src_id
           this.getSourcedata()
           this.clonediv.type = res.data.src_type
           console.log(this.clonediv.type, 22)
@@ -667,55 +671,10 @@ export default {
             src_from: this.clonediv.src_from,
             src_type: this.clonediv.src_type
           }
+          this.mediaType = 'muliti'
           axios
             .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
-            .then(function(res) {
-              if (res.code === 0) {
-                if (!res.data.a_codec) {
-                  that.clonediv.onlyvideo = true
-                }
-                that.clonediv.src_id = res.data.src_id
-                that.getSourcedata()
-                if (res.data.status <= 0) {
-                  // if(NCES.tip_ele){
-                  //     $(e.target).parent().find('.'+NCES.tip_ele).show()
-                  // }
-                  if (res.data.status === -2) {
-                    that.clonediv.status = res.data.status
-                  } else {
-                    that.clonedivInit()
-                  }
-                  return
-                } else {
-                  that.clonediv.type = res.data.src_type
-                  if (that.clonediv.type === 3) {
-                    that.clonediv.width =
-                      250 / (that.slidernum.max - that.track_property.ratio)
-                    that.clonediv.bgimg =
-                      'url(' + res.data.preview_img.replace(/https?:/, '') + ')'
-                    that.clonediv.frame = 250
-                  }
-                  if (that.clonediv.type === 1) {
-                    if (typeof res.data.v_codec !== 'undefined') {
-                      that.clonediv.type = 1
-                    } else {
-                      that.clonediv.type = 0
-                    }
-                    that.clonediv.frame = res.data.sum_frame
-                    that.clonediv.src_id = res.data.src_id
-                    that.clonediv.width =
-                      res.data.sum_frame /
-                      (that.slidernum.max - that.track_property.ratio)
-
-                    that.getImgs()
-                  }
-                }
-                if (res.code !== 0) {
-                  console.warn('失败')
-                  that.clonedivInit()
-                }
-              }
-            })
+            .then(this.multiMediaHandler)
         }
       }
     },
