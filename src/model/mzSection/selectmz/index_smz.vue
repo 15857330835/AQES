@@ -227,7 +227,7 @@ export default {
       'INIT_CHUNKS'
     ]),
     multiMediaHandler(res) {
-      console.log(res)
+      // console.log(res)
       if (res.code === 0) {
         if (res.data.status <= 0) {
           // if(NCES.tip_ele){
@@ -247,7 +247,7 @@ export default {
           this.clonediv.src_id = res.data.src_id
           this.getSourcedata()
           this.clonediv.type = res.data.src_type
-          console.log(this.clonediv.type, 22)
+          // console.log(this.clonediv.type, 22)
           if (this.clonediv.type === 3) {
             this.clonediv.width =
               250 / (this.slidernum.max - this.track_property.ratio)
@@ -276,7 +276,6 @@ export default {
             this.clonediv.width =
               res.data.sum_frame /
               (this.slidernum.max - this.track_property.ratio)
-            console.log(res)
             if (
               this.mediaType === 'video' &&
               res.data.brepeat &&
@@ -507,7 +506,7 @@ export default {
     },
     sourcedataHas() {
       let has = false
-      console.log('sourceData:', _.cloneDeep(this.sourceData))
+      // console.log('sourceData:', _.cloneDeep(this.sourceData))
       for (let i = 0; i < this.sourceData.length; i++) {
         if (
           (this.sourceData[i].original_from || this.sourceData[i].from) ===
@@ -515,7 +514,7 @@ export default {
           (this.sourceData[i].original_from || this.sourceData[i].from) ===
             'http://' + this.clonediv.src_url
         ) {
-          console.log('has is true')
+          // console.log('has is true')
           has = true
           this.clonediv.type = this.sourceData[i].src_type
           this.clonediv.src_id = this.sourceData[i].src_id
@@ -523,7 +522,7 @@ export default {
           if (!this.sourceData[i].a_codec) {
             this.clonediv.onlyvideo = true
           }
-          console.log(this.clonediv.type, 11)
+          // console.log(this.clonediv.type, 11)
           if (this.clonediv.type === 3) {
             this.clonediv.width =
               250 / (this.slidernum.max - this.track_property.ratio)
@@ -555,7 +554,6 @@ export default {
               this.sourceData[i].sum_frame /
               (this.slidernum.max - this.track_property.ratio)
             this.clonediv.bgsize = '100px 56px'
-            console.log(this.sourceData[i].brepeat)
             if (this.sourceData[i].brepeat && this.sourceData[i].preview_img) {
               let pre_ = ''
               const reg = /^\/media\/source/
@@ -625,7 +623,6 @@ export default {
       }
     },
     imagehandler(j) {
-      console.log('imagehandler')
       if (this.Mrzydata[j].image_id === this.clonediv.src_from) {
         const data = {
           cmd: 'add',
@@ -960,11 +957,10 @@ export default {
       clonediv_.x = e.pageX - 30
       clonediv_.y = e.pageY - 30
       if (this.clonediv.able === false) {
-        console.log(this.clonediv.able)
-        console.log(_.cloneDeep(this.clonediv))
+        // console.log(_.cloneDeep(this.clonediv))
         clonediv_.able = true
         const has = this.sourcedataHas() // 判断是否已经加载过
-        console.log('Mrzydata:', _.cloneDeep(this.Mrzydata))
+        // console.log('Mrzydata:', _.cloneDeep(this.Mrzydata))
         if (!has) {
           console.log('load source')
           this.sourcedataNone()
