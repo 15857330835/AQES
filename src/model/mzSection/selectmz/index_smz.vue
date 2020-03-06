@@ -14,15 +14,13 @@
       </ul>
     </div>
     <div class="listContent">
-      <keep-alive>
-        <component
-          :is="currentComponent"
-          style="height: 100%;"
-          :handleMouseDown="mousedown"
-          :handleMouseMove="mousemove"
-          :handleMouseUp="mouseup"
-        ></component>
-      </keep-alive>
+      <component
+        :is="currentComponent"
+        style="height: 100%;"
+        :handleMouseDown="mousedown"
+        :handleMouseMove="mousemove"
+        :handleMouseUp="mouseup"
+      ></component>
     </div>
     <audio-player></audio-player>
     <keypress></keypress>
@@ -164,7 +162,7 @@ export default {
       },
       chunkPosition: {},
       isReplaceShow: false,
-      textFlag: false
+      mediaType: ''
     }
   },
   computed: {
@@ -228,7 +226,7 @@ export default {
     ]),
     multiMediaHandler(res) {
       console.log(res)
-      if (!res.data.a_codec && !this.textFlag) {
+      if (!res.data.a_codec && !this.mediaType === 'text') {
         this.clonediv.onlyvideo = true
       }
       this.clonediv.src_id = res.data.src_id
@@ -248,7 +246,11 @@ export default {
             this.clonediv.width =
               250 / (this.slidernum.max - this.track_property.ratio)
             const pre_url = res.data.preview_img.replace(/https?:/, '')
-            const pre_ = window.NCES.DOMAIN
+            let pre_ = ''
+            const reg = /^\/media\/source/
+            if (reg.test(pre_url)) {
+              pre_ = window.NCES.DOMAIN
+            }
             this.clonediv.bgimg = `url(${pre_}${pre_url})`
             console.log(this.clonediv.bgimg)
             this.clonediv.frame = 250
@@ -269,7 +271,7 @@ export default {
               res.data.sum_frame /
               (this.slidernum.max - this.track_property.ratio)
             console.log(res)
-            if (res.data.brepeat) {
+            if (res.data.brepeat && this.mediaType === 'video') {
               let pre_ = ''
               const reg = /^\/media\/source/
               if (reg.test(res.data.preview_img)) {
@@ -494,8 +496,8 @@ export default {
       )
     },
     sourcedataHas() {
-      const that = this
       let has = false
+      console.log('sourceData:', _.cloneDeep(this.sourceData))
       for (let i = 0; i < this.sourceData.length; i++) {
         if (
           (this.sourceData[i].original_from || this.sourceData[i].from) ===
@@ -514,7 +516,7 @@ export default {
           console.log(this.clonediv.type, 11)
           if (this.clonediv.type === 3) {
             this.clonediv.width =
-              250 / (this.slidernum.max - that.track_property.ratio)
+              250 / (this.slidernum.max - this.track_property.ratio)
             const pre_ =
               this.sourceData[i].preview_img.indexOf('http') === -1
                 ? window.NCES.DOMAIN
@@ -526,7 +528,7 @@ export default {
           }
           if (this.clonediv.type === 2) {
             this.clonediv.width =
-              250 / (this.slidernum.max - that.track_property.ratio)
+              250 / (this.slidernum.max - this.track_property.ratio)
             this.clonediv.bgimg = `url(//${this.sourceData[i].preview_img})`
             this.clonediv.bgsize = 'auto 100%'
             this.clonediv.frame = 250
@@ -544,15 +546,17 @@ export default {
               (this.slidernum.max - this.track_property.ratio)
             this.clonediv.bgsize = '100px 56px'
             console.log(this.sourceData[i].brepeat)
-            if (this.sourceData[i].brepeat) {
+            if (this.sourceData[i].brepeat && this.sourceData[i].preview_img) {
+              console.log('no pic')
               let pre_ = ''
               const reg = /^\/media\/source/
-              if (reg.test(that.sourceData[i].preview_img)) {
+              if (reg.test(this.sourceData[i].preview_img)) {
                 pre_ = window.NCES.DOMAIN
               }
-              this.clonediv.bgimg = `url(${pre_}${that.sourceData[i].preview_img})`
+              this.clonediv.bgimg = `url(${pre_}${this.sourceData[i].preview_img})`
               console.log(this.clonediv.bgimg)
             } else {
+              console.log('no pic bug here has')
               this.getImgs()
             }
           }
@@ -568,7 +572,7 @@ export default {
           src_type: 2,
           content: that.Mrzydata[j]
         }
-        this.textFlag = true
+        this.mediaType = 'text'
         this.postData(data)
       }
     },
@@ -581,7 +585,7 @@ export default {
           src_name: this.Mrzydata[j].name,
           brepeat: true
         }
-        this.textFlag = false
+        this.mediaType = 'audio'
         this.postData(data)
       }
     },
@@ -608,7 +612,7 @@ export default {
             brepeat: true
           }
         }
-        this.textFlag = false
+        this.mediaType = 'video'
         this.postData(data)
       }
     },
@@ -620,12 +624,13 @@ export default {
           src_from: 'http://' + this.Mrzydata[j].url,
           src_type: 3
         }
-        this.textFlag = false
+        this.mediaType = 'image'
         this.postData(data)
       }
     },
     sourcedataNone() {
       const that = this
+      console.log('Mrzydata:', _.cloneDeep(this.Mrzydata))
       if (this.clonediv.service) {
         for (let m = 0; m < this.Mrzydata.length; m++) {
           if (this.Mrzydata[m].service === this.clonediv.service) {
@@ -639,7 +644,6 @@ export default {
         }
       } else {
         if (this.clonediv.source) {
-          console.log(this.Mrzydata)
           for (let j = 0; j < this.Mrzydata.length; j++) {
             if (this.clonediv.source === 'text_id') {
               this.textHandler(j)
