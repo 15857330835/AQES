@@ -243,18 +243,19 @@ export default {
         } else {
           this.getSourcedata()
           this.clonediv.type = res.data.src_type
-          console.log(this.clonediv.type)
+          console.log(this.clonediv.type, 22)
           if (this.clonediv.type === 3) {
             this.clonediv.width =
               250 / (this.slidernum.max - this.track_property.ratio)
-            const pre_ = res.data.preview_img.replace(/https?:/, '')
-            this.clonediv.bgimg = `url(${pre_})`
+            const pre_url = res.data.preview_img.replace(/https?:/, '')
+            const pre_ = window.NCES.DOMAIN
+            this.clonediv.bgimg = `url(${pre_}${pre_url})`
             console.log(this.clonediv.bgimg)
             this.clonediv.frame = 250
           } else if (this.clonediv.type === 2) {
             this.clonediv.width =
               250 / (this.slidernum.max - this.track_property.ratio)
-            this.clonediv.bgimg = 'url(//' + res.data.preview_img + ')'
+            this.clonediv.bgimg = `url(//${res.data.preview_img})`
             this.clonediv.frame = 250
           } else if (this.clonediv.type === 1) {
             if (typeof res.data.v_codec !== 'undefined') {
@@ -267,8 +268,15 @@ export default {
             this.clonediv.width =
               res.data.sum_frame /
               (this.slidernum.max - this.track_property.ratio)
+            console.log(res)
             if (res.data.brepeat) {
-              this.clonediv.bgimg = 'url(' + res.data.preview_img + ')'
+              let pre_ = ''
+              const reg = /^\/media\/source/
+              if (reg.test(res.data.preview_img)) {
+                pre_ = window.NCES.DOMAIN
+              }
+              this.clonediv.bgimg = `url(${pre_}${res.data.preview_img})`
+              console.log(this.clonediv.bgimg)
             } else {
               this.getImgs()
             }
@@ -281,6 +289,11 @@ export default {
           this.clonedivInit()
         }
       }
+    },
+    postData(data) {
+      axios
+        .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
+        .then(this.multiMediaHandler)
     },
     handleNavClick(title, component) {
       this.isSelect = title
@@ -498,6 +511,7 @@ export default {
           if (!this.sourceData[i].a_codec) {
             this.clonediv.onlyvideo = true
           }
+          console.log(this.clonediv.type, 11)
           if (this.clonediv.type === 3) {
             this.clonediv.width =
               250 / (this.slidernum.max - that.track_property.ratio)
@@ -529,10 +543,15 @@ export default {
               this.sourceData[i].sum_frame /
               (this.slidernum.max - this.track_property.ratio)
             this.clonediv.bgsize = '100px 56px'
-
+            console.log(this.sourceData[i].brepeat)
             if (this.sourceData[i].brepeat) {
-              const pre_ = window.NCES.DOMAIN
+              let pre_ = ''
+              const reg = /^\/media\/source/
+              if (reg.test(that.sourceData[i].preview_img)) {
+                pre_ = window.NCES.DOMAIN
+              }
               this.clonediv.bgimg = `url(${pre_}${that.sourceData[i].preview_img})`
+              console.log(this.clonediv.bgimg)
             } else {
               this.getImgs()
             }
@@ -550,9 +569,7 @@ export default {
           content: that.Mrzydata[j]
         }
         this.textFlag = true
-        axios
-          .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
-          .then(this.multiMediaHandler)
+        this.postData(data)
       }
     },
     audioHandler(j) {
@@ -565,9 +582,7 @@ export default {
           brepeat: true
         }
         this.textFlag = false
-        axios
-          .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
-          .then(this.multiMediaHandler)
+        this.postData(data)
       }
     },
     videoHandler(j) {
@@ -594,9 +609,7 @@ export default {
           }
         }
         this.textFlag = false
-        axios
-          .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
-          .then(this.multiMediaHandler)
+        this.postData(data)
       }
     },
     imagehandler(j) {
@@ -608,9 +621,7 @@ export default {
           src_type: 3
         }
         this.textFlag = false
-        axios
-          .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
-          .then(this.multiMediaHandler)
+        this.postData(data)
       }
     },
     sourcedataNone() {

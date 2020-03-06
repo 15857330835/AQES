@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.timeout = 3000
+axios.defaults.timeout = 1000 * 10
 axios.defaults.withCredentials = false
 
 axios.interceptors.response.use(
