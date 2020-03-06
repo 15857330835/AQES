@@ -158,7 +158,8 @@ export default {
           if (typeof res.data === 'undefined') {
             res.data = res.List
           }
-          this.UPDATE_MRZY_DATA(res.data)
+          // this.UPDATE_MRZY_DATA(res.data)
+          this.UPDATE_MRZY_DATA([...this.Mrzydata, ...res.data])
           this.sources = this.transferData(res.data)
           this.changeLoadingStatus(res.data)
         }
@@ -168,13 +169,16 @@ export default {
       }
     }, 500),
     async reset() {
+      console.log('mounted get pane')
       this.page = 1
       const res = await this.getData.list({ page: this.page++, num: this.num })
       if (this.isSuccess(res)) {
         if (typeof res.data === 'undefined') {
           res.data = res.List
         }
-        this.UPDATE_MRZY_DATA(res.data)
+        // this.UPDATE_MRZY_DATA(res.data)
+        this.UPDATE_MRZY_DATA([...this.Mrzydata, ...res.data])
+        console.log(this.Mrzydata, 666)
         this.sources = this.transferData(res.data)
         this.changeLoadingStatus(res.data)
       }

@@ -14,13 +14,15 @@
       </ul>
     </div>
     <div class="listContent">
-      <component
-        :is="currentComponent"
-        style="height: 100%;"
-        :handleMouseDown="mousedown"
-        :handleMouseMove="mousemove"
-        :handleMouseUp="mouseup"
-      ></component>
+      <keep-alive>
+        <component
+          :is="currentComponent"
+          style="height: 100%;"
+          :handleMouseDown="mousedown"
+          :handleMouseMove="mousemove"
+          :handleMouseUp="mouseup"
+        ></component>
+      </keep-alive>
     </div>
     <audio-player></audio-player>
     <keypress></keypress>
@@ -226,7 +228,7 @@ export default {
     ]),
     multiMediaHandler(res) {
       console.log(res)
-      if (!res.data.a_codec && !this.mediaType === 'text') {
+      if (!this.mediaType === 'text' && !res.data.a_codec) {
         this.clonediv.onlyvideo = true
       }
       this.clonediv.src_id = res.data.src_id
@@ -271,7 +273,11 @@ export default {
               res.data.sum_frame /
               (this.slidernum.max - this.track_property.ratio)
             console.log(res)
-            if (res.data.brepeat && this.mediaType === 'video') {
+            if (
+              this.mediaType === 'video' &&
+              res.data.brepeat &&
+              res.data.preview_img
+            ) {
               let pre_ = ''
               const reg = /^\/media\/source/
               if (reg.test(res.data.preview_img)) {
@@ -630,7 +636,6 @@ export default {
     },
     sourcedataNone() {
       const that = this
-      console.log('Mrzydata:', _.cloneDeep(this.Mrzydata))
       if (this.clonediv.service) {
         for (let m = 0; m < this.Mrzydata.length; m++) {
           if (this.Mrzydata[m].service === this.clonediv.service) {
@@ -1004,6 +1009,7 @@ export default {
         console.log(_.cloneDeep(this.clonediv))
         clonediv_.able = true
         const has = this.sourcedataHas() // 判断是否已经加载过
+        console.log('Mrzydata:', _.cloneDeep(this.Mrzydata))
         if (!has) {
           console.log('load source')
           this.sourcedataNone()
