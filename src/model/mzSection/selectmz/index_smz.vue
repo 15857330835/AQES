@@ -553,7 +553,6 @@ export default {
             this.clonediv.bgsize = '100px 56px'
             console.log(this.sourceData[i].brepeat)
             if (this.sourceData[i].brepeat && this.sourceData[i].preview_img) {
-              console.log('no pic')
               let pre_ = ''
               const reg = /^\/media\/source/
               if (reg.test(this.sourceData[i].preview_img)) {
@@ -562,7 +561,6 @@ export default {
               this.clonediv.bgimg = `url(${pre_}${this.sourceData[i].preview_img})`
               console.log(this.clonediv.bgimg)
             } else {
-              console.log('no pic bug here has')
               this.getImgs()
             }
           }
@@ -664,14 +662,14 @@ export default {
             }
           }
         } else {
-          $.post(
-            window.NCES.DOMAIN + '/api/source',
-            JSON.stringify({
-              cmd: 'add',
-              src_from: this.clonediv.src_from,
-              src_type: this.clonediv.src_type
-            }),
-            function(res) {
+          const data = {
+            cmd: 'add',
+            src_from: this.clonediv.src_from,
+            src_type: this.clonediv.src_type
+          }
+          axios
+            .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
+            .then(function(res) {
               if (res.code === 0) {
                 if (!res.data.a_codec) {
                   that.clonediv.onlyvideo = true
@@ -717,9 +715,7 @@ export default {
                   that.clonedivInit()
                 }
               }
-            },
-            'json'
-          )
+            })
         }
       }
     },
