@@ -94,7 +94,8 @@ import audioPlayer from '@/components/audioPlayer'
 import { transitionAddApi } from '@/api/Transition'
 import { chunkAddApi, chunkReplaceApi } from '@/api/Chunk'
 import { trackPropertyAppendApi } from '@/api/Track'
-import _ from 'lodash'
+// import { sourceDelApi } from '@/api/Source'
+// import _ from 'lodash'
 import axios from '@/http'
 
 export default {
@@ -258,7 +259,7 @@ export default {
               pre_ = window.NCES.DOMAIN
             }
             this.clonediv.bgimg = `url(${pre_}${pre_url})`
-            console.log(this.clonediv.bgimg)
+            // console.log(this.clonediv.bgimg)
             this.clonediv.frame = 250
           } else if (this.clonediv.type === 2) {
             this.clonediv.width =
@@ -287,7 +288,7 @@ export default {
                 pre_ = window.NCES.DOMAIN
               }
               this.clonediv.bgimg = `url(${pre_}${res.data.preview_img})`
-              console.log(this.clonediv.bgimg)
+              // console.log(this.clonediv.bgimg)
             } else {
               this.getImgs()
             }
@@ -531,7 +532,7 @@ export default {
                 ? window.NCES.DOMAIN
                 : ''
             this.clonediv.bgimg = `url(${pre_}${this.sourceData[i].preview_img})`
-            console.log(this.clonediv.bgimg)
+            // console.log(this.clonediv.bgimg)
             this.clonediv.bgsize = 'auto 100%'
             this.clonediv.frame = 250
           }
@@ -539,6 +540,7 @@ export default {
             this.clonediv.width =
               250 / (this.slidernum.max - this.track_property.ratio)
             this.clonediv.bgimg = `url(//${this.sourceData[i].preview_img})`
+            // console.log(this.clonediv.bgimg)
             this.clonediv.bgsize = 'auto 100%'
             this.clonediv.frame = 250
           }
@@ -561,7 +563,7 @@ export default {
                 pre_ = window.NCES.DOMAIN
               }
               this.clonediv.bgimg = `url(${pre_}${this.sourceData[i].preview_img})`
-              console.log(this.clonediv.bgimg)
+              // console.log(this.clonediv.bgimg)
             } else {
               this.getImgs()
             }
@@ -956,6 +958,7 @@ export default {
       const clonediv_ = this.clonediv
       clonediv_.x = e.pageX - 30
       clonediv_.y = e.pageY - 30
+      // console.log(_.cloneDeep(this.clonediv))
       if (this.clonediv.able === false) {
         // console.log(_.cloneDeep(this.clonediv))
         clonediv_.able = true
@@ -1330,7 +1333,16 @@ export default {
     historyView,
     keypress,
     audioPlayer
-  }
+  },
+  // mounted() {
+  //   // 清除添加的源
+  //   console.log(this.sourceData, 1111)
+  //   this.sourceData.forEach(item => {
+  //     sourceDelApi({
+  //       src_id: item.src_id
+  //     })
+  //   })
+  // }
 }
 </script>
 

@@ -17,6 +17,11 @@ export const sourceGetListApi = (payload = {}) => {
   payload.cmd = 'get_list'
   return axios.post(url, JSON.stringify(payload))
 }
+// 删除
+export const sourceDelApi = (payload = {}) => {
+  payload.cmd = 'del'
+  return axios.post(url, JSON.stringify(payload))
+}
 // 加载
 export const sourceLoadApi = (payload = {}) => {
   payload.cmd = 'load'

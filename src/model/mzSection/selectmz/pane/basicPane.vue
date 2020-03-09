@@ -178,7 +178,7 @@ export default {
         }
         // this.UPDATE_MRZY_DATA(res.data)
         this.UPDATE_MRZY_DATA([...this.Mrzydata, ...res.data])
-        console.log(this.Mrzydata, 666)
+        // console.log(this.Mrzydata)
         this.sources = this.transferData(res.data)
         this.changeLoadingStatus(res.data)
       }

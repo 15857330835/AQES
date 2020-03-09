@@ -1983,9 +1983,6 @@ export default {
     if (this.moveResultFlag === 1 || this.moveResultFlag === 2) {
       this.move = false
     }
-  },
-  beforeDestroy() {
-    console.log('this chunk be destoried')
   }
 }
 </script>
