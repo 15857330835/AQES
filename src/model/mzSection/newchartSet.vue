@@ -393,7 +393,7 @@ export default {
     ]),
     // eslint-disable-next-line no-empty-function
     temp() {},
-    mousedown_box: function(e_para) {
+    mousedown_box(e_para) {
       let e = e_para
       this.chunkmove = 'all'
       if (e.touches) {
@@ -406,7 +406,7 @@ export default {
         $(document).bind('mouseup.boxx', this.mouseup_box)
       }
     },
-    mousemove_box: function(e_para) {
+    mousemove_box(e_para) {
       let e = e_para
       if (this.chunkmove !== 'all') {
         return
@@ -427,14 +427,14 @@ export default {
       this.ePosy = e.pageY
       this.activeProperty[this.propertyNum] = active
     },
-    mouseup_box: function(e) {
+    mouseup_box(e) {
       this.chunkmove = ''
       this.sendmessage()
       if (!e.touches) {
         $(document).unbind('.boxx')
       }
     },
-    mousedown_drag: function(e_para) {
+    mousedown_drag(e_para) {
       e_para.preventDefault()
       e_para.stopPropagation()
       let e = e_para
