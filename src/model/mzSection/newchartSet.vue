@@ -6,6 +6,7 @@
     @touchstart="mousedown_box"
     @touchmove="mousemove_box"
     @touchend="mouseup_box"
+    ref="setBox"
   >
     <div
       :style="{
@@ -24,7 +25,7 @@
             top: 0,
             height: '1px',
             width: '100%',
-            backgroundColor: '#ccc'
+            backgroundColor: '#61ded0'
           }"
         ></div>
         <div
@@ -34,7 +35,7 @@
             bottom: 0,
             height: '100%',
             width: '1px',
-            backgroundColor: '#ccc'
+            backgroundColor: '#61ded0'
           }"
         ></div>
         <div
@@ -44,7 +45,7 @@
             bottom: 0,
             height: '1px',
             width: '100%',
-            backgroundColor: '#ccc'
+            backgroundColor: '#61ded0'
           }"
         ></div>
         <div
@@ -54,7 +55,7 @@
             top: 0,
             height: '100%',
             width: '1px',
-            backgroundColor: '#ccc'
+            backgroundColor: '#61ded0'
           }"
         ></div>
       </div>
@@ -73,7 +74,7 @@
             top: '3px',
             width: '100%',
             height: '7px',
-            cursor: 's-resize'
+            cursor: 'n-resize'
           }"
           @mousedown="openway == 'pc' ? mousedown_drag($event) : temp()"
           @touchstart="mousedown_drag"
@@ -118,7 +119,7 @@
             top: 0,
             width: '7px',
             height: '100%',
-            cursor: 'w-resize'
+            cursor: 'e-resize'
           }"
           name="e"
           @mousedown="openway == 'pc' ? mousedown_drag($event) : temp()"
@@ -135,7 +136,7 @@
             top: '-5px',
             width: '9px',
             height: '9px',
-            cursor: 's-resize'
+            cursor: 'n-resize'
           }"
           @mousedown="openway == 'pc' ? mousedown_drag($event) : temp()"
           @touchstart="mousedown_drag"
@@ -186,7 +187,7 @@
             top: 'calc(50% - 5px)',
             width: '9px',
             height: '9px',
-            cursor: 'w-resize'
+            cursor: 'e-resize'
           }"
           @mousedown="openway == 'pc' ? mousedown_drag($event) : temp()"
           @touchstart="mousedown_drag"
@@ -237,7 +238,7 @@
             bottom: '-5px',
             width: '9px',
             height: '9px',
-            cursor: 'ne-resize'
+            cursor: 'sw-resize'
           }"
           @mousedown="openway == 'pc' ? mousedown_drag($event) : temp()"
           @touchstart="mousedown_drag"
@@ -254,7 +255,7 @@
             bottom: '-5px',
             width: '9px',
             height: '9px',
-            cursor: 'nw-resize'
+            cursor: 'se-resize'
           }"
           @mousedown="openway == 'pc' ? mousedown_drag($event) : temp()"
           @touchstart="mousedown_drag"
@@ -272,7 +273,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return {
       x1: 0,
       y1: 0,
@@ -295,7 +296,8 @@ export default {
       changeWay: true,
       chunkmove: '',
       active: {},
-      controlShow: true
+      controlShow: true,
+      bili: 1
     }
   },
   //   components: {
@@ -322,10 +324,10 @@ export default {
 
     //     }
     // },
-    bili: function() {
-      return this.newchartbili // 1 //(this.systemmessage.player.h / this.systemmessage.player.w).toFixed(2)
-    },
-    filterList: function() {
+    // bili() {
+    //   return this.newchartbili // (this.systemmessage.player.h / this.systemmessage.player.w).toFixed(2)
+    // },
+    filterList() {
       // 格式化滤镜数据
       const filter = this.activechunk.chunk.filter
       const data = {}
@@ -393,6 +395,11 @@ export default {
     ]),
     // eslint-disable-next-line no-empty-function
     temp() {},
+    changeBili() {
+      this.bili =
+        this.activeProperty[this.propertyNum].w /
+        this.activeProperty[this.propertyNum].h
+    },
     mousedown_box(e_para) {
       let e = e_para
       this.chunkmove = 'all'
@@ -435,6 +442,7 @@ export default {
       }
     },
     mousedown_drag(e_para) {
+      this.changeBili()
       e_para.preventDefault()
       e_para.stopPropagation()
       let e = e_para
@@ -458,7 +466,7 @@ export default {
         $(document).unbind('mouseup.boxx', this.mouseup_box)
       }
     },
-    mousemove_drag_e: function(e_para) {
+    mousemove_drag_e(e_para) {
       let e = e_para
       if (this.chunkmove !== 'e') {
         return
@@ -467,20 +475,20 @@ export default {
         e = e.touches[0]
       }
       const width = $('.boxx').width()
-      // const height = $('.boxx').height()
+      const variation = e.pageX - this.ePosx
       const active = this.activeProperty[this.propertyNum]
       active.w =
-        ((e.pageX - this.ePosx) * 100) / width + active.w < 0
+        (variation * 100) / width + active.w < 0
           ? 0
-          : ((e.pageX - this.ePosx) * 100) / width + active.w
-      if (this.changeWay) {
-        active.h = active.w / this.bili
-      }
+          : (variation * 100) / width + active.w
+      // if (this.changeWay) {
+      //   active.h = active.w / this.bili
+      // }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
       this.activeProperty[this.propertyNum] = active
     },
-    mousemove_drag_s: function(e_para) {
+    mousemove_drag_s(e_para) {
       let e = e_para
       if (this.chunkmove !== 's') {
         return
@@ -488,25 +496,21 @@ export default {
       if (e.touches) {
         e = e.touches[0]
       }
-      // const width = $('.boxx').width()
       const height = $('.boxx').height()
       const variation = e.pageY - this.ePosy
       const active = this.activeProperty[this.propertyNum]
-      // let nwDom = document.getElementsByName("nw")[0];
       active.h =
         (variation * 100) / height + active.h < 0
           ? 0
           : (variation * 100) / height + active.h
-      if (this.changeWay) {
-        active.w = active.h * this.bili
-      }
+      // if (this.changeWay) {
+      //   active.w = active.h * this.bili
+      // }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
-      // active.left = active.left
-      // active.top = active.top
       this.activeProperty[this.propertyNum] = active
     },
-    mousemove_drag_w: function(e_para) {
+    mousemove_drag_w(e_para) {
       let e = e_para
       if (this.chunkmove !== 'w') {
         return
@@ -515,22 +519,22 @@ export default {
         e = e.touches[0]
       }
       const width = $('.boxx').width()
-      // const height = $('.boxx').height()
+      const variation = this.ePosx - e.pageX
       const active = this.activeProperty[this.propertyNum]
       const length = active.w + active.left
       active.w =
-        ((this.ePosx - e.pageX) * 100) / width + active.w < 0
+        (variation * 100) / width + active.w < 0
           ? 0
-          : ((this.ePosx - e.pageX) * 100) / width + active.w
+          : (variation * 100) / width + active.w
       active.left = length - active.w
-      if (this.changeWay) {
-        active.h = active.w / this.bili
-      }
+      // if (this.changeWay) {
+      //   active.h = active.w / this.bili
+      // }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
       this.activeProperty[this.propertyNum] = active
     },
-    mousemove_drag_n: function(e_para) {
+    mousemove_drag_n(e_para) {
       let e = e_para
       if (this.chunkmove !== 'n') {
         return
@@ -538,23 +542,23 @@ export default {
       if (e.touches) {
         e = e.touches[0]
       }
-      // const width = $('.boxx').width()
       const height = $('.boxx').height()
+      const variation = this.ePosy - e.pageY
       const active = this.activeProperty[this.propertyNum]
       const length = active.h + active.top
       active.h =
-        ((this.ePosy - e.pageY) * 100) / height + active.h < 0
+        (variation * 100) / height + active.h < 0
           ? 0
-          : ((this.ePosy - e.pageY) * 100) / height + active.h
+          : (variation * 100) / height + active.h
       active.top = length - active.h
-      if (this.changeWay) {
-        active.w = active.h * this.bili
-      }
+      // if (this.changeWay) {
+      //   active.w = active.h * this.bili
+      // }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
       this.activeProperty[this.propertyNum] = active
     },
-    mousemove_drag_se: function(e_para) {
+    mousemove_drag_se(e_para) {
       let e = e_para
       if (this.chunkmove !== 'se') {
         return
@@ -565,19 +569,19 @@ export default {
       const width = $('.boxx').width()
       const height = $('.boxx').height()
       const active = this.activeProperty[this.propertyNum]
-      if (!this.changeWay) {
-        active.w =
-          ((e.pageX - this.ePosx) * 100) / width + active.w < 0
-            ? 0
-            : ((e.pageX - this.ePosx) * 100) / width + active.w
-        active.h =
-          ((e.pageY - this.ePosy) * 100) / height + active.h < 0
-            ? 0
-            : ((e.pageY - this.ePosy) * 100) / height + active.h
-        this.ePosx = e.pageX
-        this.ePosy = e.pageY
-        return
-      }
+      // if (!this.changeWay) {
+      //   active.w =
+      //     ((e.pageX - this.ePosx) * 100) / width + active.w < 0
+      //       ? 0
+      //       : ((e.pageX - this.ePosx) * 100) / width + active.w
+      //   active.h =
+      //     ((e.pageY - this.ePosy) * 100) / height + active.h < 0
+      //       ? 0
+      //       : ((e.pageY - this.ePosy) * 100) / height + active.h
+      //   this.ePosx = e.pageX
+      //   this.ePosy = e.pageY
+      //   return
+      // }
       const w1 =
         ((e.pageX - this.offsetX) * 100) / width - active.left < 0
           ? 0
@@ -603,7 +607,7 @@ export default {
       this.ePosy = e.pageY
       this.activeProperty[this.propertyNum] = active
     },
-    mousemove_drag_sw: function(e_para) {
+    mousemove_drag_sw(e_para) {
       let e = e_para
       if (this.chunkmove !== 'sw') {
         return
@@ -614,19 +618,19 @@ export default {
       const width = $('.boxx').width()
       const height = $('.boxx').height()
       const active = this.activeProperty[this.propertyNum]
-      if (!this.changeWay) {
-        active.w =
-          ((e.pageX - this.ePosx) * 100) / width + active.w < 0
-            ? 0
-            : ((e.pageX - this.ePosx) * 100) / width + active.w
-        active.h =
-          ((e.pageY - this.ePosy) * 100) / height + active.h < 0
-            ? 0
-            : ((e.pageY - this.ePosy) * 100) / height + active.h
-        this.ePosx = e.pageX
-        this.ePosy = e.pageY
-        return
-      }
+      // if (!this.changeWay) {
+      //   active.w =
+      //     ((e.pageX - this.ePosx) * 100) / width + active.w < 0
+      //       ? 0
+      //       : ((e.pageX - this.ePosx) * 100) / width + active.w
+      //   active.h =
+      //     ((e.pageY - this.ePosy) * 100) / height + active.h < 0
+      //       ? 0
+      //       : ((e.pageY - this.ePosy) * 100) / height + active.h
+      //   this.ePosx = e.pageX
+      //   this.ePosy = e.pageY
+      //   return
+      // }
       const w1 =
         active.left + active.w - ((e.pageX - this.offsetX) * 100) / width < 0
           ? 0
@@ -654,7 +658,7 @@ export default {
       this.ePosy = e.pageY
       this.activeProperty[this.propertyNum] = active
     },
-    mousemove_drag_nw: function(e_para) {
+    mousemove_drag_nw(e_para) {
       let e = e_para
       if (this.chunkmove !== 'nw') {
         return
@@ -665,19 +669,19 @@ export default {
       const width = $('.boxx').width()
       const height = $('.boxx').height()
       const active = this.activeProperty[this.propertyNum]
-      if (!this.changeWay) {
-        active.w =
-          ((e.pageX - this.ePosx) * 100) / width + active.w < 0
-            ? 0
-            : ((e.pageX - this.ePosx) * 100) / width + active.w
-        active.h =
-          ((e.pageY - this.ePosy) * 100) / height + active.h < 0
-            ? 0
-            : ((e.pageY - this.ePosy) * 100) / height + active.h
-        this.ePosx = e.pageX
-        this.ePosy = e.pageY
-        return
-      }
+      // if (!this.changeWay) {
+      //   active.w =
+      //     ((e.pageX - this.ePosx) * 100) / width + active.w < 0
+      //       ? 0
+      //       : ((e.pageX - this.ePosx) * 100) / width + active.w
+      //   active.h =
+      //     ((e.pageY - this.ePosy) * 100) / height + active.h < 0
+      //       ? 0
+      //       : ((e.pageY - this.ePosy) * 100) / height + active.h
+      //   this.ePosx = e.pageX
+      //   this.ePosy = e.pageY
+      //   return
+      // }
       const w1 =
         active.left + active.w - ((e.pageX - this.offsetX) * 100) / width < 0
           ? 0
@@ -708,7 +712,7 @@ export default {
       this.ePosy = e.pageY
       this.activeProperty[this.propertyNum] = active
     },
-    mousemove_drag_ne: function(e_para) {
+    mousemove_drag_ne(e_para) {
       let e = e_para
       if (this.chunkmove !== 'ne') {
         return
@@ -719,19 +723,19 @@ export default {
       const width = $('.boxx').width()
       const height = $('.boxx').height()
       const active = this.activeProperty[this.propertyNum]
-      if (!this.changeWay) {
-        active.w =
-          ((e.pageX - this.ePosx) * 100) / width + active.w < 0
-            ? 0
-            : ((e.pageX - this.ePosx) * 100) / width + active.w
-        active.h =
-          ((e.pageY - this.ePosy) * 100) / height + active.h < 0
-            ? 0
-            : ((e.pageY - this.ePosy) * 100) / height + active.h
-        this.ePosx = e.pageX
-        this.ePosy = e.pageY
-        return
-      }
+      // if (!this.changeWay) {
+      //   active.w =
+      //     ((e.pageX - this.ePosx) * 100) / width + active.w < 0
+      //       ? 0
+      //       : ((e.pageX - this.ePosx) * 100) / width + active.w
+      //   active.h =
+      //     ((e.pageY - this.ePosy) * 100) / height + active.h < 0
+      //       ? 0
+      //       : ((e.pageY - this.ePosy) * 100) / height + active.h
+      //   this.ePosx = e.pageX
+      //   this.ePosy = e.pageY
+      //   return
+      // }
       const w1 =
         ((e.pageX - this.offsetX) * 100) / width - active.left < 0
           ? 0
@@ -760,7 +764,7 @@ export default {
       this.ePosy = e.pageY
       this.activeProperty[this.propertyNum] = active
     },
-    mouseup_drag: function(e) {
+    mouseup_drag(e) {
       let temp = null
       this.chunkmove = ''
       if (!e.touches) {
@@ -780,7 +784,7 @@ export default {
       this.SET_ASYNC_SET_CHART(true)
       this.sendmessage()
     },
-    sendmessage: function() {
+    sendmessage() {
       const geo_arr = this.activeProperty
       this.CHANGE_ACTIVEPROPERTY(geo_arr)
       let geo = ''
@@ -827,9 +831,6 @@ export default {
       }
       this.Post(data)
     }
-  },
-  mounted: function() {
-    // console.log('mounted')
   }
 }
 </script>

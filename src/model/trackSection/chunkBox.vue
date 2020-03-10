@@ -1544,21 +1544,26 @@ export default {
           'json'
         )
       }
-      $.post(
-        window.NCES.DOMAIN + '/api/pointer',
-        JSON.stringify({
-          cmd: 'set',
-          position: this.activechunk.chunk.track_start
-        }),
-        function(res) {
-          if (res.code !== 0) {
-            console.log(res.msg)
-          } else {
-            console.log('to chunkset refresh pointer ok')
-          }
-        },
-        'json'
-      )
+      if (
+        this.pointer.position - this.activechunk.chunk.track_start < 0 ||
+        this.pointer.position - this.activechunk.chunk.track_end > 0
+      ) {
+        $.post(
+          window.NCES.DOMAIN + '/api/pointer',
+          JSON.stringify({
+            cmd: 'set',
+            position: this.activechunk.chunk.track_start
+          }),
+          function(res) {
+            if (res.code !== 0) {
+              console.log(res.msg)
+            } else {
+              console.log('to chunkset refresh pointer ok')
+            }
+          },
+          'json'
+        )
+      }
       this.CHANGE_CHUNKSETSHOW(true)
       this.gethistoryindex()
     },

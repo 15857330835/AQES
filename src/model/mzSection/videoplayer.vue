@@ -77,7 +77,12 @@
               : (100 * 9 * this.playerInfo.w) / 16 / this.playerInfo.h + '%'
         }"
       >
-        <newchartset v-if="this.filtershow == 'normal'"></newchartset>
+        <newchartset
+          v-if="
+            this.filtershow == 'normal' &&
+              this.activechunk.chunk.chunk_type !== 2
+          "
+        ></newchartset>
         <newDynamicTextSet
           v-else-if="this.filtershow === 'dynamicText'"
         ></newDynamicTextSet>
@@ -86,13 +91,10 @@
     </div>
     <div class="video_control">
       <div
-        v-if="
-          this.chunksetshow &&
-            (this.activechunk.chunk.chunk_type != 2 ||
-              this.activechunk.chunk.chunk_type != 5)
-        "
+        v-if="this.chunksetshow"
         style="height:6px;background-color:#6F7376;overflow:hidden;cursor:pointer;opacity:0.6;width:100%"
         @click="movetoposition($event)"
+        class="progress-line"
       >
         <div
           :style="{

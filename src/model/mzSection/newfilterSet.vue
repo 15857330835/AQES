@@ -1,11 +1,22 @@
 <template>
   <div style="width:100%;height:100%;position:relative;overflow:hidden">
-    <div
+    <!-- <div
       v-if="this.activeProperty.length > 0"
       :style="{
         position: 'absolute',
         boxSizing: 'border-box',
         border: '1px solid #acacac',
+        width: this.activeProperty[this.propertyNum].w + '%',
+        height: this.activeProperty[this.propertyNum].h + '%',
+        left: this.activeProperty[this.propertyNum].left + '%',
+        top: this.activeProperty[this.propertyNum].top + '%'
+      }"
+    > -->
+    <div
+      v-if="this.activeProperty.length > 0"
+      :style="{
+        position: 'absolute',
+        boxSizing: 'border-box',
         width: this.activeProperty[this.propertyNum].w + '%',
         height: this.activeProperty[this.propertyNum].h + '%',
         left: this.activeProperty[this.propertyNum].left + '%',
@@ -30,7 +41,7 @@ import setmosaic from './setMosaic'
 // <set-mosaic  v-if = "this.filtershow == 'mosaic'"/>
 //
 export default {
-  data: function() {
+  data() {
     return {}
   },
   components: {
