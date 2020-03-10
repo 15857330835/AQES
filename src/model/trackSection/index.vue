@@ -158,7 +158,7 @@ export default {
       }
     }
   },
-  mounted: function() {
+  mounted() {
     this.getResize()
     // this.CHANGE_VIS_TIMER_WIDTH(this.trackWidth);
     window.addEventListener('resize', this.throttleResize)

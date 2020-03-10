@@ -262,14 +262,14 @@ export default {
       }
       this.Post(data)
     },
-    moveto: function(e) {
+    moveto(e) {
       if (this.pointer.speed === 0) {
         const x = e.offsetX || e.pageX - this.getElementPos('ruler').x
         const position =
           parseInt(x + this.track_property.outLeft, 10) *
             (this.slidernum.max - this.track_property.ratio) >
-          this.length
-            ? parseInt(this.length, 10)
+          this.length - 1
+            ? parseInt(this.length - 1, 10)
             : parseInt(
                 (x + this.track_property.outLeft) *
                   (this.slidernum.max - this.track_property.ratio),
@@ -330,8 +330,8 @@ export default {
           (this.track_property.outLeft + $('.edit_track_contents').width()) *
             (this.slidernum.max - this.track_property.ratio),
           10
-        ) > this.length
-          ? this.length
+        ) > this.length - 1
+          ? this.length - 1
           : parseInt(
               (this.track_property.outLeft +
                 $('.edit_track_contents').width()) *
@@ -499,7 +499,7 @@ export default {
             (this.slidernum.max - this.track_property.ratio),
           10
         )
-        _trackEnd = Math.min(_trackEnd, this.$store.state.all.curr_track_len)
+        _trackEnd = Math.min(_trackEnd, this.length - 1)
         _trackEnd = Math.max(this.trackStart, _trackEnd)
         this.UPDATE_POINTER_POSITION(_trackEnd)
         this.UPDATE_TRACK_END(_trackEnd)
@@ -521,7 +521,7 @@ export default {
       document.addEventListener('touchend', up)
     }
   },
-  mounted: function() {
+  mounted() {
     // this.trackWidth = document.querySelector(".edit_ruler_content>div").offsetWidth;
     // this.videoFrames = this.$store.state.all.curr_track_len;
     // this.totalRatio = this.videoFrames / this.trackWidth;

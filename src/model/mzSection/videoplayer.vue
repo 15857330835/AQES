@@ -133,7 +133,7 @@
       <div style="float:left;line-height:40px ;" v-if="!this.chunksetshow">
         <span
           >{{ this.initdate(pointer.position) }} /
-          {{ this.initdate(length) }}</span
+          {{ this.initdate(length - 1) }}</span
         >
       </div>
       <div
@@ -241,7 +241,9 @@ export default {
     chunksetshow(val) {
       if (val) {
         this.originSrcLen =
-          (this.activechunk.chunk.src_end - this.activechunk.chunk.src_start) *
+          (this.activechunk.chunk.src_end -
+            this.activechunk.chunk.src_start -
+            1) *
           this.activechunk.chunk.speed
       }
       this.getindex()
@@ -703,7 +705,7 @@ export default {
     this.mute = false
 
     this.originSrcLen =
-      (this.activechunk.chunk.src_end - this.activechunk.chunk.src_start) *
+      (this.activechunk.chunk.src_end - this.activechunk.chunk.src_start - 1) *
       this.activechunk.chunk.speed
 
     document.addEventListener('fullscreenchange', e => {

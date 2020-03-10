@@ -268,6 +268,9 @@ export default {
   },
   nextindex({ commit, state, dispatch }) {
     // 下一帧
+    if (state.all.pointer.position >= state.all.curr_track_len - 1) {
+      return
+    }
     commit('UPDATE_POINTER_POSITION', state.all.pointer.position + 1)
     const data = {}
     data.data = { cmd: 'next_f' }

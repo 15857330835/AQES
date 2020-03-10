@@ -72,18 +72,17 @@ export default {
       return this.$store.state.all.curr_track_len
     },
     left() {
-      // debugger
       let leftPosition
-      if (this.pointer.position >= this.length) {
+      if (this.pointer.position >= this.length - 1) {
         leftPosition =
-          this.length / (this.slidernum.max - this.track_property.ratio) -
+          (this.length - 1) / (this.slidernum.max - this.track_property.ratio) -
           this.track_property.outLeft
-      } else if (this.pointer.position + 1 === this.length) {
+      } /* else if (this.pointer.position + 1 === this.length - 1) {
         leftPosition =
           (this.pointer.position + 1) /
             (this.slidernum.max - this.track_property.ratio) -
           this.track_property.outLeft
-      } else {
+      } */ else {
         leftPosition =
           this.pointer.position /
             (this.slidernum.max - this.track_property.ratio) -
@@ -185,10 +184,10 @@ export default {
       if (
         (iLeft + this.track_property.outLeft) *
           (this.slidernum.max - this.track_property.ratio) >
-        this.length
+        this.length - 1
       ) {
         iLeft =
-          this.length / (this.slidernum.max - this.track_property.ratio) -
+          (this.length - 1) / (this.slidernum.max - this.track_property.ratio) -
           this.track_property.outLeft
       }
       // this.left =  iLeft;
