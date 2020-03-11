@@ -249,9 +249,8 @@ export default {
 
 <style lang="scss" scoped>
 .time_track {
-  position: fixed;
   width: 100%;
-  bottom: -4px;
+  height: 40px;
   background-color: #151a20;
   .time_track_title {
     position: relative;

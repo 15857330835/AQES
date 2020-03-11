@@ -5,11 +5,8 @@
     class="track-box bscroll"
     ref="bscroll"
   >
-    <div class="edit_track clearfix bscroll-container">
-      <div
-        style="width:160px;float:left;position:relative"
-        @mousedown="failClick"
-      >
+    <div class="edit_track bscroll-container">
+      <div class="edit_track_titles" @mousedown="failClick">
         <div
           v-for="(tracks, index) in this.track.v_track_list"
           :key="tracks.track_id"
@@ -78,7 +75,7 @@
         </div>
         <div class="track-box-left-mask" v-if="modalVoiceApplyIsShow"></div>
       </div>
-      <div class="bg-container clearfix">
+      <div class="bg-container">
         <div class="edit_track_contents clearfix" ref="trackbox">
           <div
             v-for="(tracks, index) in track.v_track_list"
@@ -182,7 +179,6 @@
         </div>
       </div>
     </div>
-    <!-- <div style="width: 100%;height: 2px;" @mousemove="changeTrackboxSize"></div> -->
   </div>
 </template>
 <script>
@@ -387,110 +383,6 @@ export default {
 </script>
 
 <style lang="scss">
-.edit_track_title {
-  width: 160px;
-  height: 63px;
-  box-sizing: border-box;
-  border-right: 1px solid #141414;
-  border-bottom: 1px solid #141414;
-  float: left;
-  position: relative;
-
-  .icon {
-    width: 159px;
-    height: 26px;
-    position: relative;
-    top: 0;
-
-    .cicon {
-      background-image: url(../../img/ziti.png);
-      background-repeat: no-repeat;
-      background-size: 95%;
-      width: 18px;
-      height: 18px;
-      display: inline-block;
-      position: relative;
-      top: 50%;
-      transform: translate(0, -50%);
-      margin: 0 6px;
-    }
-
-    .vicon {
-      background-image: url(../../img/vtrack.png);
-      background-repeat: no-repeat;
-      background-size: 100%;
-      width: 18px;
-      height: 18px;
-      display: inline-block;
-      position: relative;
-      top: 50%;
-      transform: translate(0, -50%);
-      margin: 0 6px;
-    }
-
-    .aicon {
-      background-image: url(../../img/atrack.png);
-      background-repeat: no-repeat;
-      background-size: 95%;
-      width: 18px;
-      height: 18px;
-      display: inline-block;
-      position: relative;
-      top: 50%;
-      transform: translate(0, -50%);
-      margin: 0 6px;
-    }
-
-    .vtitle,
-    .atitle {
-      display: inline-block;
-      position: absolute;
-      top: 50%;
-      transform: translate(0, -50%);
-      width: 60px;
-      font-size: 14px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      word-break: keep-all;
-    }
-  }
-}
-.bg-container {
-  float: left;
-  width: calc(100% - 160px);
-  background-image: repeating-linear-gradient(
-    #151a20,
-    #151a20 62px,
-    #1c232a 63px,
-    #1c232a 126px
-  );
-}
-.edit_track_contents {
-  float: left;
-  position: relative;
-  margin: 0 25px 0 10px;
-  width: calc(100% - 35px);
-  overflow: hidden;
-
-  .edit_track_content {
-    float: left;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    border: 1px solid transparent;
-    box-sizing: border-box;
-
-    .track_able_content {
-      min-width: 100%;
-      width: 100%;
-      height: 62px;
-      position: absolute;
-      left: 0;
-    }
-  }
-}
-
 .rename-decide-box {
   background-color: #222;
   color: #fff;
@@ -508,16 +400,109 @@ export default {
     color: inherit;
   }
 }
-
-#trackbox {
+</style>
+<style lang="scss" scoped>
+.track-box {
   max-height: calc(100vh - 50vw * 9 / 16 - 250px);
   overflow: hidden;
-  width: 100vw;
+  width: 100%;
+  .edit_track {
+    width: 100%;
+    display: flex;
+    .edit_track_titles {
+      width: 160px;
+      height: 100%;
+      .edit_track_title {
+        width: 160px;
+        height: 63px;
+        box-sizing: border-box;
+        border-right: 1px solid #151a20;
+        border-bottom: 1px solid #151a20;
+        float: left;
+        position: relative;
 
-  > div {
-    width: 100vw;
+        .icon {
+          width: 159px;
+          height: 26px;
+          position: relative;
+          top: 0;
+
+          .vicon {
+            background-image: url(../../img/vtrack.png);
+            background-repeat: no-repeat;
+            background-size: 100%;
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            position: relative;
+            top: 50%;
+            transform: translate(0, -50%);
+            margin: 0 6px;
+          }
+
+          .aicon {
+            background-image: url(../../img/atrack.png);
+            background-repeat: no-repeat;
+            background-size: 95%;
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            position: relative;
+            top: 50%;
+            transform: translate(0, -50%);
+            margin: 0 6px;
+          }
+
+          .vtitle,
+          .atitle {
+            display: inline-block;
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+            width: 60px;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-break: keep-all;
+          }
+        }
+      }
+    }
+    .bg-container {
+      flex: 1;
+      height: 100%;
+      padding: 0 25px 0 10px;
+      background-image: repeating-linear-gradient(
+        #151a20,
+        #151a20 62px,
+        #1c232a 63px,
+        #1c232a 126px
+      );
+      .edit_track_contents {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        .edit_track_content {
+          float: left;
+          width: 100%;
+          height: 100%;
+          position: relative;
+          border: 1px solid transparent;
+          box-sizing: border-box;
+
+          .track_able_content {
+            min-width: 100%;
+            width: 100%;
+            height: 62px;
+            position: absolute;
+            left: 0;
+          }
+        }
+      }
+    }
   }
-
   .track-box-left-mask {
     height: 100%;
     width: 100%;

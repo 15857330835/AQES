@@ -1,12 +1,16 @@
 <template>
   <div class="main-box">
-    <systemmes></systemmes>
-    <mzsection></mzsection>
-    <videooper v-show="videooperShow && !chunksetshow"></videooper>
-    <tracksection></tracksection>
+    <div class="main-container">
+      <systemmes></systemmes>
+      <mzsection></mzsection>
+      <videooper v-show="videooperShow && !chunksetshow"></videooper>
+      <tracksection></tracksection>
+      <tracktimer></tracktimer>
+    </div>
     <chunkset></chunkset>
     <ExportVideoSet v-if="exportVideoSetShow"></ExportVideoSet>
     <VoiceApplyModal v-if="modalVoiceApplyIsShow"></VoiceApplyModal>
+    <SetBox></SetBox>
   </div>
 </template>
 
@@ -15,9 +19,11 @@ import systemmes from '@/model/Systemmes'
 import mzsection from '@/model/mzSection/mzsection'
 import videooper from '@/model/videooper'
 import tracksection from '@/model/trackSection'
+import tracktimer from '@/model/trackSection/trackTimer'
 import chunkset from '@/model/chunkSet'
 import ExportVideoSet from '@/model/mzSection/ExportVideoSet'
 import VoiceApplyModal from '@/model/aiVoiceApply/VoiceApplyModal.vue'
+import SetBox from '@/model/setBox'
 
 import _ from 'lodash'
 import { mapState, mapMutations } from 'vuex'
@@ -27,9 +33,11 @@ export default {
     mzsection,
     videooper,
     tracksection,
+    tracktimer,
     chunkset,
     ExportVideoSet,
-    VoiceApplyModal
+    VoiceApplyModal,
+    SetBox
   },
   computed: {
     ...mapState([
@@ -42,6 +50,7 @@ export default {
   methods: {
     ...mapMutations([
       'CHANGE_CLIENTWIDTH',
+      'GET_OPENWAY',
       'UPDATE_TRACK_MIX',
       'CHANGE_IS_MULTI_SELECT',
       'CHANGE_VIS_TIMER_WIDTH',
@@ -98,4 +107,17 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.main-box {
+  width: 100%;
+  height: 100%;
+  .main-container {
+    min-width: 960px;
+    min-height: 600px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+</style>

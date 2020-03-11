@@ -1,25 +1,22 @@
 <template>
   <div
     :id="this.id"
+    style="height: 100vh;"
     :class="{ shadow: modalVoiceApplyIsShow || chunksetshow }"
-    style="height:100vh;"
     v-cloak
     v-if="!this.startloading"
   >
     <MainBox></MainBox>
-    <SetBox></SetBox>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 import MainBox from '@/model/MainBox.vue'
-import SetBox from '@/model/setBox'
 
 export default {
   components: {
-    MainBox,
-    SetBox
+    MainBox
   },
   data() {
     return {
@@ -186,9 +183,21 @@ export default {
 </script>
 
 <style lang="scss">
+#nces {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  color: #e4e4e4;
+  background-color: #1c232a;
+  position: relative;
+}
+</style>
+<style lang="scss" scoped>
 [v-cloak] {
   display: none;
 }
+
 .shadow {
   background-color: #151a20 !important;
 }

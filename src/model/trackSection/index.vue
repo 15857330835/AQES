@@ -10,7 +10,6 @@
       <trackbox></trackbox>
       <trackcaption></trackcaption>
     </div>
-    <tracktimer></tracktimer>
   </div>
 </template>
 <script>
@@ -18,12 +17,11 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import drawruler from './drawRuler'
 import trackbox from './trackBox'
 import trackcaption from './trackCaption'
-import tracktimer from './trackTimer'
 import videotip from './videoTip'
 import _ from 'lodash'
 
 export default {
-  data: function() {
+  data() {
     return {
       trackWidth: 0
     }
@@ -55,7 +53,6 @@ export default {
     drawruler,
     trackbox,
     trackcaption,
-    tracktimer,
     videotip
   },
   methods: {
@@ -173,5 +170,6 @@ export default {
 .nces_edit {
   margin: 2px;
   background-color: #1c232a;
+  flex: 1;
 }
 </style>

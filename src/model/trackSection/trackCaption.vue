@@ -1,45 +1,36 @@
 <template>
   <div class="clearfix caption-box" id="captionbox">
-    <div style="width:160px;float:left">
-      <div class="clearfix">
-        <div class="edit_track_title">
-          <div class="icon">
-            <span class="cicon"></span>
-            <span class="vtitle">字幕轨道</span>
-          </div>
-          <trackstatus :track="this.status" :type="'caption'"></trackstatus>
-          <span
-            class="clearTrack iconfont icon-qingchu"
-            :style="{ color: this.clearTrack_color }"
-            @click="cleartrack"
-            :title="this.status.block ? '禁用' : '清空轨道'"
-          ></span>
-          <div class="track-caption-mask" v-if="modalVoiceApplyIsShow"></div>
-        </div>
+    <div class="edit_track_title">
+      <div class="icon">
+        <span class="cicon"></span>
+        <span class="vtitle">字幕轨道</span>
       </div>
+      <trackstatus :track="this.status" :type="'caption'"></trackstatus>
+      <span
+        class="clearTrack iconfont icon-qingchu"
+        :style="{ color: this.clearTrack_color }"
+        @click="cleartrack"
+        :title="this.status.block ? '禁用' : '清空轨道'"
+      ></span>
+      <div class="track-caption-mask" v-if="modalVoiceApplyIsShow"></div>
     </div>
-    <div style="float:left;width:calc(100% - 160px);height:30px">
-      <div class="edit_track_contents clearfix" style="height:100%">
-        <div class="edit_track_content">
-          <trackhide :track="this.status" :type="'caption'"></trackhide>
-          <div
-            class="track_able_content"
-            :style="{
-              height: '30px',
-              width:
-                length / (this.slidernum.max - track_property.ratio) +
-                100 +
-                'px',
-              left: -track_property.outLeft + 'px'
-            }"
-          >
-            <chunkcaption
-              v-for="(chunk, index) in chunks"
-              :chunk="chunk"
-              :index="index"
-              :key="chunk.chunk_id"
-            ></chunkcaption>
-          </div>
+    <div class="edit_track_contents">
+      <div class="edit_track_content">
+        <trackhide :track="this.status" :type="'caption'"></trackhide>
+        <div
+          class="track_able_content"
+          :style="{
+            width:
+              length / (this.slidernum.max - track_property.ratio) + 100 + 'px',
+            left: -track_property.outLeft + 'px'
+          }"
+        >
+          <chunkcaption
+            v-for="(chunk, index) in chunks"
+            :chunk="chunk"
+            :index="index"
+            :key="chunk.chunk_id"
+          ></chunkcaption>
         </div>
       </div>
     </div>
@@ -109,9 +100,35 @@ export default {
 <style lang="scss" scoped>
 .caption-box {
   width: 100vw;
+  height: 31px;
+  display: flex;
   .edit_track_title {
-    height: 30px;
-    border-bottom: none;
+    width: 160px;
+    height: 31px;
+    box-sizing: border-box;
+    border-right: 1px solid #151a20;
+    border-bottom: 1px solid #151a20;
+    float: left;
+    position: relative;
+    .icon {
+      width: 159px;
+      height: 26px;
+      position: relative;
+      top: 0;
+
+      .cicon {
+        background-image: url(../../img/ziti.png);
+        background-repeat: no-repeat;
+        background-size: 95%;
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        position: relative;
+        top: 50%;
+        transform: translate(0, -50%);
+        margin: 0 6px;
+      }
+    }
     .clearTrack {
       position: absolute;
       top: 0px;
@@ -128,8 +145,29 @@ export default {
       z-index: 9999;
     }
   }
-  .edit_track_content {
-    border-top: 1px solid #565656;
+
+  .edit_track_contents {
+    flex: 1;
+    height: 31px;
+    padding: 0 25px 0 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-top: 1px solid #151a20;
+    border-bottom: 1px solid #151a20;
+
+    .edit_track_content {
+      width: 100%;
+      height: 100%;
+      position: relative;
+
+      .track_able_content {
+        min-width: 100%;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+      }
+    }
   }
 }
 </style>
