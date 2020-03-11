@@ -135,7 +135,7 @@ export default {
         index: this.index
       })
     },
-    down: function(e, time) {
+    down(e, time) {
       const that = this
       this.ACTIVE_CHUNK({
         chunk: this.chunk,
@@ -157,7 +157,6 @@ export default {
       }
       this.CLEAR_REST_ACTIVE_CHUNKS()
       this.chunkmove = 'all'
-      const that = this
       this.x = this.getElementPos(this.chunk.chunk_id).x - 3
       this.y = this.getElementPos(this.chunk.chunk_id).y - 3
       this.offsetx = e.pageX - this.x
@@ -180,8 +179,8 @@ export default {
         this.Post({
           type: 'pointer',
           data: { cmd: 'set', speed: 0 },
-          error: function() {
-            that.$notify({
+          error: () => {
+            this.$notify({
               title: '提示',
               type: 'error',
               message: '操作失败！',

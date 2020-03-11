@@ -1,33 +1,29 @@
 <template>
   <div class="time_track clearfix">
-    <div class="clearfix">
-      <div class="time_track_title">
-        时间滑竿
-        <!-- <div class="track-timer-left-mask" v-if="modalVoiceApplyIsShow"></div> -->
+    <div class="time_track_title">
+      时间滑竿
+      <!-- <div class="track-timer-left-mask" v-if="modalVoiceApplyIsShow"></div> -->
+    </div>
+    <div class="time_track_content">
+      <div class="left">
+        <sliderbar></sliderbar>
       </div>
-      <div class="time_track_content">
-        <div>
-          <div class="left">
-            <sliderbar></sliderbar>
-          </div>
-          <div class="right">
-            <el-slider
-              v-model="middle_ratio"
-              :show-tooltip="false"
-              :max="slidernum.max - 0.25"
-              :min="slidernum.min"
-              :step="0.25"
-            ></el-slider>
-            <span
-              class="right_scale"
-              v-show="!exportVideoSetShow"
-              @click="ratioScale"
-              title="全览"
-            ></span>
-            <span class="right_jian" @click="ratioCut(0.25)"></span>
-            <span class="right_jia" @click="ratioAdd(0.25)"></span>
-          </div>
-        </div>
+      <div class="right">
+        <el-slider
+          v-model="middle_ratio"
+          :show-tooltip="false"
+          :max="slidernum.max - 0.25"
+          :min="slidernum.min"
+          :step="0.25"
+        ></el-slider>
+        <span
+          class="right_scale"
+          v-show="!exportVideoSetShow"
+          @click="ratioScale"
+          title="全览"
+        ></span>
+        <span class="right_jian" @click="ratioCut(0.25)"></span>
+        <span class="right_jia" @click="ratioAdd(0.25)"></span>
       </div>
     </div>
   </div>
@@ -252,17 +248,17 @@ export default {
   width: 100%;
   height: 40px;
   background-color: #151a20;
+  position: fixed;
+  bottom: 0;
+  display: flex;
   .time_track_title {
     position: relative;
     width: 160px;
-    height: 40px;
+    height: 100%;
     box-sizing: border-box;
     line-height: 40px;
     text-align: center;
     font-size: 12px;
-    // border-right: 1px solid #141414;
-    // border-top: 1px solid#141414;
-    float: left;
     .track-timer-left-mask {
       height: 100%;
       width: 100%;
@@ -273,65 +269,59 @@ export default {
     }
   }
   .time_track_content {
-    float: left;
-    width: calc(100% - 160px);
-    height: 40px;
-    > div {
-      margin: 0 25px 0 10px;
+    flex: 1;
+    height: 100%;
+    padding: 0 25px 0 10px;
+    display: flex;
+    justify-content: space-between;
+    .left {
       height: 100%;
+      padding: 16px 0;
       box-sizing: border-box;
-      .left {
-        height: 100%;
-        padding: 16px 0;
-        box-sizing: border-box;
-        float: left;
-        width: calc(100% - 300px);
+      width: calc(100% - 300px);
+    }
+    .right {
+      width: 180px;
+      padding: 0 30px;
+      position: relative;
+      .right_scale {
+        position: absolute;
+        height: 18px;
+        width: 26px;
+        border: 1px solid #818181;
+        background: url(../../img/uf.png) center center no-repeat;
+        background-size: 65% 55%;
+        display: inline-block;
+        top: 50%;
+        transform: translateY(-50%);
+        left: -30px;
+        cursor: pointer;
       }
-      .right {
-        float: left;
-        margin-left: 60px;
-        width: 180px;
-        padding: 0 30px;
-        position: relative;
-        .right_scale {
-          position: absolute;
-          height: 18px;
-          width: 26px;
-          border: 1px solid #818181;
-          background: url(../../img/uf.png) center center no-repeat;
-          background-size: 65% 55%;
-          display: inline-block;
-          top: 50%;
-          transform: translateY(-50%);
-          left: -30px;
-          cursor: pointer;
-        }
-        .right_jian {
-          position: absolute;
-          height: 12px;
-          width: 12px;
-          background-image: url(../../img/minify.png);
-          background-repeat: no-repeat;
-          background-size: 110%;
-          display: inline-block;
-          top: 50%;
-          transform: translateY(-50%);
-          left: 5px;
-          cursor: pointer;
-        }
-        .right_jia {
-          position: absolute;
-          height: 12px;
-          width: 12px;
-          background-image: url(../../img/magnify.png);
-          background-repeat: no-repeat;
-          background-size: 110%;
-          display: inline-block;
-          top: 50%;
-          transform: translateY(-50%);
-          right: 5px;
-          cursor: pointer;
-        }
+      .right_jian {
+        position: absolute;
+        height: 12px;
+        width: 12px;
+        background-image: url(../../img/minify.png);
+        background-repeat: no-repeat;
+        background-size: 110%;
+        display: inline-block;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 5px;
+        cursor: pointer;
+      }
+      .right_jia {
+        position: absolute;
+        height: 12px;
+        width: 12px;
+        background-image: url(../../img/magnify.png);
+        background-repeat: no-repeat;
+        background-size: 110%;
+        display: inline-block;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 5px;
+        cursor: pointer;
       }
     }
   }

@@ -1,12 +1,10 @@
 <template>
   <div class="main-box">
-    <div class="main-container">
-      <systemmes></systemmes>
-      <mzsection></mzsection>
-      <videooper v-show="videooperShow && !chunksetshow"></videooper>
-      <tracksection></tracksection>
-      <tracktimer></tracktimer>
-    </div>
+    <systemmes></systemmes>
+    <mzsection></mzsection>
+    <videooper v-show="videooperShow && !chunksetshow"></videooper>
+    <tracksection></tracksection>
+    <tracktimer></tracktimer>
     <chunkset></chunkset>
     <ExportVideoSet v-if="exportVideoSetShow"></ExportVideoSet>
     <VoiceApplyModal v-if="modalVoiceApplyIsShow"></VoiceApplyModal>
@@ -111,13 +109,5 @@ export default {
 .main-box {
   width: 100%;
   height: 100%;
-  .main-container {
-    min-width: 960px;
-    min-height: 600px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
 }
 </style>
