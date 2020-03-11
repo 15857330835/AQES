@@ -488,23 +488,28 @@ export default {
 
 <style lang="scss">
 .nces_videooper {
-  height: 42px;
+  height: 0.54rem;
+  box-sizing: border-box;
   position: relative;
-  background-color: #151a20;
+  background-color: #212931;
+  border-top: 0.02rem solid #151a20;
+  border-bottom: 0.02rem solid #151a20;
   .oper_sel {
     position: absolute;
-    top: 11px;
     display: inline-block;
     z-index: 10;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    display: flex;
+    align-items: center;
     & > span {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      padding: 0 10px 0 10px;
-      margin-left: 5px;
+      width: 0.2rem;
+      height: 0.2rem;
+      padding: 0 0.15rem;
+      margin-left: 0.05rem;
       cursor: pointer;
       background-position: center;
-      background-size: 20px 20px;
+      background-size: 0.2rem 0.2rem;
       background-repeat: no-repeat;
       &:nth-child(1) {
         background-image: url(../img/trackBack.png);

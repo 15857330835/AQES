@@ -3,7 +3,7 @@
     <div class="edit_track_title">
       <div class="icon">
         <span class="cicon"></span>
-        <span class="vtitle">字幕轨道</span>
+        <!-- <span class="vtitle">字幕轨道</span> -->
       </div>
       <trackstatus :track="this.status" :type="'caption'"></trackstatus>
       <span

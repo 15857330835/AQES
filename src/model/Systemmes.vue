@@ -139,29 +139,28 @@ export default {
 <style lang="scss">
 .nces_sys {
   width: 100%;
-  height: 50px;
+  height: 0.6rem;
+  line-height: 0.6rem;
   background-color: #151a20;
+  display: flex;
+  align-items: center;
   .sys_title {
-    display: inline-block;
-    line-height: 50px;
-    text-indent: 15px;
+    text-indent: 0.25rem;
+    width: 1.2rem;
+    display: flex;
     .t1 {
-      width: 80px;
       border-right: 1px solid #3f3f3f;
-      font-size: 16px;
-      padding: 0 10px 0 0;
-      height: 100%;
-    }
-    .t2 {
-      font-size: 14px;
-      padding: 0 10px;
-      height: 100%;
+      border-color: #636b72;
+      font-size: 0.18rem;
+      height: 0.18rem;
+      line-height: 0.18rem;
+      padding-right: 0.16rem;
     }
   }
   .sys_message {
     display: inline-block;
     line-height: 30px;
-    font-size: 12px;
+    font-size: 0.16rem;
     & > span {
       opacity: 0.7;
       padding: 0 8px;
@@ -179,5 +178,4 @@ export default {
     }
   }
 }
-
 </style>

@@ -53,7 +53,7 @@ export default {
       return this.track_property.fanwei['1440'].now * 100
     },
     editHeight() {
-      return `calc(100vh - ${this.widthScale}vw / 16 * 9 - 198px)`
+      return `calc(100vh - ${this.widthScale}vw / 16 * 9 - 2.56rem)`
     }
   },
   components: {

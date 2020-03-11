@@ -77,12 +77,7 @@
               : (100 * 9 * this.playerInfo.w) / 16 / this.playerInfo.h + '%'
         }"
       >
-        <newchartset
-          v-if="
-            this.filtershow == 'normal' &&
-              this.activechunk.chunk.chunk_type !== 2
-          "
-        ></newchartset>
+        <newchartset v-if="this.filtershow == 'normal'"></newchartset>
         <newDynamicTextSet
           v-else-if="this.filtershow === 'dynamicText'"
         ></newDynamicTextSet>
@@ -91,10 +86,13 @@
     </div>
     <div class="video_control">
       <div
-        v-if="this.chunksetshow"
+        v-if="
+          this.chunksetshow &&
+            (this.activechunk.chunk.chunk_type != 2 ||
+              this.activechunk.chunk.chunk_type != 5)
+        "
         style="height:6px;background-color:#6F7376;overflow:hidden;cursor:pointer;opacity:0.6;width:100%"
         @click="movetoposition($event)"
-        class="progress-line"
       >
         <div
           :style="{
@@ -135,7 +133,7 @@
       <div style="float:left;line-height:40px ;" v-if="!this.chunksetshow">
         <span
           >{{ this.initdate(pointer.position) }} /
-          {{ this.initdate(length - 1) }}</span
+          {{ this.initdate(length) }}</span
         >
       </div>
       <div
@@ -243,9 +241,7 @@ export default {
     chunksetshow(val) {
       if (val) {
         this.originSrcLen =
-          (this.activechunk.chunk.src_end -
-            this.activechunk.chunk.src_start -
-            1) *
+          (this.activechunk.chunk.src_end - this.activechunk.chunk.src_start) *
           this.activechunk.chunk.speed
       }
       this.getindex()
@@ -274,9 +270,7 @@ export default {
       'PROPERTY_FANWEI',
       'CHANGE_ACTIVEPROPERTY',
       'CHANGE_PROPERTYNUM',
-      'ADD_REFRESH_KEY',
-      'CHANGE_IS_REFRESH_TRACK_BOX_BS',
-      'CHANGE_IS_REFRESH_CAPTION_SET_BS'
+      'ADD_REFRESH_KEY'
     ]),
     ...mapActions([
       'postPointer',
@@ -413,7 +407,7 @@ export default {
       )
       $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
     },
-    fullpage() {
+    fullpage: function() {
       // 网页全屏方法
       // const callback = () => {
       //   this.ADD_REFRESH_KEY()
@@ -440,7 +434,7 @@ export default {
         this.$fullscreen.exit({ callback: this.buffResizeScreen })
       }
     },
-    videoRefresh() {
+    videoRefresh: function() {
       // 刷新播放器
       $.post(
         window.NCES.DOMAIN + '/api/player',
@@ -474,7 +468,7 @@ export default {
         this.lasttime = Date.now()
       }
     },
-    fullscreen(e) {
+    fullscreen: function(e) {
       // h5播放器全屏
       if (!this.isFullScreen) {
         // video未全屏
@@ -516,7 +510,7 @@ export default {
 
       // }
     },
-    mousemove(e_para) {
+    mousemove: function(e_para) {
       if (!this.videomove) {
         return
       }
@@ -551,6 +545,9 @@ export default {
       $('.video_option')
         .getNiceScroll()
         .resize()
+      $('#trackbox')
+        .getNiceScroll()
+        .resize()
       $('.mydir-bottom-content')
         .getNiceScroll()
         .resize()
@@ -581,13 +578,15 @@ export default {
       $('.video_option')
         .getNiceScroll()
         .resize()
+      $('#trackbox')
+        .getNiceScroll()
+        .resize()
       $('.mydir-bottom-content')
         .getNiceScroll()
         .resize()
-      this.CHANGE_IS_REFRESH_TRACK_BOX_BS(true)
       this.resizeScreen()
     },
-    mouseend(e) {
+    mouseend: function(e) {
       this.videomove = false
       const data = {}
       data.type = 'track'
@@ -602,10 +601,8 @@ export default {
       if (this.openway === 'pc') {
         $(document).unbind('mousemove')
       }
-      this.CHANGE_IS_REFRESH_TRACK_BOX_BS(true)
-      this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
     },
-    mousedown(e_para) {
+    mousedown: function(e_para) {
       // 视频播放器宽度调节
       this.videomove = true
       let e = e_para
@@ -631,7 +628,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted: function() {
     const that = this
     this.resizeScreen()
     window.addEventListener('resize', this.throttleResizeScreen)
@@ -707,7 +704,7 @@ export default {
     this.mute = false
 
     this.originSrcLen =
-      (this.activechunk.chunk.src_end - this.activechunk.chunk.src_start - 1) *
+      (this.activechunk.chunk.src_end - this.activechunk.chunk.src_start) *
       this.activechunk.chunk.speed
 
     document.addEventListener('fullscreenchange', e => {
@@ -732,14 +729,15 @@ export default {
   top: 0;
   right: 0;
   width: 50%;
+  font-size: 0.18rem;
 
   .player_title {
-    height: 30px;
+    height: 0.4rem;
     background-color: #212931;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 15px;
+    padding: 0 0.2rem;
 
     .fullpage-in {
       background: url('../../img/u5.png');
@@ -754,13 +752,13 @@ export default {
     > span {
       &:nth-child(1) {
         background: url(../../img/u1.png) 0 center no-repeat;
-        text-indent: 25px;
-        line-height: 30px;
+        text-indent: 0.32rem;
+        line-height: 0.4rem;
       }
 
       &:nth-child(2) {
-        width: 20px;
-        height: 20px;
+        width: 0.28rem;
+        height: 0.28rem;
         background-size: 100%;
         cursor: pointer;
       }
@@ -771,20 +769,20 @@ export default {
     background: repeating-linear-gradient(
       -45deg,
       rgba(51, 51, 51, 0.5),
-      rgba(51, 51, 51, 0.5) 5px,
+      rgba(51, 51, 51, 0.5) 0.05rem,
       rgba(68, 68, 68, 0.5) 0,
-      rgba(68, 68, 68, 0.5) 10px
+      rgba(68, 68, 68, 0.5) 0.1rem
     );
     width: 100%;
-    height: calc(100% - 66px);
+    height: calc(100% - 0.88rem);
     position: relative;
   }
 
   .video_control {
     width: 100%;
-    height: 36px;
+    height: 0.48rem;
     background-color: #212931;
-    line-height: 30px;
+    line-height: 0.4rem;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -798,8 +796,8 @@ export default {
       user-select: none;
 
       > span {
-        width: 37px;
-        height: 37px;
+        width: 0.48rem;
+        height: 0.5rem;
         display: inline-block;
         cursor: pointer;
 
@@ -826,26 +824,26 @@ export default {
     }
 
     .control_Cright {
-      margin-right: 10px;
-      margin-top: 10px;
+      margin-right: 0.12rem;
+      margin-top: 0.12rem;
       float: right;
 
       > span {
         &:nth-child(1) {
           background-image: url(../../img/restart.png);
           transform: scale(0.8);
-          width: 20px;
-          height: 20px;
+          width: 0.28rem;
+          height: 0.28rem;
           display: inline-block;
           background-size: 100%;
           cursor: pointer;
-          margin-right: 10px;
+          margin-right: 0.12rem;
         }
 
         &:nth-child(2) {
           background-image: url(../../img/quanping.png);
-          width: 20px;
-          height: 20px;
+          width: 0.28rem;
+          height: 0.28rem;
           display: inline-block;
           background-size: 100%;
           cursor: pointer;
@@ -862,14 +860,13 @@ export default {
     top: 0;
     height: 100%;
     cursor: url(../../img/videoMove.png), pointer;
-    line-height: 7px;
     font-weight: 900;
-    width: 20px;
-    left: -20px;
+    width: 0.25rem;
+    left: -0.25rem;
     box-sizing: border-box;
     background-color: #212931;
     border-left: 1px solid #151a20;
-    border-right: 2px solid #151a20;
+    border-right: 0.02rem solid #151a20;
     &.set-active {
       background-color: transparent;
       z-index: 666;
@@ -883,10 +880,10 @@ export default {
 
     span {
       text-align: center;
-      width: 10px;
-      height: 20px;
+      width: 0.1rem;
+      height: 0.2rem;
       top: 50%;
-      transform: translate(3px, -50%);
+      transform: translate(0.05rem, -50%);
       background: url(../../img/left_move.png) no-repeat;
       background-size: contain;
     }

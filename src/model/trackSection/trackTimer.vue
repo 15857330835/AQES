@@ -246,7 +246,7 @@ export default {
 <style lang="scss" scoped>
 .time_track {
   width: 100%;
-  height: 40px;
+  height: 0.54rem;
   background-color: #151a20;
   display: flex;
   .time_track_title {
@@ -254,7 +254,7 @@ export default {
     width: 160px;
     height: 100%;
     box-sizing: border-box;
-    line-height: 40px;
+    line-height: 0.54rem;
     text-align: center;
     font-size: 12px;
     .track-timer-left-mask {
