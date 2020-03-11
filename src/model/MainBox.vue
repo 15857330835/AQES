@@ -112,8 +112,6 @@ export default {
   width: 100%;
   height: 100%;
   .main-container {
-    min-width: 960px;
-    min-height: 600px;
     width: 100%;
     height: 100%;
     display: flex;

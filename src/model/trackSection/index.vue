@@ -3,10 +3,11 @@
     class="nces_edit"
     v-show="!this.chunksetshow"
     :key="this.$store.state.refreshKey"
+    :style="{ height: editHeight }"
   >
     <drawruler></drawruler>
     <videotip></videotip>
-    <div v-show="trackBoxShow">
+    <div v-show="trackBoxShow" class="tracks-container">
       <trackbox></trackbox>
       <trackcaption></trackcaption>
     </div>
@@ -47,6 +48,12 @@ export default {
     },
     outleft() {
       return this.$store.state.all.track_property.outLeft
+    },
+    widthScale() {
+      return this.track_property.fanwei['1440'].now * 100
+    },
+    editHeight() {
+      return `calc(100vh - ${this.widthScale}vw / 16 * 9 - 198px)`
     }
   },
   components: {
@@ -170,6 +177,8 @@ export default {
 .nces_edit {
   margin: 2px 2px 0;
   background-color: #1c232a;
-  flex: 1;
+  .tracks-container {
+    height: calc(100% - 42px);
+  }
 }
 </style>
