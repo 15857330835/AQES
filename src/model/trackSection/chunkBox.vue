@@ -34,11 +34,12 @@
     }"
   >
     <div
-      style="position:absolute;height:100%;width:100%;overflow:hidden"
+      class="av-container"
       v-if="
         (this.chunk.chunk_type == 1 && this.chunk.preview_img == null) ||
           this.chunk.chunk_type == 2
       "
+      style="position:absolute;height:100%;width:100%;overflow:hidden"
     >
       <div v-if="chunk.chunk_type == 1">
         <transition-group name="img-list">
@@ -146,7 +147,7 @@ import {
 import { deepClone } from '@/utils'
 
 export default {
-  data: function() {
+  data() {
     return {
       useimglist: [],
       prevImg: '',
@@ -316,7 +317,7 @@ export default {
       return this.$store.state.imglists[this.chunk.chunk_id]
     },
 
-    run: function() {
+    run() {
       return (
         -(
           this.chunk.src_start %
@@ -325,7 +326,7 @@ export default {
         (this.slidernum.max - this.track_property.ratio)
       )
     },
-    position: function() {
+    position() {
       // const url = ''
       const arr = []
       if (this.chunk.chunk_type === 2) {
@@ -383,7 +384,10 @@ export default {
       }
     },
     'activechunk.chunk.preview_img'(val) {
-      if (this.isActive && val != null) {
+      if (
+        this.activechunk.chunk.chunk_id === this.chunk.chunk_id &&
+        val != null
+      ) {
         if (val.indexOf('nces') !== -1) {
           if (val.indexOf('//') === -1) {
             this.prevImg = '//' + val
@@ -940,7 +944,7 @@ export default {
         }
       }
     },
-    getElementPos: function(elementId) {
+    getElementPos(elementId) {
       const ua = navigator.userAgent.toLowerCase()
       const isOpera = ua.indexOf('opera') !== -1
       // eslint-disable-next-line no-unused-vars
@@ -1586,7 +1590,7 @@ export default {
         $(document).one('mouseup', this.toLeftup)
       }
     },
-    toLeftmove: function(e_para) {
+    toLeftmove(e_para) {
       e_para.stopPropagation()
       let e = e_para
       if (this.chunkmove !== 'left') {
@@ -1752,7 +1756,7 @@ export default {
         $(document).one('mouseup', this.toRightup)
       }
     },
-    toRightmove: function(e_para) {
+    toRightmove(e_para) {
       e_para.stopPropagation()
       let e = e_para
       if (this.chunkmove !== 'right') {
