@@ -248,8 +248,6 @@ export default {
   width: 100%;
   height: 40px;
   background-color: #151a20;
-  position: fixed;
-  bottom: 0;
   display: flex;
   .time_track_title {
     position: relative;
