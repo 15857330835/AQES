@@ -248,15 +248,17 @@ export default {
   width: 100%;
   height: 0.54rem;
   background-color: #151a20;
+  position: fixed;
+  bottom: 0;
   display: flex;
   .time_track_title {
     position: relative;
-    width: 160px;
-    height: 100%;
+    width: 1.6rem;
+    height: 0.4rem;
     box-sizing: border-box;
-    line-height: 0.54rem;
+    line-height: 0.4rem;
     text-align: center;
-    font-size: 12px;
+    font-size: 0.12rem;
     .track-timer-left-mask {
       height: 100%;
       width: 100%;

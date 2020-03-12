@@ -403,7 +403,6 @@ export default {
 </style>
 <style lang="scss" scoped>
 .track-box {
-  max-height: calc(100% - 31px) !important;
   overflow: hidden;
   width: 100%;
   .edit_track {

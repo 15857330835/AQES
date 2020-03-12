@@ -104,6 +104,7 @@ export default {
     box-sizing: border-box;
     float: left;
     position: relative;
+    transform: scale(0.7);
   }
 }
 </style>

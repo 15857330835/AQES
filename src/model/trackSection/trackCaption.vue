@@ -120,13 +120,13 @@ export default {
         background-image: url(../../img/ziti.png);
         background-repeat: no-repeat;
         background-size: 95%;
-        width: 18px;
-        height: 18px;
+        width: 0.18rem;
+        height: 0.18rem;
         display: inline-block;
         position: relative;
         top: 50%;
         transform: translate(0, -50%);
-        margin: 0 6px;
+        margin: 0 0.08rem;
       }
     }
     .clearTrack {

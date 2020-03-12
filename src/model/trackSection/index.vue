@@ -3,7 +3,6 @@
     class="nces_edit"
     v-show="!this.chunksetshow"
     :key="this.$store.state.refreshKey"
-    :style="{ height: editHeight }"
   >
     <drawruler></drawruler>
     <videotip></videotip>
@@ -48,13 +47,13 @@ export default {
     },
     outleft() {
       return this.$store.state.all.track_property.outLeft
-    },
-    widthScale() {
-      return this.track_property.fanwei['1440'].now * 100
-    },
-    editHeight() {
-      return `calc(100vh - ${this.widthScale}vw / 16 * 9 - 2.56rem)`
     }
+    // widthScale() {
+    //   return this.track_property.fanwei['1440'].now * 100
+    // },
+    // editHeight() {
+    //   return `calc(100vh - ${this.widthScale}vw / 16 * 9 - 2.56rem)`
+    // }
   },
   components: {
     drawruler,
@@ -177,8 +176,5 @@ export default {
 .nces_edit {
   margin: 2px 2px 0;
   background-color: #1c232a;
-  .tracks-container {
-    height: calc(100% - 42px);
-  }
 }
 </style>
