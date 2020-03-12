@@ -3,7 +3,7 @@
     <div class="edit_track_title">
       <div class="icon">
         <span class="cicon"></span>
-        <!-- <span class="vtitle">字幕轨道</span> -->
+        <span class="vtitle">字幕轨道</span>
       </div>
       <trackstatus :track="this.status" :type="'caption'"></trackstatus>
       <span
@@ -102,6 +102,7 @@ export default {
   width: 100vw;
   height: 31px;
   display: flex;
+  font-size: 12px;
   .edit_track_title {
     width: 160px;
     height: 31px;

@@ -402,12 +402,11 @@ export default {
       trackbox_max_height = parseInt(trackbox_max_height, 10)
       $('#trackbox').css(
         'max-height',
-        // $(document).height() - (width * 9) / 16 - num - 8
         'calc(100vh - ' + num + ' - ' + trackbox_max_height + 'px)'
       )
       $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
     },
-    fullpage: function() {
+    fullpage() {
       // 网页全屏方法
       // const callback = () => {
       //   this.ADD_REFRESH_KEY()
