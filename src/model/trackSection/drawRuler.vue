@@ -64,7 +64,7 @@ import { pointerSetApi } from '@/api/Pointer'
 import _ from 'lodash'
 export default {
   name: 'drawRuler',
-  data: function() {
+  data() {
     return {
       startt: 0,
       endt: 0,
@@ -76,13 +76,15 @@ export default {
       baseX: 170, // 0:00的线到浏览器最左端的距离
       moved: false, // 是否移动过左右指针
       unwatchStart: null,
-      unwatchEnd: null
+      unwatchEnd: null,
+      canvasHeight: 42
     }
   },
   watch: {
     track_property: {
       deep: true,
-      handler: function(value, oldvalue) {
+      handler(value, oldvalue) {
+        console.log('123miss')
         this.drawruler()
       }
     },
