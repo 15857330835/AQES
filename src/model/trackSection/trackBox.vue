@@ -4,6 +4,9 @@
     @mousedown="clearActiveChunks"
     class="track-box bscroll"
     ref="bscroll"
+    :style="{
+      maxHeight: editHeight
+    }"
   >
     <div class="edit_track bscroll-container">
       <div class="edit_track_titles" @mousedown="failClick">
@@ -204,7 +207,12 @@ export default {
     trackhide,
     TrackMask
   },
-  data: function() {
+  props: {
+    editHeight: {
+      type: String
+    }
+  },
+  data() {
     return {}
   },
   computed: {

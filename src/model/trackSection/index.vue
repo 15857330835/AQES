@@ -7,7 +7,7 @@
     <drawruler></drawruler>
     <videotip></videotip>
     <div v-show="trackBoxShow" class="tracks-container">
-      <trackbox></trackbox>
+      <trackbox :editHeight="editHeight"></trackbox>
       <trackcaption></trackcaption>
     </div>
   </div>
@@ -47,13 +47,13 @@ export default {
     },
     outleft() {
       return this.$store.state.all.track_property.outLeft
+    },
+    widthScale() {
+      return this.track_property.fanwei['1440'].now * 100
+    },
+    editHeight() {
+      return `calc(100vh - ${this.widthScale}vw / 16 * 9 - 2.56rem - 71px)`
     }
-    // widthScale() {
-    //   return this.track_property.fanwei['1440'].now * 100
-    // },
-    // editHeight() {
-    //   return `calc(100vh - ${this.widthScale}vw / 16 * 9 - 2.56rem)`
-    // }
   },
   components: {
     drawruler,

@@ -34,7 +34,7 @@ import sliderbar from './sliderBar'
 import _ from 'lodash'
 
 export default {
-  data: function() {
+  data() {
     return {
       oldratio: 24.6,
       trackWidth: 0,
@@ -253,10 +253,10 @@ export default {
   display: flex;
   .time_track_title {
     position: relative;
-    width: 1.6rem;
-    height: 0.4rem;
+    width: 160px;
+    height: 0.54rem;
     box-sizing: border-box;
-    line-height: 0.4rem;
+    line-height: 0.54rem;
     text-align: center;
     font-size: 0.12rem;
     .track-timer-left-mask {
@@ -276,7 +276,7 @@ export default {
     justify-content: space-between;
     .left {
       height: 100%;
-      padding: 16px 0;
+      padding: 0.23rem 0;
       box-sizing: border-box;
       width: calc(100% - 300px);
     }
@@ -286,42 +286,69 @@ export default {
       position: relative;
       .right_scale {
         position: absolute;
-        height: 18px;
-        width: 26px;
+        height: 0.18rem;
+        width: 0.26rem;
         border: 1px solid #818181;
         background: url(../../img/uf.png) center center no-repeat;
         background-size: 65% 55%;
         display: inline-block;
         top: 50%;
         transform: translateY(-50%);
-        left: -30px;
+        left: -0.4rem;
         cursor: pointer;
       }
       .right_jian {
         position: absolute;
-        height: 12px;
-        width: 12px;
+        height: 0.16rem;
+        width: 0.16rem;
         background-image: url(../../img/minify.png);
         background-repeat: no-repeat;
         background-size: 110%;
         display: inline-block;
         top: 50%;
         transform: translateY(-50%);
-        left: 5px;
+        left: 0.04rem;
         cursor: pointer;
       }
       .right_jia {
         position: absolute;
-        height: 12px;
-        width: 12px;
+        height: 0.16rem;
+        width: 0.16rem;
         background-image: url(../../img/magnify.png);
         background-repeat: no-repeat;
         background-size: 110%;
         display: inline-block;
         top: 50%;
         transform: translateY(-50%);
-        right: 5px;
+        right: 0.04rem;
         cursor: pointer;
+      }
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+.time_track_content {
+  .el-slider {
+    font-size: 0.16rem;
+    .el-slider__runway {
+      background-color: #636363;
+      height: 0.08rem;
+      margin: 0.23rem 0;
+      .el-slider__bar {
+        background-color: transparent;
+      }
+      .el-slider__button-wrapper {
+        height: 0.54rem;
+        width: 0.54rem;
+        top: -0.23rem;
+        .el-slider__button {
+          border: 0.02rem solid #61ded0;
+          background-color: #61ded0;
+          width: 0.12rem;
+          height: 0.12rem;
+        }
       }
     }
   }
