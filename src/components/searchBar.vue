@@ -49,24 +49,24 @@ export default {
 </script>
 <style lang="scss">
 .title-search {
-  padding: 0 18px;
-  line-height: 50px;
+  padding: 0 0.2rem;
+  line-height: 0.53rem;
   background-color: #212931;
   .search-label {
-    margin-right: 10px;
+    margin-right: 0.12rem;
   }
   .input-search {
     display: inline-block;
     width: auto;
     input {
-      width: 120px;
-      height: 25px;
+      width: 2rem;
+      height: 0.3rem;
       background-color: rgb(48, 56, 64);
-      border: 1px solid #394149 !important;
+      border: 1px solid rgb(57, 65, 73) !important;
       border-radius: 3px;
       box-sizing: border-box;
       text-align: center;
-      font-size: 12px;
+      font-size: 0.16rem;
       color: #e4e4e4;
       -web-kit-appearance: none;
       -moz-appearance: none;

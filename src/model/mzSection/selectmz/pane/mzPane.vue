@@ -190,13 +190,16 @@ export default {
   .datepicker {
     padding: 0 18px;
     line-height: 50px;
-    background-color: #212931;
   }
   .main {
     position: relative;
     height: calc(100% - 90px);
     overflow-y: hidden;
     outline: none;
+    .bscroll-indicator {
+      background-color: rgb(170, 170, 170) !important;
+      border: none !important;
+    }
   }
 }
 .source-list-enter-active,

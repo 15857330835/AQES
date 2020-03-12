@@ -93,10 +93,10 @@ export default {
 }
 
 .listContent {
-  height: calc(100% - 50px);
+  height: calc(100% - 0.68rem);
 }
 .videolist_right {
-  width: calc(100% - 100px);
+  width: calc(100% - 1.75rem);
   float: left;
   height: 100%;
   background-color: #1c232a;

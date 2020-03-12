@@ -1333,7 +1333,7 @@ export default {
     historyView,
     keypress,
     audioPlayer
-  },
+  }
   // mounted() {
   //   // 清除添加的源
   //   console.log(this.sourceData, 1111)
@@ -1349,26 +1349,26 @@ export default {
 <style lang="scss" scoped>
 $base-url: '../../../';
 .listTitle {
-  height: 50px;
-  font-size: 12px;
+  height: 0.68rem;
+  font-size: 0.16rem;
   background-color: #212931;
   position: relative;
-  border-bottom: 2px solid #151a20;
+  border-bottom: 0.02rem solid #151a20;
   ul {
     display: inline-block;
     height: 100%;
     li {
       float: left;
-      padding: 5px 15px;
+      padding: 0.11rem 0.25rem;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 40px;
+      height: 0.46rem;
       position: relative;
       > span:first-of-type {
         cursor: pointer;
-        height: 16px;
+        height: 0.18rem;
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
@@ -1408,7 +1408,7 @@ $base-url: '../../../';
           position: absolute;
           width: 100%;
           height: 1px;
-          top: 50px;
+          bottom: 0;
           left: 0;
           z-index: 99;
           background-color: #61ded0;
