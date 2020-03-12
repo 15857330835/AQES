@@ -1,5 +1,5 @@
 <template>
-  <div class="nces_videoplayer" :style="{ width: this.videoselw }">
+  <div class="nces_videoplayer" :style="{ width: videoselw }">
     <div class="player_title">
       <span class="u-icon">{{ this.v }}</span>
       <span
@@ -137,7 +137,7 @@
         >
       </div>
       <div
-        style="float:left;line-height:40px ;"
+        style="float:left;line-height:40px;"
         v-if="
           this.chunksetshow &&
             (this.activechunk.chunk.chunk_type != 2 ||
@@ -223,17 +223,17 @@ export default {
     track_property() {
       return this.$store.state.all.track_property
     },
-    videoselw: function() {
+    videoselw() {
       if (this.clientwidth >= 1440) {
         return this.track_property.fanwei['1920'].now * 100 + '%'
       } else {
         return this.track_property.fanwei['1440'].now * 100 + '%'
       }
     },
-    playerInfo: function() {
+    playerInfo() {
       return this.systemmessage.player
     },
-    isPlaying: function() {
+    isPlaying() {
       return !!this.$store.state.all.pointer.speed
     }
   },
@@ -284,7 +284,7 @@ export default {
     ]),
     // eslint-disable-next-line no-empty-function
     temp() {},
-    adddian: function() {
+    adddian() {
       const geo_arr = []
       let flag = false
       let index = 0
@@ -467,7 +467,7 @@ export default {
         this.lasttime = Date.now()
       }
     },
-    fullscreen: function(e) {
+    fullscreen(e) {
       // h5播放器全屏
       if (!this.isFullScreen) {
         // video未全屏
@@ -509,7 +509,7 @@ export default {
 
       // }
     },
-    mousemove: function(e_para) {
+    mousemove(e_para) {
       if (!this.videomove) {
         return
       }
@@ -585,7 +585,7 @@ export default {
         .resize()
       this.resizeScreen()
     },
-    mouseend: function(e) {
+    mouseend(e) {
       this.videomove = false
       const data = {}
       data.type = 'track'
@@ -601,7 +601,7 @@ export default {
         $(document).unbind('mousemove')
       }
     },
-    mousedown: function(e_para) {
+    mousedown(e_para) {
       // 视频播放器宽度调节
       this.videomove = true
       let e = e_para
@@ -627,7 +627,7 @@ export default {
       }
     }
   },
-  mounted: function() {
+  mounted() {
     const that = this
     this.resizeScreen()
     window.addEventListener('resize', this.throttleResizeScreen)

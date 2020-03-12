@@ -246,14 +246,14 @@ export default {
     track_property() {
       return this.$store.state.all.track_property
     },
-    videoselw: function() {
+    videoselw() {
       if (this.clientwidth >= 1440) {
         return 100 - this.track_property.fanwei['1920'].now * 100 + '%'
       } else {
         return 100 - this.track_property.fanwei['1440'].now * 100 + '%'
       }
     },
-    videoHeight_: function() {
+    videoHeight_() {
       if (this.clientwidth >= 1440) {
         return (
           (this.clientwidth * this.track_property.fanwei['1920'].now * 9) / 16 +

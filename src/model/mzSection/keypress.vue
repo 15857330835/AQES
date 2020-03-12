@@ -1115,6 +1115,7 @@ export default {
   position: absolute;
   right: 0;
   top: 0;
+  font-size: 12px;
 
   .keypress_out {
     height: 100%;

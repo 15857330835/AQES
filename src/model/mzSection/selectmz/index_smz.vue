@@ -25,7 +25,7 @@
       </keep-alive>
     </div>
     <audio-player></audio-player>
-    <keypress v-show="false"></keypress>
+    <keypress></keypress>
     <div
       class="fchunkbox clonediv"
       :class="this.clonediv.class"

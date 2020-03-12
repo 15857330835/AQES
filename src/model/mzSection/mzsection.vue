@@ -1,7 +1,8 @@
 <template>
   <div
     class="clearfix lh"
-    :style="{ userSelect: 'none', padding: 0, height: this.height + 'px' }"
+    :style="{ userSelect: 'none', padding: 0, height: this.height }"
+    ref="mediaBox"
   >
     <div
       class="nces_videolist"
@@ -38,20 +39,17 @@ export default {
     track_property() {
       return this.$store.state.all.track_property
     },
-    height: function() {
+    widthScale() {
       if (this.clientwidth >= 1440) {
-        return (
-          (this.clientwidth * this.track_property.fanwei['1920'].now * 9) / 16 +
-          70
-        )
+        return this.track_property.fanwei['1920'].now * 100
       } else {
-        return (
-          (this.clientwidth * this.track_property.fanwei['1440'].now * 9) / 16 +
-          70
-        )
+        return this.track_property.fanwei['1440'].now * 100
       }
     },
-    videoselw: function() {
+    height() {
+      return `calc(${this.widthScale}vw / 16 * 9 + 0.88rem)`
+    },
+    videoselw() {
       if (this.clientwidth >= 1440) {
         return 100 - this.track_property.fanwei['1920'].now * 100 + '%'
       } else {
@@ -61,11 +59,11 @@ export default {
   },
   watch: {
     height(newVal) {
-      this.CHANGE_MZ_HEIGHT(newVal)
+      this.CHANGE_MZ_HEIGHT(this.$refs.mediaBox.clientHeight)
     }
   },
   mounted() {
-    this.CHANGE_MZ_HEIGHT(this.height)
+    this.CHANGE_MZ_HEIGHT(this.$refs.mediaBox.clientHeight)
   },
   methods: {
     // ...mapActions([

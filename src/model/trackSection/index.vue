@@ -31,7 +31,8 @@ export default {
       'chunksetshow',
       'trackBoxShow',
       'slidernum',
-      'trackAbleWidth'
+      'trackAbleWidth',
+      'clientwidth'
     ]),
     pointer() {
       return this.$store.state.all.pointer
@@ -49,7 +50,11 @@ export default {
       return this.$store.state.all.track_property.outLeft
     },
     widthScale() {
-      return this.track_property.fanwei['1440'].now * 100
+      if (this.clientwidth >= 1440) {
+        return this.track_property.fanwei['1920'].now * 100
+      } else {
+        return this.track_property.fanwei['1440'].now * 100
+      }
     },
     editHeight() {
       return `calc(100vh - ${this.widthScale}vw / 16 * 9 - 2.56rem - 71px)`
