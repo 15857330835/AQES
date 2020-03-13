@@ -9,11 +9,22 @@
     <div class="bscroll main" ref="bscroll" :class="{ highest: isHighest }">
       <div class="bscroll-container">
         <!-- <transition-group name="source-list" appear> -->
-        <base-source
+        <div
+          class="source-container"
           v-for="(item, index) in sources"
           :key="item.title + index"
-          :source="item"
-        ></base-source>
+        >
+          <base-source :source="item"></base-source>
+        </div>
+        <div class="source-container" style="minWidth:140px;height:0;"></div>
+        <div class="source-container" style="minWidth:140px;height:0;"></div>
+        <div class="source-container" style="minWidth:140px;height:0;"></div>
+        <div class="source-container" style="minWidth:140px;height:0;"></div>
+        <div class="source-container" style="minWidth:140px;height:0;"></div>
+        <div class="source-container" style="minWidth:140px;height:0;"></div>
+        <div class="source-container" style="minWidth:140px;height:0;"></div>
+        <div class="source-container" style="minWidth:140px;height:0;"></div>
+        <div class="source-container" style="minWidth:140px;height:0;"></div>
         <!-- </transition-group> -->
         <div class="loading" v-show="loadingShow">
           <div class="loading-item"></div>
@@ -56,7 +67,8 @@ export default {
       aBScroll: null,
       loadingShow: true,
       title: '',
-      sources: []
+      sources: [],
+      fakeData: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     }
   },
   watch: {

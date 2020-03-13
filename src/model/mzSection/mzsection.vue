@@ -141,107 +141,6 @@ export default {
   cursor: pointer;
 }
 
-.video_option {
-  height: calc(100% - 90px);
-  overflow: hidden;
-  border-bottom: 10px solid transparent;
-  box-sizing: border-box;
-}
-
-.video_option > div {
-  width: 100%;
-}
-
-.video_option_content {
-  width: 110px;
-  padding: 5px 15px;
-  float: left;
-}
-
-.video_option_content .content_top {
-  position: relative;
-  height: 62.11px;
-  line-height: 0;
-  text-align: center;
-  background-color: #010101;
-}
-
-.video_option_content .content_top .content_top_img {
-  max-width: 100%;
-  height: 62.11px;
-  /* cursor: pointer; */
-}
-
-.video_option_content .content_top .content_top_img.dragele {
-  cursor: pointer;
-}
-
-.video_option_content .content_top span.content_top_img {
-  background-color: black;
-  display: inline-block;
-  line-height: 62.11px;
-  text-align: center;
-  cursor: no-drop;
-}
-
-.video_option_content .content_top .content_top_down {
-  height: 62.11px;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  text-align: center;
-  /*background-color: rgba(0,0,0,0.3);*/
-  overflow: hidden;
-  line-height: 62px;
-  /*display:none;*/
-}
-
-.content_top_down > span:nth-child(1) {
-  position: absolute;
-  box-sizing: border-box;
-  text-align: center;
-  left: 0;
-  height: 100%;
-  width: 100%;
-}
-
-.content_top_down > span:nth-child(2) {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  width: 19px;
-  height: 12px;
-  background-image: url(../../img/u9.png);
-  cursor: pointer;
-  z-index: 50;
-}
-
-.content_top_down > span:nth-child(3) {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  width: 18px;
-  height: 18px;
-  background-image: url(../../img/cancel.png);
-  cursor: pointer;
-  z-index: 50;
-}
-
-.content_mes {
-  line-height: 25px;
-  position: relative;
-}
-
-.content_mes div {
-  height: 25px;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  word-break: keep-all;
-}
-
 .videolist_right_bottom {
   height: 40px;
   line-height: 40px;
@@ -528,5 +427,124 @@ export default {
 .content_top .audio_control.active {
   display: block;
   background-image: url('../../img/audiostop.png');
+}
+</style>
+
+<style lang="scss">
+.video_option {
+  height: calc(100% - 90px);
+  overflow: hidden;
+  border-bottom: 10px solid transparent;
+  box-sizing: border-box;
+  & > div {
+    width: 100%;
+  }
+}
+
+.source-container {
+  flex-grow: 1;
+}
+
+.video_option_content {
+  width: 110px;
+  padding: 5px 15px;
+  margin: 0 auto;
+  .content_top {
+    position: relative;
+    height: 62.11px;
+    line-height: 0;
+    text-align: center;
+    background-color: #010101;
+    .content_top_img {
+      max-width: 100%;
+      height: 62.11px;
+      &.dragele {
+        cursor: pointer;
+      }
+    }
+    span {
+      &.content_top_img {
+        background-color: black;
+        display: inline-block;
+        line-height: 62.11px;
+        text-align: center;
+        cursor: no-drop;
+      }
+    }
+    .content_top_down {
+      height: 62.11px;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      text-align: center;
+      overflow: hidden;
+      line-height: 62px;
+      & > span {
+        &:nth-child(1) {
+          position: absolute;
+          box-sizing: border-box;
+          text-align: center;
+          left: 0;
+          height: 100%;
+          width: 100%;
+        }
+        &:nth-child(2) {
+          position: absolute;
+          right: 5px;
+          bottom: 5px;
+          width: 19px;
+          height: 12px;
+          background-image: url(../../img/u9.png);
+          cursor: pointer;
+          z-index: 50;
+        }
+        &:nth-child(3) {
+          position: absolute;
+          right: 5px;
+          top: 5px;
+          width: 18px;
+          height: 18px;
+          background-image: url(../../img/cancel.png);
+          cursor: pointer;
+          z-index: 50;
+        }
+      }
+    }
+  }
+  .content_mes {
+    line-height: 25px;
+    position: relative;
+    div {
+      height: 25px;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+    .input-search {
+      display: inline-block;
+      width: auto;
+
+      input {
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 12px;
+        height: 20px;
+        border: 1px solid #686868;
+        color: #e4e4e4;
+        -web-kit-appearance: none;
+        -moz-appearance: none;
+        display: inline-block;
+        outline: 0;
+        padding: 0 1em;
+        text-decoration: none;
+        border-radius: 8px;
+        background-color: #1c1c1c;
+        width: 100px;
+      }
+    }
+  }
 }
 </style>

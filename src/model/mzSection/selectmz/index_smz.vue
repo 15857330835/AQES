@@ -29,7 +29,7 @@
     <div
       class="fchunkbox clonediv"
       :class="this.clonediv.class"
-      v-if="this.clonediv.able"
+      v-show="this.clonediv.able"
       :style="{
         zIndex: 1010,
         position: 'fixed',
@@ -48,15 +48,11 @@
           v-for="(obj, k) in this.clonediv.imglist"
           v-bind:key="k"
           :style="{
-            width: '100px',
-            textAlign: 'center',
-            height: '56px',
-            backgroundColor: 'black',
-            position: 'absolute',
             left: obj.index * 100 + 'px'
           }"
+          class="img-container"
         >
-          <img :src="obj.url" alt />
+          <img :src="obj.url" alt class="img-item" />
         </div>
       </div>
       <div
@@ -1442,6 +1438,18 @@ $base-url: '../../../';
         }
       }
     }
+  }
+}
+.img-container {
+  width: 100px;
+  text-align: center;
+  height: 56px;
+  background-color: black;
+  position: absolute;
+  .img-item {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 </style>

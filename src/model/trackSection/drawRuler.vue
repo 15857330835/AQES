@@ -84,7 +84,6 @@ export default {
     track_property: {
       deep: true,
       handler(value, oldvalue) {
-        console.log('123miss')
         this.drawruler()
       }
     },

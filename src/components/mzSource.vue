@@ -1,6 +1,6 @@
 <template>
   <div class="video_option_content">
-    <div class="content_top" style="backgroundColor: #010101;">
+    <div class="content_top">
       <img
         :src="src"
         class="content_top_img dragele source-img"
@@ -169,11 +169,16 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.source-img {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.source-img.loaded {
-  opacity: 1;
+.video_option_content {
+  .content_top {
+    background-color: #010101;
+    .source-img {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      &.loaded {
+        opacity: 1;
+      }
+    }
+  }
 }
 </style>

@@ -72,7 +72,7 @@ export default {
 .ai-caption-pane {
   .main {
     position: relative;
-    height: calc(100% - 90px);
+    height: calc(100% - 0.64rem);
     overflow-y: hidden;
     outline: none;
     &.highest {

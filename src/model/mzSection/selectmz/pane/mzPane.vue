@@ -17,11 +17,13 @@
 
     <div class="bscroll main" ref="bscroll">
       <div class="bscroll-container">
-        <mz-source
+        <div
+          class="source-container"
           v-for="(item, index) in sources"
           :key="item.id + index"
-          :source="item"
-        ></mz-source>
+        >
+          <mz-source :source="item"></mz-source>
+        </div>
         <div class="loading" v-show="loadingShow">
           <div class="loading-item"></div>
           <div class="loading-item"></div>
@@ -193,7 +195,7 @@ export default {
   }
   .main {
     position: relative;
-    height: calc(100% - 90px);
+    height: calc(100% - 0.64rem);
     overflow-y: hidden;
     outline: none;
     .bscroll-indicator {
