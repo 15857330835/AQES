@@ -187,32 +187,33 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .mz-pane {
   .datepicker {
     padding: 0 18px;
     line-height: 50px;
   }
-  .main {
-    position: relative;
-    height: calc(100% - 0.64rem);
-    overflow-y: hidden;
-    outline: none;
-    .bscroll-indicator {
-      background-color: rgb(170, 170, 170) !important;
-      border: none !important;
+}
+</style>
+<style lang="scss">
+.videolist_right_bottom {
+  height: 0.53rem;
+  line-height: 0.53rem;
+  padding: 0 0.2rem;
+  .bottom_tips {
+    float: left;
+    span {
+      color: #61ded0;
+      &.u-icon {
+        background-image: url(../../../../img/u10.png);
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: -2px;
+        margin-right: 10px;
+        width: 16px;
+        height: 16px;
+      }
     }
   }
-}
-.source-list-enter-active,
-.source-list-leave-active {
-  transition: all 0.5s;
-}
-.source-list-enter,
-.source-list-leave-to {
-  opacity: 0;
-}
-.source-list-move {
-  transition: transform 0.5s;
 }
 </style>

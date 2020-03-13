@@ -68,27 +68,4 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.ai-caption-pane {
-  .main {
-    position: relative;
-    height: calc(100% - 0.64rem);
-    overflow-y: hidden;
-    outline: none;
-    &.highest {
-      height: 100%;
-    }
-  }
-}
-.source-list-enter-active,
-.source-list-leave-active {
-  transition: all 0.5s;
-}
-.source-list-enter,
-.source-list-leave-to {
-  opacity: 0;
-}
-.source-list-move {
-  transition: transform 0.5s;
-}
-</style>
+<style lang="scss" scoped></style>

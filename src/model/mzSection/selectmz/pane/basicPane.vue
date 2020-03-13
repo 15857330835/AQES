@@ -224,19 +224,17 @@ export default {
 }
 </script>
 <style lang="scss">
-.basic-pane {
-  .main {
-    position: relative;
-    height: calc(100% - 90px);
-    overflow-y: hidden;
-    outline: none;
-    &.highest {
-      height: calc(100% - 10px);
-    }
-    .bscroll-indicator {
-      background-color: rgb(170, 170, 170) !important;
-      border: none !important;
-    }
+.main {
+  position: relative;
+  height: calc(100% - 1.06rem);
+  overflow-y: hidden;
+  outline: none;
+  &.highest {
+    height: calc(100% - 0.12rem);
+  }
+  .bscroll-indicator {
+    background-color: rgb(170, 170, 170) !important;
+    border: none !important;
   }
 }
 .source-list-enter-active,

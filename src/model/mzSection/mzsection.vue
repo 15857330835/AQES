@@ -74,7 +74,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .lh {
   width: 100%;
   height: 0;
@@ -139,30 +139,6 @@ export default {
   position: relative;
   top: 5px;
   cursor: pointer;
-}
-
-.videolist_right_bottom {
-  height: 40px;
-  line-height: 40px;
-  padding: 0 15px;
-}
-
-.videolist_right_bottom .bottom_tips {
-  float: left;
-}
-
-.bottom_tips .u-icon {
-  background-image: url(../../img/u10.png);
-  display: inline-block;
-  vertical-align: middle;
-  margin-top: -2px;
-  margin-right: 10px;
-  width: 16px;
-  height: 16px;
-}
-
-.bottom_tips span {
-  color: #61ded0;
 }
 
 .bottom_tips .uploadfile {
