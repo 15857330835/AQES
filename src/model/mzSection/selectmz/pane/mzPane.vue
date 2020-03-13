@@ -24,6 +24,11 @@
         >
           <mz-source :source="item"></mz-source>
         </div>
+        <div
+          class="source-container fake-container"
+          v-for="(item, index) in fakeData"
+          :key="'fake' + index"
+        ></div>
         <div class="loading" v-show="loadingShow">
           <div class="loading-item"></div>
           <div class="loading-item"></div>
@@ -37,7 +42,6 @@
         >
           暂无数据
         </div>
-        <div style="clear: both"></div>
       </div>
     </div>
     <div class="videolist_right_bottom">
@@ -80,7 +84,8 @@ export default {
       loadingShow: true,
       title: '',
       sTime: '',
-      eTime: ''
+      eTime: '',
+      fakeData: [...new Array(9).keys()]
     }
   },
   watch: {

@@ -1,15 +1,13 @@
 <template>
   <span class="ai-caption-pane">
     <div class="bscroll main highest" ref="bscroll">
-      <div class="bscroll-container">
-        <!-- <transition-group name="source-list" appear> -->
+      <div class="bscroll-container ai-fix">
         <ai-caption-source
           v-for="(item, index) in sources"
           :key="item.style + index"
           :source="item"
           :index="index"
         ></ai-caption-source>
-        <!-- </transition-group> -->
         <div style="clear: both"></div>
       </div>
     </div>
@@ -68,4 +66,10 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss">
+.ai-fix {
+  > div {
+    width: 100%;
+  }
+}
+</style>

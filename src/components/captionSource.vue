@@ -87,20 +87,4 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.img-enter-active,
-.img-leave-active {
-  transition: all 0.5s;
-}
-.img-enter,
-.img-leave-to {
-  opacity: 0;
-}
-.source-img {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.source-img.loaded {
-  opacity: 1;
-}
-</style>
+<style lang="scss" scoped></style>

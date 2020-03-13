@@ -16,15 +16,11 @@
         >
           <base-source :source="item"></base-source>
         </div>
-        <div class="source-container" style="minWidth:140px;height:0;"></div>
-        <div class="source-container" style="minWidth:140px;height:0;"></div>
-        <div class="source-container" style="minWidth:140px;height:0;"></div>
-        <div class="source-container" style="minWidth:140px;height:0;"></div>
-        <div class="source-container" style="minWidth:140px;height:0;"></div>
-        <div class="source-container" style="minWidth:140px;height:0;"></div>
-        <div class="source-container" style="minWidth:140px;height:0;"></div>
-        <div class="source-container" style="minWidth:140px;height:0;"></div>
-        <div class="source-container" style="minWidth:140px;height:0;"></div>
+        <div
+          class="source-container fake-container"
+          v-for="(item, index) in fakeData"
+          :key="'fake' + index"
+        ></div>
         <!-- </transition-group> -->
         <div class="loading" v-show="loadingShow">
           <div class="loading-item"></div>
@@ -39,7 +35,6 @@
         >
           暂无数据
         </div>
-        <div style="clear: both"></div>
       </div>
     </div>
     <div class="videolist_right_bottom"></div>
@@ -68,7 +63,7 @@ export default {
       loadingShow: true,
       title: '',
       sources: [],
-      fakeData: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      fakeData: [...new Array(9).keys()]
     }
   },
   watch: {
@@ -224,6 +219,14 @@ export default {
 }
 </script>
 <style lang="scss">
+.source-container {
+  flex-grow: 1;
+}
+.fake-container {
+  min-width: 140px;
+  height: 0;
+}
+
 .main {
   position: relative;
   height: calc(100% - 1.06rem);

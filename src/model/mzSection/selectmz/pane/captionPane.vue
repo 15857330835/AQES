@@ -3,13 +3,19 @@
     <div class="bscroll main" ref="bscroll">
       <div class="bscroll-container">
         <!-- <transition-group name="source-list" appear> -->
-        <caption-source
+        <div
+          class="source-container"
           v-for="(item, index) in sources"
-          :key="item.style + index"
-          :source="item"
-        ></caption-source>
+          :key="item.title + index"
+        >
+          <caption-source :source="item"></caption-source>
+        </div>
+        <div
+          class="source-container fake-container"
+          v-for="(item, index) in fakeData"
+          :key="'fake' + index"
+        ></div>
         <!-- </transition-group> -->
-        <div style="clear: both"></div>
       </div>
     </div>
   </span>
@@ -31,7 +37,8 @@ export default {
       page: 1,
       num: 20,
       aBScroll: null,
-      title: ''
+      title: '',
+      fakeData: [...new Array(9).keys()]
     }
   },
   watch: {
@@ -72,6 +79,9 @@ export default {
 .caption-pane {
   .main {
     height: calc(100% - 0.12rem);
+  }
+  .fake-container {
+    min-width: 202px;
   }
 }
 </style>

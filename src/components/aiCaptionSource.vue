@@ -1,14 +1,10 @@
 <template>
   <div>
-    <div
-      class="video_option_content"
-      style="width:100%;box-sizing:border-box;padding:5px 5px 0px;margin-bottom:15px;"
-    >
-      <div class="content_top" :class="{ active: false }" style="height:85px">
+    <div class="video_option_content">
+      <div class="content_top" :class="{ active: false }">
         <img
           :src="src"
           class="content_top_img source-img"
-          style="height:85px;width:100%;cursor:auto"
           :class="{ loaded: imgLoaded }"
           @load="handleImgLoad"
         />
@@ -318,12 +314,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.source-img {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.source-img.loaded {
-  opacity: 1;
+.video_option_content {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 5px 0px;
+  margin-bottom: 15px;
+  .content_top {
+    height: 85px;
+    .source-img {
+      background: #1c232a;
+      height: 85px;
+      width: 100%;
+      cursor: auto;
+    }
+  }
 }
 </style>

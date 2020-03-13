@@ -178,12 +178,4 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.source-img {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.source-img.loaded {
-  opacity: 1;
-}
-</style>
+<style lang="scss" scoped></style>

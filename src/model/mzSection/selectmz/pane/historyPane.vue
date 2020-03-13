@@ -3,11 +3,19 @@
     <div class="bscroll main highest" ref="bscroll">
       <div class="bscroll-container">
         <!-- <transition-group name="source-list" appear> -->
-        <history-source
+        <div
+          class="source-container"
           v-for="(item, index) in sources"
           :key="item.src_id + index"
-          :data="item"
-        ></history-source>
+        >
+          <history-source :data="item"></history-source>
+        </div>
+
+        <div
+          class="source-container fake-container"
+          v-for="(item, index) in fakeData"
+          :key="'fake' + index"
+        ></div>
         <!-- </transition-group> -->
         <div class="loading" v-show="loadingShow">
           <div class="loading-item"></div>
@@ -22,7 +30,6 @@
         >
           暂无数据
         </div>
-        <div style="clear: both"></div>
       </div>
     </div>
     <div class="videolist_right_bottom"></div>
@@ -46,7 +53,8 @@ export default {
       num: 20,
       aBScroll: null,
       loadingShow: true,
-      sources: []
+      sources: [],
+      fakeData: [...new Array(9).keys()]
     }
   },
   watch: {

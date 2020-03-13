@@ -1256,11 +1256,4 @@ export default {
     }
   }
 }
-.source-img {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.source-img.loaded {
-  opacity: 1;
-}
 </style>
