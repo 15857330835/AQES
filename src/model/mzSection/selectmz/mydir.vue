@@ -63,7 +63,7 @@
           <span>上传</span></button>-->
         </el-upload>
       </div>
-      <div v-if="!isRecord" style="float:right;margin-right:10px;">
+      <div v-if="!isRecord" class="create-dir">
         <el-button type="text" icon="el-icon-printer" @click="createDir"
           >新建文件夹</el-button
         >
@@ -123,113 +123,129 @@
           </div>
 
           <div
-            class="video_option_content dir"
+            class="source-container"
             v-for="(dir, index) in this.dirlist.dirs.filter(item => {
               return item.name != '' && item.name.match(newtitle) != null
             })"
             :key="'dir' + index"
-            @touchend="touchend(dir.name)"
           >
             <div
-              class="content_top u-icon"
-              @click.stop="dirClickedFn($event, dir.name, 'dir', index)"
-              @dblclick="openDir(dir.name)"
-              :class="{ clicked: (dir.state & 1) === 1 }"
-              @mouseenter="enterdir($event, dir.name)"
-              @mouseout="outdir"
-              @contextmenu.prevent="downright($event, dir.name, 'dir', index)"
+              class="video_option_content dir"
+              @touchend="touchend(dir.name)"
             >
               <div
-                v-if="(dir.state & 2) === 2"
-                style=" width: 106px;
+                class="content_top u-icon"
+                @click.stop="dirClickedFn($event, dir.name, 'dir', index)"
+                @dblclick="openDir(dir.name)"
+                :class="{ clicked: (dir.state & 1) === 1 }"
+                @mouseenter="enterdir($event, dir.name)"
+                @mouseout="outdir"
+                @contextmenu.prevent="downright($event, dir.name, 'dir', index)"
+              >
+                <div
+                  v-if="(dir.state & 2) === 2"
+                  style=" width: 106px;
             height: 58.11px;
             background-color: #cccccc77;
             position: absolute;
             "
-              ></div>
-            </div>
-
-            <div @click.stop="" class="content_mes">
-              <div v-if="(dir.state & 4) !== 4" :title="dir.name">
-                {{ dir.name }}
+                ></div>
               </div>
-              <div v-else>
-                <!-- style="background-color: #232323;
+
+              <div @click.stop="" class="content_mes">
+                <div v-if="(dir.state & 4) !== 4" :title="dir.name">
+                  {{ dir.name }}
+                </div>
+                <div v-else>
+                  <!-- style="background-color: #232323;
                       padding: 1px;
                       color: #fff;
                       border: 1px solid #797979;
                       width: 95%;" -->
-                <el-input
-                  v-model="dir.nameNoSuffix"
-                  class="input-search"
-                  @blur="renameBlurHandle('dir')"
-                />
+                  <el-input
+                    v-model="dir.nameNoSuffix"
+                    class="input-search"
+                    @blur="renameBlurHandle('dir')"
+                  />
+                </div>
               </div>
             </div>
           </div>
 
           <div
-            class="video_option_content file"
+            class="source-container"
             v-for="(file, index) in this.dirlist.files.filter(item => {
               return item.name != '' && item.name.match(newtitle) != null
             })"
             :key="'file' + index"
-            v-show="value.value == 'all' || value.value == file.type"
           >
             <div
-              class="content_top"
-              :class="{ clicked: (file.state & 1) === 1 }"
-              @mousedown.left="leftdown($event, file.name)"
-              @click.stop="clickedFn($event, file.name, 'file', index)"
-              @mouseenter="isImageDelDivHandle($event, 'block')"
-              @mouseleave="isImageDelDivHandle($event, 'none')"
-              @contextmenu.prevent="downright($event, file.name, 'file', index)"
+              class="video_option_content file"
+              v-show="value.value == 'all' || value.value == file.type"
             >
               <div
-                style="background:red;width:18px;height:20px;line-height: 20px;position: absolute;right:0px;cursor:pointer;display:none;"
-                @click.stop="realRomveFile(url + file.name, 'file', index)"
+                class="content_top"
+                :class="{ clicked: (file.state & 1) === 1 }"
+                @mousedown.left="leftdown($event, file.name)"
+                @click.stop="clickedFn($event, file.name, 'file', index)"
+                @mouseenter="isImageDelDivHandle($event, 'block')"
+                @mouseleave="isImageDelDivHandle($event, 'none')"
+                @contextmenu.prevent="
+                  downright($event, file.name, 'file', index)
+                "
               >
-                <i class="iconfont icon-shanchu-copy-copy" />
-              </div>
-              <div
-                v-if="(file.state & 2) === 2"
-                style=" width: 106px;
+                <div
+                  style="background:red;width:18px;height:20px;line-height: 20px;position: absolute;right:0px;cursor:pointer;display:none;"
+                  @click.stop="realRomveFile(url + file.name, 'file', index)"
+                >
+                  <i class="iconfont icon-shanchu-copy-copy" />
+                </div>
+                <div
+                  v-if="(file.state & 2) === 2"
+                  style=" width: 106px;
             height: 62.11px;
             background-color: #cccccc77;
             position: absolute;
             "
-              ></div>
-              <img
-                :src="'//' + file.previewimage"
-                alt
-                height="100%"
-                class="content_top_img source-img"
-                :class="[dragclass, { loaded: imgLoaded }]"
-                :data-src_from="'http://' + file.url"
-                :data-src_type="file.type == 'image' ? '3' : '1'"
-                :data-src_id="'kljfl'"
-                @load="handleImgLoad"
-              />
-            </div>
-            <div @click.stop="" class="content_mes">
-              <div v-if="(file.state & 4) !== 4" :title="file.name">
-                {{ file.name }}
+                ></div>
+                <img
+                  :src="'//' + file.previewimage"
+                  alt
+                  height="100%"
+                  class="content_top_img source-img"
+                  :class="[dragclass, { loaded: imgLoaded }]"
+                  :data-src_from="'http://' + file.url"
+                  :data-src_type="file.type == 'image' ? '3' : '1'"
+                  :data-src_id="'kljfl'"
+                  @load="handleImgLoad"
+                />
               </div>
-              <div v-else>
-                <!-- style="background-color: #232323;
+              <div @click.stop="" class="content_mes">
+                <div v-if="(file.state & 4) !== 4" :title="file.name">
+                  {{ file.name }}
+                </div>
+                <div v-else>
+                  <!-- style="background-color: #232323;
                            padding: 1px;
                            color: #fff;
                            border: 1px solid #797979;
                            width: 95%;" -->
-                <el-input
-                  v-model="file.nameNoSuffix"
-                  class="input-search"
-                  @blur="renameBlurHandle('file')"
-                />
+                  <el-input
+                    v-model="file.nameNoSuffix"
+                    class="input-search"
+                    @blur="renameBlurHandle('file')"
+                  />
+                </div>
+                <div>{{ formatDuration(file.time) }}</div>
               </div>
-              <div>{{ formatDuration(file.time) }}</div>
             </div>
           </div>
+
+          <div
+            class="source-container fake-container"
+            v-for="(item, index) in fakeData"
+            :key="'fake' + index"
+          ></div>
           <div class="loading" v-show="loadingShow">
             <div class="loading-item"></div>
             <div class="loading-item"></div>
@@ -450,7 +466,9 @@ export default {
       simDbclickTime: 0,
       clctimer: null,
       uploadInde: 0,
-      uploadFiles: null
+      uploadFiles: null,
+      // flex适应布局填充
+      fakeData: [...new Array(9).keys()]
     }
   },
   //   components: {
@@ -1069,6 +1087,11 @@ export default {
     line-height: 50px;
     position: relative;
     background-color: #212931;
+    .create-dir {
+      position: absolute;
+      right: 10px;
+      line-height: 100%;
+    }
   }
   .mydir-bottom {
     height: calc(100% - 50px);
