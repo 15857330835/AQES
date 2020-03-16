@@ -456,7 +456,7 @@ export default {
   //   components: {
   //   		systemmes,
   //   },
-  created: function() {
+  created() {
     this.intoDir('')
   },
   computed: {
@@ -608,7 +608,8 @@ export default {
         index: this.page,
         number: this.num,
         callback: res => {
-          this.loadingShow = false
+          // this.loadingShow = false
+          this.loadingShow = res.data.files.length === this.num
           this.tipobj.show = false
         }
       })
@@ -618,7 +619,8 @@ export default {
         index: ++this.page,
         number: this.num,
         callback: res => {
-          this.loadingShow = false
+          // this.loadingShow = false
+          this.loadingShow = res.data.files.length === this.num
         }
       })
     },
@@ -1001,7 +1003,7 @@ export default {
       })
       this.aBScroll.on('scrollEnd', function({ x, y }) {
         if (y <= that.aBScroll.maxScrollY) {
-          that.loadingShow = true
+          // that.loadingShow = true
           setTimeout(() => {
             that.fetchMore()
           }, 800)
