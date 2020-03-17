@@ -86,24 +86,23 @@
     </div>
     <div class="video_control">
       <div
+        class="time-to-line"
         v-if="
           this.chunksetshow &&
             (this.activechunk.chunk.chunk_type != 2 ||
               this.activechunk.chunk.chunk_type != 5)
         "
-        style="height:6px;background-color:#6F7376;overflow:hidden;cursor:pointer;opacity:0.6;width:100%"
         @click="movetoposition($event)"
       >
         <div
+          class="line-active"
           :style="{
-            height: '100%',
             width:
               ((this.pointer.position - this.activechunk.chunk.track_start) *
                 100) /
                 (this.activechunk.chunk.src_end -
                   this.activechunk.chunk.src_start) +
-              '%',
-            backgroundColor: '#61ded0'
+              '%'
           }"
         ></div>
       </div>
@@ -118,26 +117,24 @@
       </div>
       <div
         title="添加时间点"
+        class="add-tip"
         v-if="
           this.chunksetshow &&
             (this.activechunk.chunk.chunk_type != 2 ||
               this.activechunk.chunk.chunk_type != 5)
         "
         @click="adddian"
-        style="float:left;margin: 0 20px;width:11px;height:7px;border-top-left-radius:2px;border-top-right-radius:2px;background-color:#61ded0;position:relative;top:14px;cursor:pointer"
       >
-        <span
-          style="display:inline-block;border: 5.5px solid transparent;border-top:5.5px solid #61ded0;position:absolute;top:7px"
-        ></span>
+        <span></span>
       </div>
-      <div style="float:left;line-height:40px ;" v-if="!this.chunksetshow">
+      <div class="time-info" v-if="!this.chunksetshow">
         <span
           >{{ this.initdate(pointer.position) }} /
           {{ this.initdate(length) }}</span
         >
       </div>
       <div
-        style="float:left;line-height:40px;"
+        class="time-info"
         v-if="
           this.chunksetshow &&
             (this.activechunk.chunk.chunk_type != 2 ||
@@ -182,7 +179,7 @@ import newDynamicTextSet from './NewDynamicTextSet'
 import _ from 'lodash'
 
 export default {
-  data: function() {
+  data() {
     return {
       videomove: false,
       x: 0,
@@ -743,19 +740,20 @@ export default {
 
     .fullpage-in {
       background: url('../../img/u5.png');
-      transform: scale(0.7);
+      transform: scale(0.65);
     }
 
     .fullpage-out {
-      background: url('../../img/u5.png');
-      transform: scale(0.7);
+      background: url('../../img/u5_1.png');
+      transform: scale(0.65);
     }
 
     > span {
       &:nth-child(1) {
-        background: url(../../img/u1.png) 0 center no-repeat;
+        background: url(../../img/video-player.png) 0 center no-repeat;
         text-indent: 0.32rem;
         line-height: 0.4rem;
+        background-size: 0.22rem;
       }
 
       &:nth-child(2) {
@@ -784,62 +782,68 @@ export default {
     width: 100%;
     height: 0.48rem;
     background-color: #212931;
-    line-height: 0.4rem;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 
+    .time-to-line {
+      height: 6px;
+      background-color: #6f7376;
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0.6;
+      width: 100%;
+      .line-active {
+        height: 100%;
+        background-color: #61ded0;
+      }
+    }
     .control_Cleft {
       float: left;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
       user-select: none;
+      height: 100%;
+      padding: 0 0.2rem;
 
       > span {
-        width: 0.48rem;
-        height: 0.5rem;
+        width: 0.42rem;
+        height: 100%;
         display: inline-block;
         cursor: pointer;
 
         &:nth-child(1) {
-          background-image: url(../../img/u2.png);
-          transform: scale(0.8);
+          background: url(../../img/u2.png) left no-repeat;
+          transform: scale(0.9);
         }
 
         &:nth-child(2) {
-          background-image: url(../../img/u3.png);
+          background: url(../../img/u3.png) left no-repeat;
           transform: scale(0.8);
 
           &.active {
-            background-image: url(../../img/u13.png);
+            background: url(../../img/u13.png) left no-repeat;
             transform: scale(0.8);
           }
         }
 
         &:nth-child(3) {
-          background-image: url(../../img/u4.png);
-          transform: scale(0.8);
+          background: url(../../img/u4.png) left no-repeat;
+          transform: scale(0.9);
         }
       }
     }
 
     .control_Cright {
-      margin-right: 0.12rem;
-      margin-top: 0.12rem;
+      margin-right: 0.2rem;
+      height: 100%;
       float: right;
 
       > span {
         &:nth-child(1) {
           background-image: url(../../img/restart.png);
-          transform: scale(0.8);
+          transform: scale(0.7);
           width: 0.28rem;
-          height: 0.28rem;
+          height: 100%;
           display: inline-block;
           background-size: 100%;
           cursor: pointer;
-          margin-right: 0.12rem;
         }
 
         &:nth-child(2) {
@@ -850,6 +854,30 @@ export default {
           background-size: 100%;
           cursor: pointer;
         }
+      }
+    }
+    .time-info {
+      float: left;
+      height: 100%;
+      line-height: 0.48rem;
+    }
+    .add-tip {
+      float: left;
+      margin: 0 20px;
+      width: 11px;
+      height: 7px;
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px;
+      background-color: #61ded0;
+      position: relative;
+      top: 14px;
+      cursor: pointer;
+      > span {
+        display: inline-block;
+        border: 5.5px solid transparent;
+        border-top: 5.5px solid #61ded0;
+        position: absolute;
+        top: 7px;
       }
     }
   }

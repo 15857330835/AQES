@@ -495,12 +495,12 @@ $font-color: #909399;
     align-items: center;
     justify-content: center;
     .u-icon {
-      background-image: url(../../img/u10.png);
+      background-image: url(../../img/danger.png);
       display: inline-block;
       vertical-align: middle;
       margin-top: -2px;
       margin-right: 5px;
-      background-size: 14px;
+      background-size: 100%;
       width: 14px;
       height: 14px;
     }

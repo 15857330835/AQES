@@ -223,13 +223,14 @@ export default {
     span {
       color: #61ded0;
       &.u-icon {
-        background-image: url(../../../../img/u10.png);
+        background-image: url(../../../../img/danger.png);
         display: inline-block;
         vertical-align: middle;
         margin-top: -2px;
         margin-right: 10px;
         width: 16px;
         height: 16px;
+        background-size: 100%;
       }
     }
   }

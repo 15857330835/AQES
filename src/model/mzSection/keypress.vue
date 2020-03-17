@@ -1107,11 +1107,11 @@ export default {
 
 <style lang="scss" scoped>
 .keyPress {
-  background: url(../../img/keypress.png) center top no-repeat;
+  background: url(../../img/keyboard.png) center top no-repeat;
   display: inline-block;
   width: 60px;
   height: 50px;
-  background-size: 30px 27px;
+  background-size: 50%;
   position: absolute;
   right: 0;
   top: 0;
