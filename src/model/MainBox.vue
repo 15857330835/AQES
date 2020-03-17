@@ -54,7 +54,8 @@ export default {
       'CHANGE_IS_MULTI_SELECT',
       'CHANGE_VIS_TIMER_WIDTH',
       'CHANGE_IS_REFRESH_TRACK_BOX_BS',
-      'CHANGE_IS_REFRESH_CAPTION_SET_BS'
+      'CHANGE_IS_REFRESH_CAPTION_SET_BS',
+      'CHANGE_IS_REFRESH_PANES_BS'
     ]),
     throttleResize: _.throttle(function() {
       this.CHANGE_CLIENTWIDTH($(document).width())
@@ -63,13 +64,15 @@ export default {
       )
     }, 200),
     debounceResize: _.debounce(function() {
+      console.log('window-resize-end')
       this.GET_OPENWAY()
       setTimeout(() => {
         this.UPDATE_TRACK_MIX()
       }, 1000)
       this.CHANGE_IS_REFRESH_TRACK_BOX_BS(true)
       this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
-    }),
+      this.CHANGE_IS_REFRESH_PANES_BS(true)
+    }, 300),
     mixedResize() {
       this.throttleResize()
       this.debounceResize()

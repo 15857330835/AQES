@@ -105,7 +105,7 @@ export default {
       })
     }
   },
-  mounted: function() {
+  mounted() {
     // 加载播放器S
     const dynamicLoadJs = function(url, callback) {
       const head = document.getElementsByTagName('head')[0]

@@ -59,6 +59,7 @@ import mzSource from '@/components/mzSource'
 import BScroll from 'better-scroll'
 import SearchBar from '@/components/searchBar'
 import _ from 'lodash'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -72,7 +73,8 @@ export default {
     'handleMouseUp',
     'getData',
     'showDatePicker',
-    'showTitleSearch'
+    'showTitleSearch',
+    'transPaneData'
   ],
   data() {
     return {
@@ -94,6 +96,15 @@ export default {
       this.$refs.datePicker && this.$refs.datePicker.clearDate()
       this.title = ''
       this.reset()
+    },
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'mz')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
     }
     // sources:{
     //   handle:function(){
@@ -103,11 +114,13 @@ export default {
     // }
   },
   computed: {
+    ...mapState(['isRefreshPanesBS']),
     noDataShow() {
       return this.sources.length === 0
     }
   },
   methods: {
+    ...mapMutations(['CHANGE_IS_REFRESH_PANES_BS']),
     fetchMore() {
       this.getData(
         {

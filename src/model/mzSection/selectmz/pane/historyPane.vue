@@ -46,7 +46,7 @@ export default {
   components: {
     historySource
   },
-  props: ['getData'],
+  props: ['getData', 'transPaneData'],
   data() {
     return {
       page: 1,
@@ -61,16 +61,25 @@ export default {
     getData() {
       // 左侧被点击后pane数据重新刷新
       this.reset()
+    },
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'history')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
     }
   },
   computed: {
-    ...mapState([]),
+    ...mapState(['isRefreshPanesBS']),
     noDataShow() {
       return this.sources.length === 0
     }
   },
   methods: {
-    ...mapMutations([]),
+    ...mapMutations(['CHANGE_IS_REFRESH_PANES_BS']),
     isSuccess(res) {
       return res.Flag === 100 || res.code === 0
     },

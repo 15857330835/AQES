@@ -23,7 +23,7 @@ export default {
   components: {
     aiCaptionSource
   },
-  props: ['getData'],
+  props: ['getData', 'transPaneData'],
   data() {
     return {
       sources: [],
@@ -37,6 +37,15 @@ export default {
     getData() {
       // 左侧被点击后pane数据重新刷新
       this.reset()
+    },
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'aiCaption')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
     }
   },
   computed: {},

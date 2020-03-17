@@ -6,7 +6,7 @@
         <div
           class="source-container"
           v-for="(item, index) in sources"
-          :key="item.title + index"
+          :key="item.style + index"
         >
           <caption-source :source="item"></caption-source>
         </div>
@@ -25,12 +25,13 @@
 import captionSource from '@/components/captionSource'
 import BScroll from 'better-scroll'
 // import _ from 'lodash'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   components: {
     captionSource
   },
-  props: ['getData'],
+  props: ['getData', 'transPaneData'],
   data() {
     return {
       sources: [],
@@ -45,10 +46,22 @@ export default {
     getData() {
       // 左侧被点击后pane数据重新刷新
       this.reset()
+    },
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'caption')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
     }
   },
-  computed: {},
+  computed: {
+    ...mapState(['isRefreshPanesBS'])
+  },
   methods: {
+    ...mapMutations(['CHANGE_IS_REFRESH_PANES_BS']),
     async reset() {
       this.page = 1
       const res = await this.getData.list()
@@ -77,6 +90,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .caption-pane {
+  font-size: 12px;
   .main {
     height: calc(100% - 0.12rem);
   }

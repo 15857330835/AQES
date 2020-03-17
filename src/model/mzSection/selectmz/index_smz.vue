@@ -17,6 +17,7 @@
       <keep-alive>
         <component
           :is="currentComponent"
+          :transPaneData="transPaneData"
           style="height: 100%;"
           :handleMouseDown="mousedown"
           :handleMouseMove="mousemove"
@@ -97,6 +98,7 @@ import axios from '@/http'
 export default {
   data() {
     return {
+      transPaneData: false,
       nav: [
         { title: '媒资', component: mzView, name: 'tab-media' },
         { title: '视频', component: videoView, name: 'tab-video' },
@@ -178,7 +180,8 @@ export default {
       'audioStatus',
       'systemmessage',
       'sourceIndexMap',
-      'chunkIndexMap'
+      'chunkIndexMap',
+      'isRefreshPanesBS'
     ]),
     tracksData() {
       return this.all.tracks
@@ -207,6 +210,19 @@ export default {
       handler: function() {
         this.refreshChunkPosition()
       }
+    },
+    isRefreshPanesBS: {
+      immediate: true,
+      handler: function(newVal) {
+        if (newVal) {
+          // console.log(newVal, 'test')
+          this.transPaneData = newVal
+          this.$nextTick(() => {
+            this.CHANGE_IS_REFRESH_PANES_BS(false)
+            this.transPaneData = false
+          })
+        }
+      }
     }
   },
   methods: {
@@ -221,7 +237,8 @@ export default {
       'CHANGE_MYDIRSHOW',
       'ACTIVE_CHUNK',
       'UPDATE_CHUNK_POSITION',
-      'INIT_CHUNKS'
+      'INIT_CHUNKS',
+      'CHANGE_IS_REFRESH_PANES_BS'
     ]),
     multiMediaHandler(res) {
       // console.log(res)
@@ -306,6 +323,7 @@ export default {
     handleNavClick(title, component) {
       this.isSelect = title
       this.currentComponent = component
+      this.CHANGE_IS_REFRESH_PANES_BS(true)
     },
     gcd(a, b) {
       let temp

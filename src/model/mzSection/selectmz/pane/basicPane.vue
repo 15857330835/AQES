@@ -54,7 +54,14 @@ export default {
     baseSource,
     SearchBar
   },
-  props: ['getData', 'sourceType', 'flag', 'searchDisable', 'paneTitle'],
+  props: [
+    'getData',
+    'sourceType',
+    'flag',
+    'searchDisable',
+    'paneTitle',
+    'transPaneData'
+  ],
   data() {
     return {
       page: 1,
@@ -71,6 +78,15 @@ export default {
       // 左侧被点击后pane数据重新刷新
       this.reset()
       this.title = ''
+    },
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'basic')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
     }
   },
   computed: {
@@ -91,7 +107,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['UPDATE_MRZY_DATA']),
+    ...mapMutations(['UPDATE_MRZY_DATA', 'CHANGE_IS_REFRESH_PANES_BS']),
     isSuccess(res) {
       return res.Flag === 100 || res.code === 0
     },

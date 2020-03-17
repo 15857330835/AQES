@@ -396,6 +396,7 @@ import * as api from '@/api/Lib'
 // import { uploadForm } from '@/api/Upload'
 import BScroll from 'better-scroll'
 export default {
+  props: ['transPaneData'],
   data() {
     return {
       imgLoaded: false,
@@ -474,6 +475,17 @@ export default {
   //   components: {
   //   		systemmes,
   //   },
+  watch: {
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'mydir')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
+    }
+  },
   created() {
     this.intoDir('')
   },
@@ -484,7 +496,8 @@ export default {
       'libsourcelist',
       'pastType',
       'libloading',
-      'libpath'
+      'libpath',
+      'isRefreshPanesBS'
     ]),
     newtitle() {
       return new RegExp(this.title, 'i')
@@ -535,7 +548,8 @@ export default {
       'SET_MUL_SELE_LIST',
       'SET_LIB_PATH',
       'SET_PAST_TYPE',
-      'SET_LIB_LOADING'
+      'SET_LIB_LOADING',
+      'CHANGE_IS_REFRESH_PANES_BS'
     ]),
     change(obj) {
       this.value.value = obj
@@ -1072,7 +1086,7 @@ export default {
         text-align: center;
         font-size: 12px;
         color: #e4e4e4;
-        -web-kit-appearance: none;
+        -webkit-appearance: none;
         -moz-appearance: none;
         display: inline-block;
         outline: 0;

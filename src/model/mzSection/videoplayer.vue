@@ -270,7 +270,8 @@ export default {
       'PROPERTY_FANWEI',
       'CHANGE_ACTIVEPROPERTY',
       'CHANGE_PROPERTYNUM',
-      'ADD_REFRESH_KEY'
+      'ADD_REFRESH_KEY',
+      'CHANGE_IS_REFRESH_PANES_BS'
     ]),
     ...mapActions([
       'postPointer',
@@ -597,6 +598,8 @@ export default {
       this.UPDATE_TRACKBOX()
       this.UPDATE_TRACKPOSITION()
       this.UPDATE_CAPTIONPOSITION()
+      console.log('move-video-box')
+      this.CHANGE_IS_REFRESH_PANES_BS(true)
       if (this.openway === 'pc') {
         $(document).unbind('mousemove')
       }

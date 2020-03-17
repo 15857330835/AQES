@@ -140,6 +140,7 @@ const state = {
   /* BS滚动begin */
   isRefreshTrackBoxBS: false,
   isRefreshCaptionSetBS: false,
+  isRefreshPanesBS: false,
   /* BS滚动end */
   filterIndexMap: new Map([
     [1, 'video'],
