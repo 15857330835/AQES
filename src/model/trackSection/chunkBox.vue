@@ -145,6 +145,7 @@ import {
 } from '@/api/Chunk'
 // import { trackType } from '@/config/type'
 import { deepClone } from '@/utils'
+import { ATTACH_NUMBER } from '@/config'
 
 export default {
   data() {
@@ -663,7 +664,7 @@ export default {
             ) < 10 &&
             this.track_property.xifuFlag
           ) {
-            this.x = 170 - this.track_property.outLeft
+            this.x = ATTACH_NUMBER - this.track_property.outLeft
             this.xifuindex = 0
             faaa++
           }
@@ -681,7 +682,7 @@ export default {
             this.x =
               this.delchunkposition.v[i][m].max /
                 (this.slidernum.max - this.track_property.ratio) +
-              170 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.delchunkposition.v[i][m].max
             faaa++
@@ -700,7 +701,7 @@ export default {
             this.x =
               this.delchunkposition.v[i][m].min /
                 (this.slidernum.max - this.track_property.ratio) +
-              170 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.delchunkposition.v[i][m].min
             faaa++
@@ -723,7 +724,7 @@ export default {
                 this.chunk.track_end +
                 this.chunk.track_start) /
                 (this.slidernum.max - this.track_property.ratio) +
-              170 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex =
               this.delchunkposition.v[i][m].min -
@@ -749,7 +750,7 @@ export default {
                 this.chunk.track_end +
                 this.chunk.track_start) /
                 (this.slidernum.max - this.track_property.ratio) +
-              170 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex =
               this.delchunkposition.v[i][m].max -

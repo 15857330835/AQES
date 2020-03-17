@@ -35,6 +35,7 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex'
+import { TIP_HEIGHT_NUMBER } from '@/config'
 export default {
   data: function() {
     return {}
@@ -89,7 +90,7 @@ export default {
         this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
         // $("#trackbox").css('max-height',$(document).height() - width * 9 / 16 - 260 - 5);
         // $("#trackbox").css('max-height',350);
-        $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+        $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
         $('.setContent').css({
           'padding-top': ((width + 5) * 9) / 16 + 70 + 'px',
           width: $('.lh').width() - width - 10 + 'px'

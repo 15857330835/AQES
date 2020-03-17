@@ -100,15 +100,16 @@ export default {
 <style lang="scss" scoped>
 .caption-box {
   width: 100vw;
-  height: 31px;
+  height: 30px;
   display: flex;
   font-size: 12px;
+  border-bottom: 1px solid #151a20;
+  box-sizing: border-box;
   .edit_track_title {
     width: 160px;
-    height: 31px;
+    height: 100%;
     box-sizing: border-box;
     border-right: 1px solid #151a20;
-    border-bottom: 1px solid #151a20;
     float: left;
     position: relative;
     .icon {
@@ -149,12 +150,10 @@ export default {
 
   .edit_track_contents {
     flex: 1;
-    height: 31px;
+    height: 100%;
     padding: 0 25px 0 10px;
     overflow: hidden;
     box-sizing: border-box;
-    border-top: 1px solid #151a20;
-    border-bottom: 1px solid #151a20;
 
     .edit_track_content {
       width: 100%;

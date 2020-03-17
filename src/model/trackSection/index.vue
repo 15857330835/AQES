@@ -19,6 +19,7 @@ import trackbox from './trackBox'
 import trackcaption from './trackCaption'
 import videotip from './videoTip'
 import _ from 'lodash'
+import { TRACK_MAXHEIGHT_NUMBER } from '@/config'
 
 export default {
   data() {
@@ -57,7 +58,7 @@ export default {
       }
     },
     editHeight() {
-      return `calc(100vh - ${this.widthScale}vw / 16 * 9 - 2.56rem - 71px)`
+      return `calc(100vh - ${this.widthScale}vw / 16 * 9 - 2.56rem - ${TRACK_MAXHEIGHT_NUMBER}px)`
     }
   },
   components: {

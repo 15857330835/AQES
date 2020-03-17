@@ -61,6 +61,7 @@
 </template>
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
+import { ATTACH_NUMBER } from '@/config'
 
 export default {
   data: function() {
@@ -207,7 +208,7 @@ export default {
           ) < 10 &&
           this.track_property.xifuFlag
         ) {
-          this.x = 188 - this.track_property.outLeft
+          this.x = ATTACH_NUMBER - this.track_property.outLeft
           this.xifuindex = 0
           faaa++
         }
@@ -225,7 +226,7 @@ export default {
           this.x =
             this.delchunkposition.v[m].max /
               (this.slidernum.max - this.track_property.ratio) +
-            188 -
+            ATTACH_NUMBER -
             this.track_property.outLeft
           this.xifuindex = this.delchunkposition.v[m].max
           faaa++
@@ -244,7 +245,7 @@ export default {
           this.x =
             this.delchunkposition.v[m].min /
               (this.slidernum.max - this.track_property.ratio) +
-            188 -
+            ATTACH_NUMBER -
             this.track_property.outLeft
           this.xifuindex = this.delchunkposition.v[m].min
           faaa++
@@ -267,7 +268,7 @@ export default {
               this.chunk.track_end +
               this.chunk.track_start) /
               (this.slidernum.max - this.track_property.ratio) +
-            188 -
+            ATTACH_NUMBER -
             this.track_property.outLeft
           this.xifuindex =
             this.delchunkposition.v[m].min -
@@ -293,7 +294,7 @@ export default {
               this.chunk.track_end +
               this.chunk.track_start) /
               (this.slidernum.max - this.track_property.ratio) +
-            188 -
+            ATTACH_NUMBER -
             this.track_property.outLeft
           this.xifuindex =
             this.delchunkposition.v[m].max -
@@ -302,7 +303,7 @@ export default {
           faaa++
         }
       }
-      this.y = this.trackcaption.minY + 1
+      this.y = this.trackcaption.minY
       if (faaa === 0) {
         this.xifuindex = null
         if (this.activechunk.chunkstate === 'moveing') {

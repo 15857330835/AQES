@@ -41,6 +41,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { pointerSetApi } from '@/api/Pointer'
 import _ from 'lodash'
+import { TIP_HEIGHT_NUMBER } from '@/config'
 export default {
   name: 'videoTip',
   data: function() {
@@ -249,7 +250,7 @@ export default {
     }
   },
   mounted: function() {
-    $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+    $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
     if (this.left < 0 || this.left > $('#ruler').width()) {
       $('#edit_tip_line').hide()
     }

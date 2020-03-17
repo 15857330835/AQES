@@ -195,6 +195,7 @@ import chunkbox from './chunkBox'
 import trackhide from './trackHide'
 import TrackMask from './TrackMask.vue'
 import { trackRenameApi } from '@/api/Track'
+import { TIP_HEIGHT_NUMBER } from '@/config'
 
 export default {
   components: {
@@ -322,7 +323,7 @@ export default {
         that.UPDATE_TRACKBOX()
         that.UPDATE_TRACKPOSITION(5)
         that.UPDATE_CAPTIONPOSITION()
-        $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+        $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
       }, 0)
       // this.aBScroll.refresh()
       setTimeout(() => {
@@ -415,12 +416,16 @@ export default {
   overflow: hidden;
   width: 100%;
   font-size: 12px;
+  border-bottom: 2px solid #151a20;
   .edit_track {
     width: 100%;
     display: flex;
     .edit_track_titles {
       width: 160px;
       height: 100%;
+      > div:last-of-type .edit_track_title {
+        border-bottom: none;
+      }
       .edit_track_title {
         width: 160px;
         height: 63px;
@@ -484,7 +489,7 @@ export default {
       padding: 0 25px 0 10px;
       background-image: repeating-linear-gradient(
         #151a20,
-        #151a20 62px,
+        #151a20 63px,
         #1c232a 63px,
         #1c232a 126px
       );

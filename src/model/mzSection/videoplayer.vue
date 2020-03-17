@@ -177,6 +177,7 @@ import newchartset from './newchartSet'
 import newfilterset from './newfilterSet'
 import newDynamicTextSet from './NewDynamicTextSet'
 import _ from 'lodash'
+import { TIP_HEIGHT_NUMBER, TRACK_MAXHEIGHT_NUMBER } from '@/config'
 
 export default {
   data() {
@@ -395,14 +396,16 @@ export default {
         $('.edit_ruler.clearfix').height() +
         $('#captionbox').height() +
         $('.time_track.clearfix').height() +
-        $('.nces_videooper').height()
-
+        $('.nces_videooper').height() +
+        TRACK_MAXHEIGHT_NUMBER -
+        72
+      // editHeight
       trackbox_max_height = parseInt(trackbox_max_height, 10)
       $('#trackbox').css(
         'max-height',
         'calc(100vh - ' + num + ' - ' + trackbox_max_height + 'px)'
       )
-      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+      $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
     },
     fullpage() {
       // 网页全屏方法

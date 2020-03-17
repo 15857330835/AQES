@@ -1,3 +1,5 @@
+import { TIP_HEIGHT_NUMBER } from '@/config'
+
 const CHANGE_LOADING = 'CHANGE_LOADING' // 改变loading状态
 const IMG_LISTS = 'IMG_LISTS' // 图片列表
 const UPDATE_POINTER = 'UPDATE_POINTER' // 更新播放状态和视频位置位置
@@ -235,7 +237,7 @@ export default {
     }
     state.trackposition = arr
     setTimeout(() => {
-      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+      $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
     }, 0)
 
     // UPDATE_CAPTIONPOSITION
@@ -271,7 +273,7 @@ export default {
     }
     state.trackposition = arr
     setTimeout(() => {
-      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+      $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
     }, 0)
   },
   [UPDATE_CAPTIONPOSITION](state, data) {

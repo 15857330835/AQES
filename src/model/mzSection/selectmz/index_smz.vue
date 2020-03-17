@@ -94,6 +94,7 @@ import { trackPropertyAppendApi } from '@/api/Track'
 // import { sourceDelApi } from '@/api/Source'
 // import _ from 'lodash'
 import axios from '@/http'
+import { ATTACH_NUMBER } from '@/config'
 
 export default {
   data() {
@@ -748,7 +749,7 @@ export default {
             ) < 10 &&
             xifu
           ) {
-            clonediv_.x = 188 - this.track_property.outLeft
+            clonediv_.x = ATTACH_NUMBER - this.track_property.outLeft
             this.xifuindex = 0
             faaa++
           }
@@ -766,7 +767,7 @@ export default {
             clonediv_.x =
               (this.chunkPosition.v[i][m].max - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.chunkPosition.v[i][m].max
             faaa++
@@ -785,7 +786,7 @@ export default {
             clonediv_.x =
               (this.chunkPosition.v[i][m].min - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.chunkPosition.v[i][m].min
             faaa++
@@ -806,7 +807,7 @@ export default {
             clonediv_.x =
               (this.chunkPosition.v[i][m].min - clonediv_.frame - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.chunkPosition.v[i][m].min - clonediv_.frame
             faaa++
@@ -827,7 +828,7 @@ export default {
             clonediv_.x =
               (this.chunkPosition.v[i][m].max - clonediv_.frame - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.chunkPosition.v[i][m].max - clonediv_.frame
             faaa++
@@ -1373,7 +1374,9 @@ $base-url: '../../../';
     height: 100%;
     li {
       float: left;
-      padding: 0.11rem 0.25rem;
+      padding: 0.11rem 0.06rem;
+      width: 0.7rem;
+      text-align: center;
       cursor: pointer;
       display: flex;
       flex-direction: column;
