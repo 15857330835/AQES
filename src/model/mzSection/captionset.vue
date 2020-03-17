@@ -1,15 +1,8 @@
 <template>
   <div class="clearfix captionsetBox">
     <div class="captionset_style">
-      <span
-        style="display:inline-block;height:100%;float:left;margin-left:40px;line-height:40px"
-        >字幕样式</span
-      >
-      <span
-        id="zmstyleSelect"
-        style="width:150px;display:inline-block;margin-top:9px;margin-left:30px;float:left"
-      ></span>
-
+      <span class="style-title">字幕样式</span>
+      <span class="style-select" id="zmstyleSelect"></span>
       <span style="float:right" class="addCaption" @click="addCaption"></span>
     </div>
     <div class="cap-up-container">
@@ -537,13 +530,28 @@ export default {
 
 <style lang="scss" scoped>
 .captionsetBox {
+  font-size: 0.16rem;
   height: 100%;
   display: flex;
   flex-direction: column;
   .captionset_style {
-    height: 40px;
+    height: 0.4rem;
     box-sizing: border-box;
     position: relative;
+    .style-title {
+      display: inline-block;
+      height: 100%;
+      float: left;
+      margin-left: 0.4rem;
+      line-height: 0.4rem;
+    }
+    .style-select {
+      width: 1.5rem;
+      display: inline-block;
+      margin-top: 0.09rem;
+      margin-left: 0.3rem;
+      float: left;
+    }
   }
   .cap-up-container {
     height: calc(100% - 106px);
