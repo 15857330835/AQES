@@ -323,29 +323,34 @@ input.mui-switch.mui-switch-anim:checked:before {
   background-color: #1c232a;
 }
 
-.rename-decide-box,
-.export-decide-box {
-  .el-button {
-    &:focus,
-    &:hover {
-      color: #606266;
-      border-color: #dcdfe6;
-      background-color: #fff;
-    }
+.el-button {
+  &:focus,
+  &:hover {
+    color: #cdd5dd;
+    background-color: #636a71;
+    border-color: #636a71;
   }
+}
 
-  .el-button--primary {
-    color: #333 !important;
-    background-color: #61ded0 !important;
-    border-color: #61ded0 !important;
+.el-button--primary {
+  color: #203035;
+  background-color: #61ded0;
+  border-color: #61ded0;
+  border-radius: 3px;
 
-    &:focus,
-    &:hover {
-      color: #333 !important;
-      background-color: #61ded0 !important;
-      border-color: #61ded0 !important;
-    }
+  &:focus,
+  &:hover {
+    color: #203035;
+    background-color: #61ded0;
+    border-color: #61ded0;
   }
+}
+
+.el-button--info {
+  color: #cdd5dd;
+  background-color: #636a71;
+  border-color: #636a71;
+  border-radius: 3px;
 }
 .el-button--text {
   color: #61ded0;

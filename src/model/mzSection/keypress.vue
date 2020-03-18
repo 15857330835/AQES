@@ -1223,17 +1223,4 @@ export default {
     border: 1px solid #61ded0;
   }
 }
-.captionsel_sure {
-  width: 90px;
-  background-color: #61ded0;
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
-  font-size: 16px;
-  border-radius: 5px;
-  float: right;
-  margin-right: 20px;
-  margin-top: 10px;
-  cursor: pointer;
-}
 </style>

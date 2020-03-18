@@ -618,17 +618,26 @@ export default {
   .captionsel_sure,
   .captionsel_export {
     width: 90px;
-    background-color: #61ded0;
     height: 30px;
     text-align: center;
     line-height: 30px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 3px;
     float: right;
     margin-right: 20px;
     margin-top: 10px;
     cursor: pointer;
     color: #333;
+  }
+  .captionsel_sure {
+    color: #203035;
+    background-color: #61ded0;
+    border-color: #61ded0;
+  }
+  .captionsel_export {
+    color: #cdd5dd;
+    background-color: #636a71;
+    border-color: #636a71;
   }
 }
 
