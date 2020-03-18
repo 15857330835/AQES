@@ -278,7 +278,7 @@ export default {
 .loading-item {
   width: 4px;
   height: 6px;
-  background: #68b2ce;
+  background: #61ded0;
   float: left;
   margin: 0 3px;
   animation: loading linear 1s infinite;
