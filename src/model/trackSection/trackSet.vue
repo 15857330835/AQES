@@ -194,10 +194,6 @@ export default {
     $(document).on('click', () => {
       this.show = false
     })
-    this.$message({
-      type: 'success',
-      message: '修改成功'
-    })
   }
 }
 </script>

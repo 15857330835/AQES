@@ -12,6 +12,7 @@
           <span class="tab-title">{{ item.title }}</span>
         </li>
       </ul>
+      <keypress></keypress>
     </div>
     <div class="listContent">
       <keep-alive>
@@ -26,7 +27,6 @@
       </keep-alive>
     </div>
     <audio-player></audio-player>
-    <keypress></keypress>
     <div
       class="fchunkbox clonediv"
       :class="this.clonediv.class"
@@ -1369,11 +1369,14 @@ $base-url: '../../../';
   background-color: #212931;
   position: relative;
   border-bottom: 0.02rem solid #151a20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   ul {
     display: inline-block;
     height: 100%;
+    display: flex;
     li {
-      float: left;
       padding: 0.11rem 0.06rem;
       width: 0.7rem;
       text-align: center;

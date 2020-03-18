@@ -1,7 +1,7 @@
 <template>
   <div class="keyPress">
     <div class="keypress_out" title="快捷键" @click="changeShow">
-      <span>快捷键</span>
+      <span class="title">快捷键</span>
     </div>
     <div class="keypress_set" v-show="this.keypressStaus">
       <div class="keypress_set_title">快捷键<em @click="changeShow">X</em></div>
@@ -1109,24 +1109,32 @@ export default {
 .keyPress {
   background: url(../../img/keyboard.png) center top no-repeat;
   display: inline-block;
-  width: 60px;
-  height: 50px;
-  background-size: 50%;
+  width: 0.6rem;
+  height: 0.46rem;
+  box-sizing: border-box;
+  background-size: 45%;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 0.11rem;
+  top: 0.11rem;
+  &:hover {
+    background: url(../../img/keyboard_a.png) center top no-repeat;
+    background-size: 45%;
+    .keypress_out {
+      > .title {
+        color: #61ded0;
+      }
+    }
+  }
 
   .keypress_out {
     height: 100%;
     cursor: pointer;
     position: relative;
-    > span {
+    > .title {
       width: 100%;
       text-align: center;
       position: absolute;
-      bottom: 5px;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 0;
     }
   }
 
@@ -1134,70 +1142,64 @@ export default {
     position: absolute;
     top: 26px;
     width: 440px;
-    background-color: #151a20;
+    // background-color: #151a20;
+    // background-color: #212931;
+    background-color: #1c232a;
     z-index: 1000;
     left: 50%;
     transform: translate(-50%, 0);
-  }
-}
+    &.active {
+      display: block;
+    }
+    .keypress_set_title {
+      position: relative;
+      height: 40px;
+      line-height: 40px;
+      font-size: 18px;
+      text-align: center;
+      background-color: #303840;
+      // background: #191e22;
+      border-radius: 4px 4px 0px 0px;
 
-.keypress_set_title {
-  position: relative;
-  height: 40px;
-  background-color: #303840;
-  line-height: 40px;
-  font-size: 18px;
-  text-align: center;
-
-  em {
-    font-style: normal;
-    position: absolute;
-    right: 0;
-    padding: 0 10px;
-    cursor: pointer;
-  }
-}
-
-.keypress_set {
-  &.active {
-    display: block;
-  }
-
-  label {
-    position: relative;
-  }
-
-  input[type='radio']:checked {
-    & + input[type='text'] {
-      border: 1px solid #61ded0;
+      em {
+        font-style: normal;
+        position: absolute;
+        right: 0;
+        padding: 0 10px;
+        cursor: pointer;
+      }
+    }
+    .keypress_set_content {
+      .keypress_set_contentL,
+      .keypress_set_contentR {
+        float: left;
+        width: 50%;
+        border-right: 1px solid #2e2e2e;
+        box-sizing: border-box;
+        p {
+          margin: 5px;
+          label {
+            position: relative;
+            i {
+              width: 80px;
+              display: inline-block;
+              font-style: normal;
+              text-align: center;
+            }
+            input {
+              width: 90px;
+              cursor: pointer;
+            }
+            input[type='radio']:checked {
+              & + input[type='text'] {
+                border: 1px solid #61ded0;
+              }
+            }
+          }
+        }
+      }
     }
   }
-}
-
-.keypress_set_contentL,
-.keypress_set_contentR {
-  float: left;
-  width: 50%;
-  border-right: 1px solid #2e2e2e;
-  box-sizing: border-box;
-}
-
-.keypress_set_contentL p,
-.keypress_set_contentR p {
-  margin: 5px;
-}
-
-.keypress_set_contentL input,
-.keypress_set_contentR input {
-  width: 90px;
-}
-
-.keypress_set_contentL i,
-.keypress_set_contentR i {
-  width: 80px;
-  display: inline-block;
-  font-style: normal;
-  text-align: center;
 }
 .captiontext {
   border-radius: 4px;
