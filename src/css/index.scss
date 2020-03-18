@@ -291,11 +291,14 @@ input.mui-switch.mui-switch-anim:checked:before {
   color: #61ded0;
 }
 
+.el-input__inner,
 .el-select-dropdown {
   background-color: rgb(48, 56, 64);
-  border: 1px solid rgb(99, 106, 113)
-   !important;
-  font-size: 14px !important;
+  // border: 1px solid rgb(99, 106, 113)
+  //  !important;
+  // font-size: 14px !important;
+  border: 1px solid rgb(99, 106, 113);
+  font-size: 14px;
   color: rgb(170, 170, 170)
 }
 

@@ -41,18 +41,23 @@ export default {
 <style lang="scss">
 $font-size: #e4e4e4;
 $backgroundColor: #212931;
+$backgroundListColor: #1c232a;
 $backgroundColorDarken: rgb(48, 56, 64);
 .ad-datepicker {
   display: inline-block;
   .el-input__inner {
-    border: none !important;
-    background: $backgroundColor;
+    border: none;
+    background: $backgroundListColor;
     width: 300px;
     .el-range-input {
       background: $backgroundColorDarken;
-      border: 1px solid #686868;
+      border: 1px solid #636a71;
       border-radius: 10px;
       color: $font-size;
+      &:focus,
+      &:hover {
+        border-color: #61ded0;
+      }
     }
     .el-range-separator {
       color: $font-size;

@@ -1180,7 +1180,7 @@ export default {
           text-align: center;
           font-size: 12px;
           height: 20px;
-          border: 1px solid #686868;
+          border: 1px solid #636a71;
           color: #e4e4e4;
           -web-kit-appearance: none;
           -moz-appearance: none;
@@ -1230,7 +1230,7 @@ export default {
           text-align: center;
           font-size: 12px;
           height: 20px;
-          border: 1px solid #686868;
+          border: 1px solid #636a71;
           color: #e4e4e4;
           -web-kit-appearance: none;
           -moz-appearance: none;
@@ -1249,21 +1249,6 @@ export default {
       line-height: 30px;
       background-color: #2e2e2e;
       text-align: center;
-    }
-  }
-}
-.dir-select {
-  .el-select-dropdown {
-    background-color: #232323; /* #1d1d1d; */
-    // border: 0px solid #636363 !important;
-    font-size: 14px !important;
-    color: rgb(170, 170, 170);
-  }
-  .el-select-dropdown__item.hover,
-  .el-select-dropdown__item:hover {
-    background-color: #1d1d1d;
-    span {
-      color: #049eff;
     }
   }
 }

@@ -316,7 +316,7 @@ export default {
         text-align: center;
         font-size: 12px;
         height: 20px;
-        border: 1px solid #686868;
+        border: 1px solid #636a71;
         color: #e4e4e4;
         -web-kit-appearance: none;
         -moz-appearance: none;
@@ -353,7 +353,7 @@ export default {
       }
       .con_click_cancel {
         background-color: #232323;
-        border: 1px solid #686868;
+        border: 1px solid #636a71;
       }
     }
   }

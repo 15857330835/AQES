@@ -105,7 +105,7 @@ export default {
   text-align: center;
   font-size: 12px;
   height: 20px;
-  border: 1px solid #686868;
+  border: 1px solid #636a71;
   color: #e4e4e4;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -217,7 +217,7 @@ export default {
     box-sizing: border-box;
     font-size: 14px;
     height: 20px;
-    border: 1px solid #686868;
+    border: 1px solid #636a71;
     color: rgb(170, 170, 170);
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -259,7 +259,7 @@ export default {
   }
   .content_click_cancel {
     background-color: #232323;
-    border: 1px solid #686868;
+    border: 1px solid #636a71;
   }
 }
 .wdgc_content {
