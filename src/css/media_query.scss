@@ -5,8 +5,9 @@
 } */
 
 html {
-  // font-size: 85px;
-  font-size: 100px;
+  // 因为trackbox左侧设置的限制，最大取95px
+  font-size: 85px;
+  // font-size: 100px;
 }
 
 /* @media screen and(max-width: 1680px) {

@@ -15,9 +15,6 @@
 <script>
 import { mapActions, mapMutations } from 'vuex'
 export default {
-  data: function() {
-    return {}
-  },
   props: ['track', 'type', 'index'],
   methods: {
     ...mapActions(['Post']),
@@ -123,15 +120,14 @@ export default {
 
 <style lang="scss" scoped>
 .dolist1 {
-  position: absolute;
-  right: 26px;
-  top: 3px;
+  display: flex;
+  width: 0.48rem;
   > span {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 0.2rem;
+    height: 0.2rem;
+    margin-right: 0.04rem;
     cursor: pointer;
-    background-size: 80% auto;
+    background-size: 95%;
     background-repeat: no-repeat;
     &.lock {
       background-image: url(../../img/suoding.png);

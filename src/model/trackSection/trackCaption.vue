@@ -1,17 +1,19 @@
 <template>
   <div class="clearfix caption-box" id="captionbox">
     <div class="edit_track_title">
-      <div class="icon">
+      <div class="track-icon-content">
         <span class="cicon"></span>
-        <span class="vtitle">字幕轨道</span>
+        <span class="ctitle">字幕轨道</span>
       </div>
-      <trackstatus :track="this.status" :type="'caption'"></trackstatus>
-      <span
-        class="clearTrack iconfont icon-qingchu"
-        :style="{ color: this.clearTrack_color }"
-        @click="cleartrack"
-        :title="this.status.block ? '禁用' : '清空轨道'"
-      ></span>
+      <div class="track-set-content">
+        <trackstatus :track="this.status" :type="'caption'"></trackstatus>
+        <div
+          class="clear-track iconfont icon-qingchu"
+          :style="{ color: this.clearTrack_color }"
+          @click="clearTrack"
+          :title="this.status.block ? '禁用' : '清空轨道'"
+        ></div>
+      </div>
       <div class="track-caption-mask" v-if="modalVoiceApplyIsShow"></div>
     </div>
     <div class="edit_track_contents">
@@ -61,7 +63,7 @@ export default {
       return this.$store.state.all.track_property
     },
     clearTrack_color() {
-      return this.status.block ? '#404040' : '#AAAAAA'
+      return this.status.block ? '#404040' : '#cdd5dd'
     }
   },
   components: {
@@ -72,7 +74,7 @@ export default {
   methods: {
     ...mapActions(['changeLoading']),
     ...mapMutations(['UPDATE_CAPTIONPOSITION']),
-    cleartrack: function() {
+    clearTrack() {
       if (this.status.block) {
         return
       }
@@ -110,33 +112,45 @@ export default {
     height: 100%;
     box-sizing: border-box;
     border-right: 1px solid #151a20;
-    float: left;
+    display: flex;
+    justify-content: space-between;
     position: relative;
-    .icon {
+    .track-icon-content {
       width: 159px;
-      height: 26px;
-      position: relative;
-      top: 0;
-
+      height: 100%;
+      display: flex;
+      align-items: center;
       .cicon {
         background-image: url(../../img/ziti.png);
         background-repeat: no-repeat;
         background-size: 95%;
-        width: 0.18rem;
-        height: 0.18rem;
-        display: inline-block;
-        position: relative;
-        top: 50%;
-        transform: translate(0, -50%);
-        margin: 0 0.08rem;
+        width: 0.2rem;
+        height: 0.2rem;
+        margin: 0 0.06rem;
+      }
+      .ctitle {
+        width: 0.6rem;
+        font-size: 0.14rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: keep-all;
       }
     }
-    .clearTrack {
-      position: absolute;
-      top: 0px;
-      right: 3px;
-      color: #333333;
-      cursor: pointer;
+    .track-set-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 0.69rem;
+      height: 100%;
+      margin-right: 0.06rem;
+      .clear-track {
+        cursor: pointer;
+        opacity: 0.6;
+        font-size: 0.16rem;
+        width: 0.2rem;
+        text-align: center;
+      }
     }
     .track-caption-mask {
       height: 100%;

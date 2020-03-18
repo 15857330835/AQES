@@ -11,12 +11,12 @@
     <div class="edit_track bscroll-container">
       <div class="edit_track_titles" @mousedown="failClick">
         <div
+          class="edit_track_title"
           v-for="(tracks, index) in this.track.v_track_list"
           :key="tracks.track_id"
-          class="clearfix"
         >
-          <div class="edit_track_title">
-            <div class="icon">
+          <div class="track-up-content">
+            <div class="track-icon-content">
               <span class="vicon"></span>
               <span
                 class="vtitle"
@@ -25,31 +25,33 @@
                 >{{ tracks.name }}</span
               >
             </div>
-            <trackstatus
-              :track="tracks"
-              :type="'v_track_list'"
-              :index="index"
-            ></trackstatus>
-            <trackset
-              :track="tracks"
-              :type="'v_track_list'"
-              :index="index"
-              :tracks="track.v_track_list"
-            ></trackset>
-            <trackvolue
-              :track="tracks"
-              :type="'v_track_list'"
-              :index="index"
-            ></trackvolue>
+            <div class="track-set-content">
+              <trackstatus
+                :track="tracks"
+                :type="'v_track_list'"
+                :index="index"
+              ></trackstatus>
+              <trackset
+                :track="tracks"
+                :type="'v_track_list'"
+                :index="index"
+                :tracks="track.v_track_list"
+              ></trackset>
+            </div>
           </div>
+          <trackvolue
+            :track="tracks"
+            :type="'v_track_list'"
+            :index="index"
+          ></trackvolue>
         </div>
         <div
+          class="edit_track_title"
           v-for="(tracks, index) in this.track.a_track_list"
           :key="tracks.track_id"
-          class="clearfix"
         >
-          <div class="edit_track_title">
-            <div class="icon">
+          <div class="track-up-content">
+            <div class="track-icon-content">
               <span class="aicon"></span>
               <span
                 class="atitle"
@@ -58,23 +60,25 @@
                 >{{ tracks.name }}</span
               >
             </div>
-            <trackstatus
-              :track="tracks"
-              :type="'a_track_list'"
-              :index="index"
-            ></trackstatus>
-            <trackset
-              :track="tracks"
-              :type="'a_track_list'"
-              :index="index"
-              :tracks="track.a_track_list"
-            ></trackset>
-            <trackvolue
-              :track="tracks"
-              :type="'a_track_list'"
-              :index="index"
-            ></trackvolue>
+            <div class="track-set-content">
+              <trackstatus
+                :track="tracks"
+                :type="'a_track_list'"
+                :index="index"
+              ></trackstatus>
+              <trackset
+                :track="tracks"
+                :type="'a_track_list'"
+                :index="index"
+                :tracks="track.a_track_list"
+              ></trackset>
+            </div>
           </div>
+          <trackvolue
+            :track="tracks"
+            :type="'a_track_list'"
+            :index="index"
+          ></trackvolue>
         </div>
         <div class="track-box-left-mask" v-if="modalVoiceApplyIsShow"></div>
       </div>
@@ -419,66 +423,62 @@ export default {
   border-bottom: 2px solid #151a20;
   .edit_track {
     width: 100%;
-    display: flex;
     .edit_track_titles {
       width: 160px;
       height: 100%;
-      > div:last-of-type .edit_track_title {
-        border-bottom: none;
-      }
       .edit_track_title {
         width: 160px;
         height: 63px;
         box-sizing: border-box;
         border-right: 1px solid #151a20;
         border-bottom: 1px solid #151a20;
-        float: left;
         position: relative;
-
-        .icon {
+        &:last-of-type {
+          border-bottom: none;
+        }
+        .track-up-content {
           width: 159px;
-          height: 26px;
-          position: relative;
-          top: 0;
+          height: 31px;
+          display: flex;
+          justify-content: space-between;
+          .track-icon-content {
+            display: flex;
+            align-items: center;
+            .vicon {
+              background-image: url(../../img/vtrack.png);
+              background-repeat: no-repeat;
+              background-size: 100%;
+              width: 0.2rem;
+              height: 0.2rem;
+              margin: 0 0.06rem;
+            }
 
-          .vicon {
-            background-image: url(../../img/vtrack.png);
-            background-repeat: no-repeat;
-            background-size: 100%;
-            width: 18px;
-            height: 18px;
-            display: inline-block;
-            position: relative;
-            top: 50%;
-            transform: translate(0, -50%);
-            margin: 0 6px;
+            .aicon {
+              background-image: url(../../img/atrack.png);
+              background-repeat: no-repeat;
+              background-size: 95%;
+              width: 0.2rem;
+              height: 0.2rem;
+              margin: 0 0.06rem;
+            }
+
+            .vtitle,
+            .atitle {
+              width: 0.6rem;
+              font-size: 0.14rem;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              word-break: keep-all;
+            }
           }
-
-          .aicon {
-            background-image: url(../../img/atrack.png);
-            background-repeat: no-repeat;
-            background-size: 95%;
-            width: 18px;
-            height: 18px;
-            display: inline-block;
-            position: relative;
-            top: 50%;
-            transform: translate(0, -50%);
-            margin: 0 6px;
-          }
-
-          .vtitle,
-          .atitle {
-            display: inline-block;
-            position: absolute;
-            top: 50%;
-            transform: translate(0, -50%);
-            width: 60px;
-            font-size: 14px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            word-break: keep-all;
+          .track-set-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 0.69rem;
+            height: 100%;
+            margin-right: 0.06rem;
           }
         }
       }

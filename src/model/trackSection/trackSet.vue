@@ -201,16 +201,13 @@ export default {
 
 <style lang="scss" scoped>
 .dolist {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: 3px;
-  right: 3px;
+  width: 0.2rem;
+  height: 0.2rem;
   background-image: url(../../img/caidan.png);
-  background-size: 70%;
+  background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 3px;
+  border-radius: 0.04rem;
   cursor: pointer;
 
   .dolist_prop {

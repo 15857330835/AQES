@@ -1,5 +1,5 @@
 <template>
-  <div sytle="width:120px;height:30px;" class="setvol">
+  <div class="setvol">
     <div
       class="u-icon vol_clock"
       @click="quickClock"
@@ -83,14 +83,15 @@ export default {
 
 <style lang="scss" scoped>
 .setvol {
-  width: 150px;
-  height: 30px;
+  width: calc(100% - 0.12rem);
+  height: 31px;
   margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   .vol_clock {
-    height: 30px;
-    width: 18px;
-    float: left;
-    margin-right: 12px;
+    height: 0.24rem;
+    width: 0.24rem;
     background-image: url(../../img/volumeOpen.png);
     background-size: 100%;
     cursor: pointer;
@@ -101,9 +102,33 @@ export default {
   .vol_content {
     height: 30px;
     width: 110px;
-    box-sizing: border-box;
-    float: left;
-    position: relative;
+    padding-right: 0.1rem;
+  }
+}
+</style>
+<style lang="scss">
+.vol_content {
+  .el-slider {
+    font-size: 0.16rem;
+    .el-slider__runway {
+      background-color: #636363;
+      height: 5px;
+      margin: 13px 0;
+      .el-slider__bar {
+        height: 5px;
+      }
+      .el-slider__button-wrapper {
+        height: 0.54rem;
+        width: 0.54rem;
+        top: -0.23rem;
+        .el-slider__button {
+          border: 0.02rem solid #aaa;
+          background-color: #aaa;
+          width: 0.1rem;
+          height: 0.1rem;
+        }
+      }
+    }
   }
 }
 </style>
