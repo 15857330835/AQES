@@ -1104,6 +1104,7 @@ export default {
 .mydirContent {
   .mydir-top {
     .search-box {
+      margin-right: 0.2rem;
       .input-search {
         flex: 1;
         max-width: 2rem;

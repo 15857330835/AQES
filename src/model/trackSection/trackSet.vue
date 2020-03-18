@@ -190,10 +190,13 @@ export default {
       this.Post(data)
     }
   },
-  mounted: function() {
-    const that = this
-    $(document).on('click', function() {
-      that.show = false
+  mounted() {
+    $(document).on('click', () => {
+      this.show = false
+    })
+    this.$message({
+      type: 'success',
+      message: '修改成功'
     })
   }
 }

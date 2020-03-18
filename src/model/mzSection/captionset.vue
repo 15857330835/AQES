@@ -537,7 +537,6 @@ export default {
 
 <style lang="scss" scoped>
 .captionsetBox {
-  font-size: 12px;
   height: 100%;
   display: flex;
   flex-direction: column;
