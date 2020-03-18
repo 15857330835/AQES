@@ -87,11 +87,7 @@
     <div class="video_control">
       <div
         class="time-to-line"
-        v-if="
-          this.chunksetshow &&
-            (this.activechunk.chunk.chunk_type != 2 ||
-              this.activechunk.chunk.chunk_type != 5)
-        "
+        v-if="this.chunksetshow"
         @click="movetoposition($event)"
       >
         <div
@@ -106,57 +102,64 @@
           }"
         ></div>
       </div>
-      <div class="control_Cleft">
-        <span @click="lastindex" class="u-icon" title="上一帧"></span>
-        <span
-          @click="videoplay"
-          :class="(this.pointer.speed == 0 ? '' : 'active') + ' u-icon play'"
-          :title="this.pointer.speed == 0 ? '播放' : '暂停'"
-        ></span>
-        <span @click="nextindex" class="u-icon" title="下一帧"></span>
-      </div>
       <div
-        title="添加时间点"
-        class="add-tip"
-        v-if="
-          this.chunksetshow &&
-            (this.activechunk.chunk.chunk_type != 2 ||
-              this.activechunk.chunk.chunk_type != 5)
-        "
-        @click="adddian"
+        class="bottom-control"
+        :style="{
+          height: chunksetshow ? '0.4rem' : '0.48rem'
+        }"
       >
-        <span></span>
-      </div>
-      <div class="time-info" v-if="!this.chunksetshow">
-        <span
-          >{{ this.initdate(pointer.position) }} /
-          {{ this.initdate(length) }}</span
+        <div class="control_Cleft">
+          <span @click="lastindex" class="u-icon" title="上一帧"></span>
+          <span
+            @click="videoplay"
+            :class="(this.pointer.speed == 0 ? '' : 'active') + ' u-icon play'"
+            :title="this.pointer.speed == 0 ? '播放' : '暂停'"
+          ></span>
+          <span @click="nextindex" class="u-icon" title="下一帧"></span>
+        </div>
+        <div
+          title="添加时间点"
+          class="add-tip"
+          v-if="
+            this.chunksetshow &&
+              (this.activechunk.chunk.chunk_type != 2 ||
+                this.activechunk.chunk.chunk_type != 5)
+          "
+          @click="adddian"
         >
-      </div>
-      <div
-        class="time-info"
-        v-if="
-          this.chunksetshow &&
-            (this.activechunk.chunk.chunk_type != 2 ||
-              this.activechunk.chunk.chunk_type != 5)
-        "
-      >
-        <span
-          >{{
-            this.initdate(
-              this.pointer.position - this.activechunk.chunk.track_start
-            )
-          }}
-          /
-          {{
-            this.initdate(
-              Math.floor(originSrcLen / this.activechunk.chunk.speed)
-            )
-          }}</span
+          <span></span>
+        </div>
+        <div class="time-info" v-if="!this.chunksetshow">
+          <span
+            >{{ this.initdate(pointer.position) }} /
+            {{ this.initdate(length) }}</span
+          >
+        </div>
+        <div
+          class="time-info"
+          v-if="
+            this.chunksetshow &&
+              (this.activechunk.chunk.chunk_type != 2 ||
+                this.activechunk.chunk.chunk_type != 5)
+          "
         >
-      </div>
-      <div class="control_Cright">
-        <span @click="videoRefresh" class="u-icon" title="刷新播放器"></span>
+          <span
+            >{{
+              this.initdate(
+                this.pointer.position - this.activechunk.chunk.track_start
+              )
+            }}
+            /
+            {{
+              this.initdate(
+                Math.floor(originSrcLen / this.activechunk.chunk.speed)
+              )
+            }}</span
+          >
+        </div>
+        <div class="control_Cright">
+          <span @click="videoRefresh" class="u-icon" title="刷新播放器"></span>
+        </div>
       </div>
     </div>
     <div
@@ -788,7 +791,7 @@ export default {
     user-select: none;
 
     .time-to-line {
-      height: 6px;
+      height: 0.08rem;
       background-color: #6f7376;
       overflow: hidden;
       cursor: pointer;
@@ -799,88 +802,94 @@ export default {
         background-color: #61ded0;
       }
     }
-    .control_Cleft {
-      float: left;
-      user-select: none;
-      height: 100%;
-      padding: 0 0.2rem;
-
-      > span {
-        width: 0.42rem;
+    .bottom-control {
+      .control_Cleft {
+        float: left;
+        user-select: none;
         height: 100%;
-        display: inline-block;
-        cursor: pointer;
+        padding: 0 0.2rem;
+        // display: flex;
+        // align-items: center;
 
-        &:nth-child(1) {
-          background: url(../../img/u2.png) left no-repeat;
-          transform: scale(0.9);
-        }
-
-        &:nth-child(2) {
-          background: url(../../img/u3.png) left no-repeat;
-          transform: scale(0.8);
-
-          &.active {
-            background: url(../../img/u13.png) left no-repeat;
-            transform: scale(0.8);
-          }
-        }
-
-        &:nth-child(3) {
-          background: url(../../img/u4.png) left no-repeat;
-          transform: scale(0.9);
-        }
-      }
-    }
-
-    .control_Cright {
-      margin-right: 0.2rem;
-      height: 100%;
-      float: right;
-
-      > span {
-        &:nth-child(1) {
-          background-image: url(../../img/restart.png);
-          transform: scale(0.7);
-          width: 0.28rem;
+        > span {
+          width: 0.42rem;
           height: 100%;
           display: inline-block;
-          background-size: 100%;
           cursor: pointer;
-        }
 
-        &:nth-child(2) {
-          background-image: url(../../img/quanping.png);
-          width: 0.28rem;
-          height: 0.28rem;
-          display: inline-block;
-          background-size: 100%;
-          cursor: pointer;
+          &:nth-child(1) {
+            background: url(../../img/u2.png) left no-repeat;
+            transform: scale(0.9);
+          }
+
+          &:nth-child(2) {
+            background: url(../../img/u3.png) left no-repeat;
+            transform: scale(0.8);
+
+            &.active {
+              background: url(../../img/u13.png) left no-repeat;
+              transform: scale(0.8);
+            }
+          }
+
+          &:nth-child(3) {
+            background: url(../../img/u4.png) left no-repeat;
+            transform: scale(0.9);
+          }
         }
       }
-    }
-    .time-info {
-      float: left;
-      height: 100%;
-      line-height: 0.48rem;
-    }
-    .add-tip {
-      float: left;
-      margin: 0 20px;
-      width: 11px;
-      height: 7px;
-      border-top-left-radius: 2px;
-      border-top-right-radius: 2px;
-      background-color: #61ded0;
-      position: relative;
-      top: 14px;
-      cursor: pointer;
-      > span {
-        display: inline-block;
-        border: 5.5px solid transparent;
-        border-top: 5.5px solid #61ded0;
-        position: absolute;
-        top: 7px;
+
+      .control_Cright {
+        margin-right: 0.2rem;
+        height: 100%;
+        float: right;
+        // display: flex;
+        // align-items: center;
+        > span {
+          &:nth-child(1) {
+            background-image: url(../../img/restart.png);
+            transform: scale(0.7);
+            width: 0.28rem;
+            height: 100%;
+            display: inline-block;
+            background-size: 100%;
+            cursor: pointer;
+          }
+
+          &:nth-child(2) {
+            background-image: url(../../img/quanping.png);
+            width: 0.28rem;
+            height: 0.28rem;
+            display: inline-block;
+            background-size: 100%;
+            cursor: pointer;
+          }
+        }
+      }
+      .time-info {
+        float: left;
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+      .add-tip {
+        float: left;
+        margin: 0 20px;
+        width: 11px;
+        height: 7px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        background-color: #61ded0;
+        position: relative;
+        top: calc(0.24rem - 8px);
+        cursor: pointer;
+        > span {
+          display: inline-block;
+          border: 5.5px solid transparent;
+          border-top: 5.5px solid #61ded0;
+          position: absolute;
+          top: 7px;
+        }
       }
     }
   }
@@ -901,7 +910,7 @@ export default {
     border-left: 1px solid #151a20;
     border-right: 0.02rem solid #151a20;
     &.set-active {
-      background-color: transparent;
+      background-color: #151a20;
       z-index: 666;
       width: 10px;
       border: none;

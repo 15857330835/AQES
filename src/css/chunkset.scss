@@ -232,8 +232,8 @@
 
 .setContent {
   position: absolute;
-  top: 50px;
-  height: calc(100% - 58px);
+  top: 0.6rem;
+  height: calc(100% - 0.6rem);
   background-color: #212931;
   z-index: 1004;
   box-sizing: border-box;
@@ -242,8 +242,8 @@
 
   .setContent-do {
     height: 100%;
-    margin-left: calc(100% + 11px);
-    background-color: #1C232A;
+    margin-left: calc(100% + 10px);
+    background-color: #212931;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -280,20 +280,26 @@
 .setContent {
   .setContent-sel {
     width: 100%;
-    height: calc(100% - 30px);
+    height: calc(100% - 0.4rem);
     position: absolute;
-    top: 30px;
-    background-color: #1C232A;
+    top: 0.4rem;
+    border-right: 10px solid #151a20;
+  }
+}
+.setContent {
+  .content-sel_O1 {
+    display: flex;
+    flex-direction: column;
   }
 }
 
 .setContent-sel {
   .content-sel-title {
-    height: 30px;
-    line-height: 30px;
-    padding: 0 15px;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    padding: 0 0.2rem;
     position: absolute;
-    top: -30px;
+    top: -0.4rem;
     color: #fff;
   }
 
@@ -307,14 +313,14 @@
   .title-left {
     .u-icon {
       float: left;
-      width: 27px;
-      height: 27px;
+      width: 0.36rem;
+      height: 0.36rem;
     }
 
     .setpng {
       background-image: url(../img/set1.png);
       background-size: 80%;
-      margin-right: 30px;
+      margin-right: 0.4rem;
 
       &.active {
         background-image: url(../img/set2.png);
@@ -324,7 +330,7 @@
     .filterpng {
       background-image: url(../img/filter1.png);
       background-size: 88%;
-      margin-right: 30px;
+      margin-right: 0.4rem;
 
       &.active {
         background-image: url(../img/filter2.png);
@@ -334,7 +340,7 @@
     .writepng {
       background-image: url(../img/write1.png);
       background-size: 75%;
-      margin-right: 30px;
+      margin-right: 0.4rem;
 
       &.active {
         background-image: url(../img/write2.png);
@@ -349,8 +355,8 @@
 
   .title-right {
     float: right;
-    width: 50px;
-    height: 50px;
+    width: 0.66rem;
+    height: 0.66rem;
     background-image: url(../img/del_big.png);
     cursor: pointer;
   }
@@ -579,7 +585,7 @@
 
   &.ar {
     display: flex;
-    justify-content: space-around;
+    // justify-content: space-around;
     flex-wrap: wrap;
   }
 }

@@ -106,6 +106,7 @@ html {
 
   .sel-option-con .con_filter.angle {
     height: 30px;
+    margin: 0 20px 0 40px;
   }
 
   .sel-option-con .con_filter.ratio {
@@ -135,9 +136,9 @@ html {
 
   .setContent {
     position: absolute;
-    top: 50px;
+    top: 0.6rem;
     padding-top: calc((35% + 5px) * 9 / 16 + 62px);
-    height: calc(100% - 58px);
+    height: calc(100% - 0.6rem);
     background-color: #212931;
     z-index: 100;
     width: calc(65% - 34px);
@@ -148,8 +149,8 @@ html {
     position: relative;
     width: calc((100% + 29px) * 7 / 13 - 13px);
     height: 100%;
-    margin-left: calc(100% + 11px);
-    background-color: #1C232A;
+    margin-left: calc(100% + 10px);
+    background-color: #212931;
   }
 
   .imgsetprop .imgset_content,
@@ -241,6 +242,7 @@ html {
 
   .sel-option-con .con_filter.angle {
     height: 30px;
+    margin: 0 20px 0 40px;
   }
 
   .sel-option-con .con_filter.ratio {
