@@ -293,24 +293,35 @@ input.mui-switch.mui-switch-anim:checked:before {
 .el-loading-spinner i {
   color: #61ded0;
 }
-
+.el-select:hover .el-input__inner {
+  border-color: #61ded0;
+}
+.el-select .el-input__inner:focus {
+  border-color: #636a71;
+}
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: #61ded0;
+}
 .el-input__inner,
 .el-select-dropdown {
-  background-color: rgb(48, 56, 64);
+  background-color: #303840;
   border: 1px solid #636a71;
   font-size: 0.16rem;
-  color: rgb(170, 170, 170)
+  color: rgb(170, 170, 170);
+}
+
+.el-select-dropdown__item.selected {
+  color: #61ded0;
 }
 
 .el-select-dropdown__item.hover,
 .el-select-dropdown__item:hover {
-  background-color: #1d1d1d;
+  background-color: #1c232a;
 }
 
 .rename-decide-box,
 .export-decide-box {
   .el-button {
-
     &:focus,
     &:hover {
       color: #606266;
@@ -332,7 +343,13 @@ input.mui-switch.mui-switch-anim:checked:before {
     }
   }
 }
-
+.el-button--text {
+  color: #61ded0;
+  &:focus,
+  &:hover {
+    color: #61ded0;
+  }
+}
 /* el组件样式end */
 
 #progressbar {

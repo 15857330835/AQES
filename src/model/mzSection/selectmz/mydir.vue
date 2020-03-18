@@ -2,7 +2,7 @@
   <div class="mydirContent">
     <div class="mydir-top">
       <div class="search-box">
-        <span class="directSearch">标题 :</span>
+        <span class="direct-search">标题</span>
         <el-input
           v-model="title"
           class="input-search"
@@ -15,26 +15,17 @@
       <!-- <div v-if="isToHis" style="display:inline-block;float:right;"
             @touchend="toHistory()"
       @click="toHistory()"><el-button slot="trigger" size="medium" type="text" icon="iconfont icon-fanhui" style="cursor:pointer;">返回</el-button></div>-->
-      <div style="width:80px;float:right;">
-        <el-select
-          v-model="value.label"
-          @change="change"
-          size="mini"
-          popper-class="dir-select"
+      <div class="dir-set-box">
+        <el-button
+          v-if="!isRecord"
+          class="create-dir"
+          type="text"
+          icon="el-icon-printer"
+          @click="createDir"
+          >新建文件夹</el-button
         >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </div>
-      <div
-        v-if="!isRecord"
-        style="display:inline-block;float: right;margin-right:10px"
-      >
         <el-upload
+          v-if="!isRecord"
           class="upload-demo"
           ref="upload"
           :limit="10"
@@ -62,11 +53,19 @@
                     <i class="iconfont icon-shangchuan"></i>
           <span>上传</span></button>-->
         </el-upload>
-      </div>
-      <div v-if="!isRecord" class="create-dir">
-        <el-button type="text" icon="el-icon-printer" @click="createDir"
-          >新建文件夹</el-button
+        <el-select
+          v-model="value.label"
+          @change="change"
+          size="mini"
+          class="dir-select"
         >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
       </div>
     </div>
     <div class="mydir-bottom">
@@ -1057,31 +1056,61 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .mydirContent {
   position: absolute;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
-
-  .search-box {
-    display: inline-block;
-    width: auto;
-    .directSearch {
-      margin-right: 10px;
+  .mydir-top {
+    padding: 0 0.2rem;
+    height: 0.53rem;
+    line-height: 0.53rem;
+    background-color: #212931;
+    display: flex;
+    justify-content: space-between;
+    .search-box {
+      flex: 1;
+      width: auto;
+      display: flex;
+      .direct-search {
+        margin-right: 0.12rem;
+      }
+    }
+    .dir-set-box {
+      display: flex;
+      .upload-demo {
+        margin: 0 0.2rem;
+      }
+      .dir-select {
+        width: 1rem;
+      }
     }
   }
-
+  .mydir-bottom {
+    .mydir-bottom-title {
+      height: 40px;
+    }
+    .mydir-bottom-content {
+      height: calc(100% - 50px);
+      overflow-y: hidden;
+      position: relative;
+    }
+  }
+}
+</style>
+<style lang="scss">
+.mydirContent {
   .mydir-top {
-    padding: 0 18px;
-    line-height: 50px;
-    position: relative;
-    background-color: #212931;
-    .create-dir {
-      position: absolute;
-      right: 10px;
-      line-height: 100%;
+    .search-box {
+      .input-search {
+        flex: 1;
+        max-width: 2rem;
+        > input {
+          width: 100%;
+        }
+      }
     }
   }
   .mydir-bottom {
@@ -1097,14 +1126,6 @@ export default {
       width: 50px;
       margin-bottom: 10px;
     }
-  }
-  .mydir-bottom-content {
-    height: calc(100% - 50px);
-    overflow-y: hidden;
-    position: relative;
-  }
-  .mydir-bottom-title {
-    height: 40px;
   }
 
   .el-progress__text {
