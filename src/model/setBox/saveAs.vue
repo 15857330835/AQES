@@ -1,8 +1,5 @@
 <template>
-  <div
-    class=" makeTable"
-    style="width: 100%;height: 100%;position: fixed;top: 0;background-color: rgba(0,0,0,0.4);z-index: 1010;"
-  >
+  <div class="makeTable">
     <div class="makeTable_content">
       <div class="content_title">工程另存为</div>
       <div class="content_select">
@@ -12,8 +9,8 @@
         </p>
       </div>
       <div class="content_click">
-        <span class="content_click_make" @click="sure">确认</span
-        ><span class="content_click_cancel" @click="cel">取消</span>
+        <span class="content_click_cancel" @click="cel">取消</span>
+        <span class="content_click_make" @click="sure">确认</span>
       </div>
     </div>
   </div>
@@ -89,25 +86,10 @@ export default {
 }
 </script>
 
-<style>
-.saveTable_content,
-.makeTable_content,
-.delproTable_content {
-  position: absolute;
-  width: 510px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #232323;
-  font-size: 14px;
-}
-.makeTable_content .content_title {
-  height: 40px;
-  line-height: 40px;
-  background-color: #2e2e2e;
-  text-align: center;
-}
-.makeTable_content .content_select {
-  padding: 20px 0;
+<style lang="scss" scoped>
+.makeTable_content {
+  .content_select {
+    padding: 20px 0;
+  }
 }
 </style>

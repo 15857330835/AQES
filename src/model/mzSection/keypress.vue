@@ -1142,9 +1142,9 @@ export default {
     position: absolute;
     top: 26px;
     width: 440px;
-    // background-color: #151a20;
+    background-color: #151a20;
     // background-color: #212931;
-    background-color: #1c232a;
+    // background-color: #1c232a;
     z-index: 1000;
     left: 50%;
     transform: translate(-50%, 0);

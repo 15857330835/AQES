@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="saveTable"
-    style="width: 100%;height: 100%;position: fixed;top: 0;background-color: rgba(0,0,0,0.4);z-index: 1010;"
-  >
+  <div class="saveTable">
     <div class="saveTable_content">
       <div class="content_title">视频生成设置</div>
       <div class="content_select">
@@ -76,8 +73,8 @@
         </div>
       </div>
       <div class="content_click">
-        <span class="content_click_make" @click="sure">确认</span
-        ><span class="content_click_cancel" @click="cel">取消</span>
+        <span class="content_click_cancel" @click="cel">取消</span>
+        <span class="content_click_make" @click="sure">确认</span>
       </div>
     </div>
   </div>
@@ -329,4 +326,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped></style>

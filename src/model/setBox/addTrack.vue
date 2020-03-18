@@ -169,7 +169,7 @@ export default {
       height: 20px;
       border: 1px solid #636a71;
       color: #e4e4e4;
-      -web-kit-appearance: none;
+      -webkit-appearance: none;
       -moz-appearance: none;
       display: inline-block;
       outline: 0;

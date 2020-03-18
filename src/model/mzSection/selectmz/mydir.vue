@@ -267,11 +267,10 @@
         <div class="content_title">上传文件列表</div>
         <div
           class="content_select upfilelist_content_select bscroll"
-          style="height:170px"
           ref="fileBscroll"
         >
           <div class="bscroll-container">
-            <p style="color:#6d6a6a;text-align:center">
+            <p class="upload-info">
               红色文件不可上传，格式或大小不支持！
             </p>
             <p
@@ -294,8 +293,8 @@
           </div>
         </div>
         <div class="content_click">
-          <span class="content_click_make" @click="submitUpload">确认</span>
           <span class="content_click_cancel" @click="cel">取消</span>
+          <span class="content_click_make" @click="submitUpload">确认</span>
         </div>
       </div>
     </div>
@@ -307,8 +306,8 @@
           <el-input v-model="newDirName" class="input-item"></el-input>
         </div>
         <div class="content_click">
-          <span class="content_click_make" @click="submitMkDir">确认</span>
           <span class="content_click_cancel" @click="celMkDir">取消</span>
+          <span class="content_click_make" @click="submitMkDir">确认</span>
         </div>
       </div>
     </div>
@@ -1169,108 +1168,80 @@ export default {
     color: #585252;
   }
   .upfilelist {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 1010;
-  }
-  .upfilelist .upfilelist_content {
-    position: absolute;
-    width: 510px;
-    height: 230px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #232323;
-    font-size: 12px;
-    overflow: hidden;
-    .upfilelist-item {
-      width: 400px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      line-height: 20px;
-      .input-item {
-        display: inline-block;
-        width: auto;
-        input {
-          box-sizing: border-box;
+    .upfilelist_content {
+      .upfilelist_content_select {
+        position: relative;
+        overflow-y: hidden;
+        height: 200px;
+        margin-bottom: 15px;
+        .upload-info {
+          color: rgb(109, 106, 106);
           text-align: center;
-          font-size: 12px;
-          height: 20px;
-          border: 1px solid #636a71;
-          color: #e4e4e4;
-          -web-kit-appearance: none;
-          -moz-appearance: none;
+          pointer-events: auto;
+          width: 100%;
+        }
+      }
+      .upfilelist-item {
+        width: 400px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        line-height: 22px;
+        font-size: 14px;
+        .input-item {
           display: inline-block;
-          outline: 0;
-          padding: 0 1em;
-          text-decoration: none;
-          border-radius: 8px;
-          background-color: #1c1c1c;
-          width: 120px;
+          width: auto;
+          input {
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 12px;
+            height: 20px;
+            border: 1px solid #636a71;
+            color: #e4e4e4;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            display: inline-block;
+            outline: 0;
+            padding: 0 1em;
+            text-decoration: none;
+            border-radius: 8px;
+            background-color: #1c1c1c;
+            width: 120px;
+          }
         }
       }
     }
-    .content_title {
-      height: 30px;
-      line-height: 30px;
-      background-color: #2e2e2e;
-      text-align: center;
-    }
-    .upfilelist_content_select {
-      position: relative;
-      overflow-y: hidden;
-    }
-  }
-  .upfilelist .newDir_content {
-    position: absolute;
-    width: 510px;
-    // height: 230px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #232323;
-    font-size: 12px;
-    overflow: hidden;
-    .upfilelist-item {
-      width: 400px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      line-height: 20px;
-      .input-item {
-        display: inline-block;
-        width: auto;
-        input {
-          box-sizing: border-box;
-          text-align: center;
-          font-size: 12px;
-          height: 20px;
-          border: 1px solid #636a71;
-          color: #e4e4e4;
-          -web-kit-appearance: none;
-          -moz-appearance: none;
+    .newDir_content {
+      .upfilelist-item {
+        width: 400px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        line-height: 20px;
+        font-size: 13px;
+        .input-item {
           display: inline-block;
-          outline: 0;
-          padding: 0 1em;
-          text-decoration: none;
-          border-radius: 8px;
-          background-color: #1c1c1c;
-          width: 345px;
+          width: auto;
+          input {
+            width: 345px;
+            height: 20px;
+            background-color: rgb(48, 56, 64);
+            border: 1px solid rgb(99, 106, 113);
+            border-radius: 3px;
+            box-sizing: border-box;
+            border: 1px solid #636a71;
+            color: #e4e4e4;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            display: inline-block;
+            outline: 0;
+            padding: 0 1em;
+            text-decoration: none;
+          }
         }
       }
-    }
-    .content_title {
-      height: 30px;
-      line-height: 30px;
-      background-color: #2e2e2e;
-      text-align: center;
     }
   }
 }
