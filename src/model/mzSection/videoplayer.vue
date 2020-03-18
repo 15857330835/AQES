@@ -911,7 +911,7 @@ export default {
     border-right: 0.02rem solid #151a20;
     &.set-active {
       background-color: #151a20;
-      z-index: 666;
+      z-index: 1666;
       width: 10px;
       border: none;
       left: -10px;

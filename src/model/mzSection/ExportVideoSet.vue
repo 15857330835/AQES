@@ -14,11 +14,10 @@
         :rules="rules"
         label-width="100px"
         size="mini"
-        style="margin-top: 16px;"
-        class="form"
+        class="form set-form"
         ref="form"
       >
-        <el-form-item label="视频名称" style="width: 70%;" prop="mss_title">
+        <el-form-item label="视频名称" style="width: 80%;" prop="mss_title">
           <el-input
             v-model="form.mss_title"
             @focus="blockShortcuts"
@@ -486,11 +485,17 @@ $font-color: #909399;
   .el-slider__marks-text {
     white-space: nowrap;
   }
+  .set-form {
+    margin-top: 16px;
+    width: 100%;
+  }
   .export-tip {
     text-align: center;
+    margin: auto;
     color: $font-color;
     font-size: 12px;
     min-height: 60px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;

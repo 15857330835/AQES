@@ -386,6 +386,13 @@ input.mui-switch.mui-switch-anim:checked:before {
 .el-input__inner:focus {
   border-color: #61ded0;
 }
+
+.el-form-item.is-success .el-input__inner,
+.el-form-item.is-success .el-input__inner:focus,
+.el-form-item.is-success .el-textarea__inner,
+.el-form-item.is-success .el-textarea__inner:focus {
+  border-color: #636a71;
+}
 /* el组件样式end */
 
 #progressbar {

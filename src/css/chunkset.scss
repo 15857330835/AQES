@@ -243,7 +243,7 @@
   .setContent-do {
     height: 100%;
     margin-left: calc(100% + 10px);
-    background-color: #212931;
+    background-color: #1C232A;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -283,13 +283,8 @@
     height: calc(100% - 0.4rem);
     position: absolute;
     top: 0.4rem;
+    background-color: #1C232A;
     border-right: 10px solid #151a20;
-  }
-}
-.setContent {
-  .content-sel_O1 {
-    display: flex;
-    flex-direction: column;
   }
 }
 
@@ -483,7 +478,8 @@
       cursor: pointer;
 
       &.active {
-        background-image: url(../img/cuttingActive.png);
+        background-image: url(../img/cutting_a.png);
+        transform: scale(0.88);
       }
     }
 

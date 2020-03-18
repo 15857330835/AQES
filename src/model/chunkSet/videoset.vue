@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="content-sel_O1" v-if="this.classname == 'content-sel_O1'">
-      <div class="content-sel-option">
+      <div class="content-sel-option clearfix">
         <div class="sel-option">
           <div class="sel-option-name">旋转</div>
           <div class="sel-option-con ar">
