@@ -716,29 +716,31 @@ input[type="number"]::-webkit-inner-spin-button {
 .bscroll-indicator {
   background-color: rgb(170, 170, 170) !important;
   border: none !important;
+}
 
-  .content_mes {
-    .input-search {
-      display: inline-block;
-      width: auto;
+// input公共样式
+.input-search {
+  display: inline-block;
+  width: auto;
 
-      input {
-        box-sizing: border-box;
-        text-align: center;
-        font-size: 12px;
-        height: 20px;
-        border: 1px solid #686868;
-        color: #d8d8d8;
-        -web-kit-appearance: none;
-        -moz-appearance: none;
-        display: inline-block;
-        outline: 0;
-        padding: 0 1em;
-        text-decoration: none;
-        border-radius: 8px;
-        background-color: #1c1c1c;
-        width: 120px;
-      }
+  input {
+    width: 2rem;
+    height: 0.3rem;
+    background-color: rgb(48, 56, 64);
+    border: 1px solid rgb(99, 106, 113);
+    border-radius: 3px;
+    box-sizing: border-box;
+    font-size: 0.16rem;
+    color: #e4e4e4;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: inline-block;
+    outline: 0;
+    padding: 0 1em;
+    text-decoration: none;
+    &:focus,
+    &:hover {
+      border-color: #61ded0;
     }
   }
 }

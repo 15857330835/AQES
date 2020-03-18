@@ -118,24 +118,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-// .el-input__inner,.el-select-dropdown {
-//     background-color:#1d1d1d;
-//     border:1px solid #636363 !important;
-//     font-size:14px !important;
-//     color:rgb(170,170,170)
-// }
-//     .el-input__inner .el-select-dropdown {
-//   background-color:#1d1d1d;
-//   border:1px solid #636363 !important;
-//   font-size:14px !important;
-//   color:rgb(170,170,170)
-// }
-// .el-select .el-input__inner:focus .el-select .el-input__inner:hover{
-//   border-color: #636363;
-// }
-// .el-select-dropdown__item:hover{
-//   // background-color:#1d1d1d;
-
-// }
-</style>
+<style lang="scss" scoped></style>

@@ -1068,31 +1068,8 @@ export default {
   .search-box {
     display: inline-block;
     width: auto;
-    // padding: 0 18px;
-    // line-height: 50px;
     .directSearch {
       margin-right: 10px;
-    }
-    .input-search {
-      display: inline-block;
-      width: auto;
-      input {
-        width: 120px;
-        height: 25px;
-        background-color: rgb(48, 56, 64);
-        border: 1px solid #394149 !important;
-        border-radius: 3px;
-        box-sizing: border-box;
-        text-align: center;
-        font-size: 12px;
-        color: #e4e4e4;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        display: inline-block;
-        outline: 0;
-        padding: 0 1em;
-        text-decoration: none;
-      }
     }
   }
 
@@ -1276,16 +1253,11 @@ export default {
   }
 }
 .dir-select {
-  .el-input__inner,
   .el-select-dropdown {
     background-color: #232323; /* #1d1d1d; */
     // border: 0px solid #636363 !important;
     font-size: 14px !important;
     color: rgb(170, 170, 170);
-  }
-  .el-select .el-input__inner:focus,
-  .el-select .el-input__inner:hover {
-    border-color: #636363;
   }
   .el-select-dropdown__item.hover,
   .el-select-dropdown__item:hover {

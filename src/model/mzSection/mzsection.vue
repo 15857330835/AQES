@@ -1,6 +1,6 @@
 <template>
   <div
-    class="clearfix lh"
+    class="clearfix lh media-box"
     :style="{ userSelect: 'none', padding: 0, height: this.height }"
     ref="mediaBox"
   >
@@ -75,21 +75,19 @@ export default {
 </script>
 
 <style lang="scss">
-.lh {
+.media-box {
   width: 100%;
   height: 0;
   padding-top: calc(50% * 9 / 16);
   padding-bottom: 67px;
   position: relative;
+  .nces_videolist {
+    width: calc(50% - 10px);
+    height: 100%;
+    position: absolute;
+    top: 0;
+  }
 }
-
-.nces_videolist {
-  width: calc(50% - 10px);
-  height: 100%;
-  position: absolute;
-  top: 0;
-}
-
 .listContent {
   height: calc(100% - 0.68rem);
 }
@@ -101,7 +99,6 @@ export default {
   position: relative;
   font-size: 12px;
 }
-
 .videolist_right .videolist_right_search input[type='text'],
 .videolist_right .mydir-top > input[type='text'] {
   box-sizing: border-box;
@@ -110,7 +107,7 @@ export default {
   height: 20px;
   border: 1px solid #686868;
   color: #e4e4e4;
-  -web-kit-appearance: none;
+  -webkit-appearance: none;
   -moz-appearance: none;
   display: inline-block;
   outline: 0;
@@ -120,17 +117,11 @@ export default {
   background-color: #1c1c1c;
   width: 90px;
 }
-
-.videolist_right input[type='text']:focus {
-  border: 1px solid #686868;
-}
-
 .videolist_right_search {
   height: 50px;
   line-height: 50px;
   padding: 0 18px;
 }
-
 .search {
   display: inline-block;
   background-image: url(../../img/u8.png);
@@ -140,56 +131,46 @@ export default {
   top: 5px;
   cursor: pointer;
 }
-
-.bottom_tips .uploadfile {
-  background-color: #151a20;
-  height: 20px;
-  line-height: 20px;
-  border-radius: 10px;
-  margin-top: 10px;
-  padding: 0 10px;
-  cursor: pointer;
+.bottom_tips {
+  .uploadfile {
+    background-color: #151a20;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 0 10px;
+    cursor: pointer;
+    span {
+      display: inline-block;
+      background-position: center;
+      background-size: 100%;
+      color: #e4e4e4;
+      &:nth-child(1) {
+        background-image: url(../../img/addTrack.png);
+        vertical-align: middle;
+        margin-top: -2px;
+        width: 12px;
+        height: 12px;
+      }
+      &:nth-child(2) {
+        margin-left: 10px;
+      }
+    }
+  }
 }
-
-.bottom_tips .uploadfile span {
-  display: inline-block;
-  background-position: center;
-  background-size: 100%;
-  color: #e4e4e4;
-}
-
-.bottom_tips .uploadfile span:nth-child(1) {
-  background-image: url(../../img/addTrack.png);
-  vertical-align: middle;
-  margin-top: -2px;
-  width: 12px;
-  height: 12px;
-}
-
-.bottom_tips .uploadfile span:nth-child(2) {
-  margin-left: 10px;
-}
-
 .bottom_fanye {
   float: right;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
+  .last {
+    cursor: pointer;
+  }
+  .next {
+    cursor: pointer;
+  }
+  .now {
+    color: #61ded0;
+  }
 }
-
-.bottom_fanye .last {
-  cursor: pointer;
-}
-
-.bottom_fanye .next {
-  cursor: pointer;
-}
-
-.bottom_fanye .now {
-  color: #61ded0;
-}
-
 .prop {
   width: 100%;
   height: 100%;
@@ -199,7 +180,6 @@ export default {
   z-index: 200;
   display: none;
 }
-
 .saveTable_content,
 .makeTable_content,
 .delproTable_content {
@@ -211,180 +191,163 @@ export default {
   background-color: #232323;
   font-size: 14px;
 }
-
-.saveTable_content .content_title {
-  height: 40px;
-  line-height: 40px;
-  background-color: #2e2e2e;
-  text-align: center;
+.saveTable_content {
+  .content_title {
+    height: 40px;
+    line-height: 40px;
+    background-color: #2e2e2e;
+    text-align: center;
+  }
 }
-
-.delproTable .content_title {
-  height: 40px;
-  line-height: 40px;
-  background-color: #2e2e2e;
-  text-align: center;
+.delproTable {
+  .content_title {
+    height: 40px;
+    line-height: 40px;
+    background-color: #2e2e2e;
+    text-align: center;
+  }
+  .content_select {
+    height: 50px;
+    line-height: 30px;
+    text-align: center;
+  }
 }
-
-.delproTable .content_select {
-  height: 50px;
-  line-height: 30px;
-  text-align: center;
+.content_select {
+  input[type='text'] {
+    box-sizing: border-box;
+    font-size: 14px;
+    height: 20px;
+    border: 1px solid #686868;
+    color: rgb(170, 170, 170);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: inline-block;
+    outline: 0;
+    padding: 0 1em;
+    text-decoration: none;
+    border-radius: 3px;
+    background-color: #1c1c1c;
+    width: 185px;
+  }
+  span {
+    display: inline-block;
+    padding: 0 10px 0 80px;
+    width: 100px;
+    text-align: center;
+  }
 }
-
-.content_select input[type='text'] {
-  box-sizing: border-box;
-  font-size: 14px;
-  height: 20px;
-  border: 1px solid #686868;
-  color: rgb(170, 170, 170);
-  -web-kit-appearance: none;
-  -moz-appearance: none;
-  display: inline-block;
-  outline: 0;
-  padding: 0 1em;
-  text-decoration: none;
-  border-radius: 3px;
-  background-color: #1c1c1c;
-  width: 185px;
-}
-
-.content_select input[type='text']:focus {
-  border: 1px solid #686868;
-}
-
-.content_select span {
-  display: inline-block;
-  padding: 0 10px 0 80px;
-  width: 100px;
-  text-align: center;
-}
-
 .content_click {
   height: 30px;
   line-height: 30px;
   background-color: #2e2e2e;
-  /*text-align: center;*/
+  span {
+    float: right;
+    width: 40px;
+    height: 20px;
+    line-height: 18px;
+    margin-top: 5px;
+    margin-right: 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px;
+    box-sizing: border-box;
+  }
+  .content_click_make {
+    background-color: #61ded0;
+    border: 1px solid #61ded0;
+    color: #333;
+  }
+  .content_click_cancel {
+    background-color: #232323;
+    border: 1px solid #686868;
+  }
 }
-
-.content_click span {
-  float: right;
-  width: 40px;
-  height: 20px;
-  line-height: 18px;
-  margin-top: 5px;
-  /*margin-left: 10px;*/
-  margin-right: 10px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 3px;
-  box-sizing: border-box;
-}
-
-.content_click .content_click_make {
-  background-color: #61ded0;
-  border: 1px solid #61ded0;
-  color: #333;
-}
-
-.content_click .content_click_cancel {
-  background-color: #232323;
-  border: 1px solid #686868;
-}
-
 .wdgc_content {
   width: 100%;
   box-sizing: border-box;
   padding: 5px 10px;
   height: 80px;
   position: relative;
+  .mes_tip {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    line-height: 70px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    font-size: 20px;
+  }
 }
-
 .wdgc_content_mes {
   width: calc(100% - 50px);
   position: relative;
   float: left;
+  .mes_list {
+    & > div {
+      float: left;
+    }
+  }
+  .mes_list_text {
+    & > span {
+      display: inline-block;
+      height: 20px;
+      line-height: 20px;
+      padding-left: 23px;
+      position: relative;
+      &:nth-child(1) {
+        height: 25px;
+        font-size: 16px;
+        line-height: 25px;
+      }
+      input {
+        text-align: left;
+        border-radius: 2px;
+        padding-left: 0px;
+        display: none;
+      }
+    }
+    .wdgc_rename {
+      background-image: url(../../img/rename.png);
+      background-size: 100%;
+      position: relative;
+      top: 1px;
+      height: 12px;
+      width: 12px;
+      padding-left: 0px;
+      left: 10px;
+      cursor: pointer;
+    }
+  }
 }
-
-.wdgc_content_mes .mes_list > div {
-  float: left;
-}
-
-.wdgc_content_mes .mes_list_text > span {
-  display: inline-block;
-  height: 20px;
-  line-height: 20px;
-  padding-left: 23px;
-  position: relative;
-}
-
-.wdgc_content_mes .mes_list_text > span:nth-child(1) {
-  height: 25px;
-  font-size: 16px;
-  line-height: 25px;
-}
-
-.wdgc_content_mes .mes_list_text > span input {
-  text-align: left;
-  border-radius: 2px;
-  padding-left: 0px;
-  display: none;
-}
-
-.wdgc_content .mes_tip {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  line-height: 70px;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-  font-size: 20px;
-}
-
-.wdgc_content_mes .mes_list_text .wdgc_rename {
-  background-image: url(../../img/rename.png);
-  background-size: 100%;
-  position: relative;
-  top: 1px;
-  height: 12px;
-  width: 12px;
-  padding-left: 0px;
-  left: 10px;
-  cursor: pointer;
-}
-
 .wdgc_content_del {
   width: 50px;
   height: 100%;
   float: left;
   position: relative;
+  .btn_del {
+    display: inline-block;
+    background-image: url('../../img/delpro.png');
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+  }
+  .btn_set {
+    display: inline-block;
+    background-image: url('../../img/reset.png');
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 5px;
+    left: -30px;
+  }
 }
-
-.wdgc_content_del .btn_del {
-  display: inline-block;
-  background-image: url('../../img/delpro.png');
-  background-size: 100%;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  position: absolute;
-  bottom: 5px;
-  left: 10px;
-}
-
-.wdgc_content_del .btn_set {
-  display: inline-block;
-  background-image: url('../../img/reset.png');
-  background-size: 100%;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  position: absolute;
-  bottom: 5px;
-  left: -30px;
-}
-
 .audio_control {
   width: 15px;
   height: 15px;
@@ -395,14 +358,18 @@ export default {
   left: 3px;
   cursor: pointer;
 }
-
-.content_top:hover .audio_control {
-  display: block;
-}
-
-.content_top .audio_control.active {
-  display: block;
-  background-image: url('../../img/audiostop.png');
+.content_top {
+  &:hover {
+    .audio_control {
+      display: block;
+    }
+  }
+  .audio_control {
+    &.active {
+      display: block;
+      background-image: url('../../img/audiostop.png');
+    }
+  }
 }
 </style>
 

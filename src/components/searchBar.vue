@@ -55,26 +55,5 @@ export default {
   .search-label {
     margin-right: 0.12rem;
   }
-  .input-search {
-    display: inline-block;
-    width: auto;
-    input {
-      width: 2rem;
-      height: 0.3rem;
-      background-color: rgb(48, 56, 64);
-      border: 1px solid rgb(57, 65, 73) !important;
-      border-radius: 3px;
-      box-sizing: border-box;
-      text-align: center;
-      font-size: 0.16rem;
-      color: #e4e4e4;
-      -web-kit-appearance: none;
-      -moz-appearance: none;
-      display: inline-block;
-      outline: 0;
-      padding: 0 1em;
-      text-decoration: none;
-    }
-  }
 }
 </style>
