@@ -438,7 +438,7 @@ export default {
         }
         .track-up-content {
           width: 159px;
-          height: 31px;
+          height: 26px;
           display: flex;
           justify-content: space-between;
           .track-icon-content {

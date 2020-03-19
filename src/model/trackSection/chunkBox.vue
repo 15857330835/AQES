@@ -2025,9 +2025,9 @@ export default {
     text-align: center;
 
     &.track-select {
-      background: rgba(8, 143, 211, 1);
-      border: 1px solid rgba(8, 143, 211, 1);
-      color: rgba(255, 255, 255, 1);
+      background: #61ded0;
+      border: 1px solid #61ded0;
+      color: #203035;
     }
 
     &.track-cancel {

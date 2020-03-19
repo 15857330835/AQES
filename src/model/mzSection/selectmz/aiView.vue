@@ -56,7 +56,6 @@ export default {
 <style lang="scss" scoped>
 .ai-view-mask {
   position: fixed;
-  margin: 0 18px;
   top: 0;
   left: 0;
   right: 0;

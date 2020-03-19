@@ -393,6 +393,12 @@ input.mui-switch.mui-switch-anim:checked:before {
 .el-form-item.is-success .el-textarea__inner:focus {
   border-color: #636a71;
 }
+.el-progress-bar__inner {
+  background-color: #61ded0;
+}
+.el-progress-bar__innerText {
+  color: #203035;
+}
 /* el组件样式end */
 
 #progressbar {

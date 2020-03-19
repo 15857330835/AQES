@@ -23,8 +23,8 @@
         <span>轨道名称 : </span><input type="text" class="trackname" />
       </div>
       <div class="content_bottom">
-        <span class="con_click_make" @click="add">确认</span
-        ><span class="con_click_cancel" @click="cel">取消</span>
+        <span class="content_click_cancel" @click="cel">取消</span>
+        <span class="content_click_make" @click="add">确认</span>
       </div>
     </div>
   </div>
@@ -111,31 +111,9 @@ export default {
 
 <style lang="scss" scoped>
 /* 添加轨道的弹窗样式*/
-.addTrackprop {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1010;
-}
 .trackProp_content {
-  position: absolute;
-  width: 510px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #232323;
-  font-size: 14px;
-  .content_title {
-    height: 40px;
-    line-height: 40px;
-    background-color: #2e2e2e;
-    text-align: left;
-    font-size: 14px;
-    padding-left: 20px;
-  }
   .content_text {
+    font-size: 13px;
     height: 70px;
     text-align: center;
     position: relative;
@@ -155,55 +133,14 @@ export default {
     }
   }
   .content_input {
-    height: 80px;
-    padding-top: 20px;
+    height: 60px;
     text-align: center;
     position: relative;
     span {
       margin-right: 10px;
     }
     input[type='text'] {
-      box-sizing: border-box;
-      text-align: center;
-      font-size: 12px;
-      height: 20px;
-      border: 1px solid #636a71;
-      color: #e4e4e4;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      display: inline-block;
-      outline: 0;
-      padding: 0 1em;
-      text-decoration: none;
-      border-radius: 8px;
-      background-color: #1c1c1c;
       width: 160px;
-    }
-  }
-  .content_bottom {
-    background-color: #2e2e2e;
-    height: 30px;
-    span {
-      float: right;
-      width: 40px;
-      height: 20px;
-      line-height: 18px;
-      margin-top: 5px;
-      /*margin-left: 10px;*/
-      margin-right: 10px;
-      text-align: center;
-      cursor: pointer;
-      border-radius: 3px;
-      box-sizing: border-box;
-      &.con_click_make {
-        background-color: #61ded0;
-        border: 1px solid #61ded0;
-        color: #333;
-      }
-      &.con_click_cancel {
-        background-color: #232323;
-        border: 1px solid #636a71;
-      }
     }
   }
 }
