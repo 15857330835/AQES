@@ -1,6 +1,6 @@
 <template>
-  <div class="dialog" :style="{ height: modalHeight + 'px' }">
-    <div class="mask" :style="{ height: modalHeight + 'px' }"></div>
+  <div class="dialog" :style="{ height: modalHeight }">
+    <div class="mask" :style="{ height: modalHeight }"></div>
     <div
       class="dialog-image"
       v-if="modalContent === 'imageInfo'"
@@ -42,7 +42,8 @@ export default {
   computed: {
     ...mapState(['modalVoiceApplyIsShow', 'mzHeight', 'modalContent']),
     modalHeight() {
-      return this.mzHeight + 137
+      const pxHeight = this.mzHeight + 42
+      return `calc(1.14rem + ${pxHeight}px`
     }
   },
   created() {

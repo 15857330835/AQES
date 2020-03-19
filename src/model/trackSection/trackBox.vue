@@ -519,7 +519,7 @@ export default {
   }
   .track-box-left-mask {
     height: 100%;
-    width: 100%;
+    width: 160px;
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
     top: 0;
