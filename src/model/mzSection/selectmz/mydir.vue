@@ -1079,8 +1079,16 @@ export default {
     }
     .dir-set-box {
       display: flex;
+      .create-dir {
+        background-color: transparent;
+        border-color: transparent;
+      }
       .upload-demo {
         margin: 0 0.2rem;
+        .el-button {
+          background-color: transparent;
+          border-color: transparent;
+        }
       }
       .dir-select {
         width: 1rem;

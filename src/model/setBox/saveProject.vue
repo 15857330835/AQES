@@ -11,7 +11,7 @@
           ><input type="text" class="newsave_file_name" v-model="name" />
         </p>
       </div>
-      <div class="content_select" else>
+      <div class="content_select" v-else>
         <p style="text-align: center;line-height: 50px;">
           保存当前工程！
         </p>
