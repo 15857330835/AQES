@@ -250,10 +250,16 @@
     align-items: center;
 
     button {
-      width: 110px;
-      height: 40px;
+      width: 1.26rem;
+      height: 0.37rem;
       display: inline-block;
       cursor: pointer;
+      font-size: 0.18rem;
+      padding: 0;
+    }
+
+    .el-button+.el-button {
+      margin-left: 0.42rem
     }
   }
 
@@ -299,7 +305,7 @@
   }
 
   .content-sel-option {
-    padding: 10px 15px 0;
+    padding: 0.12rem 0.2rem 0;
     z-index: -1;
   }
 }

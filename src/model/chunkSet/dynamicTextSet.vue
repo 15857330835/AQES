@@ -3,7 +3,7 @@
     <div class="content-sel-title">
       <div class="title-left">
         <span class="u-icon textpng"></span>
-        <span>动态文本</span>
+        <span>动态文本dynamic</span>
       </div>
     </div>
     <div class="content-sel-option">
@@ -191,7 +191,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import fontpick from './fontpick'
 import colorpick from './dynamicTextColorPick'
 export default {
-  data: function() {
+  data() {
     return {
       maxlength: 60,
       setproperty: false,
@@ -211,7 +211,7 @@ export default {
     colorpick
   },
 
-  mounted: function() {
+  mounted() {
     this.wh =
       this.activeProperty[this.propertyNum].w /
       this.activeProperty[this.propertyNum].h
@@ -221,7 +221,7 @@ export default {
     this.hasTextBgColor = !!this.activechunk.chunk.template_parameter.color
     this.CHANGE_FILTERSHOW('dynamicText')
   },
-  created: function() {
+  created() {
     this.parameter = this.activechunk.chunk.template_parameter
     this.SET_SCALE(this.parameter.geometry_w / this.parameter.geometry_h)
     this.geometry_h = this.parameter.geometry_h
@@ -249,7 +249,7 @@ export default {
     //     this.parameter.geometry_h = val;
     //   }
     // },
-    propertyOfnum: function() {
+    propertyOfnum() {
       return this.activeProperty[this.propertyNum]
     }
   },

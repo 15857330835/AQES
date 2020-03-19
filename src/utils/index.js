@@ -37,15 +37,15 @@ export function getTimeStr(time) {
   return d
 }
 
-export function deepClone(obj) {
-  const newObj = obj instanceof Array ? [] : {}
-  for (const i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      newObj[i] = typeof obj[i] === 'object' ? deepClone(obj[i]) : obj[i]
-    }
-  }
-  return newObj
-}
+// export function deepClone(obj) {
+//   const newObj = obj instanceof Array ? [] : {}
+//   for (const i in obj) {
+//     if (obj.hasOwnProperty(i)) {
+//       newObj[i] = typeof obj[i] === 'object' ? deepClone(obj[i]) : obj[i]
+//     }
+//   }
+//   return newObj
+// }
 
 /* 函数节流 */
 export const Debounce = (fn, t) => {

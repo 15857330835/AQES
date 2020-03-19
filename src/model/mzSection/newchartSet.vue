@@ -271,6 +271,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
+import _ from 'lodash'
 
 export default {
   data() {
@@ -468,6 +469,7 @@ export default {
     },
     mousemove_drag_e(e_para) {
       let e = e_para
+      console.log('east move')
       if (this.chunkmove !== 'e') {
         return
       }
@@ -477,16 +479,21 @@ export default {
       const width = $('.boxx').width()
       const variation = e.pageX - this.ePosx
       const active = this.activeProperty[this.propertyNum]
+      // console.log(_.cloneDeep(this.activeProperty[this.propertyNum]))
+      console.log(_.cloneDeep(active.w))
       active.w =
         (variation * 100) / width + active.w < 0
           ? 0
           : (variation * 100) / width + active.w
+      // console.log(_.cloneDeep(this.activeProperty[this.propertyNum]))
+      console.log(_.cloneDeep(active.w))
       // if (this.changeWay) {
       //   active.h = active.w / this.bili
       // }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
       this.activeProperty[this.propertyNum] = active
+      // console.log(this.activeProperty[this.propertyNum])
     },
     mousemove_drag_s(e_para) {
       let e = e_para
@@ -536,6 +543,7 @@ export default {
     },
     mousemove_drag_n(e_para) {
       let e = e_para
+      console.log('north move')
       if (this.chunkmove !== 'n') {
         return
       }
@@ -546,11 +554,15 @@ export default {
       const variation = this.ePosy - e.pageY
       const active = this.activeProperty[this.propertyNum]
       const length = active.h + active.top
+      // console.log(_.cloneDeep(active.h))
+      // console.log(_.cloneDeep(active.top))
       active.h =
         (variation * 100) / height + active.h < 0
           ? 0
           : (variation * 100) / height + active.h
       active.top = length - active.h
+      // console.log(_.cloneDeep(active.h))
+      // console.log(_.cloneDeep(active.top))
       // if (this.changeWay) {
       //   active.w = active.h * this.bili
       // }
@@ -781,10 +793,11 @@ export default {
         this.y1 = this.y2
         this.y2 = temp
       }
-      this.SET_ASYNC_SET_CHART(true)
+      // this.SET_ASYNC_SET_CHART(true)
       this.sendmessage()
     },
     sendmessage() {
+      console.log(_.cloneDeep(this.activeProperty))
       const geo_arr = this.activeProperty
       this.CHANGE_ACTIVEPROPERTY(geo_arr)
       let geo = ''

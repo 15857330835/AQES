@@ -3,7 +3,7 @@
     <div class="content-sel-title">
       <div class="title-left">
         <span class="u-icon textpng"></span>
-        <span>文本</span>
+        <span>文本put</span>
       </div>
     </div>
     <div class="content-sel-option">
@@ -269,7 +269,6 @@ export default {
     fontpick,
     colorpick
   },
-  created: function() {},
   destroyed() {
     this.CHANGE_PROPERTYNUM(0)
   },
@@ -291,7 +290,7 @@ export default {
         return this.propertyOfnum.transparency
       },
       set: function(newValue) {
-        this.propertyOfnum.transparency = parseInt(newValue)
+        this.propertyOfnum.transparency = parseInt(newValue, 10)
       }
     },
     textTop: {
@@ -300,7 +299,7 @@ export default {
         return top
       },
       set: function(newValue) {
-        this.activechunk.chunk.filter[0].geometry_top = parseInt(newValue)
+        this.activechunk.chunk.filter[0].geometry_top = parseInt(newValue, 10)
       }
     },
     textW: {
@@ -308,7 +307,7 @@ export default {
         return this.propertyOfnum.w
       },
       set: function(newValue) {
-        this.propertyOfnum.w = parseInt(newValue)
+        this.propertyOfnum.w = parseInt(newValue, 10)
       }
     },
     bili: {
@@ -323,11 +322,11 @@ export default {
       },
       set: function(newValue) {
         if (this.wh >= 1) {
-          this.propertyOfnum.w = parseInt(newValue)
-          this.propertyOfnum.h = parseInt(newValue / this.wh)
+          this.propertyOfnum.w = parseInt(newValue, 10)
+          this.propertyOfnum.h = parseInt(newValue / this.wh, 10)
         } else {
-          this.propertyOfnum.h = parseInt(newValue)
-          this.propertyOfnum.w = parseInt(newValue * this.wh)
+          this.propertyOfnum.h = parseInt(newValue, 10)
+          this.propertyOfnum.w = parseInt(newValue * this.wh, 10)
         }
       }
     },
@@ -409,65 +408,67 @@ export default {
       this.sendmessage()
       // this.tmdChange()
     },
-    toggleposition: function() {
+    toggleposition() {
       this.flag = !this.flag
     },
-    movetext: function(position) {
-      if (position == 'ldq') {
+    movetext(position) {
+      if (position === 'ldq') {
         this.activechunk.chunk.filter[0].halign = 0
       }
-      if (position == 'cdq') {
+      if (position === 'cdq') {
         this.activechunk.chunk.filter[0].halign = 1
       }
-      if (position == 'rdq') {
+      if (position === 'rdq') {
         this.activechunk.chunk.filter[0].halign = 2
       }
-      if (position == 'tdq') {
+      if (position === 'tdq') {
         this.activechunk.chunk.filter[0].valign = 0
       }
-      if (position == 'mdq') {
+      if (position === 'mdq') {
         this.activechunk.chunk.filter[0].valign = 1
       }
-      if (position == 'bdq') {
+      if (position === 'bdq') {
         this.activechunk.chunk.filter[0].valign = 2
       }
       this.sendmessage()
     },
-    fontsizeinput: function(index, target) {
-      if (target.value == '') {
+    fontsizeinput(index, target) {
+      if (target.value === '') {
         this.activechunk.chunk.filter[index].size = 0
       } else {
-        this.activechunk.chunk.filter[index].size = parseInt(target.value)
+        this.activechunk.chunk.filter[index].size = parseInt(target.value, 10)
       }
       this.sendmessage()
     },
     changePosition(way, target) {
-      if (target.value == '') {
+      if (target.value === '') {
         target.value = 0
       } else {
-        target.value = parseInt(target.value)
+        target.value = parseInt(target.value, 10)
       }
 
-      if (way == 'x') {
-        var num = (parseInt(target.value) * 100) / this.systemmessage.player.w
+      if (way === 'x') {
+        const num =
+          (parseInt(target.value, 10) * 100) / this.systemmessage.player.w
         this.activeProperty[this.propertyNum].left = num
       }
-      if (way == 'y') {
-        num = (parseInt(target.value) * 100) / this.systemmessage.player.h
+      if (way === 'y') {
+        const num =
+          (parseInt(target.value, 10) * 100) / this.systemmessage.player.h
         this.activeProperty[this.propertyNum].top = num
       }
       this.tmdChange()
     },
     togglefont: function(index, style) {
-      if (style == 'weight') {
-        if (this.activechunk.chunk.filter[index].weight == 500) {
+      if (style === 'weight') {
+        if (this.activechunk.chunk.filter[index].weight === 500) {
           this.activechunk.chunk.filter[index].weight = 600
         } else {
           this.activechunk.chunk.filter[index].weight = 500
         }
       }
-      if (style == 'style') {
-        if (this.activechunk.chunk.filter[index].style == 'normal') {
+      if (style === 'style') {
+        if (this.activechunk.chunk.filter[index].style === 'normal') {
           this.activechunk.chunk.filter[index].style = 'italic'
         } else {
           this.activechunk.chunk.filter[index].style = 'normal'

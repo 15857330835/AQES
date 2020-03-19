@@ -212,7 +212,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
-import { deepClone } from '@/utils'
+import _ from 'lodash'
 
 export default {
   data() {
@@ -623,7 +623,7 @@ export default {
           trackItem.chunks.forEach(chunkItem => {
             if (chunkItem.chunk_type === 5) return
             this.ACTIVE_CHUNK({ chunk: chunkItem, state: 'active' })
-            const activeClone = deepClone(this.activechunk)
+            const activeClone = _.cloneDeep(this.activechunk)
             this.CHANGE_REST_ACTIVE_CHUNKS(activeClone)
           })
         }
@@ -633,7 +633,7 @@ export default {
           trackItem.chunks.forEach(chunkItem => {
             if (chunkItem.chunk_type === 5) return
             this.ACTIVE_CHUNK({ chunk: chunkItem, state: 'active' })
-            const activeClone = deepClone(this.activechunk)
+            const activeClone = _.cloneDeep(this.activechunk)
             this.CHANGE_REST_ACTIVE_CHUNKS(activeClone)
           })
         }

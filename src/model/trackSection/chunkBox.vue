@@ -144,8 +144,8 @@ import {
   chunkUpdateLengthApi
 } from '@/api/Chunk'
 // import { trackType } from '@/config/type'
-import { deepClone } from '@/utils'
 import { ATTACH_NUMBER } from '@/config'
+import _ from 'lodash'
 
 export default {
   data() {
@@ -556,7 +556,8 @@ export default {
       'POP_REST_ACTIVE_CHUNKS',
       'CHANGE_IS_TRACK_SELECT',
       'CHANGE_MODAL_CONTENT',
-      'UPDATE_AI_CHUNKS_POSITION'
+      'UPDATE_AI_CHUNKS_POSITION',
+      'SET_ASYNC_SET_CHART'
     ]),
     url(url) {
       if (url.indexOf('//') === -1) {
@@ -1040,7 +1041,7 @@ export default {
           this.chunk.track_id !== this.activechunk.chunk.track_id
         if (this.isMultiSelect && !modalReject) {
           if (this.activechunk.chunk) {
-            const activeClone = deepClone(this.activechunk)
+            const activeClone = _.cloneDeep(this.activechunk)
             this.CHANGE_REST_ACTIVE_CHUNKS(activeClone)
           }
         } else {
@@ -1055,7 +1056,7 @@ export default {
         ) {
           this.DEL_REST_ACTIVE_CHUNKS(this.chunk)
           if (this.activechunk.chunk !== '') {
-            const activeClone = deepClone(this.activechunk)
+            const activeClone = _.cloneDeep(this.activechunk)
             this.CHANGE_REST_ACTIVE_CHUNKS(activeClone)
           }
           this.ACTIVE_CHUNK({ chunk: this.chunk, state: 'active' })
@@ -1479,6 +1480,7 @@ export default {
     },
     dblclick() {
       console.log('chunkbox dblclick')
+      this.SET_ASYNC_SET_CHART(true) // todo
       this.ACTIVE_CHUNK({ chunk: this.chunk, state: 'active' })
       if (this.modalVoiceApplyIsShow) {
         return
