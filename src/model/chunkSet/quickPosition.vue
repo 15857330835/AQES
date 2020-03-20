@@ -160,7 +160,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return {}
   },
   //   components: {
@@ -179,7 +179,7 @@ export default {
   methods: {
     ...mapActions(['Post', 'geoPost']),
     ...mapMutations(['CHANGE_PROPERTYNUM', 'CHANGE_ACTIVEPROPERTY']),
-    click: function(list, index) {
+    click(list, index) {
       console.log(typeof list, typeof index)
       if (
         this.activeProperty[this.propertyNum].w <
@@ -282,7 +282,7 @@ export default {
       this.geoPost()
     }
   }
-  // mounted: function() {}
+  // mounted() {}
 }
 </script>
 

@@ -59,7 +59,7 @@ export default {
     $.ajax({
       type: 'get',
       url: window.NCES.DOMAIN + '/api/all',
-      success: function(res) {
+      success(res) {
         if (res.code !== 0 || res.data.project.loading === true) {
           setTimeout(function() {
             that.dispatch('changeLoading')
@@ -114,7 +114,7 @@ export default {
         }
         commit('UPDATE_TRACKPOSITION')
       },
-      error: function(res) {
+      error(res) {
         console.warn(res.msg)
         that.dispatch('changeLoading')
       },

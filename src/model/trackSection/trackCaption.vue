@@ -45,7 +45,7 @@ import trackhide from './trackHide'
 import chunkcaption from './chunkCaption'
 
 export default {
-  data: function() {
+  data() {
     return {}
   },
   computed: {
@@ -93,7 +93,7 @@ export default {
       )
     }
   },
-  mounted: function() {
+  mounted() {
     this.UPDATE_CAPTIONPOSITION()
   }
 }

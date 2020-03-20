@@ -245,11 +245,11 @@ export default {
       'propertyNum',
       'isAsyncSetchart'
     ]),
-    propertyOfnum: function() {
+    propertyOfnum() {
       return this.activeProperty[this.propertyNum]
     },
     bili: {
-      get: function() {
+      get() {
         if (this.isAsyncSetchart) {
           // eslint-disable-next-line vue/no-side-effects-in-computed-properties
           this.billVal =
@@ -258,7 +258,7 @@ export default {
         }
         return this.billVal
       },
-      set: function(newValue) {
+      set(newValue) {
         if (this.wh >= 1) {
           this.propertyOfnum.w = parseInt(newValue, 10)
           this.propertyOfnum.h = parseInt(newValue / this.wh, 10)
@@ -268,7 +268,7 @@ export default {
         }
       }
     },
-    propertyOfbili: function() {
+    propertyOfbili() {
       return this.propertyOfnum.w
     }
   },
@@ -284,7 +284,7 @@ export default {
       'UPDATE_ALLOW_HISTORY_BACK',
       'CHANGE_POSITION'
     ]),
-    textareaChange: function(target) {
+    textareaChange(target) {
       // if(this.activechunk.chunk.filter[0].geometry_template == undefined){
       //     target.value = target.value.substr(0,100)
       // }else{
@@ -307,7 +307,7 @@ export default {
     hChange(value) {
       this.geoPost()
     },
-    fontsizeinput: function(index, target) {
+    fontsizeinput(index, target) {
       if (target.value === '') {
         this.activechunk.chunk.filter[index].size = 0
       } else {
@@ -319,7 +319,7 @@ export default {
       this.CHANGE_POSITION({ way, target })
       this.geoPost()
     },
-    togglefont: function(index, style) {
+    togglefont(index, style) {
       if (style === 'weight') {
         if (this.activechunk.chunk.filter[index].weight === 500) {
           this.activechunk.chunk.filter[index].weight = 600
@@ -336,7 +336,7 @@ export default {
       }
       this.sendmessage()
     },
-    sendmessage: function(callback) {
+    sendmessage(callback) {
       this.UPDATE_ALLOW_HISTORY_BACK(false)
       const that = this
       chunkUpdateFilterApi({
@@ -360,7 +360,7 @@ export default {
           })
         })
     },
-    restore: function() {
+    restore() {
       const that = this
       chunkUpdateFilterApi({
         chunk_id: this.activechunk.chunk.chunk_id,

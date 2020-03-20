@@ -37,7 +37,7 @@
 import { mapState, mapMutations } from 'vuex'
 import { TIP_HEIGHT_NUMBER } from '@/config'
 export default {
-  data: function() {
+  data() {
     return {}
   },
   computed: {
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     ...mapMutations(['CHANGE_IS_REFRESH_CAPTION_SET_BS']),
-    fullpage: function() {
+    fullpage() {
       // 网页全屏方法
       // eslint-disable-next-line no-undef
       if (screenfull.enabled) {

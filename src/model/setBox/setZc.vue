@@ -98,20 +98,20 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return { show: false, txlist: [] }
   },
-  created: function() {
+  created() {
     this.gettxlist()
   },
   props: ['chunk'],
   computed: {
     ...mapState(['notify', 'systemmessage', 'activechunk']),
     time: {
-      get: function() {
+      get() {
         return this.activechunk.chunk.transition.frames / 25
       },
-      set: function(value) {
+      set(value) {
         this.activechunk.chunk.transition.frames = value * 25
       }
     },
@@ -147,7 +147,7 @@ export default {
       this.CHANGE_BOXSET('')
       this.del()
     },
-    add: function() {
+    add() {
       const that = this
       let data
       if (this.activechunk.chunk.transition.name === '淡入淡出') {
@@ -181,7 +181,7 @@ export default {
           if (res.code !== 0) {
             that.$alert('动效时长大于素材时长，设置失败！', '提示消息', {
               confirmButtonText: '确定',
-              callback: function() {
+              callback() {
                 window.zindex = 1
                 that.sure()
               }
@@ -248,7 +248,7 @@ export default {
       this.activechunk.chunk.transition.invert = value
     }
   },
-  mounted: function() {
+  mounted() {
     if (typeof this.activechunk.chunk.transition.invert === 'undefined') {
       this.activechunk.chunk.transition.invert = 0
     }

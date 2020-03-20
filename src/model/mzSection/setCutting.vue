@@ -90,7 +90,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return {
       w: 0,
       h: 0,
@@ -127,7 +127,7 @@ export default {
       'propertyNum',
       'openway'
     ]),
-    filterList: function() {
+    filterList() {
       // 格式化滤镜数据
       const filter = this.activechunk.chunk.filter
       const data = {}
@@ -168,7 +168,7 @@ export default {
     ]),
     // eslint-disable-next-line no-empty-function
     temp() {},
-    filterMousedown: function(e_para) {
+    filterMousedown(e_para) {
       e_para.preventDefault()
       e_para.stopPropagation()
       let e = e_para
@@ -188,7 +188,7 @@ export default {
         $(document).bind('mouseup.mosaicBox', this.filterMouseup)
       }
     },
-    filterMousemove: function(e_para) {
+    filterMousemove(e_para) {
       if (this.filtermove !== 'all') {
         return
       }
@@ -230,14 +230,14 @@ export default {
       this.ePosx = e.pageX
       this.ePosy = e.pageY
     },
-    filterMouseup: function(e) {
+    filterMouseup(e) {
       this.filtermove = ''
       this.sendmessage()
       if (!e.touches) {
         $(document).unbind('.mosaicBox')
       }
     },
-    mousedown_drag: function(e_para) {
+    mousedown_drag(e_para) {
       e_para.preventDefault()
       e_para.stopPropagation()
       let e = e_para
@@ -257,7 +257,7 @@ export default {
         $(document).bind('mouseup.drag', this.mouseup_drag)
       }
     },
-    mousemove_drag_e: function(e_para) {
+    mousemove_drag_e(e_para) {
       console.log('e')
       if (this.filtermove !== 'e') {
         return
@@ -289,7 +289,7 @@ export default {
       this.ePosx = e.pageX
       this.ePosy = e.pageY
     },
-    mousemove_drag_s: function(e_para) {
+    mousemove_drag_s(e_para) {
       console.log('s')
       if (this.filtermove !== 's') {
         return
@@ -321,7 +321,7 @@ export default {
       this.ePosx = e.pageX
       this.ePosy = e.pageY
     },
-    mousemove_drag_w: function(e_para) {
+    mousemove_drag_w(e_para) {
       console.log('w')
       if (this.filtermove !== 'w') {
         return
@@ -350,7 +350,7 @@ export default {
       this.ePosx = e.pageX
       this.ePosy = e.pageY
     },
-    mousemove_drag_n: function(e_para) {
+    mousemove_drag_n(e_para) {
       if (this.filtermove !== 'n') {
         return
       }
@@ -378,14 +378,14 @@ export default {
       this.ePosx = e.pageX
       this.ePosy = e.pageY
     },
-    mouseup_drag: function(e) {
+    mouseup_drag(e) {
       this.filtermove = ''
       this.sendmessage()
       if (!e.touches) {
         $(document).unbind('.drag')
       }
     },
-    sendmessage: function() {
+    sendmessage() {
       $.post(
         window.NCES.DOMAIN + '/api/chunk',
         JSON.stringify({

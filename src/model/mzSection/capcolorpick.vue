@@ -10,7 +10,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import _ from 'lodash'
 
 export default {
-  data: function() {
+  data() {
     return {}
   },
   //   components: {
@@ -25,7 +25,7 @@ export default {
     ...mapActions([]),
     ...mapMutations(['UPDATE_ALLOW_HISTORY_BACK']),
     // chunkvolumeChange(value) {},
-    colorChange: function(color_para) {
+    colorChange(color_para) {
       // return
       let color = color_para
       color = this.colorReset(color.toRgb())
@@ -41,7 +41,7 @@ export default {
       }
       this.$emit('change', data)
     },
-    colorReset: function(obj) {
+    colorReset(obj) {
       let r = obj.r.toString(16)
       r = r.length === 1 ? '0' + r : r
       let g = obj.g.toString(16)
@@ -53,7 +53,7 @@ export default {
       a = a.length === 1 ? '0' + a : a
       return ('#' + a + r + g + b).toUpperCase()
     },
-    sendmessage: function() {
+    sendmessage() {
       // this.UPDATE_ALLOW_HISTORY_BACK(false)
       // $.post(
       //   NCES.DOMAIN + "/api/chunk",
@@ -74,7 +74,7 @@ export default {
       // );
     }
   },
-  mounted: function() {
+  mounted() {
     const that = this
     let color = ''
     if (this.type === 'font') {

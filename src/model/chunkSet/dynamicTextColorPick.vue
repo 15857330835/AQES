@@ -9,7 +9,7 @@ import { mapState } from 'vuex'
 import _ from 'lodash'
 
 export default {
-  data: function() {
+  data() {
     return {
       colorMap: {
         // 传入 prop 名称: 需要修改的参数名称
@@ -29,7 +29,7 @@ export default {
   },
   watch: {},
   methods: {
-    colorChange: function(color_para) {
+    colorChange(color_para) {
       // return
       const color = this.colorReset(color_para.toRgb())
       this.activechunk.chunk.template_parameter[
@@ -41,7 +41,7 @@ export default {
         ] = color)
       this.sendmessage()
     },
-    colorReset: function(obj) {
+    colorReset(obj) {
       let r = obj.r.toString(16)
       r = r.length === 1 ? '0' + r : r
       let g = obj.g.toString(16)
@@ -53,7 +53,7 @@ export default {
       a = a.length === 1 ? '0' + a : a
       return ('#' + a + r + g + b).toUpperCase()
     },
-    sendmessage: function() {
+    sendmessage() {
       $.post(
         window.NCES.DOMAIN + '/api/chunk',
         JSON.stringify({
@@ -70,7 +70,7 @@ export default {
       )
     }
   },
-  mounted: function() {
+  mounted() {
     const that = this
     $(this.$refs.color).spectrum({
       preferredFormat: true,

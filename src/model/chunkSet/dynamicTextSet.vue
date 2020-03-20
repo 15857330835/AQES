@@ -284,7 +284,7 @@ export default {
     handleBiliInputChange(e) {
       this.parameter.geometry_h = parseFloat(e.target.value)
     },
-    textareaChange: function(target) {
+    textareaChange(target) {
       // if(this.activechunk.chunk.filter[0].geometry_template == undefined){
       //     target.value = target.value.substr(0,100)
       // }else{
@@ -303,7 +303,7 @@ export default {
         })
       )
     },
-    tetextchange: function(target, type) {
+    tetextchange(target, type) {
       window.zindex = 2
       this.parameter[type] = target.value
       this.sendmessage(async res => {
@@ -332,7 +332,7 @@ export default {
         }
       })
     },
-    fontsizeinput: function(target) {
+    fontsizeinput(target) {
       if (target.value === '') {
         this.parameter.size = 0
       } else {
@@ -344,7 +344,7 @@ export default {
       this.CHANGE_POSITION({ way, target })
       this.sendmessage()
     },
-    togglefont: function(style) {
+    togglefont(style) {
       if (style === 'weight') {
         if (this.parameter.weight === 500) {
           this.parameter.weight = 600
@@ -361,7 +361,7 @@ export default {
       }
       this.sendmessage()
     },
-    sendmessage: function(onSuccess) {
+    sendmessage(onSuccess) {
       const that = this
       const data = {}
       data.type = 'chunk'

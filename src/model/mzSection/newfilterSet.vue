@@ -58,7 +58,7 @@ export default {
       'systemmessage',
       'propertyNum'
     ]),
-    filterList: function() {
+    filterList() {
       // 格式化滤镜数据
       const filter = this.activechunk.chunk.filter
       const data = {}

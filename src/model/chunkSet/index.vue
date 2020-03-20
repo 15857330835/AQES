@@ -56,7 +56,7 @@ import putextset from './putextset'
 import dynamicTextSet from './dynamicTextSet'
 
 export default {
-  data: function() {
+  data() {
     return {
       activeTab: 'content-sel__O1',
       celBtnLoading: false
@@ -156,7 +156,7 @@ export default {
         window.zindex = 0
         that.$alert('清除内部操作记录失败！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })

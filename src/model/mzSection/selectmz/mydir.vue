@@ -501,25 +501,25 @@ export default {
       return new RegExp(this.title, 'i')
     },
     dirlist: {
-      get: function() {
+      get() {
         return this.libsourcelist
       },
-      set: function(data) {
+      set(data) {
         this.$store.state.libsourcelist = data
       }
     },
     url: {
-      get: function() {
+      get() {
         return this.libpath
       },
-      set: function(str) {
+      set(str) {
         this.$store.state.libpath = str
       }
     },
-    dirarr: function() {
+    dirarr() {
       return this.url.split('/')
     },
-    nowdir: function() {
+    nowdir() {
       return this.dirarr[this.dirarr.length - 1]
     },
     noDataShow() {
@@ -562,7 +562,7 @@ export default {
       window.zindex = 4
       this.$alert('单次上传文件数量不能超过 10 个！', '提示消息', {
         confirmButtonText: '确定',
-        callback: function() {
+        callback() {
           window.zindex = 1
         }
       })

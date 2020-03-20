@@ -13,14 +13,14 @@
 <script>
 import { mapActions, mapMutations } from 'vuex'
 export default {
-  data: function() {
+  data() {
     return {}
   },
   props: ['track', 'type', 'index'],
   methods: {
     ...mapActions(['Post']),
     ...mapMutations(['CHANGE_TRACK']),
-    unlockTrack: function() {
+    unlockTrack() {
       const that = this
       let data
       if (this.type === 'caption') {
@@ -69,7 +69,7 @@ export default {
         )
       }
     },
-    showTrack: function() {
+    showTrack() {
       const that = this
       let data
       if (this.type === 'caption') {

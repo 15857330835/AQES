@@ -822,7 +822,7 @@ import timerdian from './timerdian'
 import quickposition from './quickPosition'
 import { chunkUpdateFilterApi, chunkAddFilterApi } from '@/api/Chunk'
 export default {
-  data: function() {
+  data() {
     return {
       classname: 'content-sel_O1',
       sel: false,
@@ -839,7 +839,7 @@ export default {
     timerdian,
     quickposition
   },
-  created: function() {},
+  created() {},
   //   watch:{
   //       mosaicKey:function(n){
   //           this.mosaicKey = n
@@ -859,10 +859,10 @@ export default {
       'propertyNum',
       'isAsyncSetchart'
     ]),
-    loadingShow: function() {
+    loadingShow() {
       return this.startloading || this.onloading
     },
-    filterList: function() {
+    filterList() {
       // 格式化滤镜数据
       const filter = this.activechunk.chunk.filter
       const data = {}
@@ -909,11 +909,11 @@ export default {
       // this.SET_CHANGE_FILTERSHOW_KEY(key)
       return data
     },
-    propertyOfnum: function() {
+    propertyOfnum() {
       return this.activeProperty[this.propertyNum]
     },
     setbili: {
-      get: function() {
+      get() {
         if (this.isAsyncSetchart) {
           this.billVal =
             this.wh >= 1
@@ -923,7 +923,7 @@ export default {
         }
         return this.billVal
       },
-      set: function(newValue) {
+      set(newValue) {
         if (this.wh >= 1) {
           this.activeProperty[this.propertyNum].w = parseInt(newValue, 10)
           this.activeProperty[this.propertyNum].h = parseInt(
@@ -939,7 +939,7 @@ export default {
         }
       }
     },
-    isNormal: function() {
+    isNormal() {
       if (
         this.filterList.grayscale.parameter.disable == 1 &&
         this.filterList.exposure.parameter.disable == 1 &&
@@ -950,21 +950,21 @@ export default {
         return ''
       }
     },
-    isPuguang: function() {
+    isPuguang() {
       if (this.filterList.exposure.parameter.disable == 0) {
         return 'activ'
       } else {
         return ''
       }
     },
-    isMohu: function() {
+    isMohu() {
       if (this.filterList.boxblur.parameter.disable == 0) {
         return 'activ'
       } else {
         return ''
       }
     },
-    isBlackwhite: function() {
+    isBlackwhite() {
       if (this.filterList.grayscale.parameter.disable == 0) {
         return 'activ'
       } else {
@@ -972,20 +972,20 @@ export default {
       }
     },
     blurV: {
-      get: function() {
+      get() {
         if (this.mosaicKey) {
           return this.filterList.mosaic[this.mosaicKey].parameter.v
         }
         return 40
       },
-      set: function(newValue) {
+      set(newValue) {
         if (this.mosaicKey) {
           this.activechunk.chunk.filter[this.mosaicKey].parameter.v = newValue
         }
       }
     },
     fade_in: {
-      get: function() {
+      get() {
         return parseFloat(
           (
             this.filterList.volume.parameter.fade_in /
@@ -993,7 +993,7 @@ export default {
           ).toFixed(1)
         )
       },
-      set: function(newValue) {
+      set(newValue) {
         this.filterList.volume.parameter.fade_in = parseInt(
           newValue * this.systemmessage.player.fps,
           10
@@ -1001,7 +1001,7 @@ export default {
       }
     },
     fade_out: {
-      get: function() {
+      get() {
         return parseFloat(
           (
             this.filterList.volume.parameter.fade_out /
@@ -1009,7 +1009,7 @@ export default {
           ).toFixed(1)
         )
       },
-      set: function(newValue) {
+      set(newValue) {
         this.filterList.volume.parameter.fade_out = parseInt(
           newValue * this.systemmessage.player.fps,
           10
@@ -1030,7 +1030,7 @@ export default {
       'CHANGE_PROPERTYNUM',
       'CHANGE_POSITION'
     ]),
-    tabChange: function(name) {
+    tabChange(name) {
       // 导航切换
       if (name != 'content-sel_O1') {
         this.CHANGE_FILTERSHOW('normal')
@@ -1206,7 +1206,7 @@ export default {
       this.filterList.cutting.parameter.softness = value
       this.sendmessage()
     },
-    xzFilter: function() {
+    xzFilter() {
       let value = parseInt(this.filterList.rotate.parameter.value)
       value = (value + 45) % 360
       this.filterList.rotate.parameter.value = value
@@ -1214,7 +1214,7 @@ export default {
       this.UPDATE_ACTIVEFILTER(this.activechunk.chunk.filter)
       this.sendmessage()
     },
-    getfilter: function(service) {
+    getfilter(service) {
       // 获取指定滤镜的数据
       const filterArr = this.activechunk.chunk.filter
       for (let i = 0; i < filterArr.length; i++) {
@@ -1327,7 +1327,7 @@ export default {
         this.CHANGE_FILTERSHOW('normal')
       }
     },
-    changeFilter: function(type) {
+    changeFilter(type) {
       // 改变颜色滤镜的种类
       switch (type) {
         case 'normal': {
@@ -1463,7 +1463,7 @@ export default {
       }
     }
   },
-  mounted: function() {
+  mounted() {
     this.wh =
       this.activeProperty[this.propertyNum].w /
       this.activeProperty[this.propertyNum].h

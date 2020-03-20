@@ -85,7 +85,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return { player: {}, zhiliang: 0.5 }
   },
   computed: {
@@ -95,10 +95,10 @@ export default {
   methods: {
     ...mapActions(['Post']),
     ...mapMutations(['CHANGE_BOXSET']),
-    cel: function() {
+    cel() {
       this.CHANGE_BOXSET('')
     },
-    sure: function() {
+    sure() {
       const that = this
 
       if (window.NCES.backStr) {
@@ -107,7 +107,7 @@ export default {
         that.add()
       }
     },
-    add: function(str_para) {
+    add(str_para) {
       let str = ''
       if (typeof str_para !== 'undefined') {
         str = str_para
@@ -116,7 +116,7 @@ export default {
         window.zindex = 0
         this.$alert('请输入要生成的视频的名称', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -179,7 +179,7 @@ export default {
         window.zindex = 1
         this.$alert('保存视频失败!', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -193,7 +193,7 @@ export default {
       window.zindex = 1
     }
   },
-  mounted: function() {
+  mounted() {
     const that = this
     if (window.NCES.strOfname) {
       this.strofname = window.NCES.strOfname

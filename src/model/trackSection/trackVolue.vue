@@ -22,13 +22,13 @@
 import { mapActions } from 'vuex'
 
 export default {
-  data: function() {
+  data() {
     return {}
   },
   props: ['track', 'index', 'type'],
   methods: {
     ...mapActions(['Post']),
-    volChange: function(value) {
+    volChange(value) {
       const that = this
       $.post(
         window.NCES.DOMAIN + '/api/track',
@@ -44,7 +44,7 @@ export default {
         'json'
       )
     },
-    quickClock: function() {
+    quickClock() {
       const that = this
       if (this.track.bhidden || this.track.block) {
         return
@@ -67,7 +67,7 @@ export default {
         window.zindex = 0
         that.$alert('音量切换失败！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -75,7 +75,7 @@ export default {
       this.Post(data)
     }
   },
-  mounted: function() {
+  mounted() {
     //   this.index = 9
   }
 }

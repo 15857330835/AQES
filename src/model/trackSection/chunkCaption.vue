@@ -64,7 +64,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import { ATTACH_NUMBER } from '@/config'
 
 export default {
-  data: function() {
+  data() {
     return {
       move: false,
       x: 0,
@@ -510,12 +510,12 @@ export default {
             track_end: end,
             mode: mode
           },
-          success: function(res) {
+          success(res) {
             that.changeLoading(function() {
               that.move = false
             })
           },
-          error: function(res) {
+          error(res) {
             console.log(res)
             that.move = false
             return
@@ -528,7 +528,7 @@ export default {
       this.CHANGE_CAPTIONSETSHOW(true)
       this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
     },
-    toLeft: function(e_para) {
+    toLeft(e_para) {
       e_para.stopPropagation()
       let e = e_para
       this.chunkmove = 'left'
@@ -546,7 +546,7 @@ export default {
         $(document).one('mouseup', this.toLeftup)
       }
     },
-    toLeftmove: function(e_para) {
+    toLeftmove(e_para) {
       let e = e_para
       if (this.chunkmove !== 'left') {
         return
@@ -584,7 +584,7 @@ export default {
         }
       }
     },
-    toLeftup: function(e) {
+    toLeftup(e) {
       const that = this
       this.chunkmove = ''
       if (this.openway === 'pc') {
@@ -627,7 +627,7 @@ export default {
         $(document).one('mouseup', this.toRightup)
       }
     },
-    toRightmove: function(e_para) {
+    toRightmove(e_para) {
       if (this.chunkmove !== 'right') {
         return
       }
@@ -661,7 +661,7 @@ export default {
         }
       }
     },
-    toRightup: function(e) {
+    toRightup(e) {
       const that = this
       this.chunkmove = ''
       if (this.openway === 'pc') {
@@ -686,7 +686,7 @@ export default {
         'json'
       )
     },
-    getElementPos: function(elementId) {
+    getElementPos(elementId) {
       const ua = navigator.userAgent.toLowerCase()
       const isOpera = ua.indexOf('opera') !== -1
       // eslint-disable-next-line no-unused-vars

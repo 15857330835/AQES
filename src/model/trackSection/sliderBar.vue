@@ -21,7 +21,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import _ from 'lodash'
 
 export default {
-  data: function() {
+  data() {
     return {
       x: 0,
       width: 0,
@@ -73,12 +73,12 @@ export default {
         ? oElement.addEventListener(sEventType, fnHandler, false)
         : oElement.attachEvent('on' + sEventType, fnHandler)
     },
-    removeHandler: function(oElement, sEventType, fnHandler) {
+    removeHandler(oElement, sEventType, fnHandler) {
       return oElement.removeEventListener
         ? oElement.removeEventListener(sEventType, fnHandler, false)
         : oElement.detachEvent('on' + sEventType, fnHandler)
     },
-    moveDrag: function(e_para) {
+    moveDrag(e_para) {
       if (!this.flag) {
         return
       }
@@ -103,7 +103,7 @@ export default {
         outerBarWidth
       this.PROPERTY_OUTLEFT(outleft)
     },
-    stopDrag: function() {
+    stopDrag() {
       this.flag = false
       this.CHANGE_VIDEO_TIP_LOCKER(false)
       const that = this
@@ -120,10 +120,10 @@ export default {
           cmd: 'property_append',
           track_property: { outLeft: this.track_property.outLeft }
         },
-        success: function() {
+        success() {
           that.getnowimg()
         },
-        error: function() {
+        error() {
           that.$notify({
             title: '提示',
             type: 'error',
@@ -177,14 +177,14 @@ export default {
     }
   },
   watch: {
-    length: function() {
+    length() {
       this.refreshLeftNPos()
     },
-    'track_property.ratio': function() {
+    'track_property.ratio'() {
       this.refreshLeftNPos()
     }
   },
-  mounted: function() {
+  mounted() {
     this.initPosData()
     window.addEventListener('resize', this.throttleInitPosData)
   },

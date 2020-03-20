@@ -50,7 +50,7 @@ import { setInterval, clearInterval } from 'timers'
 // import * as api from "@/api/Lib";
 // import _ from 'lodash'
 export default {
-  data: function() {
+  data() {
     return {
       countdown: 3,
       recorStatus: 0,
@@ -69,7 +69,7 @@ export default {
   //   },
   computed: {
     ...mapState([]),
-    loadingShow: function() {
+    loadingShow() {
       return this.startloading || this.onloading
     }
   },
@@ -142,7 +142,7 @@ export default {
       this.CHANGE_BOXSET('')
     }
   },
-  mounted: function() {
+  mounted() {
     this.record = new Recorder()
   },
   destroyed() {

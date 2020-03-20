@@ -26,7 +26,7 @@ export default {
     videoplayer,
     captionset
   },
-  data: function() {
+  data() {
     return {}
   },
   computed: {

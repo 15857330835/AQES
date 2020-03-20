@@ -338,7 +338,7 @@ export default {
           cmd: 'set',
           position: parseInt(position, 10) + this.activechunk.chunk.track_start
         },
-        success: function(res) {
+        success(res) {
           that.getindex()
         }
       }
@@ -398,7 +398,7 @@ export default {
         this.$fullscreen.exit({ callback: this.buffResizeScreen })
       }
     },
-    videoRefresh: function() {
+    videoRefresh() {
       // 刷新播放器
       $.post(
         window.NCES.DOMAIN + '/api/player',
@@ -643,7 +643,7 @@ export default {
         window.zindex = 0
         that.$alert(data.message, '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })

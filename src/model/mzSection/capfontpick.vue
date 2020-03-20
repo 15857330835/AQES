@@ -28,7 +28,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return {
       // holder_: {},
       cmd: '',
@@ -38,7 +38,7 @@ export default {
   //   components: {
   //   		systemmes,
   //   },
-  created: function() {
+  created() {
     //   this.holder = this.activechunk.chunk.filter[this.index] || this.activechunk.chunk.template_parameter;
     //   if(this.activechunk.chunk.filter.length>0){
     //       this.cmd = "update_filter"
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     ...mapState(['fontlist', 'activechunk']),
-    loadingShow: function() {
+    loadingShow() {
       return this.startloading || this.onloading
     },
     sortBy(field) {
@@ -61,7 +61,7 @@ export default {
         return a[field] - b[field]
       }
     },
-    options3: function() {
+    options3() {
       const a = []
       let b = {}
       const e = []
@@ -88,7 +88,7 @@ export default {
       }
       return a
     },
-    holder_: function() {
+    holder_() {
       return this.holder
     }
   },

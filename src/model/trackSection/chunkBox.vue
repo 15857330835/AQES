@@ -367,7 +367,7 @@ export default {
     imglist: {
       deep: true,
       immediate: true,
-      handler: function(value, oldvalue) {
+      handler(value, oldvalue) {
         if (typeof value === 'undefined') {
           return
         }
@@ -408,7 +408,7 @@ export default {
     originMousePos: {
       // ***+++
       deep: true,
-      handler: function(newVal) {
+      handler(newVal) {
         for (const restItem of this.restActiveChunks) {
           if (this.chunk.chunk_id === restItem.chunk.chunk_id) {
             this.t = Date.now()
@@ -430,7 +430,7 @@ export default {
       // ***+++
       deep: true,
       // eslint-disable-next-line complexity
-      handler: function(newVal) {
+      handler(newVal) {
         for (const restItem of this.restActiveChunks) {
           if (this.chunk.chunk_id === restItem.chunk.chunk_id) {
             this.mapMoveMousePos.x =
@@ -489,7 +489,7 @@ export default {
     endMousePos: {
       // ***+++
       deep: true,
-      handler: function(newVal) {
+      handler(newVal) {
         for (const restItem of this.restActiveChunks) {
           if (this.chunk.chunk_id === restItem.chunk.chunk_id) {
             const e = {}
@@ -503,7 +503,7 @@ export default {
         }
       }
     },
-    moveListCount: function(newVal, oldVal) {
+    moveListCount(newVal, oldVal) {
       if (this.chunk.chunk_id !== this.activechunk.chunk.chunk_id) return
       if (!this.moveListData.length) return
       if (newVal === this.restActiveChunks.length + 1) {
@@ -1143,7 +1143,7 @@ export default {
         this.Post({
           type: 'pointer',
           data: { cmd: 'set', speed: 0 },
-          error: function() {
+          error() {
             that.$notify({
               title: '提示',
               type: 'error',
@@ -1422,12 +1422,12 @@ export default {
               }
             ]
           },
-          success: function(res) {
+          success(res) {
             that.changeLoading(function() {
               that.move = false
             })
           },
-          error: function(res) {
+          error(res) {
             that.move = false
             return
           }
@@ -1466,12 +1466,12 @@ export default {
             }
           ]
         },
-        success: function(res) {
+        success(res) {
           that.changeLoading(function() {
             that.move = false
           })
         },
-        error: function(res) {
+        error(res) {
           that.move = false
         }
       })

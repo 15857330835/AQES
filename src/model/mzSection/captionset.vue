@@ -175,18 +175,18 @@ export default {
       return this.startloading || this.onloading
     },
     font: {
-      get: function() {
+      get() {
         return this.all.caption.status.font
       },
-      set: function(val) {
+      set(val) {
         this.all.caption.status.font = val
       }
     },
     fontSize: {
-      get: function() {
+      get() {
         return this.all.caption.status.font.size
       },
-      set: function(val) {
+      set(val) {
         if (val <= 4) {
           this.font.size = 4
         } else if (val >= 96) {
@@ -197,10 +197,10 @@ export default {
       }
     },
     outline: {
-      get: function() {
+      get() {
         return parseInt(this.font.outline, 10).toFixed(2)
       },
-      set: function(val) {
+      set(val) {
         if (val < 0) {
           this.font.outline = 0
         } else {
@@ -349,7 +349,7 @@ export default {
         window.zindex = 1
         that.$alert('字幕内容修改失败!', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -369,7 +369,7 @@ export default {
       )
       window.zindex = 1
     },
-    captionSureHandler: function() {
+    captionSureHandler() {
       this.CHANGE_CAPTIONSETSHOW(false)
       const that = this
       if (window.type === 'caption') {
@@ -378,7 +378,7 @@ export default {
         })
       }
     },
-    captionExportHandler: function() {
+    captionExportHandler() {
       const isEmpty = this.all.caption.chunks.every(item => !item.text.length)
       if (!this.all.caption.chunks.length || isEmpty) {
         this.$alert('无字幕内容', '警告')
@@ -392,7 +392,7 @@ export default {
         window.zindex = 0
         that.$alert('请选择目标字幕块!', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -475,7 +475,7 @@ export default {
       this.fontSize = parseInt(target.value, 10)
       this.fontUpdate(this.font)
     },
-    togglefont: function(style) {
+    togglefont(style) {
       if (style === 'weight') {
         if (this.font.weight === 500) {
           this.font.weight = 600

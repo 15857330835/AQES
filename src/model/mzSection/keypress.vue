@@ -410,7 +410,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要删除的素材或文件夹！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 3
           }
         })
@@ -421,7 +421,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要剪辑的素材或文件夹！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 3
           }
         })
@@ -434,7 +434,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要复制的素材或文件夹！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 3
           }
         })
@@ -447,7 +447,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要粘贴的素材或文件夹！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 3
           }
         })
@@ -460,7 +460,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要删除的块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -482,7 +482,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要剪辑的视频块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -492,7 +492,7 @@ export default {
         window.zindex = 0
         this.$alert('不能对字幕块进行剪辑！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -520,7 +520,7 @@ export default {
         window.zindex = 0
         this.$alert('必须在选中的区域内剪辑！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -542,13 +542,13 @@ export default {
       console.log(cut_chunks)
       this.cut(cut_chunks)
     },
-    avleavechunk: function() {
+    avleavechunk() {
       const that = this
       if (this.activechunk.chunk === '') {
         window.zindex = 0
         this.$alert('请选择要音视频分离的块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -569,10 +569,10 @@ export default {
           cmd: 'separate_audio',
           chunk_id: this.activechunk.chunk.chunk_id
         },
-        success: function() {
+        success() {
           that.changeLoading()
         },
-        error: function() {
+        error() {
           that.$alert('该资源非视频资源或已进行过音视频分离！', '提示消息', {
             confirmButtonText: '确定'
           })
@@ -584,7 +584,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要复制粘贴的块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -593,7 +593,7 @@ export default {
           window.zindex = 0
           this.$alert('字幕快请到字幕设置界面添加！', '提示消息', {
             confirmButtonText: '确定',
-            callback: function() {
+            callback() {
               window.zindex = 1
             }
           })
@@ -846,7 +846,7 @@ export default {
         }
       }
     },
-    initkeypress: function() {
+    initkeypress() {
       // zindex=0: none
       // zindex=1 : delchunk,cutchunk,zhantiechunk,nextTemp,lastTemp,savevideo,lastindex,nextindex,videoplay
       // zindex=2: lastindex,nextindex,videoplay
@@ -953,7 +953,7 @@ export default {
         arr.push('Shift')
       }
     },
-    inputdown: function(e, type) {
+    inputdown(e, type) {
       // 修改快捷键事件
       console.log(e)
       const that = this

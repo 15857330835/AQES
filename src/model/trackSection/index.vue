@@ -87,7 +87,7 @@ export default {
   watch: {
     position: {
       deep: true,
-      handler: function() {
+      handler() {
         const a = this.position
         const that = this
         if (
@@ -129,7 +129,7 @@ export default {
     },
     length: {
       immediate: true,
-      handler: function() {
+      handler() {
         const a = this.length
         const that = this
         if (

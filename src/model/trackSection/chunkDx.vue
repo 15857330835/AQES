@@ -33,7 +33,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
-  data: function() {
+  data() {
     return {
       lastt: 0
     }
@@ -49,8 +49,8 @@ export default {
     ...mapActions([]),
     ...mapMutations(['ACTIVE_CHUNK', 'CHANGE_BOXSET']),
     // eslint-disable-next-line no-empty-function
-    temp: function() {},
-    mousedown: function(e) {
+    temp() {},
+    mousedown(e) {
       if (e.touches && e.touches.length > 1) {
         return
       }
@@ -59,10 +59,10 @@ export default {
       }
       this.lastt = Date.now()
     },
-    click: function(target) {
+    click(target) {
       this.ACTIVE_CHUNK({ chunk: this.chunk, state: 'active' })
     },
-    dblclick: function(e) {
+    dblclick(e) {
       this.CHANGE_BOXSET('savezc')
     }
   }

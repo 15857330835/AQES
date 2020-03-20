@@ -159,8 +159,8 @@ export default {
       'UPDATE_TRACK_END'
     ]),
     // eslint-disable-next-line no-empty-function
-    temp: function() {},
-    addtrack: function() {
+    temp() {},
+    addtrack() {
       this.CHANGE_BOXSET('addtrack')
       window.zindex = 0
     },
@@ -242,7 +242,7 @@ export default {
         y: pos[1]
       }
     },
-    xifuflagChange: function() {
+    xifuflagChange() {
       const that = this
       const data = {}
       const flag = !that.track_property.xifuFlag
@@ -258,7 +258,7 @@ export default {
         window.zindex = 0
         that.$alert('吸附切换失败！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -294,12 +294,12 @@ export default {
         )
       }
     },
-    touchstart: function(e_para) {
+    touchstart(e_para) {
       const e = e_para.touches[0]
       this.start = e.pageX
       this.startt = Date.now()
     },
-    touchmove: function(e_para) {
+    touchmove(e_para) {
       const e = e_para.touches[0]
       const left = parseFloat($('#edit_tip_line').css('left'))
       if (left < 0 || left > $('#ruler').width()) {
@@ -321,7 +321,7 @@ export default {
       // this.track_property.outLeft = a
       this.start = e.pageX
     },
-    touchend: function(e_para) {
+    touchend(e_para) {
       const that = this
       const e = e_para.changedTouches[0]
       if (Date.now() - this.startt < 200) {
@@ -380,7 +380,7 @@ export default {
         'json'
       )
     },
-    trantime: function(s_para) {
+    trantime(s_para) {
       let s = s_para
       let h = Math.floor(s / 1500)
       let m = Math.floor((s % 1500) / 25)
@@ -393,7 +393,7 @@ export default {
     throttleResizeDrawRuler: _.throttle(function() {
       this.drawruler()
     }, 100),
-    drawruler: function(resize) {
+    drawruler(resize) {
       const canvas = $('#ruler')[0]
       const ctx = canvas.getContext('2d')
       canvas.width = this.$refs.drawerOut.offsetWidth

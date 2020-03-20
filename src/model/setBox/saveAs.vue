@@ -21,7 +21,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return { show: false, loading: {}, player: {}, name: '' }
   },
   computed: {
@@ -31,16 +31,16 @@ export default {
   methods: {
     ...mapActions(['Post', 'changeLoading']),
     ...mapMutations(['CHANGE_BOXSET']),
-    cel: function() {
+    cel() {
       this.CHANGE_BOXSET('')
     },
-    sure: function() {
+    sure() {
       const that = this
       if (this.name === '') {
         window.zindex = 0
         this.$alert('请输入要另存的工程的名称!', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -58,7 +58,7 @@ export default {
         window.zindex = 0
         that.$alert('工程另存为成功！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -67,7 +67,7 @@ export default {
         window.zindex = 1
         that.$alert('工程另存为失败！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })

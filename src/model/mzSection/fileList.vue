@@ -16,7 +16,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return {}
   },
   //   components: {
@@ -24,7 +24,7 @@ export default {
   //   },
   computed: {
     ...mapState([]),
-    loadingShow: function() {
+    loadingShow() {
       return this.startloading || this.onloading
     }
   },

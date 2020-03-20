@@ -99,7 +99,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return {
       w: 0,
       h: 0,
@@ -132,7 +132,7 @@ export default {
       'propertyNum',
       'openway'
     ]),
-    filterList: function() {
+    filterList() {
       // 格式化滤镜数据
       const filter = this.activechunk.chunk.filter
       // debugger
@@ -184,13 +184,13 @@ export default {
     ]),
     // eslint-disable-next-line no-empty-function
     temp() {},
-    delFilter: function(key, e) {
+    delFilter(key, e) {
       e.preventDefault()
       e.stopPropagation()
       this.activechunk.chunk.filter[key].parameter.disable = 1
       this.sendmessage()
     },
-    addMosaicdown: function(e_para) {
+    addMosaicdown(e_para) {
       e_para.preventDefault()
       e_para.stopPropagation()
       let e = e_para
@@ -239,7 +239,7 @@ export default {
         $(document).one('mouseup.mosaicBoxs', this.addMosaicup)
       }
     },
-    addMosaicmove: function(e_para) {
+    addMosaicmove(e_para) {
       if (this.mosaicmove !== 'add') {
         return
       }
@@ -276,7 +276,7 @@ export default {
           100 - this.activechunk.chunk.filter[this.key].parameter.top
       }
     },
-    addMosaicup: function(e) {
+    addMosaicup(e) {
       // this.sendmessage()
       this.mosaicmove = ''
       if (this.num === 0) {
@@ -289,7 +289,7 @@ export default {
         $(document).unbind('.mosaicBoxs')
       }
     },
-    addFilterWay: function(obj) {
+    addFilterWay(obj) {
       $.post(
         window.NCES.DOMAIN + '/api/chunk',
         JSON.stringify({
@@ -305,7 +305,7 @@ export default {
         'json'
       )
     },
-    getElementPos: function(elementId) {
+    getElementPos(elementId) {
       const ua = navigator.userAgent.toLowerCase()
       const isOpera = ua.indexOf('opera') !== -1
       // eslint-disable-next-line no-unused-vars
@@ -383,7 +383,7 @@ export default {
         y: pos[1]
       }
     },
-    mousedown_drag: function(e_para) {
+    mousedown_drag(e_para) {
       e_para.preventDefault()
       e_para.stopPropagation()
       let e = e_para
@@ -402,7 +402,7 @@ export default {
       )
       $(document).bind('mouseup.drag', this.mouseup_drag)
     },
-    mousemove_drag_e: function(e_para) {
+    mousemove_drag_e(e_para) {
       let e = e_para
       if (e.touches) {
         e = e.touches[0]
@@ -425,7 +425,7 @@ export default {
           100 - this.activechunk.chunk.filter[this.key].parameter.left
       }
     },
-    mousemove_drag_s: function(e_para) {
+    mousemove_drag_s(e_para) {
       let e = e_para
       if (e.touches) {
         e = e.touches[0]
@@ -449,7 +449,7 @@ export default {
           100 - this.activechunk.chunk.filter[this.key].parameter.top
       }
     },
-    mousemove_drag_w: function(e_para) {
+    mousemove_drag_w(e_para) {
       let e = e_para
       if (e.touches) {
         e = e.touches[0]
@@ -472,7 +472,7 @@ export default {
       this.activechunk.chunk.filter[this.key].parameter.w =
         all - this.activechunk.chunk.filter[this.key].parameter.left
     },
-    mousemove_drag_n: function(e_para) {
+    mousemove_drag_n(e_para) {
       let e = e_para
       if (e.touches) {
         e = e.touches[0]
@@ -495,13 +495,13 @@ export default {
       this.activechunk.chunk.filter[this.key].parameter.h =
         all - this.activechunk.chunk.filter[this.key].parameter.top
     },
-    mouseup_drag: function() {
+    mouseup_drag() {
       // eslint-disable-next-line no-unused-expressions
       this.mosaicmove === ''
       this.sendmessage()
       $(document).unbind('.drag')
     },
-    filterMousedown: function(e_para, key) {
+    filterMousedown(e_para, key) {
       e_para.preventDefault()
       e_para.stopPropagation()
       let e = e_para
@@ -519,7 +519,7 @@ export default {
         $(document).bind('mouseup.mosaicBox', this.filterMouseup)
       }
     },
-    filterMousemove: function(e_para) {
+    filterMousemove(e_para) {
       if (this.mosaicmove !== 'move') {
         return
       }
@@ -556,7 +556,7 @@ export default {
       this.ePosx = e.pageX
       this.ePosy = e.pageY
     },
-    filterMouseup: function(e) {
+    filterMouseup(e) {
       e.preventDefault()
       e.stopPropagation()
       this.mosaicmove = ''
@@ -565,7 +565,7 @@ export default {
         $(document).unbind('.mosaicBox')
       }
     },
-    sendmessage: function() {
+    sendmessage() {
       $.post(
         window.NCES.DOMAIN + '/api/chunk',
         JSON.stringify({

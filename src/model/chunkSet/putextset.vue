@@ -255,7 +255,7 @@ import _ from 'lodash'
 import { chunkUpdateFilterApi } from '@/api/Chunk'
 
 export default {
-  data: function() {
+  data() {
     return {
       minlength: 100,
       maxlength: 1000,
@@ -284,36 +284,36 @@ export default {
       'propertyNum',
       'isAsyncSetchart'
     ]),
-    propertyOfnum: function() {
+    propertyOfnum() {
       return this.activeProperty[this.propertyNum]
     },
     textTransparency: {
-      get: function() {
+      get() {
         return this.propertyOfnum.transparency
       },
-      set: function(newValue) {
+      set(newValue) {
         this.propertyOfnum.transparency = parseInt(newValue, 10)
       }
     },
     textTop: {
-      get: function() {
+      get() {
         const top = this.activechunk.chunk.filter[0].geometry_top
         return top
       },
-      set: function(newValue) {
+      set(newValue) {
         this.activechunk.chunk.filter[0].geometry_top = parseInt(newValue, 10)
       }
     },
     textW: {
-      get: function() {
+      get() {
         return this.propertyOfnum.w
       },
-      set: function(newValue) {
+      set(newValue) {
         this.propertyOfnum.w = parseInt(newValue, 10)
       }
     },
     bili: {
-      get: function() {
+      get() {
         if (this.isAsyncSetchart) {
           this.biliVal =
             this.wh >= 1 ? this.propertyOfnum.w : this.propertyOfnum.h
@@ -322,7 +322,7 @@ export default {
         }
         return this.biliVal
       },
-      set: function(newValue) {
+      set(newValue) {
         if (this.wh >= 1) {
           this.propertyOfnum.w = parseInt(newValue, 10)
           this.propertyOfnum.h = parseInt(newValue / this.wh, 10)
@@ -332,7 +332,7 @@ export default {
         }
       }
     },
-    propertyOfbili: function() {
+    propertyOfbili() {
       return this.propertyOfnum.w
     }
   },
@@ -433,7 +433,7 @@ export default {
       }
     }
   },
-  mounted: function() {
+  mounted() {
     //   console.log(this.activechunk.chunk.filter)
     this.wh =
       this.activeProperty[this.propertyNum].w /

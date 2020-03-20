@@ -39,10 +39,10 @@ export default {
   methods: {
     ...mapActions(['Post', 'changeLoading']),
     ...mapMutations(['CHANGE_BOXSET']),
-    cel: function() {
+    cel() {
       this.CHANGE_BOXSET('')
     },
-    sure: function() {
+    sure() {
       const that = this
       const data = {}
       data.type = 'project'
@@ -52,7 +52,7 @@ export default {
         if (this.name === '') {
           this.$alert('请输入要保存的工程的名称', '提示消息', {
             confirmButtonText: '确定',
-            callback: function() {
+            callback() {
               window.zindex = 1
             }
           })
@@ -67,7 +67,7 @@ export default {
         that.changeLoading()
         that.$alert('保存工程成功！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -76,7 +76,7 @@ export default {
         that.loading.close()
         that.$alert('工程保存失败！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })

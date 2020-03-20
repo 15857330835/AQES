@@ -19,7 +19,7 @@ export default {
   methods: {
     ...mapActions(['Post']),
     ...mapMutations(['CHANGE_TRACK']),
-    unlockTrack: function() {
+    unlockTrack() {
       const that = this
       let data
       if (this.type === 'caption') {
@@ -67,7 +67,7 @@ export default {
         )
       }
     },
-    hideTrack: function() {
+    hideTrack() {
       const that = this
       let data
       if (this.type === 'caption') {

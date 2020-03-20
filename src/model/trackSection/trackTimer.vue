@@ -230,7 +230,7 @@ export default {
   created() {
     this.middle_ratio = this.ratio
   },
-  mounted: function() {
+  mounted() {
     this.oldratio = this.track_property.ratio
     this.oldleft = this.track_property.outLeft
     this.trackWidth = document.querySelector('.edit_track_content').offsetWidth

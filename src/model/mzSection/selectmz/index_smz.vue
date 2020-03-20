@@ -208,13 +208,13 @@ export default {
   watch: {
     tracksData: {
       immediate: true,
-      handler: function() {
+      handler() {
         this.refreshChunkPosition()
       }
     },
     isRefreshPanesBS: {
       immediate: true,
-      handler: function(newVal) {
+      handler(newVal) {
         if (newVal) {
           // console.log(newVal, 'test')
           this.transPaneData = newVal
@@ -395,7 +395,7 @@ export default {
           if (res.code !== 0) {
             this.$alert('动效时长大于素材时长，设置失败！', '提示消息', {
               confirmButtonText: '确定',
-              callback: function() {
+              callback() {
                 window.zindex = 1
               }
             })
