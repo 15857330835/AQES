@@ -2,201 +2,220 @@
   <div class="setContent-sel3 setContent-sel">
     <div class="content-sel-title">
       <div class="title-left">
-        <span class="u-icon textpng"></span>
-        <span>文本text</span>
+        <span
+          class="u-icon writepng"
+          style="cursor:pointer"
+          :class="this.classname == 'content-sel_O1' ? 'active' : ''"
+          @click="tabChange('content-sel_O1')"
+          title="动画"
+        ></span>
+        <span
+          class="u-icon setpng"
+          style="cursor:pointer"
+          :class="this.classname == 'content-sel_O2' ? 'active' : ''"
+          @click="tabChange('content-sel_O2')"
+          title="变换"
+        ></span>
       </div>
     </div>
-    <ul class="set-tabs">
-      <li
-        class="set-tab animate-tab"
-        :class="{ active: activeSetTab == 'animate' }"
-        @click="activeSetTab = 'animate'"
-      >
-        动画
-      </li>
-      <li
-        class="set-tab transform-tab"
-        :class="{ active: activeSetTab == 'transform' }"
-        @click="activeSetTab = 'transform'"
-      >
-        变换
-      </li>
-    </ul>
-    <div class="content-sel-option">
-      <div class="animate-content" v-show="activeSetTab == 'animate'">
-        <div
-          class="sel-option1 clearfix"
-          v-for="(filter, index) in this.activechunk.chunk.filter"
-          v-if="filter.type == 2"
-          :key="index"
-        >
-          <h3>文字{{ index + 1 }}</h3>
+    <div
+      class="content-sel_O1 animate-container"
+      v-if="this.classname == 'content-sel_O1'"
+    >
+      <div class="animate-content">
+        <div class="animate-option-groups">
           <div
-            style="position:relative;height:30px;float:left;padding-top:5px"
-            class="clearfix"
+            class="option-text"
+            v-for="(filter, index) in filterTextData"
+            :key="index"
           >
-            <fontpick :index="index"></fontpick>
-            <input
-              type="number"
-              style="left:230px"
-              class="sty"
-              min="0"
-              v-model="filter.size"
-              @input="fontsizeinput(index, $event.currentTarget)"
-            />
-          </div>
-          <div class="clearfix" style="float:right">
-            <div class="font-textcolor" :style="{ float: 'left' }">
-              <colorpick :index="index" :type="'font'"></colorpick>
+            <div class="text-title">文字{{ index + 1 }}</div>
+            <div class="text-style">
+              <fontpick :index="index"></fontpick>
+              <input
+                type="number"
+                min="0"
+                v-model="filter.size"
+                @input="fontsizeinput(index, $event.currentTarget)"
+              />
+              <div
+                class="font-width font-option"
+                :class="filter.weight > 500 ? 'active' : ''"
+                @click="togglefont(index, 'weight')"
+              >
+                <div></div>
+              </div>
+              <div
+                class="font-style font-option"
+                :class="filter.style != 'normal' ? 'active' : ''"
+                @click="togglefont(index, 'style')"
+              >
+                <div></div>
+              </div>
+              <div class="font-textcolor">
+                <colorpick :index="index" :type="'font'"></colorpick>
+              </div>
             </div>
-            <div
-              class="font-width font-option"
-              :class="filter.weight > 500 ? 'active' : ''"
-              @click="togglefont(index, 'weight')"
-            >
-              <div></div>
+            <div class="text-content">
+              <textarea
+                name
+                id
+                cols="30"
+                rows="2"
+                :maxlength="maxlength"
+                style="resize:none"
+                v-model="filter.text"
+                @focus="focus"
+                @input="tetextchange(index, $event.currentTarget)"
+                @blur="blur"
+              ></textarea>
+              <span>
+                <span v-html="filterTextData[index].text.length"></span>/
+                <span v-html="maxlength"></span>
+              </span>
             </div>
-            <div
-              class="font-style font-option"
-              :class="filter.style != 'normal' ? 'active' : ''"
-              @click="togglefont(index, 'style')"
-            >
-              <div></div>
-            </div>
-          </div>
-          <div class="clearfix">
-            <textarea
-              name
-              id
-              cols="30"
-              rows="2"
-              :maxlength="maxlength"
-              style="resize:none"
-              v-model="filter.text"
-              @focus="focus"
-              @input="tetextchange(index, $event.currentTarget)"
-              @blur="blur"
-            ></textarea>
-            <span style="float:right">
-              <span
-                class="textarealength"
-                v-html="activechunk.chunk.filter[index].text.length"
-              ></span
-              >/
-              <span v-html="maxlength"></span>
-            </span>
           </div>
         </div>
       </div>
-      <div class="transform-content" v-show="activeSetTab == 'transform'">
+    </div>
+    <div
+      class="content-sel_O2 transform-container"
+      v-if="this.classname == 'content-sel_O2'"
+    >
+      <div class="content-sel-option transform-content clearfix">
         <div class="sel-option">
-          <span style="position:relative;top:2px;margin-right:10px">
-            <input type="checkbox" id="check1" v-model="setproperty" />
-            <label for="check1"></label>
-          </span>
-          <span>同时设置基础动画</span>
-        </div>
-        <div class="sel-option" v-if="setproperty">
-          <div class="sel-option-name">时间</div>
-          <div class="sel-option-con">
-            <div
-              style="float:right;position: relative;width:60px;height:100%"
-            ></div>
-            <div
-              style="position: relative;width:calc(100% - 80px);height:2px;top:calc(50% - 1px);background-color:#d7d7d7"
-            >
-              <timerdian
-                v-for="(pro, index) in this.activeProperty"
-                :key="index"
-                :index="index"
-              ></timerdian>
+          <div class="sel-option">
+            <span style="position:relative;top:2px;margin-right:10px">
+              <input type="checkbox" id="check1" v-model="setproperty" />
+              <label for="check1"></label>
+            </span>
+            <span>同时设置基础动画</span>
+          </div>
+          <div class="sel-option" v-if="setproperty">
+            <div class="sel-option-name">时间</div>
+            <div class="sel-option-con">
+              <div
+                style="float:right;position: relative;width:60px;height:100%"
+              ></div>
+              <div
+                style="position: relative;width:calc(100% - 80px);height:2px;top:calc(50% - 1px);background-color:#d7d7d7"
+              >
+                <timerdian
+                  v-for="(pro, index) in this.activeProperty"
+                  :key="index"
+                  :index="index"
+                ></timerdian>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- 文本透明度设置  不需要了 -->
-        <!-- <div class = "sel-option" >
-            <div class = "sel-option-name">透明度</div>
-            <div class = "sel-option-con">
-                <div style = "float:right;position: relative;width:60px;height:100%">
-                    <input type="number"  step = 1 class = "sty" style = "color:#61ded0;background-color:transparent;border:none;top:0;height:100%" v-model.number="activeProperty[propertyNum].transparency"  @blur="geoPost"/>
-                    <span style = "float:right;color:#61ded0">%</span>
-                </div>
-                <div style = "position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)">
-                    <el-slider v-model='activeProperty[propertyNum].transparency'  @change = "geoPost"   mini :max = '100' :min = '0' :step = '1'></el-slider>
-                </div>
-            </div>
-      </div>-->
-        <div class="sel-option">
-          <div class="sel-option-name">比例</div>
-          <div class="sel-option-con">
-            <div style="float:right;position: relative;width:60px;height:100%">
-              <input
-                type="number"
-                class="sty"
-                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
-                v-model="bili"
-                @blur="wChange"
-              />
-              <span style="float:right;color:#61ded0">%</span>
-            </div>
-            <div
-              style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
-            >
-              <el-slider
-                v-model="bili"
-                @change="wChange"
-                mini
-                :max="200"
-                :min="0"
-                :step="1"
-              ></el-slider>
+          <div class="sel-option">
+            <div class="sel-option-name">比例</div>
+            <div class="sel-option-con">
+              <div
+                style="float:right;position: relative;width:60px;height:100%"
+              >
+                <input
+                  type="number"
+                  class="sty"
+                  style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
+                  v-model="bili"
+                  @blur="wChange"
+                />
+                <span style="float:right;color:#61ded0">%</span>
+              </div>
+              <div
+                style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
+              >
+                <el-slider
+                  v-model="bili"
+                  @change="wChange"
+                  mini
+                  :max="200"
+                  :min="0"
+                  :step="1"
+                ></el-slider>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="sel-option">
-          <div class="sel-option-name">位置</div>
-          <div class="sel-option-con">
-            <div style="float:left;position: relative;height:100%;width:130px">
-              <span style="padding:0 15px">X</span>
-              <input
-                style="top:50%;transform: translate(0,-50%);"
-                type="number"
-                :value="
-                  parseInt(
-                    (this.systemmessage.player.w *
-                      this.activeProperty[this.propertyNum].left) /
-                      100
-                  )
-                "
-                @blur="changePosition('x', $event.currentTarget)"
-                class="sty"
-              />
-            </div>
-            <div style="float:left;position: relative;height:100%;width:130px">
-              <span style="padding:0 15px">Y</span>
-              <input
-                style="top:50%;transform: translate(0,-50%);"
-                type="number"
-                :value="
-                  parseInt(
-                    (this.systemmessage.player.h *
-                      this.activeProperty[this.propertyNum].top) /
-                      100
-                  )
-                "
-                @blur="changePosition('y', $event.currentTarget)"
-                class="sty"
-              />
+          <div class="sel-option">
+            <div class="sel-option-name">透明度</div>
+            <div class="sel-option-con">
+              <div
+                style="float:right;position: relative;width:60px;height:100%"
+              >
+                <input
+                  type="number"
+                  step="1"
+                  class="sty"
+                  style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
+                  v-model.number="activeProperty[propertyNum].transparency"
+                  @blur="geoPost"
+                />
+                <span style="float:right;color:#61ded0">%</span>
+              </div>
+              <div
+                style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
+              >
+                <el-slider
+                  v-model="activeProperty[propertyNum].transparency"
+                  @change="geoPost"
+                  mini
+                  :max="100"
+                  :min="0"
+                  :step="1"
+                ></el-slider>
+              </div>
             </div>
           </div>
-        </div>
-        <div>
-          <span style="position:relative;top:2px;margin-right:10px">
-            <input type="checkbox" id="check3" v-model="quickposi" />
-            <label for="check3"></label>
-          </span>
-          <span>快速定位</span>
-          <quickposition v-if="this.quickposi"></quickposition>
+          <div class="sel-option">
+            <div class="sel-option-name">位置</div>
+            <div class="sel-option-con">
+              <div
+                style="float:left;position: relative;height:100%;width:130px"
+              >
+                <span style="padding:0 15px">X</span>
+                <input
+                  style="top:50%;transform: translate(0,-50%);"
+                  type="number"
+                  :value="
+                    parseInt(
+                      (this.systemmessage.player.w *
+                        this.activeProperty[this.propertyNum].left) /
+                        100
+                    )
+                  "
+                  @blur="changePosition('x', $event.currentTarget)"
+                  class="sty"
+                />
+              </div>
+              <div
+                style="float:left;position: relative;height:100%;width:130px"
+              >
+                <span style="padding:0 15px">Y</span>
+                <input
+                  style="top:50%;transform: translate(0,-50%);"
+                  type="number"
+                  :value="
+                    parseInt(
+                      (this.systemmessage.player.h *
+                        this.activeProperty[this.propertyNum].top) /
+                        100
+                    )
+                  "
+                  @blur="changePosition('y', $event.currentTarget)"
+                  class="sty"
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <span style="position:relative;top:2px;margin-right:10px">
+              <input type="checkbox" id="check3" v-model="quickposi" />
+              <label for="check3"></label>
+            </span>
+            <span>快速定位</span>
+            <quickposition v-if="this.quickposi"></quickposition>
+          </div>
         </div>
       </div>
     </div>
@@ -216,6 +235,7 @@ import _ from 'lodash'
 export default {
   data() {
     return {
+      classname: 'content-sel_O1',
       maxlength: 100,
       setproperty: true,
       quickposi: true,
@@ -270,6 +290,9 @@ export default {
     },
     propertyOfbili() {
       return this.propertyOfnum.w
+    },
+    filterTextData() {
+      return this.activechunk.chunk.filter.filter(item => item.type === 2)
     }
   },
   watch: {},
@@ -291,6 +314,9 @@ export default {
       //     target.value = target.value.substr(0,1000)
       // }
     },
+    tabChange(name) {
+      this.classname = name
+    },
     focus() {
       window.zindex = 0
     },
@@ -298,7 +324,7 @@ export default {
       window.zindex = 2
     },
     tetextchange: _.debounce(function(index, target) {
-      this.activechunk.chunk.filter[index].text = target.value
+      this.filterTextData[index].text = target.value
       this.sendmessage()
     }, 500),
     wChange(value) {
@@ -309,9 +335,9 @@ export default {
     },
     fontsizeinput(index, target) {
       if (target.value === '') {
-        this.activechunk.chunk.filter[index].size = 0
+        this.filterTextData[index].size = 0
       } else {
-        this.activechunk.chunk.filter[index].size = parseInt(target.value, 10)
+        this.filterTextData[index].size = parseInt(target.value, 10)
       }
       this.sendmessage()
     },
@@ -321,17 +347,17 @@ export default {
     },
     togglefont(index, style) {
       if (style === 'weight') {
-        if (this.activechunk.chunk.filter[index].weight === 500) {
-          this.activechunk.chunk.filter[index].weight = 600
+        if (this.filterTextData[index].weight === 500) {
+          this.filterTextData[index].weight = 600
         } else {
-          this.activechunk.chunk.filter[index].weight = 500
+          this.filterTextData[index].weight = 500
         }
       }
       if (style === 'style') {
-        if (this.activechunk.chunk.filter[index].style === 'normal') {
-          this.activechunk.chunk.filter[index].style = 'italic'
+        if (this.filterTextData[index].style === 'normal') {
+          this.filterTextData[index].style = 'italic'
         } else {
-          this.activechunk.chunk.filter[index].style = 'normal'
+          this.filterTextData[index].style = 'normal'
         }
       }
       this.sendmessage()

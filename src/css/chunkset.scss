@@ -363,6 +363,46 @@
   }
 }
 
+.animate-container {
+  width: 100%;
+  height: 100%;
+  padding: 0.3rem;
+  box-sizing: border-box;
+  .animate-content {
+    .animate-option-groups {
+      .option-text {
+        padding-bottom: 0.2rem;
+        .text-title {
+          font-size: 0.16rem;
+          height: 0.16rem;
+          line-height: 0.16rem;
+          color: #cdd5dd;
+        }
+        .text-style {
+          display: flex;
+          align-items: center;
+          height: 0.4rem;
+          padding: 0.12rem 0;
+        }
+        .text-content {
+          textarea {
+            height: 1.4rem;
+            width: 100%;
+            background-color: #0f1215;
+            border: 1px solid #394149;
+            outline: none;
+            box-sizing: border-box;
+            font-size: 0.16rem;
+            line-height: 0.24rem;
+            text-indent: 0.06rem;
+            color: #cdd5dd;
+          }
+        }
+      }
+    }
+  }
+}
+
 .content-sel-option {
   .sel-option {
     padding: 10px 0;
@@ -724,6 +764,10 @@ input[type="number"]::-webkit-inner-spin-button {
 .bscroll-indicator {
   background-color: rgb(170, 170, 170) !important;
   border: none !important;
+}
+
+.bscroll-vertical-scrollbar {
+  z-index: 2000 !important;
 }
 
 // input公共样式

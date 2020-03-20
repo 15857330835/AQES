@@ -14,12 +14,14 @@
           style="cursor:pointer"
           :class="this.classname == 'content-sel_O2' ? 'active' : ''"
           @click="tabChange('content-sel_O2')"
+          title="变换"
         ></span>
         <span
           class="u-icon filterpng"
           style="cursor:pointer"
           :class="this.classname == 'content-sel_O3' ? 'active' : ''"
           @click="tabChange('content-sel_O3')"
+          title="色彩"
         ></span>
       </div>
     </div>
@@ -1033,7 +1035,7 @@ export default {
     ]),
     tabChange(name) {
       // 导航切换
-      if (name != 'content-sel_O1') {
+      if (name !== 'content-sel_O1') {
         this.CHANGE_FILTERSHOW('normal')
       }
       this.classname = name
