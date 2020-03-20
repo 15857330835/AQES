@@ -7,6 +7,7 @@
           style="cursor:pointer"
           :class="this.classname == 'content-sel_O1' ? 'active' : ''"
           @click="tabChange('content-sel_O1')"
+          title="动画"
         ></span>
         <span
           class="u-icon setpng"

@@ -395,25 +395,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.rename-decide-box {
-  background-color: #222;
-  color: #fff;
-  border: none;
-
-  .el-message-box__header {
-    background-color: #2e2e2e;
-
-    .el-message-box__title {
-      color: inherit;
-    }
-  }
-
-  .el-message-box__content {
-    color: inherit;
-  }
-}
-</style>
 <style lang="scss" scoped>
 .track-box {
   max-height: calc(100vh - 50vw * 9 / 16 - 1.4rem);

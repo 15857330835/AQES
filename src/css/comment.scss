@@ -211,14 +211,15 @@
 .makeTable,
 .upfilelist,
 .addTrackprop,
-.addRecordrop
+.addRecordrop,
+.setchunkboxdx
  {
   width: 100%;
   height: 100%;
   position: fixed;
   top: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1010;
+  z-index: 2008;
 }
 .newsaveTable_content,
 .saveTable_content,
@@ -226,7 +227,8 @@
 .upfilelist_content,
 .newDir_content,
 .delproTable_content,
-.trackProp_content {
+.trackProp_content,
+.setchunkboxdx_content {
   position: absolute;
   width: 520px;
   left: 50%;
@@ -238,6 +240,7 @@
   overflow: hidden;
 }
 
+// delproTable ???
 .delproTable {
   .content_select {
     height: 50px;

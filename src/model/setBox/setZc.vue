@@ -8,16 +8,17 @@
         <span>持续时间 :</span
         ><input
           type="number"
+          style="textIndent:2px;"
           v-model="time"
           step="1"
           class="cxsj"
           min="0"
           @change="timechange($event.currentTarget)"
-        />S
+        />&nbsp;&nbsp;S
         <span class="num_warn" style="color:red;display:none">请输入整数</span>
       </div>
       <div class="content_input">
-        <span style="">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型 : </span>
+        <span style="">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型 :</span>
         <div style="display:inline-block;width:157px">
           <el-select
             v-model="activechunk.chunk.transition.name"
@@ -61,14 +62,15 @@
         >
       </div>
       <div
-        class="content_input"
-        style="height:20px;text-align:center"
+        class="content_input feather-set"
         v-if="this.activechunk.chunk.transition.name != '淡入淡出'"
       >
         <span style="float:left"
           >羽&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;化 :
         </span>
-        <div style="float:left;position:relative;;height:20px;width:200px;">
+        <div
+          style="float:left;position:relative;height:20px;width:200px;transform:translateX(-4px);"
+        >
           <span style="position:absolute;left:0;width:20px;height:20px">0</span>
           <span
             style="position:absolute;right:0;width:20px;height:20px;margin-right:0px"
@@ -86,8 +88,8 @@
         </div>
       </div>
       <div class="content_bottom">
-        <span class="con_click_make" @click="add">确认</span
-        ><span class="con_click_cancel" @click="sure">取消</span>
+        <span class="content_click_cancel" @click="sure">取消</span>
+        <span class="content_click_make" @click="add">确认</span>
       </div>
     </div>
   </div>
@@ -261,99 +263,55 @@ export default {
 
 <style lang="scss" scoped>
 .setchunkboxdx {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1010;
   .setchunkboxdx_content {
-    position: absolute;
-    width: 510px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #232323;
-    font-size: 14px;
-    .content_title {
-      height: 40px;
-      line-height: 40px;
-      background-color: #2e2e2e;
-      text-align: left;
-      font-size: 14px;
-      padding-left: 20px;
-    }
     .content_del {
       float: right;
       height: 40px;
       width: 40px;
       background-image: url(../../img/del.png);
       line-height: 40px;
-      background-color: #2e2e2e;
+      background-color: #191e22;
       text-align: left;
       font-size: 14px;
       cursor: pointer;
       background-size: 40%;
     }
     .content_text {
+      font-size: 13px;
       padding-top: 20px;
       padding-left: 120px;
       height: 20px;
       position: relative;
       span {
-        margin: 0;
+        margin-right: 20px;
         display: inline-block;
-        /*transform: translate(-50%,-50%);*/
       }
     }
     .content_input {
-      padding: 20px 0 10px 120px;
+      font-size: 13px;
+      padding: 20px 0 0 120px;
+      &.feather-set {
+        height: 40px;
+        text-align: center;
+        padding: 16px 0 0 120px;
+      }
       > span {
-        margin-right: 10px;
+        margin-right: 20px;
       }
       input[type='number'] {
-        box-sizing: border-box;
-        text-align: center;
-        font-size: 12px;
+        width: 160px;
         height: 20px;
-        border: 1px solid #636a71;
+        background-color: rgb(48, 56, 64);
+        border: 1px solid rgb(99, 106, 113);
+        border-radius: 3px;
+        box-sizing: border-box;
         color: #e4e4e4;
-        -web-kit-appearance: none;
+        -webkit-appearance: none;
         -moz-appearance: none;
-        -moz-appearance: textfield;
         display: inline-block;
         outline: 0;
         padding: 0 1em;
         text-decoration: none;
-        border-radius: 3px;
-        background-color: #1c1c1c;
-        width: 160px;
-      }
-    }
-    .content_bottom {
-      background-color: #2e2e2e;
-      height: 30px;
-      span {
-        float: right;
-        width: 40px;
-        height: 20px;
-        line-height: 18px;
-        margin-top: 5px;
-        /*margin-left: 10px;*/
-        margin-right: 10px;
-        text-align: center;
-        cursor: pointer;
-        border-radius: 3px;
-        box-sizing: border-box;
-      }
-      .con_click_make {
-        background-color: #61ded0;
-        border: 1px solid #61ded0;
-        color: #333;
-      }
-      .con_click_cancel {
-        background-color: #232323;
-        border: 1px solid #636a71;
       }
     }
   }

@@ -50,7 +50,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 import videoset from './videoset'
-import audioset from './audio'
+import audioset from './audioset'
 import textset from './textset'
 import putextset from './putextset'
 import dynamicTextSet from './dynamicTextSet'

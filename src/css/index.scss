@@ -399,24 +399,20 @@ input.mui-switch.mui-switch-anim:checked:before {
 .el-progress-bar__innerText {
   color: #203035;
 }
-/* el组件样式end */
-
-/* 抽离的公用组件begin */
-.set-tabs {
+.el-input__suffix {
   display: flex;
   align-items: center;
-  padding: 0.12rem 0.2rem 0;
-  height: 0.6rem;
-  .set-tab {
-    margin: 0 0.2rem;
-    cursor: pointer;
-    font-size: 0.16rem;
-    color: #cdd5dd;
-    &.active {
-      color: #61ded0;
-    }
-  }
 }
+/* el组件样式end */
+
+/* bscroll样式begin */
+.bscroll-vertical-scrollbar {
+  z-index: 2000 !important;
+}
+/* bscroll样式end */
+
+/* 抽离的公用组件begin */
+
 /* 抽离的公用组件end */
 
 #progressbar {
