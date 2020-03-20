@@ -118,11 +118,11 @@
             <div class = "sel-option-name">透明度</div>
             <div class = "sel-option-con">
                 <div style = "float:right;position: relative;width:60px;height:100%">
-                    <input type="number"  step = 1 class = "sty" style = "color:#61ded0;background-color:transparent;border:none;top:0;height:100%" v-model.number="activeProperty[propertyNum].transparency"  @blur="tmdChange"/>
+                    <input type="number"  step = 1 class = "sty" style = "color:#61ded0;background-color:transparent;border:none;top:0;height:100%" v-model.number="activeProperty[propertyNum].transparency"  @blur="geoPost"/>
                     <span style = "float:right;color:#61ded0">%</span>
                 </div>
                 <div style = "position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)">
-                    <el-slider v-model='activeProperty[propertyNum].transparency'  @change = "tmdChange"   mini :max = '100' :min = '0' :step = '1'></el-slider>
+                    <el-slider v-model='activeProperty[propertyNum].transparency'  @change = "geoPost"   mini :max = '100' :min = '0' :step = '1'></el-slider>
                 </div>
             </div>
       </div>-->
@@ -274,14 +274,15 @@ export default {
   },
   watch: {},
   methods: {
-    ...mapActions(['Post']),
+    ...mapActions(['Post', 'geoPost']),
     ...mapMutations([
       // 'UPDATE_ACTIVEFILTER',
       'CHANGE_FILTERSHOW',
       'CHANGE_ACTIVEPROPERTY',
       'CHANGE_PROPERTYNUM',
       'SET_NEWCHART_BILI',
-      'UPDATE_ALLOW_HISTORY_BACK'
+      'UPDATE_ALLOW_HISTORY_BACK',
+      'CHANGE_POSITION'
     ]),
     textareaChange: function(target) {
       // if(this.activechunk.chunk.filter[0].geometry_template == undefined){
@@ -300,58 +301,11 @@ export default {
       this.activechunk.chunk.filter[index].text = target.value
       this.sendmessage()
     }, 500),
-    tmdChange(value) {
-      const geo_arr = this.activeProperty
-      this.CHANGE_ACTIVEPROPERTY(geo_arr)
-      let geo = ''
-      for (let i = 0; i < geo_arr.length; i++) {
-        const f = geo_arr[i]
-        if (f.top < 0) {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        } else {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        }
-      }
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_property',
-        chunk_id: this.activechunk.chunk.chunk_id,
-        geometry: geo.substr(0, geo.length - 1)
-      }
-      this.Post(data)
-    },
     wChange(value) {
-      this.tmdChange()
+      this.geoPost()
     },
     hChange(value) {
-      this.tmdChange()
+      this.geoPost()
     },
     fontsizeinput: function(index, target) {
       if (target.value === '') {
@@ -362,23 +316,8 @@ export default {
       this.sendmessage()
     },
     changePosition(way, target) {
-      if (target.value === '') {
-        target.value = 0
-      } else {
-        target.value = parseInt(target.value, 10)
-      }
-
-      if (way === 'x') {
-        const num1 =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.w
-        this.activeProperty[this.propertyNum].left = num1
-      }
-      if (way === 'y') {
-        const num2 =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.h
-        this.activeProperty[this.propertyNum].top = num2
-      }
-      this.tmdChange()
+      this.CHANGE_POSITION({ way, target })
+      this.geoPost()
     },
     togglefont: function(index, style) {
       if (style === 'weight') {

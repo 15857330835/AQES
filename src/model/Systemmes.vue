@@ -26,7 +26,7 @@
 </template>
 <script>
 export default {
-  data: function() {
+  data() {
     return {
       color: '',
       time: 0,
@@ -38,7 +38,7 @@ export default {
     }
   },
   computed: {
-    allflag: function() {
+    allflag() {
       let a = 0
       if (this.cpu > a) {
         a = this.cpu
@@ -57,20 +57,20 @@ export default {
       }
       return '#e4e4e4'
     },
-    newtime: function() {
+    newtime() {
       return this.trantime(this.time)
     },
-    cpus: function() {
+    cpus() {
       return this.state(this.cpu)
     },
-    netOuts: function() {
+    netOuts() {
       return this.state(this.netOut)
     },
 
-    spaces: function() {
+    spaces() {
       return this.state(this.space)
     },
-    nums: function() {
+    nums() {
       return this.state(this.num)
     }
   },
@@ -81,7 +81,7 @@ export default {
         type: 'get',
         url: window.NCES.DOMAIN + '/api/system',
         dataType: 'json',
-        success: function(res) {
+        success(res) {
           if (res.code === 0) {
             const status = res.data.status
             that.project = res.data.config.name
@@ -123,15 +123,14 @@ export default {
       return 'normal'
     }
   },
-  mounted: function() {
-    const that = this
+  mounted() {
     this.getsystemmes()
-    setInterval(function() {
-      that.getsystemmes()
+    setInterval(() => {
+      this.getsystemmes()
     }, 10000)
     this.check()
-    setInterval(function() {
-      that.check()
+    setInterval(() => {
+      this.check()
     }, 60000)
   }
 }

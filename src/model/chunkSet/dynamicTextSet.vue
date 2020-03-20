@@ -274,7 +274,8 @@ export default {
       'CHANGE_PROPERTYNUM',
       'SET_NEWCHART_BILI',
       'CHANGE_FILTERSHOW',
-      'SET_SCALE'
+      'SET_SCALE',
+      'CHANGE_POSITION'
     ]),
     formatGeometryH(value) {
       return parseInt(value, 10)
@@ -340,22 +341,7 @@ export default {
       this.sendmessage()
     },
     changePosition(way, target) {
-      if (target.value === '') {
-        target.value = 0
-      } else {
-        target.value = parseInt(target.value, 10)
-      }
-
-      if (way === 'x') {
-        const num1 =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.w
-        this.parameter.geometry_left = num1
-      }
-      if (way === 'y') {
-        const num2 =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.h
-        this.parameter.geometry_top = num2
-      }
+      this.CHANGE_POSITION({ way, target })
       this.sendmessage()
     },
     togglefont: function(style) {

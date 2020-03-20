@@ -158,16 +158,14 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
+import { chunkUpdateFilterApi } from '@/api/Chunk'
 
 export default {
-  data: function() {
+  data() {
     return {
       speed: 0
     }
   },
-  //   components: {
-  //   		systemmes,
-  //   },
   computed: {
     ...mapState([
       'activechunk',
@@ -177,7 +175,7 @@ export default {
       'systemmessage',
       'propertyNum'
     ]),
-    filterList: function() {
+    filterList() {
       // 格式化滤镜数据
       const filter = this.activechunk.chunk.filter
       const data = {}
@@ -209,7 +207,7 @@ export default {
       return data
     },
     fade_in: {
-      get: function() {
+      get() {
         return parseFloat(
           (
             this.filterList.volume.parameter.fade_in /
@@ -217,7 +215,7 @@ export default {
           ).toFixed(1)
         )
       },
-      set: function(newValue) {
+      set(newValue) {
         this.filterList.volume.parameter.fade_in = parseInt(
           newValue * this.systemmessage.player.fps,
           10
@@ -225,7 +223,7 @@ export default {
       }
     },
     fade_out: {
-      get: function() {
+      get() {
         return parseFloat(
           (
             this.filterList.volume.parameter.fade_out /
@@ -233,7 +231,7 @@ export default {
           ).toFixed(1)
         )
       },
-      set: function(newValue) {
+      set(newValue) {
         this.filterList.volume.parameter.fade_out = parseInt(
           newValue * this.systemmessage.player.fps,
           10
@@ -351,31 +349,24 @@ export default {
       this.filterList.volume.parameter.disable = 0
       this.sendmessage()
     },
-    sendmessage: function() {
-      // if(this.chunk.geometry){
-      //     this.chunk.geometry = this.propertyTostr(this.textpositionArr)
-      // }
-      const that = this
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_filter',
+    async sendmessage() {
+      this.ACTIVE_CHUNK({ chunk: this.activechunk.chunk })
+      const res = await chunkUpdateFilterApi({
         chunk_id: this.activechunk.chunk.chunk_id,
         property: this.activechunk.chunk.filter
-      }
-      data.error = function() {
-        that.$notify({
+      })
+      if (res.code !== 0) {
+        this.$notify({
           title: '提示',
           type: 'error',
           message: '滤镜更新失败！',
           position: 'bottom-right',
-          duration: that.notify.time
+          duration: this.notify.time
         })
       }
-      this.Post(data)
     }
   },
-  mounted: function() {
+  mounted() {
     this.speed = Math.abs(this.activechunk.chunk.speed)
   }
 }

@@ -387,7 +387,7 @@ export default {
   },
   watch: {},
   methods: {
-    ...mapActions(['Post']),
+    ...mapActions(['Post', 'geoPost']),
     ...mapMutations([
       // 'UPDATE_ACTIVEFILTER',
       'CHANGE_FILTERSHOW',
@@ -437,7 +437,7 @@ export default {
     },
     mouseup_box(e) {
       this.chunkmove = ''
-      this.sendmessage()
+      this.geoPost()
       if (!e.touches) {
         $(document).unbind('.boxx')
       }
@@ -794,55 +794,7 @@ export default {
         this.y2 = temp
       }
       // this.SET_ASYNC_SET_CHART(true)
-      this.sendmessage()
-    },
-    sendmessage() {
-      console.log(_.cloneDeep(this.activeProperty))
-      const geo_arr = this.activeProperty
-      this.CHANGE_ACTIVEPROPERTY(geo_arr)
-      let geo = ''
-      for (let i = 0; i < geo_arr.length; i++) {
-        const f = geo_arr[i]
-        if (f.top < 0) {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        } else {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        }
-      }
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_property',
-        chunk_id: this.activechunk.chunk.chunk_id,
-        geometry: geo.substr(0, geo.length - 1)
-      }
-      this.Post(data)
+      this.geoPost()
     }
   }
 }

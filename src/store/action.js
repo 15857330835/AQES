@@ -2,6 +2,21 @@ import axios from '../http'
 import * as libapi from '@/api/Lib'
 
 export default {
+  /* chunkset抽取公共部分begin */
+  geoPost({ state, commit, dispatch }, payload) {
+    console.log('geochange')
+    const geo_arr = payload.geo_arr || state.activeProperty
+    commit('CHANGE_ACTIVEPROPERTY', geo_arr)
+    const data = {}
+    data.type = 'chunk'
+    data.data = {
+      cmd: 'update_property',
+      chunk_id: state.activechunk.chunk.chunk_id,
+      geometry: state.activechunk.chunk.geometry
+    }
+    this.dispatch('Post', data)
+  },
+  /* chunkset抽取公共部分end */
   msgbox(context, data) {
     const h = this._vm.$createElement
     this._vm.$msgbox({
@@ -127,7 +142,7 @@ export default {
       'json'
     )
   },
-  gethistoryindex({ state, commit, dispatch }) {
+  gethistoryindex({ commit }) {
     $.post(
       window.NCES.DOMAIN + '/api/history',
       JSON.stringify({ cmd: 'list' }),

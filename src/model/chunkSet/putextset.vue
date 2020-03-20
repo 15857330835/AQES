@@ -204,11 +204,11 @@
             <div class = "sel-option-name">透明度</div>
             <div class = "sel-option-con">
                 <div style = "float:right;position: relative;width:60px;height:100%">
-                    <input type="number"  step = 1 class = "sty" style = "color:#61ded0;background-color:transparent;border:none;top:0;height:100%"  v-model='textTransparency' @blur="tmdChange" />
+                    <input type="number"  step = 1 class = "sty" style = "color:#61ded0;background-color:transparent;border:none;top:0;height:100%"  v-model='textTransparency' @blur="geoPost" />
                     <span style = "float:right;color:#61ded0">%</span>
                 </div>
                 <div style = "position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)">
-                    <el-slider v-model='textTransparency'  @change = "tmdChange"   mini :max = '100' :min = '0' :step = '1'></el-slider>
+                    <el-slider v-model='textTransparency'  @change = "geoPost"   mini :max = '100' :min = '0' :step = '1'></el-slider>
                 </div>
             </div>
       </div>-->
@@ -252,6 +252,8 @@ import quickposition from './quickPosition'
 import fontpick from './fontpick'
 import colorpick from './colorPick'
 import _ from 'lodash'
+import { chunkUpdateFilterApi } from '@/api/Chunk'
+
 export default {
   data: function() {
     return {
@@ -336,13 +338,14 @@ export default {
   },
   watch: {},
   methods: {
-    ...mapActions(['Post']),
+    ...mapActions(['Post', 'geoPost']),
     ...mapMutations([
       // 'UPDATE_ACTIVEFILTER',
       'CHANGE_FILTERSHOW',
       'SET_NEWCHART_BILI',
       'CHANGE_ACTIVEPROPERTY',
-      'CHANGE_PROPERTYNUM'
+      'CHANGE_PROPERTYNUM',
+      'CHANGE_POSITION'
     ]),
     focus() {
       window.zindex = 0
@@ -353,60 +356,12 @@ export default {
     putextchange: _.debounce(function(e) {
       this.sendmessage()
     }, 300),
-    tmdChange(value) {
-      const geo_arr = this.activeProperty
-      this.CHANGE_ACTIVEPROPERTY(geo_arr)
-      let geo = ''
-      for (let i = 0; i < geo_arr.length; i++) {
-        const f = geo_arr[i]
-        if (f.top < 0) {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        } else {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        }
-      }
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_property',
-        chunk_id: this.activechunk.chunk.chunk_id,
-        geometry: geo.substr(0, geo.length - 1)
-      }
-      ;(data.success = function() {}), (data.error = function() {})
-      this.Post(data)
-    },
     wChange(value) {
-      this.tmdChange()
+      this.geoPost()
     },
     hChange(value) {
       this.sendmessage()
-      // this.tmdChange()
+      // this.geoPost()
     },
     toggleposition() {
       this.flag = !this.flag
@@ -441,25 +396,10 @@ export default {
       this.sendmessage()
     },
     changePosition(way, target) {
-      if (target.value === '') {
-        target.value = 0
-      } else {
-        target.value = parseInt(target.value, 10)
-      }
-
-      if (way === 'x') {
-        const num =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.w
-        this.activeProperty[this.propertyNum].left = num
-      }
-      if (way === 'y') {
-        const num =
-          (parseInt(target.value, 10) * 100) / this.systemmessage.player.h
-        this.activeProperty[this.propertyNum].top = num
-      }
-      this.tmdChange()
+      this.CHANGE_POSITION({ way, target })
+      this.geoPost()
     },
-    togglefont: function(index, style) {
+    togglefont(index, style) {
       if (style === 'weight') {
         if (this.activechunk.chunk.filter[index].weight === 500) {
           this.activechunk.chunk.filter[index].weight = 600
@@ -476,28 +416,21 @@ export default {
       }
       this.sendmessage()
     },
-    sendmessage: function() {
-      // if(this.chunk.geometry){
-      //     this.chunk.geometry = this.propertyTostr(this.textpositionArr)
-      // }
-      const that = this
-      const data = {}
-      ;(data.type = 'chunk'),
-        (data.data = {
-          cmd: 'update_filter',
-          chunk_id: this.activechunk.chunk.chunk_id,
-          property: this.activechunk.chunk.filter
-        })
-      data.error = function() {
-        that.$notify({
+    async sendmessage() {
+      this.ACTIVE_CHUNK({ chunk: this.activechunk.chunk })
+      const res = await chunkUpdateFilterApi({
+        chunk_id: this.activechunk.chunk.chunk_id,
+        property: this.activechunk.chunk.filter
+      })
+      if (res.code !== 0) {
+        this.$notify({
           title: '提示',
           type: 'error',
-          message: '操作失败！',
+          message: '滤镜更新失败！',
           position: 'bottom-right',
           duration: this.notify.time
         })
       }
-      this.Post(data)
     }
   },
   mounted: function() {

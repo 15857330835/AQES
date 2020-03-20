@@ -185,7 +185,7 @@ export default {
       'CHANGE_AI_VIEW_MASK_IS_SHOW'
     ]),
     ...mapActions(['changeLoading']),
-    transtime: function(time) {
+    transtime(time) {
       return (
         (Math.ceil(time / 60) < 10
           ? '0' + Math.floor(time / 60)

@@ -20,7 +20,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import { trackPropertyAppendApi } from '@/api/Track'
 
 export default {
-  data: function() {
+  data() {
     return {}
   },
   computed: {
@@ -71,13 +71,13 @@ export default {
       'UPDATE_TRACK_START',
       'UPDATE_TRACK_END'
     ]),
-    avleavechunk: function() {
+    avleavechunk() {
       const that = this
       if (this.activechunk.chunk === '') {
         window.zindex = 0
         this.$alert('请选择要音视频分离的块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -90,7 +90,7 @@ export default {
         window.zindex = 0
         this.$alert('该资源非视频资源或已进行过音视频分离！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -133,10 +133,10 @@ export default {
           cmd: 'separate_audio',
           chunk_id: this.activechunk.chunk.chunk_id
         },
-        success: function() {
+        success() {
           that.changeLoading()
         },
-        error: function() {
+        error() {
           that.$alert('该资源非视频资源或已进行过音视频分离！', '提示消息', {
             confirmButtonText: '确定'
           })
@@ -148,7 +148,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要删除的块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -170,7 +170,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要剪辑的视频块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -180,7 +180,7 @@ export default {
         window.zindex = 0
         this.$alert('不能对字幕块进行剪辑！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -223,7 +223,7 @@ export default {
         window.zindex = 0
         this.$alert('必须在选中的区域内剪辑！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -250,7 +250,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要编辑的块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -363,7 +363,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要复制粘贴的块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -372,7 +372,7 @@ export default {
           window.zindex = 0
           this.$alert('字幕快请到字幕设置界面添加！', '提示消息', {
             confirmButtonText: '确定',
-            callback: function() {
+            callback() {
               window.zindex = 1
             }
           })

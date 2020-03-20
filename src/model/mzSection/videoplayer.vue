@@ -282,7 +282,8 @@ export default {
       // "initdate",
       'getindex',
       'Post',
-      'changeLoading'
+      'changeLoading',
+      'geoPost'
     ]),
     // eslint-disable-next-line no-empty-function
     temp() {},
@@ -319,51 +320,11 @@ export default {
         index = this.activeProperty.length
         geo_arr.push(datas)
       }
-      this.CHANGE_ACTIVEPROPERTY(geo_arr)
       this.CHANGE_PROPERTYNUM(index)
-      let geo = ''
-      for (let i = 0; i < geo_arr.length; i++) {
-        const f = geo_arr[i]
-        if (f.top < 0) {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        } else {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        }
-      }
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_property',
-        chunk_id: this.activechunk.chunk.chunk_id,
-        geometry: geo.substr(0, geo.length - 1)
-      }
-      this.Post(data)
+      console.log('test here')
+      this.geoPost({
+        geo_arr
+      })
     },
     movetoposition(obj) {
       const that = this

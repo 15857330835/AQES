@@ -177,7 +177,7 @@ export default {
     ])
   },
   methods: {
-    ...mapActions(['Post']),
+    ...mapActions(['Post', 'geoPost']),
     ...mapMutations(['CHANGE_PROPERTYNUM', 'CHANGE_ACTIVEPROPERTY']),
     click: function(list, index) {
       console.log(typeof list, typeof index)
@@ -279,51 +279,7 @@ export default {
             (100 / 3 - this.activeProperty[this.propertyNum].h) / 2
         }
       }
-      this.CHANGE_ACTIVEPROPERTY(this.activeProperty)
-      const geo_arr = this.activeProperty
-      let geo = ''
-      for (let i = 0; i < geo_arr.length; i++) {
-        const f = geo_arr[i]
-        if (f.top < 0) {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        } else {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        }
-      }
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_property',
-        chunk_id: this.activechunk.chunk.chunk_id,
-        geometry: geo.substr(0, geo.length - 1)
-      }
-      this.Post(data)
+      this.geoPost()
     }
   }
   // mounted: function() {}

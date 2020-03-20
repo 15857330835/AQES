@@ -1,5 +1,9 @@
 import { TIP_HEIGHT_NUMBER } from '@/config'
 
+/* chunkset抽取公共部分begin */
+const CHANGE_POSITION = 'CHANGE_POSITION'
+/* chunkset抽取公共部分end */
+
 const CHANGE_LOADING = 'CHANGE_LOADING' // 改变loading状态
 const IMG_LISTS = 'IMG_LISTS' // 图片列表
 const UPDATE_POINTER = 'UPDATE_POINTER' // 更新播放状态和视频位置位置
@@ -406,42 +410,12 @@ export default {
     }
   },
   [CHANGE_ACTIVEPROPERTY](state, data) {
-    state.activeProperty = data
+    state.activeProperty = data // todo 必要？
     const geo_arr = data
     let geo = ''
     for (let i = 0; i < geo_arr.length; i++) {
       const f = geo_arr[i]
-      if (f.top < 0) {
-        geo =
-          geo +
-          f.f +
-          '=' +
-          f.left +
-          '%/' +
-          f.top +
-          '%:' +
-          f.w +
-          '%x' +
-          f.h +
-          '%:' +
-          f.transparency +
-          ';'
-      } else {
-        geo =
-          geo +
-          f.f +
-          '=' +
-          f.left +
-          '%/' +
-          f.top +
-          '%:' +
-          f.w +
-          '%x' +
-          f.h +
-          '%:' +
-          f.transparency +
-          ';'
-      }
+      geo += `${f.f}=${f.left}%/${f.top}%:${f.w}%x${f.h}%:${f.transparency};`
     }
     state.activechunk.chunk.geometry = geo.substr(0, geo.length - 1)
   },
@@ -890,5 +864,28 @@ export default {
   },
   [CHANGE_TRANKEY_PRESS](state, payload) {
     state.trankeyPress = payload
+  },
+
+  /* chunkset抽取公共部分begin */
+  [CHANGE_POSITION](state, payload) {
+    const way = payload.way
+    const target = payload.target
+    if (target.value === '') {
+      target.value = 0
+    } else {
+      target.value = parseInt(target.value, 10)
+    }
+
+    if (way === 'x') {
+      const num =
+        (parseInt(target.value, 10) * 100) / state.systemmessage.player.w
+      state.activeProperty[state.propertyNum].left = num
+    }
+    if (way === 'y') {
+      const num =
+        (parseInt(target.value, 10) * 100) / state.systemmessage.player.h
+      state.activeProperty[state.propertyNum].top = num
+    }
   }
+  /* chunkset抽取公共部分end */
 }
