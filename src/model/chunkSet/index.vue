@@ -21,13 +21,13 @@
       "
     ></textset>
     <putextset
-      v-if="
+      v-else-if="
         this.activechunk.chunk.chunk_type == 3 &&
           this.activechunk.chunk.filter.length == 1
       "
     ></putextset>
     <dynamicTextSet
-      v-if="
+      v-else-if="
         this.activechunk.chunk.chunk_type == 3 &&
           this.activechunk.chunk.template
       "

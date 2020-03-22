@@ -320,10 +320,11 @@
             }
           }
           .font-text-color,
-          .font-box-color {
+          .font-box-color,
+          .dynamic-text-colorpicker {
             display: flex;
             align-items: center;
-            margin-right: 0.16rem;
+            margin: 0 0.16rem;
           }
         }
         .text-content {

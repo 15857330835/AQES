@@ -2,176 +2,213 @@
   <div class="setContent-sel3 setContent-sel">
     <div class="content-sel-title">
       <div class="title-left">
-        <span class="u-icon textpng"></span>
-        <span>动态文本dynamic</span>
+        <span
+          class="u-icon writepng"
+          style="cursor:pointer"
+          :class="this.classname == 'content-sel_O1' ? 'active' : ''"
+          @click="tabChange('content-sel_O1')"
+          title="动画"
+        ></span>
+        <span
+          class="u-icon setpng"
+          style="cursor:pointer"
+          :class="this.classname == 'content-sel_O2' ? 'active' : ''"
+          @click="tabChange('content-sel_O2')"
+          title="变换"
+        ></span>
       </div>
     </div>
-    <div class="content-sel-option">
-      <div class="sel-option1 clearfix">
-        <div class="clearfix" v-if="parameter.text !== undefined">
-          <textarea
-            name
-            id
-            cols="30"
-            rows="2"
-            :maxlength="maxlength"
-            style="resize:none"
-            v-model="parameter.text"
-            @focus="focus"
-            @blur="tetextchange($event.currentTarget, 'text')"
-          ></textarea>
-          <span style="float:right">
-            <span class="textarealength" v-html="parameter.text.length"></span>/
-            <span v-html="maxlength"></span>字
-          </span>
-        </div>
-        <div class="clearfix" v-if="parameter.text_1 !== undefined">
-          <textarea
-            name
-            id
-            cols="30"
-            rows="2"
-            :maxlength="maxlength"
-            style="resize:none"
-            v-model="parameter.text_1"
-            @focus="focus"
-            @blur="tetextchange($event.currentTarget, 'text_1')"
-          ></textarea>
-          <span style="float:right">
-            <span class="textarealength" v-html="parameter.text_1.length"></span
-            >/ <span v-html="maxlength"></span>字
-          </span>
-        </div>
-        <div class="clearfix" v-if="parameter.text_2 !== undefined">
-          <textarea
-            name
-            id
-            cols="30"
-            rows="2"
-            :maxlength="maxlength"
-            style="resize:none"
-            v-model="parameter.text_2"
-            @focus="focus"
-            @blur="tetextchange($event.currentTarget, 'text_2')"
-          ></textarea>
-          <span style="float:right">
-            <span class="textarealength" v-html="parameter.text_2.length"></span
-            >/ <span v-html="maxlength"></span>字
-          </span>
-        </div>
-        <div
-          style="position:relative;height:30px;float:left;padding-top:5px"
-          class="clearfix"
-        >
-          <fontpick index="0"></fontpick>
-        </div>
-
-        <div class="clearfix" style="display:flex; float:right;">
-          <div class="font-textcolor">
-            <div class="dynamic-text-colorpicker">
-              <colorpick type="textColor" title="文字颜色"></colorpick>
+    <div
+      class="content-sel_O1 animate-container"
+      v-if="this.classname == 'content-sel_O1'"
+    >
+      <div class="animate-content">
+        <div class="animate-option-groups">
+          <div class="option-text">
+            <div class="text-title">文字</div>
+            <div class="text-style">
+              <fontpick :index="0"></fontpick>
+              <!-- <input
+                type="number"
+                min="0"
+                v-model="activechunk.chunk.filter[0].size"
+                @input="fontsizeinput(0, $event.currentTarget)"
+                class="font-size-set"
+              /> -->
+              <div class="font-options">
+                <div
+                  title="粗体"
+                  class="font-width font-option"
+                  :class="parameter.weight > 500 ? 'active' : ''"
+                  @click="togglefont('weight')"
+                ></div>
+                <div
+                  title="斜体"
+                  class="font-style font-option"
+                  :class="parameter.style != 'normal' ? 'active' : ''"
+                  @click="togglefont('style')"
+                ></div>
+              </div>
+              <div class="dynamic-text-colorpicker">
+                <span>字体颜色：</span>
+                <colorpick type="textColor" title="文字颜色"></colorpick>
+              </div>
+              <template v-if="isBgColorLinked">
+                <div class="dynamic-text-colorpicker">
+                  <span>背景色：</span>
+                  <colorpick
+                    type="iconBgColor"
+                    type2="textBgColor"
+                    title="背景色"
+                  ></colorpick>
+                </div>
+              </template>
+              <template v-else>
+                <div class="dynamic-text-colorpicker" v-if="hasIconBgColor">
+                  <span>图标背景色：</span>
+                  <colorpick type="iconBgColor" title="图标背景色"></colorpick>
+                </div>
+                <div class="dynamic-text-colorpicker" v-if="hasTextBgColor">
+                  <span>文字背景色：</span>
+                  <colorpick type="textBgColor" title="文字背景色"></colorpick>
+                </div>
+              </template>
             </div>
-          </div>
-          <div
-            title="粗体"
-            class="font-width font-option"
-            :class="parameter.weight > 500 ? 'active' : ''"
-            @click="togglefont('weight')"
-          >
-            <div></div>
-          </div>
-          <div
-            title="斜体"
-            class="font-style font-option"
-            :class="parameter.style != 'normal' ? 'active' : ''"
-            @click="togglefont('style')"
-          >
-            <div></div>
-          </div>
-          <div class="split-line"></div>
-          <template v-if="isBgColorLinked">
-            <div class="dynamic-text-colorpicker">
-              <colorpick
-                type="iconBgColor"
-                type2="textBgColor"
-                title="背景色"
-              ></colorpick>
+            <div class="text-content">
+              <template v-if="parameter.text !== undefined">
+                <textarea
+                  name
+                  id
+                  cols="30"
+                  rows="2"
+                  :maxlength="maxlength"
+                  style="resize:none"
+                  v-model="parameter.text"
+                  @focus="focus"
+                  @blur="tetextchange($event.currentTarget, 'text')"
+                ></textarea>
+                <div class="length-mark">
+                  <span
+                    class="textarealength"
+                    v-html="parameter.text.length"
+                  ></span
+                  >/ <span v-html="maxlength"></span>字
+                </div>
+              </template>
+              <template v-if="parameter.text_1 !== undefined">
+                <textarea
+                  name
+                  id
+                  cols="30"
+                  rows="2"
+                  :maxlength="maxlength"
+                  style="resize:none"
+                  v-model="parameter.text_1"
+                  @focus="focus"
+                  @blur="tetextchange($event.currentTarget, 'text_1')"
+                ></textarea>
+                <div class="length-mark">
+                  <span
+                    class="textarealength"
+                    v-html="parameter.text_1.length"
+                  ></span
+                  >/ <span v-html="maxlength"></span>字
+                </div>
+              </template>
+              <template v-if="parameter.text_2 !== undefined">
+                <textarea
+                  name
+                  id
+                  cols="30"
+                  rows="2"
+                  :maxlength="maxlength"
+                  style="resize:none"
+                  v-model="parameter.text_2"
+                  @focus="focus"
+                  @blur="tetextchange($event.currentTarget, 'text_2')"
+                ></textarea>
+                <div class="length-mark">
+                  <span
+                    class="textarealength"
+                    v-html="parameter.text_2.length"
+                  ></span
+                  >/ <span v-html="maxlength"></span>字
+                </div>
+              </template>
             </div>
-          </template>
-          <template v-else>
-            <div class="dynamic-text-colorpicker" v-if="hasIconBgColor">
-              <colorpick type="iconBgColor" title="图标背景色"></colorpick>
-            </div>
-            <div class="dynamic-text-colorpicker" v-if="hasTextBgColor">
-              <colorpick type="textBgColor" title="文字背景色"></colorpick>
-            </div>
-          </template>
-        </div>
-      </div>
-
-      <div class="sel-option">
-        <div class="sel-option-name">比例</div>
-        <div class="sel-option-con">
-          <div style="float:right;position: relative;width:60px;height:100%">
-            <input
-              type="number"
-              class="sty"
-              style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
-              :value="parseFloat(parameter.geometry_h).toFixed(0)"
-              @change="handleBiliInputChange"
-              @blur="wChange"
-            />
-            <span style="float:right;color:#61ded0">%</span>
-          </div>
-          <div
-            style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
-          >
-            <el-slider
-              v-model="parameter.geometry_h"
-              :format-tooltip="formatGeometryH"
-              @change="wChange"
-              mini
-              :max="100"
-              :min="0"
-              :step="1"
-            ></el-slider>
           </div>
         </div>
       </div>
-      <div class="sel-option">
-        <div class="sel-option-name">位置</div>
-        <div class="sel-option-con">
-          <div style="float:left;position: relative;height:100%;width:130px">
-            <span style="padding:0 15px">X</span>
-            <input
-              style="top:50%;transform: translate(0,-50%);"
-              type="number"
-              :value="
-                parseInt(
-                  (this.systemmessage.player.w * parameter.geometry_left) / 100
-                )
-              "
-              @blur="changePosition('x', $event.currentTarget)"
-              class="sty"
-            />
-          </div>
-          <div style="float:left;position: relative;height:100%;width:130px">
-            <span style="padding:0 15px">Y</span>
-            <input
-              style="top:50%;transform: translate(0,-50%);"
-              type="number"
-              :value="
-                parseInt(
-                  (this.systemmessage.player.h * parameter.geometry_top) / 100
-                )
-              "
-              @blur="changePosition('y', $event.currentTarget)"
-              class="sty"
-            />
+    </div>
+    <div
+      class="content-sel_O2 transform-container"
+      v-if="this.classname == 'content-sel_O2'"
+    >
+      <div class="content-sel-option transform-content clearfix">
+        <div class="sel-option">
+          <div class="sel-option-name">比例</div>
+          <div class="sel-option-con">
+            <div style="float:right;position: relative;width:60px;height:100%">
+              <input
+                type="number"
+                class="sty"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
+                :value="parseFloat(parameter.geometry_h).toFixed(0)"
+                @change="handleBiliInputChange"
+                @blur="wChange"
+              />
+              <span style="float:right;color:#61ded0">%</span>
+            </div>
+            <div
+              style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
+            >
+              <el-slider
+                v-model="parameter.geometry_h"
+                :format-tooltip="formatGeometryH"
+                @change="wChange"
+                mini
+                :max="100"
+                :min="0"
+                :step="1"
+              ></el-slider>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- <div>
+        <div class="sel-option">
+          <div class="sel-option-name">位置</div>
+          <div class="sel-option-con">
+            <div style="float:left;position: relative;height:100%;width:130px">
+              <span style="padding:0 15px">X</span>
+              <input
+                style="top:50%;transform: translate(0,-50%);"
+                type="number"
+                :value="
+                  parseInt(
+                    (this.systemmessage.player.w * parameter.geometry_left) /
+                      100
+                  )
+                "
+                @blur="changePosition('x', $event.currentTarget)"
+                class="sty"
+              />
+            </div>
+            <div style="float:left;position: relative;height:100%;width:130px">
+              <span style="padding:0 15px">Y</span>
+              <input
+                style="top:50%;transform: translate(0,-50%);"
+                type="number"
+                :value="
+                  parseInt(
+                    (this.systemmessage.player.h * parameter.geometry_top) / 100
+                  )
+                "
+                @blur="changePosition('y', $event.currentTarget)"
+                class="sty"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- <div>
         <span style="position:relative;top:2px;margin-right:10px">
           <input type="checkbox" id="check3" v-model="quickposi">
           <label for="check3"></label>
@@ -179,6 +216,7 @@
         <span>快速定位</span>
         <quickposition v-if="this.quickposi"></quickposition>
       </div>-->
+      </div>
     </div>
   </div>
 </template>
@@ -193,9 +231,10 @@ import colorpick from './dynamicTextColorPick'
 export default {
   data() {
     return {
+      classname: 'content-sel_O1',
       maxlength: 60,
-      setproperty: false,
-      quickposi: false,
+      setproperty: true,
+      quickposi: true,
       wh: 1,
       billVal: 0,
       parameter: null,
@@ -277,6 +316,9 @@ export default {
       'SET_SCALE',
       'CHANGE_POSITION'
     ]),
+    tabChange(name) {
+      this.classname = name
+    },
     formatGeometryH(value) {
       return parseInt(value, 10)
     },
