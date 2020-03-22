@@ -2,7 +2,7 @@
   <div class="imgset_list">
     <div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:0;left:0;width:100%;height:100%;boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:0;left:0;width:100%;height:100%;boxSizing:border-box;"
         @click="click(1, 0)"
       >
         <span
@@ -13,7 +13,7 @@
     </div>
     <div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:0;left:0;width:50%;height:100%;boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:0;left:0;width:50%;height:100%;boxSizing:border-box;"
         @click="click(2, 0)"
       >
         <span
@@ -22,7 +22,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:0;left:50%;width:50%;height:100%;boxSizing:border-box; "
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:0;left:50%;width:50%;height:100%;boxSizing:border-box; "
         @click="click(2, 1)"
       >
         <span
@@ -33,7 +33,7 @@
     </div>
     <div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:0;left:0;width:50%;height:50%;boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:0;left:0;width:50%;height:50%;boxSizing:border-box;"
         @click="click(4, 0)"
       >
         <span
@@ -42,7 +42,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:0;left:50%;width:50%;height:50%;boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:0;left:50%;width:50%;height:50%;boxSizing:border-box;"
         @click="click(4, 1)"
       >
         <span
@@ -51,7 +51,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:50%;left:0;width:50%;height:50%;boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:50%;left:0;width:50%;height:50%;boxSizing:border-box;"
         @click="click(4, 2)"
       >
         <span
@@ -60,7 +60,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:50%;left:50%;width:50%;height:50%;boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:50%;left:50%;width:50%;height:50%;boxSizing:border-box;"
         @click="click(4, 3)"
       >
         <span
@@ -71,7 +71,7 @@
     </div>
     <div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:0;left:0;width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:0;left:0;width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
         @click="click(9, 0)"
       >
         <span
@@ -80,7 +80,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:0;left:calc(100% / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:0;left:calc(100% / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
         @click="click(9, 1)"
       >
         <span
@@ -89,7 +89,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:0;left:calc(100% * 2 / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:0;left:calc(100% * 2 / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
         @click="click(9, 2)"
       >
         <span
@@ -98,7 +98,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:calc(100% / 3);left:0;width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:calc(100% / 3);left:0;width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
         @click="click(9, 3)"
       >
         <span
@@ -107,7 +107,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:calc(100% / 3);left:calc(100%  / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:calc(100% / 3);left:calc(100%  / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
         @click="click(9, 4)"
       >
         <span
@@ -116,7 +116,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:calc(100% / 3);left:calc(100% * 2 / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:calc(100% / 3);left:calc(100% * 2 / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
         @click="click(9, 5)"
       >
         <span
@@ -125,7 +125,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:calc(100% * 2 / 3);left:0;width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:calc(100% * 2 / 3);left:0;width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
         @click="click(9, 6)"
       >
         <span
@@ -134,7 +134,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:calc(100% * 2 / 3);left:calc(100% / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:calc(100% * 2 / 3);left:calc(100% / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
         @click="click(9, 7)"
       >
         <span
@@ -143,7 +143,7 @@
         >
       </div>
       <div
-        style="cursor:pointer;border:1px solid #303030;position:absolute;top:calc(100% * 2 / 3);left:calc(100% * 2 / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
+        style="cursor:pointer;border:1px solid #3c434b;position:absolute;top:calc(100% * 2 / 3);left:calc(100% * 2 / 3);width:calc(100% / 3);height:calc(100% / 3);boxSizing:border-box;"
         @click="click(9, 8)"
       >
         <span

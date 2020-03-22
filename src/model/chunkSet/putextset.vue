@@ -2,205 +2,228 @@
   <div class="setContent-sel2 setContent-sel">
     <div class="content-sel-title">
       <div class="title-left">
-        <span class="u-icon textpng"></span>
-        <span>文本put</span>
+        <span
+          class="u-icon writepng"
+          style="cursor:pointer"
+          :class="this.classname == 'content-sel_O1' ? 'active' : ''"
+          @click="tabChange('content-sel_O1')"
+          title="动画"
+        ></span>
+        <span
+          class="u-icon setpng"
+          style="cursor:pointer"
+          :class="this.classname == 'content-sel_O2' ? 'active' : ''"
+          @click="tabChange('content-sel_O2')"
+          title="变换"
+        ></span>
       </div>
     </div>
-    <div class="content-sel-option">
-      <div class="sel-option1 clearfix">
-        <textarea
-          name
-          id
-          cols="30"
-          rows="6"
-          :maxlength="
-            this.activechunk.chunk.filter[0].geometry_template == undefined
-              ? this.minlength
-              : this.maxlength
-          "
-          style="resize:none"
-          v-model="activechunk.chunk.filter[0].text"
-          @focus="focus"
-          @input="putextchange(0, $event.currentTarget)"
-          @blur="blur"
-        ></textarea>
-        <span style="float:right">
-          <span
-            class="textarealength"
-            v-html="this.activechunk.chunk.filter[0].text.length"
-          ></span
-          >/
-          <span
-            v-html="
-              this.activechunk.chunk.filter[0].geometry_template == undefined
-                ? this.minlength
-                : this.maxlength
-            "
-          ></span>
-        </span>
-      </div>
-      <div class="sel-option1 clearfix">
-        <div
-          style="position:relative;height:30px;padding-top:5px;float:left"
-          class="clearfix"
-        >
-          <fontpick :index="0"></fontpick>
-          <input
-            type="number"
-            style="left:230px"
-            class="sty"
-            min="0"
-            v-model="activechunk.chunk.filter[0].size"
-            @input="fontsizeinput(0, $event.currentTarget)"
-          />
-        </div>
-        <div style="float:right">
-          <div
-            class="font-width font-option"
-            :class="
-              this.activechunk.chunk.filter[0].weight > 500 ? 'active' : ''
-            "
-            @click="togglefont(0, 'weight')"
-          >
-            <div></div>
-          </div>
-          <div
-            class="font-style font-option"
-            :class="
-              this.activechunk.chunk.filter[0].style != 'normal' ? 'active' : ''
-            "
-            @click="togglefont(0, 'style')"
-          >
-            <div></div>
-          </div>
-          <div class="font-textcolor" :style="{ float: 'left' }">
-            <colorpick :index="0" :type="'font'"></colorpick>
-          </div>
-          <div class="font-boxcolor" :style="{ float: 'left' }">
-            <colorpick :index="0" :type="'backg'"></colorpick>
-          </div>
-          <div
-            class="font-position font-option"
-            @click="toggleposition()"
-            v-if="
-              this.activechunk.chunk.filter[0].geometry_template == undefined
-            "
-          >
-            <div style="position:relative">
-              <div class="font-positionleft"></div>
-              <div class="sp-dd" style="margin-top:4px">▼</div>
-              <div class="font-positioncontent" v-show="this.flag">
-                <div class="ldq" @click="movetext('ldq')"></div>
-                <div class="cdq" @click="movetext('cdq')"></div>
-                <div class="rdq" @click="movetext('rdq')"></div>
-                <div class="tdq" @click="movetext('tdq')"></div>
-                <div class="mdq" @click="movetext('mdq')"></div>
-                <div class="bdq" @click="movetext('bdq')"></div>
+    <div
+      class="content-sel_O1 animate-container"
+      v-if="this.classname == 'content-sel_O1'"
+    >
+      <div class="animate-content">
+        <div class="animate-option-groups">
+          <div class="option-text">
+            <div class="text-title">文字</div>
+            <div class="text-style">
+              <fontpick :index="0"></fontpick>
+              <input
+                type="number"
+                min="0"
+                v-model="activechunk.chunk.filter[0].size"
+                @input="fontsizeinput(0, $event.currentTarget)"
+                class="font-size-set"
+              />
+              <div class="font-options">
+                <div
+                  class="font-width font-option"
+                  :class="
+                    this.activechunk.chunk.filter[0].weight > 500
+                      ? 'active'
+                      : ''
+                  "
+                  @click="togglefont(0, 'weight')"
+                ></div>
+                <div
+                  class="font-style font-option"
+                  :class="
+                    this.activechunk.chunk.filter[0].style != 'normal'
+                      ? 'active'
+                      : ''
+                  "
+                  @click="togglefont(0, 'style')"
+                ></div>
+                <div
+                  class="font-position font-option"
+                  @click="toggleposition()"
+                  v-if="
+                    this.activechunk.chunk.filter[0].geometry_template ==
+                      undefined
+                  "
+                >
+                  <div class="font-positioncontent" v-show="this.flag">
+                    <div class="ldq" @click="movetext('ldq')"></div>
+                    <div class="cdq" @click="movetext('cdq')"></div>
+                    <div class="rdq" @click="movetext('rdq')"></div>
+                    <div class="tdq" @click="movetext('tdq')"></div>
+                    <div class="mdq" @click="movetext('mdq')"></div>
+                    <div class="bdq" @click="movetext('bdq')"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="font-text-color">
+                <span>字体颜色：</span>
+                <colorpick :index="0" :type="'font'"></colorpick>
+              </div>
+              <div class="font-box-color">
+                <span>背景色：</span>
+                <colorpick :index="0" :type="'backg'"></colorpick>
+              </div>
+            </div>
+            <div class="text-content">
+              <textarea
+                name
+                id
+                cols="30"
+                rows="6"
+                :maxlength="
+                  this.activechunk.chunk.filter[0].geometry_template ==
+                  undefined
+                    ? this.minlength
+                    : this.maxlength
+                "
+                style="resize:none"
+                v-model="activechunk.chunk.filter[0].text"
+                @focus="focus"
+                @input="putextchange(0, $event.currentTarget)"
+                @blur="blur"
+              ></textarea>
+              <div class="length-mark">
+                <span
+                  class="textarealength"
+                  v-html="this.activechunk.chunk.filter[0].text.length"
+                ></span
+                >/
+                <span
+                  v-html="
+                    this.activechunk.chunk.filter[0].geometry_template ==
+                    undefined
+                      ? this.minlength
+                      : this.maxlength
+                  "
+                ></span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div
-        class="sel-option"
-        v-if="
-          this.activechunk.chunk.filter[0].geometry_template == 'rl_roll' ||
-            this.activechunk.chunk.filter[0].geometry_template == 'lr_roll'
-        "
-      >
-        <div class="sel-option-name">顶部间距</div>
-        <div class="sel-option-con">
-          <div style="float:right;position: relative;width:60px;height:100%">
-            <input
-              type="number"
-              max="100"
-              min="0"
-              class="sty"
-              style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
-              v-model="textTop"
-              @blur="hChange"
-            />
-            <span style="float:right;color:#61ded0;">%</span>
-          </div>
-          <div
-            style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
-          >
-            <el-slider
-              v-model="textTop"
-              @change="hChange"
-              mini
-              :max="100"
-              :min="0"
-              :step="1"
-            ></el-slider>
-          </div>
-        </div>
-      </div>
-      <div class="sel-option">
-        <div class="sel-option-name">位置</div>
-        <div class="sel-option-con">
-          <div style="float:left;position: relative;height:100%;width:130px">
-            <span style="padding:0 15px">X</span>
-            <input
-              style="top:50%;transform: translate(0,-50%);"
-              type="number"
-              :value="
-                parseInt(
-                  (this.systemmessage.player.w *
-                    this.activeProperty[this.propertyNum].left) /
-                    100
-                )
-              "
-              @blur="changePosition('x', $event.currentTarget)"
-              class="sty"
-            />
-          </div>
-          <div style="float:left;position: relative;height:100%;width:130px">
-            <span style="padding:0 15px">Y</span>
-            <input
-              style="top:50%;transform: translate(0,-50%);"
-              type="number"
-              :value="
-                parseInt(
-                  (this.systemmessage.player.h *
-                    this.activeProperty[this.propertyNum].top) /
-                    100
-                )
-              "
-              @blur="changePosition('y', $event.currentTarget)"
-              class="sty"
-            />
+    </div>
+    <div
+      class="content-sel_O2 transform-container"
+      v-if="this.classname == 'content-sel_O2'"
+    >
+      <div class="content-sel-option transform-content clearfix">
+        <div
+          class="sel-option"
+          v-if="
+            this.activechunk.chunk.filter[0].geometry_template == 'rl_roll' ||
+              this.activechunk.chunk.filter[0].geometry_template == 'lr_roll'
+          "
+        >
+          <div class="sel-option-name">顶部间距</div>
+          <div class="sel-option-con">
+            <div style="float:right;position: relative;width:60px;height:100%">
+              <input
+                type="number"
+                max="100"
+                min="0"
+                class="sty"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
+                v-model="textTop"
+                @blur="hChange"
+              />
+              <span style="float:right;color:#61ded0;">%</span>
+            </div>
+            <div
+              style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
+            >
+              <el-slider
+                v-model="textTop"
+                @change="hChange"
+                mini
+                :max="100"
+                :min="0"
+                :step="1"
+              ></el-slider>
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        v-if="activechunk.chunk.filter[0].geometry_template === undefined"
-        class="sel-option"
-      >
-        <span style="position:relative;top:2px;margin-right:10px">
-          <input type="checkbox" id="check1" v-model="setproperty" />
-          <label for="check1"></label>
-        </span>
-        <span>同时设置基础动画</span>
-      </div>
-      <div class="sel-option" v-if="this.setproperty">
-        <div class="sel-option-name">时间</div>
-        <div class="sel-option-con">
-          <div
-            style="float:right;position: relative;width:60px;height:100%"
-          ></div>
-          <div
-            style="position: relative;width:calc(100% - 80px);height:2px;top:calc(50% - 1px);background-color:#d7d7d7"
-          >
-            <timerdian
-              v-for="(pro, index) in this.activeProperty"
-              :key="index"
-              :index="index"
-            ></timerdian>
+        <div class="sel-option">
+          <div class="sel-option-name">位置</div>
+          <div class="sel-option-con">
+            <div style="float:left;position: relative;height:100%;width:130px">
+              <span style="padding:0 15px">X</span>
+              <input
+                style="top:50%;transform: translate(0,-50%);"
+                type="number"
+                :value="
+                  parseInt(
+                    (this.systemmessage.player.w *
+                      this.activeProperty[this.propertyNum].left) /
+                      100
+                  )
+                "
+                @blur="changePosition('x', $event.currentTarget)"
+                class="sty"
+              />
+            </div>
+            <div style="float:left;position: relative;height:100%;width:130px">
+              <span style="padding:0 15px">Y</span>
+              <input
+                style="top:50%;transform: translate(0,-50%);"
+                type="number"
+                :value="
+                  parseInt(
+                    (this.systemmessage.player.h *
+                      this.activeProperty[this.propertyNum].top) /
+                      100
+                  )
+                "
+                @blur="changePosition('y', $event.currentTarget)"
+                class="sty"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <!-- <div class = "sel-option" >
+        <div
+          v-if="activechunk.chunk.filter[0].geometry_template === undefined"
+          class="sel-option"
+        >
+          <span style="position:relative;top:2px;margin-right:10px">
+            <input type="checkbox" id="check1" v-model="setproperty" />
+            <label for="check1"></label>
+          </span>
+          <span>同时设置基础动画</span>
+        </div>
+        <div class="sel-option" v-if="this.setproperty">
+          <div class="sel-option-name">时间</div>
+          <div class="sel-option-con">
+            <div
+              style="float:right;position: relative;width:60px;height:100%"
+            ></div>
+            <div
+              style="position: relative;width:calc(100% - 80px);height:2px;top:calc(50% - 1px);background-color:#d7d7d7"
+            >
+              <timerdian
+                v-for="(pro, index) in this.activeProperty"
+                :key="index"
+                :index="index"
+              ></timerdian>
+            </div>
+          </div>
+        </div>
+        <!-- <div class = "sel-option" >
             <div class = "sel-option-name">透明度</div>
             <div class = "sel-option-con">
                 <div style = "float:right;position: relative;width:60px;height:100%">
@@ -212,32 +235,33 @@
                 </div>
             </div>
       </div>-->
-      <div class="sel-option">
-        <div class="sel-option-name">比例</div>
-        <div class="sel-option-con">
-          <div style="float:right;position: relative;width:60px;height:100%">
-            <input
-              type="number"
-              class="sty"
-              style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
-              :max="200"
-              :min="0"
-              v-model="bili"
-              @blur="wChange"
-            />
-            <span style="float:right;color:#61ded0">%</span>
-          </div>
-          <div
-            style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
-          >
-            <el-slider
-              v-model="bili"
-              @change="wChange"
-              mini
-              :max="200"
-              :min="0"
-              :step="1"
-            ></el-slider>
+        <div class="sel-option">
+          <div class="sel-option-name">比例</div>
+          <div class="sel-option-con">
+            <div style="float:right;position: relative;width:60px;height:100%">
+              <input
+                type="number"
+                class="sty"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
+                :max="200"
+                :min="0"
+                v-model="bili"
+                @blur="wChange"
+              />
+              <span style="float:right;color:#61ded0">%</span>
+            </div>
+            <div
+              style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
+            >
+              <el-slider
+                v-model="bili"
+                @change="wChange"
+                mini
+                :max="200"
+                :min="0"
+                :step="1"
+              ></el-slider>
+            </div>
           </div>
         </div>
       </div>
@@ -257,10 +281,11 @@ import { chunkUpdateFilterApi } from '@/api/Chunk'
 export default {
   data() {
     return {
+      classname: 'content-sel_O1',
       minlength: 100,
       maxlength: 1000,
-      setproperty: false,
-      quickposi: false,
+      setproperty: true,
+      quickposi: true,
       flag: false,
       biliVal: 0
     }
@@ -345,8 +370,12 @@ export default {
       'SET_NEWCHART_BILI',
       'CHANGE_ACTIVEPROPERTY',
       'CHANGE_PROPERTYNUM',
-      'CHANGE_POSITION'
+      'CHANGE_POSITION',
+      'ACTIVE_CHUNK'
     ]),
+    tabChange(name) {
+      this.classname = name
+    },
     focus() {
       window.zindex = 0
     },

@@ -74,85 +74,6 @@
   }
 }
 
-.font-position {
-  width: 50px;
-  height: 32px;
-
-  div {
-    background-color: #1d1d1d;
-  }
-}
-
-.font-positionleft {
-  width: 25px;
-  height: 20px;
-  float: left;
-  margin: 4px 5px 0;
-  background-image: url(../img/mdq.png);
-  background-size: 75%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.font-positioncontent {
-  position: absolute;
-  top: 32px;
-  left: -1px;
-  z-index: 200;
-  width: 90px;
-  height: 60px;
-  border: solid 1px #616161;
-
-  div {
-    width: 20px;
-    height: 20px;
-    float: left;
-    margin: 5px;
-  }
-}
-
-.ldq {
-  background-image: url(../img/ldq.png);
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.cdq {
-  background-image: url(../img/mdq.png);
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.rdq {
-  background-image: url(../img/rdq.png);
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.tdq {
-  background-image: url(../img/tdq.png);
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.bdq {
-  background-image: url(../img/bdq.png);
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.mdq {
-  background-image: url(../img/cdq.png);
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
 .setContent {
   position: absolute;
   top: 0.6rem;
@@ -160,8 +81,6 @@
   background-color: #212931;
   z-index: 1004;
   box-sizing: border-box;
-  font-size: 14px;
-  color: #909090;
 
   .setContent-do {
     height: 100%;
@@ -230,6 +149,8 @@
   .content-sel-option {
     padding: 0.12rem 0.2rem 0;
     z-index: -1;
+    font-size: 0.16rem;
+    color: #cdd5dd;
   }
 }
 
@@ -312,6 +233,13 @@
   }
 }
 
+.sp-replacer {
+  padding: 2px;
+  // background-color: #595f65;
+  border: 1px solid #595F65;
+  border-radius: 0.03rem;
+}
+
 .animate-container {
   width: 100%;
   height: 100%;
@@ -358,15 +286,14 @@
             }
           }
           .font-options {
-            width: 0.6rem;
             height: 0.4rem;
-            margin-right: 0.16rem;
             display: flex;
             justify-content: space-around;
             align-items: center;
             .font-option {
               width: 0.24rem;
               height: 0.24rem;
+              margin-right: 0.16rem;
               &.font-width {
                 cursor: pointer;
                 background-image: url(../img/weight.png);
@@ -392,9 +319,11 @@
               }
             }
           }
-          .font-text-color {
+          .font-text-color,
+          .font-box-color {
             display: flex;
             align-items: center;
+            margin-right: 0.16rem;
           }
         }
         .text-content {
@@ -421,6 +350,69 @@
             color: #838C98;
           }
         }
+      }
+    }
+  }
+}
+
+.font-position {
+  background-image: url(../img/mdq.png);
+  background-size: 85%;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+
+  .font-positioncontent {
+    position: absolute;
+    top: 20px;
+    z-index: 200;
+    width: 90px;
+    height: 60px;
+    background-color: #1c232a;
+    border: 1px solid #394149;
+    border-radius: 0.03rem;
+
+    div {
+      width: 20px;
+      height: 20px;
+      float: left;
+      margin: 5px;
+      background-size: 80%;
+
+      &.ldq {
+        background-image: url(../img/ldq.png);
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      &.cdq {
+        background-image: url(../img/mdq.png);
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      &.rdq {
+        background-image: url(../img/rdq.png);
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      &.tdq {
+        background-image: url(../img/tdq.png);
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      &.bdq {
+        background-image: url(../img/bdq.png);
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      &.mdq {
+        background-image: url(../img/cdq.png);
+        background-position: center;
+        background-repeat: no-repeat;
       }
     }
   }
@@ -704,12 +696,8 @@
 .sel-option1 input[type="number"].sty {
   position: absolute;
   top: 5px;
-  border-radius: 4px;
-  background-color: #1d1d1d;
-  color: #61ded0;
   box-sizing: border-box;
   text-align: center;
-  height: 30px;
   box-sizing: border-box;
   border: 1px solid #636363;
   -webkit-appearance: none;
@@ -718,7 +706,13 @@
   outline: 0;
   padding: 0.2em;
   text-decoration: none;
-  width: 60px;
+  width: 0.76rem;
+  height: 0.29rem;
+  background:#151a20;
+  border:1px solid #313c48;
+  border-radius: 0.03rem;
+  color: #cdd5dd;
+  font-size: 0.16rem;
 }
 
 input[type="number"] {

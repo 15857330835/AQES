@@ -301,11 +301,11 @@ export default {
       input[type='number'] {
         width: 160px;
         height: 20px;
-        background-color: rgb(48, 56, 64);
-        border: 1px solid rgb(99, 106, 113);
-        border-radius: 3px;
+        background-color: #303840;
+        color: #cdd5dd;
+        border: 1px solid #636a71;
+        border-radius: 0.03rem;
         box-sizing: border-box;
-        color: #e4e4e4;
         -webkit-appearance: none;
         -moz-appearance: none;
         display: inline-block;

@@ -130,8 +130,12 @@ html {
   } */
   .content-sel-option .sel-option {
     padding: 3px 0;
-    height: 30px;
-    line-height: 30px;
+    height: 32px;
+    line-height: 32px;
+  }
+
+  .el-slider__runway {
+    margin: 18px 0;
   }
 
   .setContent {
