@@ -37,22 +37,22 @@
                 min="0"
                 v-model="filter.size"
                 @input="fontsizeinput(index, $event.currentTarget)"
+                class="font-size-set"
               />
-              <div
-                class="font-width font-option"
-                :class="filter.weight > 500 ? 'active' : ''"
-                @click="togglefont(index, 'weight')"
-              >
-                <div></div>
+              <div class="font-options">
+                <div
+                  class="font-width font-option"
+                  :class="filter.weight > 500 ? 'active' : ''"
+                  @click="togglefont(index, 'weight')"
+                ></div>
+                <div
+                  class="font-style font-option"
+                  :class="filter.style != 'normal' ? 'active' : ''"
+                  @click="togglefont(index, 'style')"
+                ></div>
               </div>
-              <div
-                class="font-style font-option"
-                :class="filter.style != 'normal' ? 'active' : ''"
-                @click="togglefont(index, 'style')"
-              >
-                <div></div>
-              </div>
-              <div class="font-textcolor">
+              <div class="font-text-color">
+                <span>字体颜色：</span>
                 <colorpick :index="index" :type="'font'"></colorpick>
               </div>
             </div>
@@ -69,10 +69,10 @@
                 @input="tetextchange(index, $event.currentTarget)"
                 @blur="blur"
               ></textarea>
-              <span>
+              <div class="length-mark">
                 <span v-html="filterTextData[index].text.length"></span>/
                 <span v-html="maxlength"></span>
-              </span>
+              </div>
             </div>
           </div>
         </div>

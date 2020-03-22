@@ -5,6 +5,7 @@
       placeholder="请选择"
       size="mini"
       @change="fontchange"
+      style="width:2.2rem;margin-right:0.16rem;"
     >
       <el-option-group
         v-for="group in options3"

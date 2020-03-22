@@ -1,5 +1,5 @@
 <template>
-  <div style="padding:5px;box-sizing:border-box;display:inline-block">
+  <div class="color-container">
     <input type="color" :ref="'color'" />
   </div>
 </template>
