@@ -3,6 +3,7 @@ import { TIP_HEIGHT_NUMBER } from '@/config'
 /* chunkset抽取公共部分begin */
 const CHANGE_POSITION = 'CHANGE_POSITION'
 const CHANGE_CATEGORY_TYPE = 'CHANGE_CATEGORY_TYPE'
+const CHANGE_MY_DIR_DIALOG_SHOW = 'CHANGE_MY_DIR_DIALOG_SHOW'
 /* chunkset抽取公共部分end */
 
 const CHANGE_LOADING = 'CHANGE_LOADING' // 改变loading状态
@@ -506,6 +507,8 @@ export default {
   [SET_MUL_SELE_LIST](state, data) {
     if (data.type === 'add') {
       state.MulSeleList.push(data.path)
+    } else if (data.type === 'change') {
+      state.MulSeleList = [data.path]
     } else if (data.type === 'del') {
       state.MulSeleList = state.MulSeleList.filter(item => {
         return item !== data.path
@@ -895,6 +898,9 @@ export default {
   },
   [CHANGE_CATEGORY_TYPE](state, payload) {
     state.categoryType = payload
+  },
+  [CHANGE_MY_DIR_DIALOG_SHOW](state, payload) {
+    state.myDirDialogShow = payload
   }
   /* chunkset抽取公共部分end */
 }

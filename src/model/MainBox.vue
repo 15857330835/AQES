@@ -10,6 +10,7 @@
     <ExportVideoSet v-if="exportVideoSetShow"></ExportVideoSet>
     <VoiceApplyModal v-if="modalVoiceApplyIsShow"></VoiceApplyModal>
     <SetBox></SetBox>
+    <MyDirDialog></MyDirDialog>
   </div>
 </template>
 
@@ -20,6 +21,7 @@ import videooper from '@/model/videooper'
 import tracksection from '@/model/trackSection'
 import tracktimer from '@/model/trackSection/trackTimer'
 import chunkset from '@/model/chunkSet'
+import MyDirDialog from '@/model/chunkSet/MyDirDialog'
 import ExportVideoSet from '@/model/mzSection/ExportVideoSet'
 import VoiceApplyModal from '@/model/aiVoiceApply/VoiceApplyModal.vue'
 import SetBox from '@/model/setBox'
@@ -36,7 +38,8 @@ export default {
     chunkset,
     ExportVideoSet,
     VoiceApplyModal,
-    SetBox
+    SetBox,
+    MyDirDialog
   },
   computed: {
     ...mapState([

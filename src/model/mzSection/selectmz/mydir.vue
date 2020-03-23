@@ -15,7 +15,7 @@
       <!-- <div v-if="isToHis" style="display:inline-block;float:right;"
             @touchend="toHistory()"
       @click="toHistory()"><el-button slot="trigger" size="medium" type="text" icon="iconfont icon-fanhui" style="cursor:pointer;">返回</el-button></div>-->
-      <div class="dir-set-box">
+      <div class="dir-set-box" v-if="!isDialog">
         <el-button
           v-if="!isRecord"
           class="create-dir"
@@ -70,7 +70,7 @@
     </div>
     <div class="mydir-bottom">
       <div class="mydir-bottom-title clearfix">
-        <div style="float:left;margin-top:13px;padding-left:5px">
+        <div class="mydir-bottom-title-container">
           <el-breadcrumb separator=">">
             <el-breadcrumb-item>
               <span style="color:#e4e4e4;cursor:pointer;" @click="intoDir('')"
@@ -136,7 +136,10 @@
                 class="content_top u-icon"
                 @click.stop="dirClickedFn($event, dir.name, 'dir', index)"
                 @dblclick="openDir(dir.name)"
-                :class="{ clicked: (dir.state & 1) === 1 }"
+                :class="{
+                  clicked: (dir.state & 1) === 1,
+                  actived: activeStr === 'dir' + dir.name + index
+                }"
                 @mouseenter="enterdir($event, dir.name)"
                 @mouseout="outdir"
                 @contextmenu.prevent="downright($event, dir.name, 'dir', index)"
@@ -184,9 +187,14 @@
             >
               <div
                 class="content_top"
-                :class="{ clicked: (file.state & 1) === 1 }"
+                :class="{
+                  clicked: (file.state & 1) === 1,
+                  actived: activeStr === 'file' + file.name + index
+                }"
                 @mousedown.left="leftdown($event, file.name)"
-                @click.stop="clickedFn($event, file.name, 'file', index)"
+                @click.stop="
+                  clickedFn($event, file.name, 'file', index, file.url)
+                "
                 @mouseenter="isImageDelDivHandle($event, 'block')"
                 @mouseleave="isImageDelDivHandle($event, 'none')"
                 @contextmenu.prevent="
@@ -394,9 +402,10 @@ import * as api from '@/api/Lib'
 // import { uploadForm } from '@/api/Upload'
 import BScroll from 'better-scroll'
 export default {
-  props: ['transPaneData'],
+  props: ['transPaneData', 'isDialog'],
   data() {
     return {
+      activeStr: '',
       imgLoaded: false,
       imgClicked: true,
       lasttime: 0,
@@ -486,6 +495,12 @@ export default {
   },
   created() {
     this.intoDir('')
+    if (this.isDialog) {
+      this.value = {
+        value: 'image',
+        label: '图片'
+      }
+    }
   },
   computed: {
     ...mapState([
@@ -604,6 +619,12 @@ export default {
       this.intoDir('')
     },
     backDir(index) {
+      // 清空激活并传空url给父组件
+      if (this.isDialog) {
+        this.$emit('updateSelect', '')
+      }
+      this.activeStr = ''
+
       const arr = this.url.split('/')
       let dir = ''
       if (index === '') {
@@ -622,6 +643,12 @@ export default {
       this.intoDir(dir)
     },
     async intoDir(dir) {
+      // 清空激活并传空url给父组件
+      if (this.isDialog) {
+        this.$emit('updateSelect', '')
+      }
+      this.activeStr = ''
+
       if (dir === '') this.isRecord = false
       this.toobj = ''
       if (this.pastType === '') {
@@ -682,6 +709,9 @@ export default {
     },
     downright(e_para, name, type, index) {
       e_para.stopPropagation()
+      if (this.isDialog) {
+        return
+      }
       let e = e_para
       this.tipobj.show = false
       this.downrightIndex = index
@@ -829,6 +859,7 @@ export default {
       this.tipobj.show = false
     },
     async move(type, moveobj, toobj_para) {
+      console.log(1234)
       const toobj = toobj_para || '/'
       this.reallibCut({ path: moveobj, libpath: toobj })
       this.moveobj = ''
@@ -977,7 +1008,8 @@ export default {
     handleImgLoad() {
       this.imgLoaded = true
     },
-    clickedFn(e, name, type, index) {
+    clickedFn(e, name, type, index, url) {
+      this.activeStr = 'file' + name + index
       this.tipobj.show = false
       this.isSwitchDir = false
       this.beforSwitchDir = this.url
@@ -996,15 +1028,25 @@ export default {
       if (state & (state === 1)) {
         this.SET_MUL_SELE_LIST({ path: path, type: 'del' })
       } else {
-        this.SET_MUL_SELE_LIST({ path: path, type: 'add' })
+        let selectType
+        if (this.isDialog) {
+          selectType = 'change'
+        } else {
+          selectType = 'add'
+        }
+        this.SET_MUL_SELE_LIST({ path: path, type: selectType })
+        if (this.isDialog) {
+          this.$emit('updateSelect', url)
+        }
       }
 
       this.dirlist[type + 's'][index].state = state ^ 1
     },
     dirClickedFn(e, name, type, index) {
+      this.activeStr = 'dir' + name + index
       clearTimeout(this.clctimer)
       this.clctimer = setTimeout(() => {
-        this.clickedFn(e, name, type, index)
+        this.clickedFn(e, name, type, index, '')
       }, 300)
     },
     isImageDelDivHandle(e, hide) {
@@ -1098,6 +1140,12 @@ export default {
   .mydir-bottom {
     .mydir-bottom-title {
       height: 40px;
+      .mydir-bottom-title-container {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding-left: 0.2rem;
+      }
     }
     .mydir-bottom-content {
       height: calc(100% - 50px);

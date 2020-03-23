@@ -359,6 +359,30 @@
   }
 }
 
+.image-box {
+  display: flex;
+  align-items: flex-end;
+  margin: 0.16rem 0.16rem 0;
+  .image-box-content {
+    border: 1px solid #394149;
+    background-color: #0f1215;
+    width: 1.80rem;
+    height: 1.01rem;
+    margin-right: 0.16rem;
+  }
+  .image-box-button {
+    width: 1.26rem;
+    height: 0.37rem;
+    background-color: transparent;
+    color: #61ded0;
+    border: 1px solid #61ded0;
+    border-radius: 0.03rem;
+    outline: 0;
+    cursor: pointer;
+  }
+}
+
+
 .font-position {
   background-image: url(../img/mdq.png);
   background-size: 85%;

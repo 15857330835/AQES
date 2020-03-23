@@ -36,7 +36,7 @@ export default {
         this.activechunk.chunk.filter[this.index].bgcolour = color
       } else if (this.type === 'srcFrom') {
         console.log(this.activechunk.chunk.filter[this.index])
-        this.activechunk.chunk.filter[this.index].from = 'colour:' + color
+        this.activechunk.chunk.filter[this.index].from = 'color:' + color
         console.log(this.activechunk.chunk.filter[this.index])
       }
       this.sendmessage()
@@ -55,6 +55,13 @@ export default {
     },
     sendmessage() {
       this.UPDATE_ALLOW_HISTORY_BACK(false)
+      console.log(
+        JSON.stringify({
+          cmd: 'update_filter',
+          chunk_id: this.activechunk.chunk.chunk_id,
+          property: this.activechunk.chunk.filter
+        })
+      )
       $.post(
         window.NCES.DOMAIN + '/api/chunk',
         JSON.stringify({

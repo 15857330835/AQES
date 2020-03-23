@@ -111,6 +111,15 @@
             <div class="text-title">
               元素{{ index + 1 + lineBaseFromCount }}
             </div>
+            <div class="text-style">
+              <div class="font-box-color">
+                <span>{{ filter.name }}：</span>
+                <colorpick
+                  :index="filter.fromIndex"
+                  :type="'srcFrom'"
+                ></colorpick>
+              </div>
+            </div>
           </div>
         </div>
         <div class="animate-option-groups">
@@ -120,6 +129,19 @@
             :key="index"
           >
             <div class="text-title">元素{{ index + 1 + imgBaseFromCount }}</div>
+            <div class="image-box">
+              <img
+                class="image-box-content"
+                :src="'https://' + filter.from"
+                alt=""
+              />
+              <button
+                class="image-box-button"
+                @click="myDirDialogHandler(true)"
+              >
+                更换图片
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -374,8 +396,12 @@ export default {
       'CHANGE_PROPERTYNUM',
       'SET_NEWCHART_BILI',
       'UPDATE_ALLOW_HISTORY_BACK',
-      'CHANGE_POSITION'
+      'CHANGE_POSITION',
+      'CHANGE_MY_DIR_DIALOG_SHOW'
     ]),
+    myDirDialogHandler(flag) {
+      this.CHANGE_MY_DIR_DIALOG_SHOW(flag)
+    },
     textareaChange(target) {
       // if(this.activechunk.chunk.filter[0].geometry_template == undefined){
       //     target.value = target.value.substr(0,100)

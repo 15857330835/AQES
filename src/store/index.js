@@ -143,6 +143,8 @@ const state = {
   isRefreshCaptionSetBS: false,
   isRefreshPanesBS: false,
   /* BS滚动end */
+
+  myDirDialogShow: true,
   filterIndexMap: new Map([
     [1, 'video'],
     [2, 'text'],
