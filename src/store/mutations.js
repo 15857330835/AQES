@@ -2,6 +2,7 @@ import { TIP_HEIGHT_NUMBER } from '@/config'
 
 /* chunkset抽取公共部分begin */
 const CHANGE_POSITION = 'CHANGE_POSITION'
+const CHANGE_CATEGORY_TYPE = 'CHANGE_CATEGORY_TYPE'
 /* chunkset抽取公共部分end */
 
 const CHANGE_LOADING = 'CHANGE_LOADING' // 改变loading状态
@@ -886,6 +887,9 @@ export default {
         (parseInt(target.value, 10) * 100) / state.systemmessage.player.h
       state.activeProperty[state.propertyNum].top = num
     }
+  },
+  [CHANGE_CATEGORY_TYPE](state, payload) {
+    state.categoryType = payload
   }
   /* chunkset抽取公共部分end */
 }

@@ -557,7 +557,8 @@ export default {
       'CHANGE_IS_TRACK_SELECT',
       'CHANGE_MODAL_CONTENT',
       'UPDATE_AI_CHUNKS_POSITION',
-      'SET_ASYNC_SET_CHART'
+      'SET_ASYNC_SET_CHART',
+      'CHANGE_CATEGORY_TYPE'
     ]),
     url(url) {
       if (url.indexOf('//') === -1) {
@@ -1478,8 +1479,18 @@ export default {
       this.ACTIVE_CHUNK({ state: 'active' })
       this.up = false
     },
+    // eslint-disable-next-line complexity
     dblclick() {
       console.log('chunkbox dblclick')
+      // 定义text的category
+      if (this.activechunk.chunk.chunk_type === 3) {
+        const partner = this.sourceData.find(
+          item => item.src_id === this.activechunk.chunk.src_id
+        )
+        if (partner && partner.category) {
+          this.CHANGE_CATEGORY_TYPE(partner.category)
+        }
+      }
       this.SET_ASYNC_SET_CHART(true) // todo
       this.ACTIVE_CHUNK({ chunk: this.chunk, state: 'active' })
       if (this.modalVoiceApplyIsShow) {

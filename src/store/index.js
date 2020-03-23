@@ -26,6 +26,7 @@ const state = {
   trackposition: [], // 视频块轨道有效区域
   trackcaption: {}, // 字幕块有效区域
   sourceData: [], // 已经添加的源的数据
+  categoryType: '',
   showwhat: null, // [chunk,filter]值为chunk显示块的位置，值为filter显示滤镜的位置
   slidernum: {
     max: 30.1, // 最大比例

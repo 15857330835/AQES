@@ -14,24 +14,11 @@
       "
     ></videoset>
     <audioset v-if="this.activechunk.chunk.chunk_type == 2"></audioset>
-    <textset
-      v-if="
-        this.activechunk.chunk.chunk_type == 3 &&
-          this.activechunk.chunk.filter.length > 1
-      "
-    ></textset>
-    <putextset
-      v-else-if="
-        this.activechunk.chunk.chunk_type == 3 &&
-          this.activechunk.chunk.filter.length == 1
-      "
-    ></putextset>
-    <dynamicTextSet
-      v-else-if="
-        this.activechunk.chunk.chunk_type == 3 &&
-          this.activechunk.chunk.template
-      "
-    ></dynamicTextSet>
+    <putextset v-if="categoryType == '基础文本'"></putextset>
+    <dynamicTextSet v-else-if="categoryType == '动态文本'"></dynamicTextSet>
+    <effectsTextSet v-else-if="categoryType == '动效列表'"></effectsTextSet>
+    <effectsTextSet v-else-if="!categoryType.length"></effectsTextSet>
+    <textset v-else></textset>
     <div
       class="setContent-do"
       :style="{ width: 'calc(100vw * ' + this.videosurew + ')' }"
@@ -54,6 +41,7 @@ import audioset from './audioset'
 import textset from './textset'
 import putextset from './putextset'
 import dynamicTextSet from './dynamicTextSet'
+import effectsTextSet from './effectsTextSet'
 
 export default {
   data() {
@@ -84,7 +72,8 @@ export default {
     audioset,
     textset,
     putextset,
-    dynamicTextSet
+    dynamicTextSet,
+    effectsTextSet
   },
   computed: {
     ...mapState([
@@ -93,7 +82,8 @@ export default {
       'clientwidth',
       'propertyNum',
       'historyindex',
-      'allowHistoryBack'
+      'allowHistoryBack',
+      'categoryType'
     ]),
     track() {
       return this.$store.state.all.tracks
