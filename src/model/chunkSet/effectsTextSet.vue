@@ -56,6 +56,13 @@
                 <span>字体颜色：</span>
                 <colorpick :index="filter.fromIndex" :type="'font'"></colorpick>
               </div>
+              <div class="font-box-color">
+                <span>背景色：</span>
+                <colorpick
+                  :index="filter.fromIndex"
+                  :type="'backg'"
+                ></colorpick>
+              </div>
             </div>
             <div class="text-content">
               <textarea
@@ -75,6 +82,44 @@
                 <span v-html="maxlength"></span>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="animate-option-groups">
+          <div
+            class="option-text"
+            v-for="(filter, index) in filterRectData"
+            :key="index"
+          >
+            <div class="text-title">元素{{ index + 1 }}</div>
+            <div class="text-style">
+              <div class="font-box-color">
+                <span>{{ filter.name }}：</span>
+                <colorpick
+                  :index="filter.fromIndex"
+                  :type="'srcFrom'"
+                ></colorpick>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="animate-option-groups">
+          <div
+            class="option-text"
+            v-for="(filter, index) in filterLineData"
+            :key="index"
+          >
+            <div class="text-title">
+              元素{{ index + 1 + lineBaseFromCount }}
+            </div>
+          </div>
+        </div>
+        <div class="animate-option-groups">
+          <div
+            class="option-text"
+            v-for="(filter, index) in filterImgData"
+            :key="index"
+          >
+            <div class="text-title">元素{{ index + 1 + imgBaseFromCount }}</div>
           </div>
         </div>
       </div>
@@ -311,6 +356,12 @@ export default {
     },
     filterLineData() {
       return this.filterData.filter(item => item.module_type === 5)
+    },
+    lineBaseFromCount() {
+      return this.filterRectData.length
+    },
+    imgBaseFromCount() {
+      return this.filterRectData.length + this.filterLineData.length
     }
   },
   watch: {},

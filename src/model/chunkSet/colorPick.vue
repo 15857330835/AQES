@@ -30,12 +30,14 @@ export default {
       const color = this.colorReset(color_para.toRgb())
       if (this.type === 'font') {
         this.activechunk.chunk.filter[this.index].fgcolour = color
-      }
-      if (this.type === 'b') {
+      } else if (this.type === 'b') {
         this.activechunk.chunk.filter[this.index].olcolour = color
-      }
-      if (this.type === 'backg') {
+      } else if (this.type === 'backg') {
         this.activechunk.chunk.filter[this.index].bgcolour = color
+      } else if (this.type === 'srcFrom') {
+        console.log(this.activechunk.chunk.filter[this.index])
+        this.activechunk.chunk.filter[this.index].from = 'colour:' + color
+        console.log(this.activechunk.chunk.filter[this.index])
       }
       this.sendmessage()
     },
@@ -70,13 +72,23 @@ export default {
         },
         'json'
       )
+    },
+    getColor() {
+      let color
+      if (this.type === 'srcFrom') {
+        color = this.activechunk.chunk.filter[this.index].from.split(':')[1]
+      } else {
+        color = this.activechunk.chunk.filter[this.index].fgcolour
+      }
+      return color
     }
   },
   mounted() {
+    const color = this.getColor()
     const that = this
     $(this.$refs.color).spectrum({
       preferredFormat: true,
-      color: that.activechunk.chunk.filter[that.index].fgcolour,
+      color,
       allowEmpty: true,
       showInitial: true,
       // showAlpha: true,

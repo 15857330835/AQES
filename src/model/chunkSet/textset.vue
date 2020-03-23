@@ -56,6 +56,13 @@
                 <span>字体颜色：</span>
                 <colorpick :index="filter.fromIndex" :type="'font'"></colorpick>
               </div>
+              <div class="font-box-color">
+                <span>背景色：</span>
+                <colorpick
+                  :index="filter.fromIndex"
+                  :type="'backg'"
+                ></colorpick>
+              </div>
             </div>
             <div class="text-content">
               <textarea
@@ -76,6 +83,13 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="animate-option-groups">
+          <div
+            class="option-text"
+            v-for="(filter, index) in filterTextData"
+            :key="index"
+          ></div>
         </div>
       </div>
     </div>
