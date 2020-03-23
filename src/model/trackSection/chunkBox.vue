@@ -1247,7 +1247,6 @@ export default {
         clearTimeout(this.timer)
         if (this.timer !== 0) {
           this.ACTIVE_CHUNK({ state: 'active', chunk: this.chunk })
-
           return
         }
       }

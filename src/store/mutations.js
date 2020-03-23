@@ -311,6 +311,11 @@ export default {
         data.chunk.speed = 1
       }
       state.activechunk.chunk = data.chunk
+      if (state.activechunk.chunk.filter) {
+        state.activechunk.chunk.filter.forEach((item, index) => {
+          item.fromIndex = index
+        })
+      }
       if (data.chunk.geometry === 'undefined') {
         return
       }

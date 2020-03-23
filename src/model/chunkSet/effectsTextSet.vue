@@ -32,29 +32,29 @@
           >
             <div class="text-title">文字{{ index + 1 }}</div>
             <div class="text-style">
-              <fontpick :index="index"></fontpick>
+              <fontpick :index="filter.fromIndex"></fontpick>
               <input
                 type="number"
                 min="0"
                 v-model="filter.size"
-                @input="fontsizeinput(index, $event.currentTarget)"
+                @input="fontsizeinput(filter.fromIndex, $event.currentTarget)"
                 class="font-size-set"
               />
               <div class="font-options">
                 <div
                   class="font-width font-option"
                   :class="filter.weight > 500 ? 'active' : ''"
-                  @click="togglefont(index, 'weight')"
+                  @click="togglefont(filter.fromIndex, 'weight')"
                 ></div>
                 <div
                   class="font-style font-option"
                   :class="filter.style != 'normal' ? 'active' : ''"
-                  @click="togglefont(index, 'style')"
+                  @click="togglefont(filter.fromIndex, 'style')"
                 ></div>
               </div>
               <div class="font-text-color">
                 <span>字体颜色：</span>
-                <colorpick :index="index" :type="'font'"></colorpick>
+                <colorpick :index="filter.fromIndex" :type="'font'"></colorpick>
               </div>
             </div>
             <div class="text-content">
@@ -67,7 +67,7 @@
                 style="resize:none"
                 v-model="filter.text"
                 @focus="focus"
-                @input="tetextchange(index, $event.currentTarget)"
+                @input="tetextchange(filter.fromIndex, $event.currentTarget)"
                 @blur="blur"
               ></textarea>
               <div class="length-mark">
@@ -294,8 +294,23 @@ export default {
     propertyOfbili() {
       return this.propertyOfnum.w
     },
+    filterData() {
+      return this.activechunk.chunk.filter
+    },
+    filterImgData() {
+      return this.filterData.filter(item => item.module_type === 1)
+    },
+    filterVideoData() {
+      return this.filterData.filter(item => item.module_type === 2)
+    },
     filterTextData() {
-      return this.activechunk.chunk.filter.filter(item => item.type === 2)
+      return this.filterData.filter(item => item.type === 2)
+    },
+    filterRectData() {
+      return this.filterData.filter(item => item.module_type === 4)
+    },
+    filterLineData() {
+      return this.filterData.filter(item => item.module_type === 5)
     }
   },
   watch: {},
@@ -327,7 +342,7 @@ export default {
       window.zindex = 2
     },
     tetextchange: _.debounce(function(index, target) {
-      this.filterTextData[index].text = target.value
+      this.filterData[index].text = target.value
       this.sendmessage()
     }, 500),
     wChange(value) {
@@ -338,9 +353,9 @@ export default {
     },
     fontsizeinput(index, target) {
       if (target.value === '') {
-        this.filterTextData[index].size = 0
+        this.filterData[index].size = 0
       } else {
-        this.filterTextData[index].size = parseInt(target.value, 10)
+        this.filterData[index].size = parseInt(target.value, 10)
       }
       this.sendmessage()
     },
@@ -350,17 +365,17 @@ export default {
     },
     togglefont(index, style) {
       if (style === 'weight') {
-        if (this.filterTextData[index].weight === 500) {
-          this.filterTextData[index].weight = 600
+        if (this.filterData[index].weight === 500) {
+          this.filterData[index].weight = 600
         } else {
-          this.filterTextData[index].weight = 500
+          this.filterData[index].weight = 500
         }
       }
       if (style === 'style') {
-        if (this.filterTextData[index].style === 'normal') {
-          this.filterTextData[index].style = 'italic'
+        if (this.filterData[index].style === 'normal') {
+          this.filterData[index].style = 'italic'
         } else {
-          this.filterTextData[index].style = 'normal'
+          this.filterData[index].style = 'normal'
         }
       }
       this.sendmessage()
