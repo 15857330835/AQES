@@ -1484,10 +1484,11 @@ export default {
       console.log('chunkbox dblclick')
       // 定义text的category
       if (this.activechunk.chunk.chunk_type === 3) {
-        const partner = this.sourceData.find(
-          item => item.src_id === this.activechunk.chunk.src_id
-        )
+        const partner = this.sourceData.find(item => {
+          return item.src_id === this.activechunk.chunk.src_id
+        })
         if (partner && partner.category) {
+          // console.log(partner.category)
           this.CHANGE_CATEGORY_TYPE(partner.category)
         }
       }
@@ -2005,7 +2006,6 @@ export default {
   mounted() {
     // todo 开发测试
     if (this.chunk.chunk_type === 3) {
-      console.log(666)
       this.ACTIVE_CHUNK({ state: 'active', chunk: this.chunk })
       this.CHANGE_CHUNKSETSHOW(true)
     }

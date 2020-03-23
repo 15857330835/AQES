@@ -361,13 +361,11 @@ export default {
     }
   },
   mounted() {
-    console.log(_.cloneDeep(this.activeProperty), 888)
     this.wh =
       this.activeProperty[this.propertyNum].w /
       this.activeProperty[this.propertyNum].h
     this.SET_NEWCHART_BILI(this.wh)
     this.copyFilter = JSON.parse(JSON.stringify(this.activechunk.chunk.filter))
-    console.log(_.cloneDeep(this.activeProperty), 999)
   }
 }
 </script>

@@ -60,7 +60,8 @@ export default {
     'flag',
     'searchDisable',
     'paneTitle',
-    'transPaneData'
+    'transPaneData',
+    'sourceTitle'
   ],
   data() {
     return {
@@ -134,7 +135,10 @@ export default {
             service: item.service
           }
         }
-        if (typeof item.category === 'undefined') {
+        if (
+          typeof item.category === 'undefined' ||
+          item.category === '动效列表'
+        ) {
           // 动效列表的特殊情况
           return {
             staticImg: `//${item.preview_img}`,
@@ -165,6 +169,9 @@ export default {
       if (res.Flag === 100) {
         if (typeof res.data === 'undefined') {
           res.data = res.List
+        }
+        if (this.sourceTitle === '动效列表') {
+          res.data.forEach(item => (item.category = '动效列表'))
         }
         this.UPDATE_MRZY_DATA([...this.Mrzydata, ...res.data])
         const formatedData = this.transferData(res.data)
@@ -198,6 +205,9 @@ export default {
       if (this.isSuccess(res)) {
         if (typeof res.data === 'undefined') {
           res.data = res.List
+        }
+        if (this.sourceTitle === '动效列表') {
+          res.data.forEach(item => (item.category = '动效列表'))
         }
         // this.UPDATE_MRZY_DATA(res.data)
         this.UPDATE_MRZY_DATA([...this.Mrzydata, ...res.data])

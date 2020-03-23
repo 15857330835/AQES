@@ -21,6 +21,7 @@
     <div
       class="content-sel_O1 animate-container"
       v-if="this.classname == 'content-sel_O1'"
+      ref="bscroll"
     >
       <div class="animate-content">
         <div class="animate-option-groups">
@@ -231,6 +232,7 @@ import fontpick from './fontpick'
 import colorpick from './colorPick'
 import { chunkUpdateFilterApi } from '@/api/Chunk'
 import _ from 'lodash'
+import BScroll from 'better-scroll'
 
 export default {
   data() {
@@ -243,7 +245,8 @@ export default {
       billVal: 0,
       blocked: false,
       copyFilter: {},
-      activeSetTab: 'animate'
+      activeSetTab: 'animate',
+      aBScroll: null
     }
   },
   components: {
@@ -409,13 +412,24 @@ export default {
     }
   },
   mounted() {
-    console.log(_.cloneDeep(this.activeProperty), 888)
     this.wh =
       this.activeProperty[this.propertyNum].w /
       this.activeProperty[this.propertyNum].h
     this.SET_NEWCHART_BILI(this.wh)
     this.copyFilter = JSON.parse(JSON.stringify(this.activechunk.chunk.filter))
-    console.log(_.cloneDeep(this.activeProperty), 999)
+
+    this.$nextTick(() => {
+      const bscrollDom = this.$refs.bscroll
+      this.aBScroll = new BScroll(bscrollDom, {
+        mouseWheel: true,
+        click: true,
+        tap: true,
+        scrollbar: {
+          fade: true,
+          interactive: true
+        }
+      })
+    })
   }
 }
 </script>

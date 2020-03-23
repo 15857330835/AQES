@@ -61,7 +61,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([]),
+    ...mapState(['sourceData']),
     tip() {
       const progress = parseInt(this.source.progress, 10)
       if (progress > 0 && progress < 100) return `下载中 ${progress}%`

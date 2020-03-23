@@ -17,7 +17,6 @@
     <putextset v-if="categoryType == '基础文本'"></putextset>
     <dynamicTextSet v-else-if="categoryType == '动态文本'"></dynamicTextSet>
     <effectsTextSet v-else-if="categoryType == '动效列表'"></effectsTextSet>
-    <effectsTextSet v-else-if="!categoryType.length"></effectsTextSet>
     <textset v-else></textset>
     <div
       class="setContent-do"

@@ -92,7 +92,7 @@ import { transitionAddApi } from '@/api/Transition'
 import { chunkAddApi, chunkReplaceApi } from '@/api/Chunk'
 import { trackPropertyAppendApi } from '@/api/Track'
 // import { sourceDelApi } from '@/api/Source'
-// import _ from 'lodash'
+import _ from 'lodash'
 import axios from '@/http'
 import { ATTACH_NUMBER } from '@/config'
 
@@ -325,6 +325,14 @@ export default {
       this.isSelect = title
       this.currentComponent = component
       this.CHANGE_IS_REFRESH_PANES_BS(true)
+      // todo test:清除添加的源
+      // console.log('nav 切换')
+      // console.log(this.sourceData, 1111)
+      // this.sourceData.forEach(item => {
+      //   sourceDelApi({
+      //     src_id: item.src_id
+      //   })
+      // })
     },
     gcd(a, b) {
       let temp
@@ -522,7 +530,8 @@ export default {
     },
     sourcedataHas() {
       let has = false
-      // console.log('sourceData:', _.cloneDeep(this.sourceData))
+      console.log('sourceData:', _.cloneDeep(this.sourceData))
+      console.log('clonediv:', _.cloneDeep(this.clonediv))
       for (let i = 0; i < this.sourceData.length; i++) {
         if (
           (this.sourceData[i].original_from || this.sourceData[i].from) ===
@@ -1349,15 +1358,6 @@ export default {
     keypress,
     audioPlayer
   }
-  // mounted() {
-  //   // 清除添加的源
-  //   console.log(this.sourceData, 1111)
-  //   this.sourceData.forEach(item => {
-  //     sourceDelApi({
-  //       src_id: item.src_id
-  //     })
-  //   })
-  // }
 }
 </script>
 
