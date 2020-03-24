@@ -1,7 +1,11 @@
 <template>
-  <div class="my-dir-dialog" v-show="myDirDialogShow">
+  <div class="my-dir-dialog" v-show="myDirDialogShow" ref="myDirDialog">
     <div class="my-dir-dialog-content">
-      <MyDir :isDialog="isDialog" @updateSelect="updateImgList"></MyDir>
+      <MyDir
+        :isDialog="isDialog"
+        @updateSelect="updateImgList"
+        v-show="domReady"
+      ></MyDir>
       <div class="button-groups">
         <el-button size="small" @click="cancleHandler">取 消</el-button>
         <el-button size="small" type="primary" @click="confirmHandler"
@@ -15,21 +19,56 @@
 <script>
 import MyDir from '@/model/mzSection/selectmz/mydir'
 import { mapState, mapMutations } from 'vuex'
+import { chunkUpdateFilterApi } from '@/api/Chunk'
 export default {
   data() {
     return {
       isDialog: true,
-      img_url: ''
+      img_url: '',
+      domReady: false
     }
   },
   components: {
     MyDir
   },
   computed: {
-    ...mapState(['myDirDialogShow'])
+    ...mapState(['myDirDialogShow', 'notify', 'activechunk', 'filterIndex']),
+    curFilterData() {
+      return this.activechunk.chunk.filter[this.filterIndex]
+    }
   },
   methods: {
-    ...mapMutations(['CHANGE_MY_DIR_DIALOG_SHOW']),
+    ...mapMutations(['CHANGE_MY_DIR_DIALOG_SHOW', 'UPDATE_ALLOW_HISTORY_BACK']),
+    sendmessage(callback) {
+      console.log(
+        JSON.stringify({
+          cmd: 'update_filter',
+          chunk_id: this.activechunk.chunk.chunk_id,
+          property: this.activechunk.chunk.filter
+        })
+      )
+      this.UPDATE_ALLOW_HISTORY_BACK(false)
+      chunkUpdateFilterApi({
+        chunk_id: this.activechunk.chunk.chunk_id,
+        property: this.activechunk.chunk.filter
+      })
+        .then(res => {
+          if (res.code === 0) {
+            this.UPDATE_ALLOW_HISTORY_BACK(true)
+          } else {
+            console.warn(res.msg)
+          }
+        })
+        .catch(() => {
+          this.$notify({
+            title: '提示',
+            type: 'error',
+            message: '操作失败！',
+            position: 'bottom-right',
+            duration: this.notify.time
+          })
+        })
+    },
     updateImgList(data) {
       this.img_url = data
     },
@@ -39,13 +78,26 @@ export default {
           type: 'warning',
           message: '请先选中图片'
         })
+        return
       }
-      // todo 拿到url并处理
-      // this.CHANGE_MY_DIR_DIALOG_SHOW(false)
+      // this.CHANGE_DIALOG_IMAGE_FROM(this.img_url)
+      if (!this.curFilterData.extend_parameter.length) {
+        this.curFilterData.extend_parameter.push({})
+      }
+      if (!this.curFilterData.extend_parameter[0].src_img) {
+        this.curFilterData.extend_parameter[0].src_img = this.curFilterData.from
+      }
+      this.curFilterData.from = this.img_url
+      this.sendmessage()
+      this.CHANGE_MY_DIR_DIALOG_SHOW(false)
     },
     cancleHandler() {
       this.CHANGE_MY_DIR_DIALOG_SHOW(false)
     }
+  },
+  mounted() {
+    this.domReady = true
+    console.log(789000)
   }
 }
 </script>

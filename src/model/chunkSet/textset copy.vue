@@ -21,6 +21,7 @@
     <div
       class="content-sel_O1 animate-container"
       v-if="this.classname == 'content-sel_O1'"
+      ref="bscroll"
     >
       <div class="animate-content">
         <div class="animate-option-groups">
@@ -55,6 +56,13 @@
                 <span>字体颜色：</span>
                 <colorpick :index="filter.fromIndex" :type="'font'"></colorpick>
               </div>
+              <div class="font-box-color">
+                <span>背景色：</span>
+                <colorpick
+                  :index="filter.fromIndex"
+                  :type="'backg'"
+                ></colorpick>
+              </div>
             </div>
             <div class="text-content">
               <textarea
@@ -75,6 +83,13 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="animate-option-groups">
+          <div
+            class="option-text"
+            v-for="(filter, index) in filterTextData"
+            :key="index"
+          ></div>
         </div>
       </div>
     </div>
@@ -231,6 +246,7 @@ import fontpick from './fontpick'
 import colorpick from './colorPick'
 import { chunkUpdateFilterApi } from '@/api/Chunk'
 import _ from 'lodash'
+import BScroll from 'better-scroll'
 
 export default {
   data() {
@@ -243,7 +259,8 @@ export default {
       billVal: 0,
       blocked: false,
       copyFilter: {},
-      activeSetTab: 'animate'
+      activeSetTab: 'animate',
+      aBScroll: null
     }
   },
   components: {
@@ -294,8 +311,20 @@ export default {
     filterData() {
       return this.activechunk.chunk.filter
     },
+    filterImgData() {
+      return this.filterData.filter(item => item.module_type === 1)
+    },
+    filterVideoData() {
+      return this.filterData.filter(item => item.module_type === 2)
+    },
     filterTextData() {
       return this.filterData.filter(item => item.type === 2)
+    },
+    filterRectData() {
+      return this.filterData.filter(item => item.module_type === 4)
+    },
+    filterLineData() {
+      return this.filterData.filter(item => item.module_type === 5)
     }
   },
   watch: {},
@@ -417,6 +446,19 @@ export default {
       this.activeProperty[this.propertyNum].h
     this.SET_NEWCHART_BILI(this.wh)
     this.copyFilter = JSON.parse(JSON.stringify(this.activechunk.chunk.filter))
+
+    this.$nextTick(() => {
+      const bscrollDom = this.$refs.bscroll
+      this.aBScroll = new BScroll(bscrollDom, {
+        mouseWheel: true,
+        click: true,
+        tap: true,
+        scrollbar: {
+          fade: true,
+          interactive: true
+        }
+      })
+    })
   }
 }
 </script>

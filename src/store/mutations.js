@@ -4,6 +4,8 @@ import { TIP_HEIGHT_NUMBER } from '@/config'
 const CHANGE_POSITION = 'CHANGE_POSITION'
 const CHANGE_CATEGORY_TYPE = 'CHANGE_CATEGORY_TYPE'
 const CHANGE_MY_DIR_DIALOG_SHOW = 'CHANGE_MY_DIR_DIALOG_SHOW'
+// const CHANGE_DIALOG_IMAGE_FROM = 'CHANGE_DIALOG_IMAGE_FROM'
+const CHANGE_FILTER_INDEX = 'CHANGE_FILTER_INDEX'
 /* chunkset抽取公共部分end */
 
 const CHANGE_LOADING = 'CHANGE_LOADING' // 改变loading状态
@@ -901,6 +903,12 @@ export default {
   },
   [CHANGE_MY_DIR_DIALOG_SHOW](state, payload) {
     state.myDirDialogShow = payload
+  },
+  // [CHANGE_DIALOG_IMAGE_FROM](state, payload) {
+  //   state.dialogImageFrom = payload
+  // },
+  [CHANGE_FILTER_INDEX](state, payload) {
+    state.filterIndex = payload
   }
   /* chunkset抽取公共部分end */
 }

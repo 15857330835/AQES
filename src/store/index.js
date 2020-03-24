@@ -49,6 +49,7 @@ const state = {
   changepos: false,
   speed: 1,
   filterlist: '', // 滤镜列表
+  filterIndex: -1,
   historyindex: 0, // 进入chunk设置界面时记录历史序列用于取消时撤回操作
   newchartbili: 1, // 裁剪框的宽高比  用于放大缩小时计算
   isAsyncSetchart: true, // 对裁剪框修改时是否同步数据
@@ -144,7 +145,8 @@ const state = {
   isRefreshPanesBS: false,
   /* BS滚动end */
 
-  myDirDialogShow: true,
+  myDirDialogShow: false,
+  // dialogImageFrom: '',
   filterIndexMap: new Map([
     [1, 'video'],
     [2, 'text'],

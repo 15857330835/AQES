@@ -8,6 +8,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 import _ from 'lodash'
+import { chunkUpdateFilterApi } from '@/api/Chunk'
 
 export default {
   data() {
@@ -18,7 +19,7 @@ export default {
   //   },
   props: ['index', 'type'],
   computed: {
-    ...mapState(['activechunk'])
+    ...mapState(['activechunk', 'notify'])
   },
   watch: {},
   methods: {
@@ -35,9 +36,7 @@ export default {
       } else if (this.type === 'backg') {
         this.activechunk.chunk.filter[this.index].bgcolour = color
       } else if (this.type === 'srcFrom') {
-        console.log(this.activechunk.chunk.filter[this.index])
         this.activechunk.chunk.filter[this.index].from = 'color:' + color
-        console.log(this.activechunk.chunk.filter[this.index])
       }
       this.sendmessage()
     },
@@ -53,39 +52,40 @@ export default {
       a = a.length === 1 ? '0' + a : a
       return ('#' + a + r + g + b).toUpperCase()
     },
-    sendmessage() {
+    sendmessage(callback) {
       this.UPDATE_ALLOW_HISTORY_BACK(false)
-      console.log(
-        JSON.stringify({
-          cmd: 'update_filter',
-          chunk_id: this.activechunk.chunk.chunk_id,
-          property: this.activechunk.chunk.filter
-        })
-      )
-      $.post(
-        window.NCES.DOMAIN + '/api/chunk',
-        JSON.stringify({
-          cmd: 'update_filter',
-          chunk_id: this.activechunk.chunk.chunk_id,
-          property: this.activechunk.chunk.filter
-        }),
-        res => {
+      chunkUpdateFilterApi({
+        chunk_id: this.activechunk.chunk.chunk_id,
+        property: this.activechunk.chunk.filter
+      })
+        .then(res => {
           if (res.code === 0) {
             this.UPDATE_ALLOW_HISTORY_BACK(true)
-          }
-          if (res.code !== 0) {
+          } else {
             console.warn(res.msg)
           }
-        },
-        'json'
-      )
+        })
+        .catch(() => {
+          this.$notify({
+            title: '提示',
+            type: 'error',
+            message: '操作失败！',
+            position: 'bottom-right',
+            duration: this.notify.time
+          })
+        })
     },
     getColor() {
       let color
-      if (this.type === 'srcFrom') {
-        color = this.activechunk.chunk.filter[this.index].from.split(':')[1]
-      } else {
+      if (this.type === 'font') {
         color = this.activechunk.chunk.filter[this.index].fgcolour
+      } else if (this.type === 'b') {
+        color = this.activechunk.chunk.filter[this.index].olcolour
+      } else if (this.type === 'backg') {
+        console.log(this.activechunk.chunk.filter[this.index])
+        color = this.activechunk.chunk.filter[this.index].bgcolour
+      } else if (this.type === 'srcFrom') {
+        color = this.activechunk.chunk.filter[this.index].from.split(':')[1]
       }
       return color
     }

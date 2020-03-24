@@ -52,26 +52,6 @@ export default {
       a = a.toString(16)
       a = a.length === 1 ? '0' + a : a
       return ('#' + a + r + g + b).toUpperCase()
-    },
-    sendmessage() {
-      // this.UPDATE_ALLOW_HISTORY_BACK(false)
-      // $.post(
-      //   NCES.DOMAIN + "/api/chunk",
-      //   JSON.stringify({
-      //     cmd: "update_filter",
-      //     chunk_id: this.activechunk.chunk.chunk_id,
-      //     property: this.activechunk.chunk.filter
-      //   }),
-      //   function(res) {
-      //     if (res.code === 0) {
-      //       this.UPDATE_ALLOW_HISTORY_BACK(true)
-      //     }
-      //     if (res.code !== 0) {
-      //       console.warn(res.msg);
-      //     }
-      //   },
-      //   "json"
-      // );
     }
   },
   mounted() {

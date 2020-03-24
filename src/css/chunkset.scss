@@ -380,6 +380,17 @@
     outline: 0;
     cursor: pointer;
   }
+  .image-reback {
+    width: 0.37rem;
+    height: 0.37rem;
+    background: url(../img/newreset.png) right bottom no-repeat;
+    background-size: 70%;
+    cursor: pointer;
+    &:hover {
+      background: url(../img/newreset_a.png) right bottom no-repeat;
+      background-size: 70%;
+    }
+  }
 }
 
 
