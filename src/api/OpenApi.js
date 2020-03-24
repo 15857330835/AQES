@@ -27,7 +27,7 @@ export const openapiAudioSearch = (category, payload = {}) => {
   )
 }
 export const openapiTextList = (fixedPayload, payload = {}) => {
-  console.log('be touched')
+  // console.log('be touched')
   const newPayload = Object.assign(defaultPayload, payload, fixedPayload)
   return axios.post(
     '//openapi.aodianyun.com/v3/NCES.TextList',

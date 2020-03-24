@@ -1,11 +1,7 @@
 <template>
   <div class="my-dir-dialog" v-show="myDirDialogShow" ref="myDirDialog">
     <div class="my-dir-dialog-content">
-      <MyDir
-        :isDialog="isDialog"
-        @updateSelect="updateImgList"
-        v-show="domReady"
-      ></MyDir>
+      <MyDir :isDialog="isDialog" @updateSelect="updateImgList"></MyDir>
       <div class="button-groups">
         <el-button size="small" @click="cancleHandler">取 消</el-button>
         <el-button size="small" type="primary" @click="confirmHandler"
@@ -24,8 +20,7 @@ export default {
   data() {
     return {
       isDialog: true,
-      img_url: '',
-      domReady: false
+      img_url: ''
     }
   },
   components: {
@@ -40,13 +35,13 @@ export default {
   methods: {
     ...mapMutations(['CHANGE_MY_DIR_DIALOG_SHOW', 'UPDATE_ALLOW_HISTORY_BACK']),
     sendmessage(callback) {
-      console.log(
-        JSON.stringify({
-          cmd: 'update_filter',
-          chunk_id: this.activechunk.chunk.chunk_id,
-          property: this.activechunk.chunk.filter
-        })
-      )
+      // console.log(
+      //   JSON.stringify({
+      //     cmd: 'update_filter',
+      //     chunk_id: this.activechunk.chunk.chunk_id,
+      //     property: this.activechunk.chunk.filter
+      //   })
+      // )
       this.UPDATE_ALLOW_HISTORY_BACK(false)
       chunkUpdateFilterApi({
         chunk_id: this.activechunk.chunk.chunk_id,
@@ -94,10 +89,6 @@ export default {
     cancleHandler() {
       this.CHANGE_MY_DIR_DIALOG_SHOW(false)
     }
-  },
-  mounted() {
-    this.domReady = true
-    console.log(789000)
   }
 }
 </script>

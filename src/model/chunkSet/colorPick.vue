@@ -82,7 +82,7 @@ export default {
       } else if (this.type === 'b') {
         color = this.activechunk.chunk.filter[this.index].olcolour
       } else if (this.type === 'backg') {
-        console.log(this.activechunk.chunk.filter[this.index])
+        // console.log(this.activechunk.chunk.filter[this.index])
         color = this.activechunk.chunk.filter[this.index].bgcolour
       } else if (this.type === 'srcFrom') {
         color = this.activechunk.chunk.filter[this.index].from.split(':')[1]

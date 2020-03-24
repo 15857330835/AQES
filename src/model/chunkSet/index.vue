@@ -14,10 +14,11 @@
       "
     ></videoset>
     <audioset v-if="this.activechunk.chunk.chunk_type == 2"></audioset>
-    <putextset v-if="categoryType == '基础文本'"></putextset>
-    <dynamicTextSet v-else-if="categoryType == '动态文本'"></dynamicTextSet>
-    <effectsTextSet v-else-if="categoryType == '动效列表'"></effectsTextSet>
-    <textset v-else></textset>
+    <template v-if="this.activechunk.chunk.chunk_type == 3">
+      <putextset v-if="categoryType == '基础文本'"></putextset>
+      <dynamicTextSet v-else-if="categoryType == '动态文本'"></dynamicTextSet>
+      <textset v-else></textset>
+    </template>
     <div
       class="setContent-do"
       :style="{ width: 'calc(100vw * ' + this.videosurew + ')' }"

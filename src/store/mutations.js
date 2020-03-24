@@ -494,7 +494,7 @@ export default {
     state.trackEnd = val
   },
   UPDATE_MRZY_DATA(state, val) {
-    console.log('MRZY change')
+    // console.log('MRZY change')
     state.Mrzydata = val
   },
   UPDATE_AUDIO_STATUS(state, val) {

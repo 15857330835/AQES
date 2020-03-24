@@ -67,7 +67,7 @@ export default {
       )
     }, 200),
     debounceResize: _.debounce(function() {
-      console.log('window-resize-end')
+      // console.log('window-resize-end')
       this.GET_OPENWAY()
       setTimeout(() => {
         this.UPDATE_TRACK_MIX()

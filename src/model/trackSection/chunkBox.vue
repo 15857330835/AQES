@@ -1480,7 +1480,7 @@ export default {
     },
     // eslint-disable-next-line complexity
     dblclick() {
-      console.log('chunkbox dblclick')
+      // console.log('chunkbox dblclick')
       // 定义text的category
       if (this.activechunk.chunk.chunk_type === 3) {
         const partner = this.sourceData.find(item => {
@@ -1576,7 +1576,7 @@ export default {
             if (res.code !== 0) {
               console.log(res.msg)
             } else {
-              console.log('to chunkset refresh pointer ok')
+              // console.log('to chunkset refresh pointer ok')
             }
           },
           'json'

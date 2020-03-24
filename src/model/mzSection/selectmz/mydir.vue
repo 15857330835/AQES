@@ -859,7 +859,6 @@ export default {
       this.tipobj.show = false
     },
     async move(type, moveobj, toobj_para) {
-      console.log(1234)
       const toobj = toobj_para || '/'
       this.reallibCut({ path: moveobj, libpath: toobj })
       this.moveobj = ''
@@ -1066,7 +1065,7 @@ export default {
       const bscrollDom = this.$refs.libbscroll
       this.aBScroll = new BScroll(bscrollDom, {
         mouseWheel: true,
-        click: true,
+        click: false,
         tap: true,
         scrollbar: {
           fade: true,

@@ -137,10 +137,15 @@
               />
               <button
                 class="image-box-button"
-                @click="myDirDialogHandler(true)"
+                @click="myDirDialogHandler(true, filter.fromIndex)"
               >
                 更换图片
               </button>
+              <div
+                class="image-reback"
+                @click="rebackHandler(index)"
+                title="重置图片"
+              ></div>
             </div>
           </div>
         </div>
@@ -397,10 +402,12 @@ export default {
       'SET_NEWCHART_BILI',
       'UPDATE_ALLOW_HISTORY_BACK',
       'CHANGE_POSITION',
-      'CHANGE_MY_DIR_DIALOG_SHOW'
+      'CHANGE_MY_DIR_DIALOG_SHOW',
+      'CHANGE_FILTER_INDEX'
     ]),
-    myDirDialogHandler(flag) {
+    myDirDialogHandler(flag, index) {
       this.CHANGE_MY_DIR_DIALOG_SHOW(flag)
+      this.CHANGE_FILTER_INDEX(index)
     },
     textareaChange(target) {
       // if(this.activechunk.chunk.filter[0].geometry_template == undefined){
@@ -459,7 +466,6 @@ export default {
     },
     sendmessage(callback) {
       this.UPDATE_ALLOW_HISTORY_BACK(false)
-      const that = this
       chunkUpdateFilterApi({
         chunk_id: this.activechunk.chunk.chunk_id,
         property: this.activechunk.chunk.filter
@@ -468,11 +474,11 @@ export default {
           if (res.code === 0) {
             this.UPDATE_ALLOW_HISTORY_BACK(true)
           } else {
-            console.log(new Error('error'))
+            console.warn(res.msg)
           }
         })
         .catch(() => {
-          that.$notify({
+          this.$notify({
             title: '提示',
             type: 'error',
             message: '操作失败！',
@@ -482,7 +488,6 @@ export default {
         })
     },
     restore() {
-      const that = this
       chunkUpdateFilterApi({
         chunk_id: this.activechunk.chunk.chunk_id,
         property: this.copyFilter
@@ -493,14 +498,20 @@ export default {
           }
         })
         .catch(() => {
-          that.$notify({
+          this.$notify({
             title: '提示',
             type: 'error',
             message: '操作失败！',
             position: 'bottom-right',
-            duration: that.notify.time
+            duration: this.notify.time
           })
         })
+    },
+    rebackHandler(index) {
+      this.filterImgData[index].from = this.filterImgData[
+        index
+      ].extend_parameter[0].src_img
+      this.sendmessage()
     }
   },
   mounted() {

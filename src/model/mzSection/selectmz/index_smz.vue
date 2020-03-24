@@ -530,8 +530,8 @@ export default {
     },
     sourcedataHas() {
       let has = false
-      console.log('sourceData:', _.cloneDeep(this.sourceData))
-      console.log('clonediv:', _.cloneDeep(this.clonediv))
+      // console.log('sourceData:', _.cloneDeep(this.sourceData))
+      // console.log('clonediv:', _.cloneDeep(this.clonediv))
       for (let i = 0; i < this.sourceData.length; i++) {
         if (
           (this.sourceData[i].original_from || this.sourceData[i].from) ===
@@ -989,7 +989,7 @@ export default {
         const has = this.sourcedataHas() // 判断是否已经加载过
         // console.log('Mrzydata:', _.cloneDeep(this.Mrzydata))
         if (!has) {
-          console.log('load source')
+          // console.log('load source')
           this.sourcedataNone()
         }
       }
