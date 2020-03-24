@@ -10,3 +10,6 @@ export const TIP_HEIGHT_NUMBER = -12
 
 // 42 + 30 + 8?
 export const TRACK_MAXHEIGHT_NUMBER = 80
+
+// 默认最小长度（%）
+export const MIN_LENGTH = 1

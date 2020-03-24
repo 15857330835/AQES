@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { MIN_LENGTH } from '@/config'
 
 export function dateFormat(dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
   return moment(dataStr).format(pattern)
@@ -37,52 +38,11 @@ export function getTimeStr(time) {
   return d
 }
 
-// export function deepClone(obj) {
-//   const newObj = obj instanceof Array ? [] : {}
-//   for (const i in obj) {
-//     if (obj.hasOwnProperty(i)) {
-//       newObj[i] = typeof obj[i] === 'object' ? deepClone(obj[i]) : obj[i]
-//     }
-//   }
-//   return newObj
-// }
-
-/* 函数节流 */
-export const Debounce = (fn, t) => {
-  const delay = t || 500
-  let timer
-  console.log('函数防抖')
-  return function() {
-    // eslint-disable-next-line prefer-rest-params
-    const args = arguments
-    if (timer) {
-      clearTimeout(timer)
-    }
-    timer = setTimeout(() => {
-      timer = null
-      fn.apply(this, args)
-    }, delay)
+export function transGeoValue(val) {
+  // let result = Math.round(val * 100) / 100
+  let result = Math.round(val)
+  if (result < MIN_LENGTH) {
+    result = MIN_LENGTH
   }
-}
-/* 函数节流 */
-export const Throttle = (fn, t) => {
-  let last
-  let timer
-  console.log('函数节流')
-  const interval = t || 500
-  return function() {
-    // eslint-disable-next-line prefer-rest-params
-    const args = arguments
-    const now = +new Date()
-    if (last && now - last < interval) {
-      clearTimeout(timer)
-      timer = setTimeout(() => {
-        last = now
-        fn.apply(this, args)
-      }, interval)
-    } else {
-      last = now
-      fn.apply(this, args)
-    }
-  }
+  return result
 }
