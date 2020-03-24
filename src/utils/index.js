@@ -41,8 +41,13 @@ export function getTimeStr(time) {
 export function transGeoValue(val) {
   // let result = Math.round(val * 100) / 100
   let result = Math.round(val)
-  if (result < MIN_LENGTH) {
+  if (result <= MIN_LENGTH) {
     result = MIN_LENGTH
   }
   return result
+}
+
+export function transGeoValue2(val) {
+  // return Math.round(val * 100) / 100
+  return Math.round(val)
 }

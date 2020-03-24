@@ -272,7 +272,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 // import _ from 'lodash'
-import { transGeoValue } from '@/utils'
+import { transGeoValue, transGeoValue2 } from '@/utils'
 
 export default {
   data() {
@@ -430,10 +430,10 @@ export default {
       this.x2 = e.pageX - this.ePosx + this.x2
       this.y2 = e.pageY - this.ePosy + this.y2
       const active = this.activeProperty[this.propertyNum]
-      active.left = transGeoValue(
+      active.left = transGeoValue2(
         ((e.pageX - this.ePosx) * 100) / width + active.left
       )
-      active.top = transGeoValue(
+      active.top = transGeoValue2(
         ((e.pageY - this.ePosy) * 100) / height + active.top
       )
       this.ePosx = e.pageX
@@ -524,12 +524,13 @@ export default {
       const width = $('.boxx').width()
       const variation = this.ePosx - e.pageX
       const active = this.activeProperty[this.propertyNum]
+      const length = active.w + active.left
       const before_width =
         (variation * 100) / width + active.w < 0
           ? 0
           : (variation * 100) / width + active.w
       active.w = transGeoValue(before_width)
-      active.left = transGeoValue(length - active.w)
+      active.left = transGeoValue2(length - active.w)
       // if (this.changeWay) {
       //   active.h = active.w / this.bili
       // }
@@ -554,7 +555,7 @@ export default {
           ? 0
           : ((this.ePosy - e.pageY) * 100) / height + active.h
       active.h = transGeoValue(before_height)
-      active.top = transGeoValue(length - active.h)
+      active.top = transGeoValue2(length - active.h)
       // console.log(_.cloneDeep(active.h))
       // console.log(_.cloneDeep(active.top))
       // if (this.changeWay) {
@@ -648,14 +649,9 @@ export default {
           : ((e.pageY - this.offsetY) * 100) / height - active.top) * this.bili
       if (w1 > w2) {
         const before_width2 =
-          active.left +
-            active.w -
-            ((e.pageX - this.offsetX) * 100) / width <
-          0
+          active.left + active.w - ((e.pageX - this.offsetX) * 100) / width < 0
             ? 0
-            : active.left +
-              active.w -
-              ((e.pageX - this.offsetX) * 100) / width
+            : active.left + active.w - ((e.pageX - this.offsetX) * 100) / width
         active.w = transGeoValue(before_width2)
         active.left = transGeoValue(((e.pageX - this.offsetX) * 100) / width)
         active.h = transGeoValue(active.w / this.bili)
@@ -708,33 +704,23 @@ export default {
         this.bili
       if (w1 > w2) {
         const before_width2 =
-          active.left +
-            active.w -
-            ((e.pageX - this.offsetX) * 100) / width <
-          0
+          active.left + active.w - ((e.pageX - this.offsetX) * 100) / width < 0
             ? 0
-            : active.left +
-              active.w -
-              ((e.pageX - this.offsetX) * 100) / width
+            : active.left + active.w - ((e.pageX - this.offsetX) * 100) / width
         active.w = transGeoValue(before_width2)
         active.left = transGeoValue(((e.pageX - this.offsetX) * 100) / width)
-        active.top = transGeoValue(
+        active.top = transGeoValue2(
           active.h + active.top - active.w / this.bili
         )
         active.h = transGeoValue(active.w / this.bili)
       } else {
         const before_height2 =
-          active.top +
-            active.h -
-            ((e.pageY - this.offsetY) * 100) / height <
-          0
+          active.top + active.h - ((e.pageY - this.offsetY) * 100) / height < 0
             ? 0
-            : active.top +
-              active.h -
-              ((e.pageY - this.offsetY) * 100) / height
+            : active.top + active.h - ((e.pageY - this.offsetY) * 100) / height
         active.h = transGeoValue(before_height2)
-        active.top = transGeoValue(((e.pageY - this.offsetY) * 100) / height)
-        active.left = transGeoValue(
+        active.top = transGeoValue2(((e.pageY - this.offsetY) * 100) / height)
+        active.left = transGeoValue2(
           active.left + active.w - active.h * this.bili
         )
         active.w = transGeoValue(active.h * this.bili)
@@ -781,22 +767,17 @@ export default {
             ? 0
             : ((e.pageX - this.offsetX) * 100) / width - active.left
         active.w = transGeoValue(before_width2)
-        active.top = transGeoValue(
+        active.top = transGeoValue2(
           active.h + active.top - active.w / this.bili
         )
         active.h = transGeoValue(active.w / this.bili)
       } else {
         const before_height2 =
-          active.top +
-            active.h -
-            ((e.pageY - this.offsetY) * 100) / height <
-          0
+          active.top + active.h - ((e.pageY - this.offsetY) * 100) / height < 0
             ? 0
-            : active.top +
-              active.h -
-              ((e.pageY - this.offsetY) * 100) / height
+            : active.top + active.h - ((e.pageY - this.offsetY) * 100) / height
         active.h = transGeoValue(before_height2)
-        active.top = transGeoValue(((e.pageY - this.offsetY) * 100) / height)
+        active.top = transGeoValue2(((e.pageY - this.offsetY) * 100) / height)
         active.w = transGeoValue(active.h * this.bili)
       }
       this.ePosx = e.pageX
