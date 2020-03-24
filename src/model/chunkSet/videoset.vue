@@ -461,7 +461,7 @@
           </div>
         </div>
         <div class="sel-option">
-          <div class="sel-option-name">比例</div>
+          <div class="sel-option-name">宽度</div>
           <div class="sel-option-con">
             <div style="float:right;position: relative;width:60px;height:100%">
               <input
@@ -470,7 +470,7 @@
                 style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 max="200"
                 min="0"
-                v-model.number="setbili"
+                v-model.number="activeGeo.w"
                 @blur="wChange"
               />
               <span style="float:right;color:#61ded0">%</span>
@@ -479,8 +479,37 @@
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
             >
               <el-slider
-                v-model="setbili"
+                v-model="activeGeo.w"
                 @change="wChange"
+                mini
+                :max="200"
+                :min="0"
+                :step="1"
+              ></el-slider>
+            </div>
+          </div>
+        </div>
+        <div class="sel-option">
+          <div class="sel-option-name">高度</div>
+          <div class="sel-option-con">
+            <div style="float:right;position: relative;width:60px;height:100%">
+              <input
+                type="number"
+                class="sty"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
+                max="200"
+                min="0"
+                v-model.number="activeGeo.h"
+                @blur="hChange"
+              />
+              <span style="float:right;color:#61ded0">%</span>
+            </div>
+            <div
+              style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
+            >
+              <el-slider
+                v-model="activeGeo.h"
+                @change="hChange"
                 mini
                 :max="200"
                 :min="0"
@@ -500,10 +529,10 @@
                 style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 max="100"
                 min="0"
-                v-model.number="activeProperty[propertyNum].transparency"
+                v-model.number="activeGeo.transparency"
                 @blur="geoPost"
               />
-              <!-- :value = "this.propertyOfnum.transparency" -->
+              <!-- :value = "this.activeGeo.transparency" -->
               <span style="float:right;color:#61ded0">%</span>
             </div>
             <div
@@ -832,9 +861,7 @@ export default {
       writeFlag: 0,
       setproperty: false,
       quickposi: false,
-      speed: 1,
-      wh: 1,
-      billVal: 0
+      speed: 1
       // 'key':0,
     }
   },
@@ -842,7 +869,6 @@ export default {
     timerdian,
     quickposition
   },
-  created() {},
   //   watch:{
   //       mosaicKey:function(n){
   //           this.mosaicKey = n
@@ -912,35 +938,8 @@ export default {
       // this.SET_CHANGE_FILTERSHOW_KEY(key)
       return data
     },
-    propertyOfnum() {
+    activeGeo() {
       return this.activeProperty[this.propertyNum]
-    },
-    setbili: {
-      get() {
-        if (this.isAsyncSetchart) {
-          this.billVal =
-            this.wh >= 1
-              ? this.activeProperty[this.propertyNum].w
-              : this.activeProperty[this.propertyNum].h
-          return this.billVal
-        }
-        return this.billVal
-      },
-      set(newValue) {
-        if (this.wh >= 1) {
-          this.activeProperty[this.propertyNum].w = parseInt(newValue, 10)
-          this.activeProperty[this.propertyNum].h = parseInt(
-            newValue / this.wh,
-            10
-          )
-        } else {
-          this.activeProperty[this.propertyNum].h = parseInt(newValue, 10)
-          this.activeProperty[this.propertyNum].w = parseInt(
-            newValue * this.wh,
-            10
-          )
-        }
-      }
     },
     isNormal() {
       if (
@@ -1028,7 +1027,6 @@ export default {
       'CHANGE_FILTERSHOW',
       'SET_CHANGE_FILTERSHOW_KEY',
       'ACTIVE_CHUNK',
-      'SET_NEWCHART_BILI',
       'CHANGE_ACTIVEPROPERTY',
       'CHANGE_PROPERTYNUM',
       'CHANGE_POSITION'
@@ -1130,9 +1128,15 @@ export default {
       // this.sendmessage()
     },
     wChange(value) {
+      if (this.activeGeo.w <= 1) {
+        this.activeGeo.w = 1
+      }
       this.geoPost()
     },
     hChange(value) {
+      if (this.activeGeo.h <= 1) {
+        this.activeGeo.h = 1
+      }
       this.geoPost()
     },
     changePosition(way, target) {
@@ -1467,10 +1471,6 @@ export default {
     }
   },
   mounted() {
-    this.wh =
-      this.activeProperty[this.propertyNum].w /
-      this.activeProperty[this.propertyNum].h
-    this.SET_NEWCHART_BILI(this.wh)
     this.speed = Math.abs(this.activechunk.chunk.speed)
     this.setproperty = this.activeProperty.length > 1
   },

@@ -141,7 +141,7 @@
                 class="sty"
                 style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 v-model="textTop"
-                @blur="hChange"
+                @blur="putTextHeightChange"
               />
               <span style="float:right;color:#61ded0;">%</span>
             </div>
@@ -150,7 +150,7 @@
             >
               <el-slider
                 v-model="textTop"
-                @change="hChange"
+                @change="putTextHeightChange"
                 mini
                 :max="100"
                 :min="0"
@@ -236,16 +236,16 @@
             </div>
       </div>-->
         <div class="sel-option">
-          <div class="sel-option-name">比例</div>
+          <div class="sel-option-name">宽度</div>
           <div class="sel-option-con">
             <div style="float:right;position: relative;width:60px;height:100%">
               <input
                 type="number"
                 class="sty"
                 style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
-                :max="200"
-                :min="0"
-                v-model="bili"
+                max="200"
+                min="0"
+                v-model.number="activeGeo.w"
                 @blur="wChange"
               />
               <span style="float:right;color:#61ded0">%</span>
@@ -254,8 +254,37 @@
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
             >
               <el-slider
-                v-model="bili"
+                v-model="activeGeo.w"
                 @change="wChange"
+                mini
+                :max="200"
+                :min="0"
+                :step="1"
+              ></el-slider>
+            </div>
+          </div>
+        </div>
+        <div class="sel-option">
+          <div class="sel-option-name">高度</div>
+          <div class="sel-option-con">
+            <div style="float:right;position: relative;width:60px;height:100%">
+              <input
+                type="number"
+                class="sty"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
+                max="200"
+                min="0"
+                v-model.number="activeGeo.h"
+                @blur="hChange"
+              />
+              <span style="float:right;color:#61ded0">%</span>
+            </div>
+            <div
+              style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
+            >
+              <el-slider
+                v-model="activeGeo.h"
+                @change="hChange"
                 mini
                 :max="200"
                 :min="0"
@@ -286,8 +315,7 @@ export default {
       maxlength: 1000,
       setproperty: true,
       quickposi: true,
-      flag: false,
-      biliVal: 0
+      flag: false
     }
   },
   components: {
@@ -309,15 +337,15 @@ export default {
       'propertyNum',
       'isAsyncSetchart'
     ]),
-    propertyOfnum() {
+    activeGeo() {
       return this.activeProperty[this.propertyNum]
     },
     textTransparency: {
       get() {
-        return this.propertyOfnum.transparency
+        return this.activeGeo.transparency
       },
       set(newValue) {
-        this.propertyOfnum.transparency = parseInt(newValue, 10)
+        this.activeGeo.transparency = parseInt(newValue, 10)
       }
     },
     textTop: {
@@ -331,34 +359,11 @@ export default {
     },
     textW: {
       get() {
-        return this.propertyOfnum.w
+        return this.activeGeo.w
       },
       set(newValue) {
-        this.propertyOfnum.w = parseInt(newValue, 10)
+        this.activeGeo.w = parseInt(newValue, 10)
       }
-    },
-    bili: {
-      get() {
-        if (this.isAsyncSetchart) {
-          this.biliVal =
-            this.wh >= 1 ? this.propertyOfnum.w : this.propertyOfnum.h
-          // this.billVal =  this.wh>=1?this.activeProperty[this.propertyNum].w:this.activeProperty[this.propertyNum].h
-          return this.biliVal
-        }
-        return this.biliVal
-      },
-      set(newValue) {
-        if (this.wh >= 1) {
-          this.propertyOfnum.w = parseInt(newValue, 10)
-          this.propertyOfnum.h = parseInt(newValue / this.wh, 10)
-        } else {
-          this.propertyOfnum.h = parseInt(newValue, 10)
-          this.propertyOfnum.w = parseInt(newValue * this.wh, 10)
-        }
-      }
-    },
-    propertyOfbili() {
-      return this.propertyOfnum.w
     }
   },
   watch: {},
@@ -367,7 +372,6 @@ export default {
     ...mapMutations([
       // 'UPDATE_ACTIVEFILTER',
       'CHANGE_FILTERSHOW',
-      'SET_NEWCHART_BILI',
       'CHANGE_ACTIVEPROPERTY',
       'CHANGE_PROPERTYNUM',
       'CHANGE_POSITION',
@@ -386,9 +390,21 @@ export default {
       this.sendmessage()
     }, 300),
     wChange(value) {
+      if (this.activeGeo.w <= 1) {
+        this.activeGeo.w = 1
+      }
       this.geoPost()
     },
     hChange(value) {
+      if (this.activeGeo.h <= 1) {
+        this.activeGeo.h = 1
+      }
+      this.geoPost()
+    },
+    putTextHeightChange(value) {
+      if (this.activeGeo.h <= 1) {
+        this.activeGeo.h = 1
+      }
       this.sendmessage()
       // this.geoPost()
     },
@@ -461,13 +477,6 @@ export default {
         })
       }
     }
-  },
-  mounted() {
-    //   console.log(this.activechunk.chunk.filter)
-    this.wh =
-      this.activeProperty[this.propertyNum].w /
-      this.activeProperty[this.propertyNum].h
-    this.SET_NEWCHART_BILI(this.wh)
   }
 }
 </script>

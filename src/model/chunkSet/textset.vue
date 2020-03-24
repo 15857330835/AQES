@@ -182,7 +182,7 @@
             </div>
           </div>
           <div class="sel-option">
-            <div class="sel-option-name">比例</div>
+            <div class="sel-option-name">宽度</div>
             <div class="sel-option-con">
               <div
                 style="float:right;position: relative;width:60px;height:100%"
@@ -191,7 +191,9 @@
                   type="number"
                   class="sty"
                   style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
-                  v-model="bili"
+                  max="200"
+                  min="0"
+                  v-model.number="activeGeo.w"
                   @blur="wChange"
                 />
                 <span style="float:right;color:#61ded0">%</span>
@@ -200,8 +202,39 @@
                 style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
               >
                 <el-slider
-                  v-model="bili"
+                  v-model="activeGeo.w"
                   @change="wChange"
+                  mini
+                  :max="200"
+                  :min="0"
+                  :step="1"
+                ></el-slider>
+              </div>
+            </div>
+          </div>
+          <div class="sel-option">
+            <div class="sel-option-name">高度</div>
+            <div class="sel-option-con">
+              <div
+                style="float:right;position: relative;width:60px;height:100%"
+              >
+                <input
+                  type="number"
+                  class="sty"
+                  style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
+                  max="200"
+                  min="0"
+                  v-model.number="activeGeo.h"
+                  @blur="hChange"
+                />
+                <span style="float:right;color:#61ded0">%</span>
+              </div>
+              <div
+                style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
+              >
+                <el-slider
+                  v-model="activeGeo.h"
+                  @change="hChange"
                   mini
                   :max="200"
                   :min="0"
@@ -340,31 +373,8 @@ export default {
       'propertyNum',
       'isAsyncSetchart'
     ]),
-    propertyOfnum() {
+    activeGeo() {
       return this.activeProperty[this.propertyNum]
-    },
-    bili: {
-      get() {
-        if (this.isAsyncSetchart) {
-          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-          this.billVal =
-            this.wh >= 1 ? this.propertyOfnum.w : this.propertyOfnum.h
-          return this.billVal
-        }
-        return this.billVal
-      },
-      set(newValue) {
-        if (this.wh >= 1) {
-          this.propertyOfnum.w = parseInt(newValue, 10)
-          this.propertyOfnum.h = parseInt(newValue / this.wh, 10)
-        } else {
-          this.propertyOfnum.h = parseInt(newValue, 10)
-          this.propertyOfnum.w = parseInt(newValue * this.wh, 10)
-        }
-      }
-    },
-    propertyOfbili() {
-      return this.propertyOfnum.w
     },
     filterData() {
       return this.activechunk.chunk.filter
@@ -399,7 +409,6 @@ export default {
       'CHANGE_FILTERSHOW',
       'CHANGE_ACTIVEPROPERTY',
       'CHANGE_PROPERTYNUM',
-      'SET_NEWCHART_BILI',
       'UPDATE_ALLOW_HISTORY_BACK',
       'CHANGE_POSITION',
       'CHANGE_MY_DIR_DIALOG_SHOW',
@@ -430,9 +439,15 @@ export default {
       this.sendmessage()
     }, 500),
     wChange(value) {
+      if (this.activeGeo.w <= 1) {
+        this.activeGeo.w = 1
+      }
       this.geoPost()
     },
     hChange(value) {
+      if (this.activeGeo.h <= 1) {
+        this.activeGeo.h = 1
+      }
       this.geoPost()
     },
     fontsizeinput(index, target) {
@@ -515,10 +530,6 @@ export default {
     }
   },
   mounted() {
-    this.wh =
-      this.activeProperty[this.propertyNum].w /
-      this.activeProperty[this.propertyNum].h
-    this.SET_NEWCHART_BILI(this.wh)
     this.copyFilter = JSON.parse(JSON.stringify(this.activechunk.chunk.filter))
 
     this.$nextTick(() => {
