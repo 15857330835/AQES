@@ -23,6 +23,16 @@ textarea {
   display: none;
 }
 
+/* 去除input等元素浏览器默认样式 */
+textarea,
+select,
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+
 body {
   color: #e4e4e4;
   margin: 0px;

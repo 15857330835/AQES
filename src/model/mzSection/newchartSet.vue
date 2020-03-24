@@ -469,7 +469,7 @@ export default {
     },
     mousemove_drag_e(e_para) {
       let e = e_para
-      console.log('east move')
+      // console.log('east move')
       if (this.chunkmove !== 'e') {
         return
       }
@@ -480,13 +480,13 @@ export default {
       const variation = e.pageX - this.ePosx
       const active = this.activeProperty[this.propertyNum]
       // console.log(_.cloneDeep(this.activeProperty[this.propertyNum]))
-      console.log(_.cloneDeep(active.w))
+      // console.log(_.cloneDeep(active.w))
       active.w =
         (variation * 100) / width + active.w < 0
           ? 0
           : (variation * 100) / width + active.w
       // console.log(_.cloneDeep(this.activeProperty[this.propertyNum]))
-      console.log(_.cloneDeep(active.w))
+      // console.log(_.cloneDeep(active.w))
       // if (this.changeWay) {
       //   active.h = active.w / this.bili
       // }

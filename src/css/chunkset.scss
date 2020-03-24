@@ -830,6 +830,8 @@ input[type="number"]::-webkit-inner-spin-button {
 .input-search {
   display: inline-block;
   width: auto;
+  align-items: center;
+  display: flex;
 
   input {
     width: 2rem;

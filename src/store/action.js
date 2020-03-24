@@ -4,7 +4,7 @@ import * as libapi from '@/api/Lib'
 export default {
   /* chunkset抽取公共部分begin */
   geoPost({ state, commit, dispatch }, payload) {
-    console.log('geochange')
+    // console.log('geochange')
     const geo_arr = (payload && payload.geo_arr) || state.activeProperty
     commit('CHANGE_ACTIVEPROPERTY', geo_arr)
     const data = {}

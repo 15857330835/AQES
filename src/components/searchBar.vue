@@ -52,6 +52,7 @@ export default {
   padding: 0 0.2rem;
   line-height: 0.53rem;
   background-color: #212931;
+  display: flex;
   .search-label {
     margin-right: 0.12rem;
   }
