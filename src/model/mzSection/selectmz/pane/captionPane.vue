@@ -3,15 +3,13 @@
     <div class="bscroll main" ref="bscroll">
       <div class="bscroll-container">
         <!-- <transition-group name="source-list" appear> -->
-        <div
-          class="source-container"
+        <caption-source
+          :source="item"
           v-for="(item, index) in sources"
           :key="item.style + index"
-        >
-          <caption-source :source="item"></caption-source>
-        </div>
+        ></caption-source>
         <div
-          class="source-container fake-container"
+          class="video_option_content caption-fake-placeholder"
           v-for="(item, index) in fakeData"
           :key="'fake' + index"
         ></div>

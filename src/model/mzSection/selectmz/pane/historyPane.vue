@@ -3,16 +3,13 @@
     <div class="bscroll main highest" ref="bscroll">
       <div class="bscroll-container">
         <!-- <transition-group name="source-list" appear> -->
-        <div
-          class="source-container"
+        <history-source
+          :data="item"
           v-for="(item, index) in sources"
           :key="item.src_id + index"
-        >
-          <history-source :data="item"></history-source>
-        </div>
-
+        ></history-source>
         <div
-          class="source-container fake-container"
+          class="video_option_content fake-placeholder"
           v-for="(item, index) in fakeData"
           :key="'fake' + index"
         ></div>

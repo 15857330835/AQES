@@ -9,15 +9,13 @@
     <div class="bscroll main" ref="bscroll" :class="{ highest: isHighest }">
       <div class="bscroll-container">
         <!-- <transition-group name="source-list" appear> -->
-        <div
-          class="source-container"
+        <base-source
+          :source="item"
           v-for="(item, index) in sources"
           :key="item.title + index"
-        >
-          <base-source :source="item"></base-source>
-        </div>
+        ></base-source>
         <div
-          class="source-container fake-container"
+          class="video_option_content fake-placeholder"
           v-for="(item, index) in fakeData"
           :key="'fake' + index"
         ></div>
@@ -245,12 +243,13 @@ export default {
 }
 </script>
 <style lang="scss">
-.source-container {
-  flex-grow: 1;
+.fake-placeholder {
+  padding: 0 15px !important;
 }
-.fake-container {
-  min-width: 140px;
-  height: 0;
+.caption-fake-placeholder {
+  width: 192px;
+  padding: 0 5px;
+  pointer-events: none;
 }
 
 .main {

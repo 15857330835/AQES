@@ -41,7 +41,6 @@ import audioset from './audioset'
 import textset from './textset'
 import putextset from './putextset'
 import dynamicTextSet from './dynamicTextSet'
-import effectsTextSet from './effectsTextSet'
 
 export default {
   data() {
@@ -72,8 +71,7 @@ export default {
     audioset,
     textset,
     putextset,
-    dynamicTextSet,
-    effectsTextSet
+    dynamicTextSet
   },
   computed: {
     ...mapState([

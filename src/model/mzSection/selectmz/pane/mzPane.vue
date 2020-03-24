@@ -17,15 +17,13 @@
 
     <div class="bscroll main" ref="bscroll">
       <div class="bscroll-container">
-        <div
-          class="source-container"
+        <mz-source
+          :source="item"
           v-for="(item, index) in sources"
           :key="item.id + index"
-        >
-          <mz-source :source="item"></mz-source>
-        </div>
+        ></mz-source>
         <div
-          class="source-container fake-container"
+          class="video_option_content fake-placeholder"
           v-for="(item, index) in fakeData"
           :key="'fake' + index"
         ></div>

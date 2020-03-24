@@ -122,134 +122,124 @@
           </div>
 
           <div
-            class="source-container"
+            class="video_option_content dir"
+            @touchend="touchend(dir.name)"
             v-for="(dir, index) in this.dirlist.dirs.filter(item => {
               return item.name != '' && item.name.match(newtitle) != null
             })"
             :key="'dir' + index"
           >
             <div
-              class="video_option_content dir"
-              @touchend="touchend(dir.name)"
+              class="content_top u-icon"
+              @click.stop="dirClickedFn($event, dir.name, 'dir', index)"
+              @dblclick="openDir(dir.name)"
+              :class="{
+                clicked: (dir.state & 1) === 1,
+                actived: activeStr === 'dir' + dir.name + index
+              }"
+              @mouseenter="enterdir($event, dir.name)"
+              @mouseout="outdir"
+              @contextmenu.prevent="downright($event, dir.name, 'dir', index)"
             >
               <div
-                class="content_top u-icon"
-                @click.stop="dirClickedFn($event, dir.name, 'dir', index)"
-                @dblclick="openDir(dir.name)"
-                :class="{
-                  clicked: (dir.state & 1) === 1,
-                  actived: activeStr === 'dir' + dir.name + index
-                }"
-                @mouseenter="enterdir($event, dir.name)"
-                @mouseout="outdir"
-                @contextmenu.prevent="downright($event, dir.name, 'dir', index)"
-              >
-                <div
-                  v-if="(dir.state & 2) === 2"
-                  style=" width: 106px;
+                v-if="(dir.state & 2) === 2"
+                style=" width: 106px;
             height: 58.11px;
             background-color: #cccccc77;
             position: absolute;
             "
-                ></div>
-              </div>
+              ></div>
+            </div>
 
-              <div @click.stop="" class="content_mes">
-                <div v-if="(dir.state & 4) !== 4" :title="dir.name">
-                  {{ dir.name }}
-                </div>
-                <div v-else>
-                  <!-- style="background-color: #232323;
+            <div @click.stop="" class="content_mes">
+              <div v-if="(dir.state & 4) !== 4" :title="dir.name">
+                {{ dir.name }}
+              </div>
+              <div v-else>
+                <!-- style="background-color: #232323;
                       padding: 1px;
                       color: #fff;
                       border: 1px solid #797979;
                       width: 95%;" -->
-                  <el-input
-                    v-model="dir.nameNoSuffix"
-                    class="input-search"
-                    @blur="renameBlurHandle('dir')"
-                  />
-                </div>
+                <el-input
+                  v-model="dir.nameNoSuffix"
+                  class="input-search"
+                  @blur="renameBlurHandle('dir')"
+                />
               </div>
             </div>
           </div>
 
           <div
-            class="source-container"
+            class="video_option_content file"
+            v-show="value.value == 'all' || value.value == file.type"
             v-for="(file, index) in this.dirlist.files.filter(item => {
               return item.name != '' && item.name.match(newtitle) != null
             })"
             :key="'file' + index"
           >
             <div
-              class="video_option_content file"
-              v-show="value.value == 'all' || value.value == file.type"
+              class="content_top"
+              :class="{
+                clicked: (file.state & 1) === 1,
+                actived: activeStr === 'file' + file.name + index
+              }"
+              @mousedown.left="leftdown($event, file.name)"
+              @click.stop="
+                clickedFn($event, file.name, 'file', index, file.url)
+              "
+              @mouseenter="isImageDelDivHandle($event, 'block')"
+              @mouseleave="isImageDelDivHandle($event, 'none')"
+              @contextmenu.prevent="downright($event, file.name, 'file', index)"
             >
               <div
-                class="content_top"
-                :class="{
-                  clicked: (file.state & 1) === 1,
-                  actived: activeStr === 'file' + file.name + index
-                }"
-                @mousedown.left="leftdown($event, file.name)"
-                @click.stop="
-                  clickedFn($event, file.name, 'file', index, file.url)
-                "
-                @mouseenter="isImageDelDivHandle($event, 'block')"
-                @mouseleave="isImageDelDivHandle($event, 'none')"
-                @contextmenu.prevent="
-                  downright($event, file.name, 'file', index)
-                "
+                style="background:red;width:18px;height:20px;line-height: 20px;position: absolute;right:0px;cursor:pointer;display:none;"
+                @click.stop="realRomveFile(url + file.name, 'file', index)"
               >
-                <div
-                  style="background:red;width:18px;height:20px;line-height: 20px;position: absolute;right:0px;cursor:pointer;display:none;"
-                  @click.stop="realRomveFile(url + file.name, 'file', index)"
-                >
-                  <i class="iconfont icon-shanchu-copy-copy" />
-                </div>
-                <div
-                  v-if="(file.state & 2) === 2"
-                  style=" width: 106px;
+                <i class="iconfont icon-shanchu-copy-copy" />
+              </div>
+              <div
+                v-if="(file.state & 2) === 2"
+                style=" width: 106px;
             height: 62.11px;
             background-color: #cccccc77;
             position: absolute;
             "
-                ></div>
-                <img
-                  :src="'//' + file.previewimage"
-                  alt
-                  height="100%"
-                  class="content_top_img source-img"
-                  :class="[dragclass, { loaded: imgLoaded }]"
-                  :data-src_from="'http://' + file.url"
-                  :data-src_type="file.type == 'image' ? '3' : '1'"
-                  :data-src_id="'kljfl'"
-                  @load="handleImgLoad"
-                />
+              ></div>
+              <img
+                :src="'//' + file.previewimage"
+                alt
+                height="100%"
+                class="content_top_img source-img"
+                :class="[dragclass, { loaded: imgLoaded }]"
+                :data-src_from="'http://' + file.url"
+                :data-src_type="file.type == 'image' ? '3' : '1'"
+                :data-src_id="'kljfl'"
+                @load="handleImgLoad"
+              />
+            </div>
+            <div @click.stop="" class="content_mes">
+              <div v-if="(file.state & 4) !== 4" :title="file.name">
+                {{ file.name }}
               </div>
-              <div @click.stop="" class="content_mes">
-                <div v-if="(file.state & 4) !== 4" :title="file.name">
-                  {{ file.name }}
-                </div>
-                <div v-else>
-                  <!-- style="background-color: #232323;
+              <div v-else>
+                <!-- style="background-color: #232323;
                            padding: 1px;
                            color: #fff;
                            border: 1px solid #797979;
                            width: 95%;" -->
-                  <el-input
-                    v-model="file.nameNoSuffix"
-                    class="input-search"
-                    @blur="renameBlurHandle('file')"
-                  />
-                </div>
-                <div>{{ formatDuration(file.time) }}</div>
+                <el-input
+                  v-model="file.nameNoSuffix"
+                  class="input-search"
+                  @blur="renameBlurHandle('file')"
+                />
               </div>
+              <div>{{ formatDuration(file.time) }}</div>
             </div>
           </div>
 
           <div
-            class="source-container fake-container"
+            class="video_option_content fake-placeholder"
             v-for="(item, index) in fakeData"
             :key="'fake' + index"
           ></div>
@@ -1057,15 +1047,15 @@ export default {
     $(document).click(() => {
       that.tipobj.show = false
     })
-    document.oncontextmenu = function() {
-      /* 阻止浏览器默认弹框 */
-      return false
-    }
+    // document.oncontextmenu = function() {
+    //   /* 阻止浏览器默认弹框 */
+    //   return false
+    // }
     this.$nextTick(() => {
       const bscrollDom = this.$refs.libbscroll
       this.aBScroll = new BScroll(bscrollDom, {
         mouseWheel: true,
-        click: false,
+        click: true,
         tap: true,
         scrollbar: {
           fade: true,
@@ -1081,16 +1071,21 @@ export default {
         }
       })
 
-      const fileBscrollDom = this.$refs.fileBscroll
-      this.fileBscroll = new BScroll(fileBscrollDom, {
-        mouseWheel: true,
-        click: true,
-        tap: true,
-        scrollbar: {
-          fade: true,
-          interactive: false
-        }
-      })
+      if (!this.isDialog) {
+        const fileBscrollDom = this.$refs.fileBscroll
+        this.fileBscroll = new BScroll(fileBscrollDom, {
+          mouseWheel: true,
+          click: true,
+          tap: true,
+          scrollbar: {
+            fade: true,
+            interactive: false
+          }
+        })
+      }
+      console.log(this.aBScroll)
+      console.log(this.isDialog)
+      // this.$refs.aBscroll.onfocus()
     })
   }
 }
