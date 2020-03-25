@@ -500,7 +500,8 @@ export default {
       'pastType',
       'libloading',
       'libpath',
-      'isRefreshPanesBS'
+      'isRefreshPanesBS',
+      'myDirDialogShow'
     ]),
     newtitle() {
       return new RegExp(this.title, 'i')
@@ -1083,9 +1084,19 @@ export default {
           }
         })
       }
-      console.log(this.aBScroll)
-      console.log(this.isDialog)
-      // this.$refs.aBscroll.onfocus()
+      // console.log(this.aBScroll)
+      // console.log(this.isDialog)
+      if (this.isDialog) {
+        const unwatch = this.$watch('myDirDialogShow', function(newVal) {
+          if (newVal) {
+            this.$nextTick(() => {
+              // 解决aBScroll初始化时机不对导致的bug，一次更新后即取消监看
+              this.aBScroll.refresh()
+              unwatch()
+            })
+          }
+        })
+      }
     })
   }
 }

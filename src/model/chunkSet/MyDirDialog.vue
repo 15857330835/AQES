@@ -1,5 +1,5 @@
 <template>
-  <div class="my-dir-dialog" v-if="myDirDialogShow" ref="myDirDialog">
+  <div class="my-dir-dialog" v-show="myDirDialogShow" ref="myDirDialog">
     <div class="my-dir-dialog-content">
       <MyDir :isDialog="isDialog" @updateSelect="updateImgList"></MyDir>
       <div class="button-groups">

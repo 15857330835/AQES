@@ -547,7 +547,6 @@ export default {
         e = e.touches[0]
       }
       const height = $('.boxx').height()
-      const variation = this.ePosy - e.pageY
       const active = this.activeProperty[this.propertyNum]
       const length = active.h + active.top
       const before_height =
@@ -653,7 +652,7 @@ export default {
             ? 0
             : active.left + active.w - ((e.pageX - this.offsetX) * 100) / width
         active.w = transGeoValue(before_width2)
-        active.left = transGeoValue(((e.pageX - this.offsetX) * 100) / width)
+        active.left = transGeoValue2(((e.pageX - this.offsetX) * 100) / width)
         active.h = transGeoValue(active.w / this.bili)
       } else {
         const before_height2 =
@@ -661,7 +660,7 @@ export default {
             ? 0
             : ((e.pageY - this.offsetY) * 100) / height - active.top
         active.h = transGeoValue(before_height2)
-        active.left = transGeoValue(
+        active.left = transGeoValue2(
           active.left + active.w - active.h * this.bili
         )
         active.w = transGeoValue(active.h * this.bili)
@@ -708,7 +707,7 @@ export default {
             ? 0
             : active.left + active.w - ((e.pageX - this.offsetX) * 100) / width
         active.w = transGeoValue(before_width2)
-        active.left = transGeoValue(((e.pageX - this.offsetX) * 100) / width)
+        active.left = transGeoValue2(((e.pageX - this.offsetX) * 100) / width)
         active.top = transGeoValue2(
           active.h + active.top - active.w / this.bili
         )
