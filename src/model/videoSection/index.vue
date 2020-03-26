@@ -35,8 +35,9 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex'
+import { TIP_HEIGHT_NUMBER } from '@/config'
 export default {
-  data: function() {
+  data() {
     return {}
   },
   computed: {
@@ -44,7 +45,7 @@ export default {
   },
   methods: {
     ...mapMutations(['CHANGE_IS_REFRESH_CAPTION_SET_BS']),
-    fullpage: function() {
+    fullpage() {
       // 网页全屏方法
       // eslint-disable-next-line no-undef
       if (screenfull.enabled) {
@@ -89,7 +90,7 @@ export default {
         this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
         // $("#trackbox").css('max-height',$(document).height() - width * 9 / 16 - 260 - 5);
         // $("#trackbox").css('max-height',350);
-        $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+        $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
         $('.setContent').css({
           'padding-top': ((width + 5) * 9) / 16 + 70 + 'px',
           width: $('.lh').width() - width - 10 + 'px'
@@ -105,7 +106,7 @@ export default {
       })
     }
   },
-  mounted: function() {
+  mounted() {
     // 加载播放器S
     const dynamicLoadJs = function(url, callback) {
       const head = document.getElementsByTagName('head')[0]

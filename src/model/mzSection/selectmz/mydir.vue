@@ -2,7 +2,7 @@
   <div class="mydirContent">
     <div class="mydir-top">
       <div class="search-box">
-        <span class="directSearch">标题 :</span>
+        <span class="direct-search">标题</span>
         <el-input
           v-model="title"
           class="input-search"
@@ -15,26 +15,17 @@
       <!-- <div v-if="isToHis" style="display:inline-block;float:right;"
             @touchend="toHistory()"
       @click="toHistory()"><el-button slot="trigger" size="medium" type="text" icon="iconfont icon-fanhui" style="cursor:pointer;">返回</el-button></div>-->
-      <div style="width:80px;float:right;">
-        <el-select
-          v-model="value.label"
-          @change="change"
-          size="mini"
-          popper-class="dir-select"
+      <div class="dir-set-box" v-if="!isDialog">
+        <el-button
+          v-if="!isRecord"
+          class="create-dir"
+          type="text"
+          icon="el-icon-printer"
+          @click="createDir"
+          >新建文件夹</el-button
         >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </div>
-      <div
-        v-if="!isRecord"
-        style="display:inline-block;float: right;margin-right:10px"
-      >
         <el-upload
+          v-if="!isRecord"
           class="upload-demo"
           ref="upload"
           :limit="10"
@@ -62,16 +53,24 @@
                     <i class="iconfont icon-shangchuan"></i>
           <span>上传</span></button>-->
         </el-upload>
-      </div>
-      <div v-if="!isRecord" style="float:right;margin-right:10px;">
-        <el-button type="text" icon="el-icon-printer" @click="createDir"
-          >新建文件夹</el-button
+        <el-select
+          v-model="value.label"
+          @change="change"
+          size="mini"
+          class="dir-select"
         >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
       </div>
     </div>
     <div class="mydir-bottom">
       <div class="mydir-bottom-title clearfix">
-        <div style="float:left;margin-top:13px;padding-left:5px">
+        <div class="mydir-bottom-title-container">
           <el-breadcrumb separator=">">
             <el-breadcrumb-item>
               <span style="color:#e4e4e4;cursor:pointer;" @click="intoDir('')"
@@ -124,17 +123,20 @@
 
           <div
             class="video_option_content dir"
+            @touchend="touchend(dir.name)"
             v-for="(dir, index) in this.dirlist.dirs.filter(item => {
               return item.name != '' && item.name.match(newtitle) != null
             })"
             :key="'dir' + index"
-            @touchend="touchend(dir.name)"
           >
             <div
               class="content_top u-icon"
               @click.stop="dirClickedFn($event, dir.name, 'dir', index)"
               @dblclick="openDir(dir.name)"
-              :class="{ clicked: (dir.state & 1) === 1 }"
+              :class="{
+                clicked: (dir.state & 1) === 1,
+                actived: activeStr === 'dir' + dir.name + index
+              }"
               @mouseenter="enterdir($event, dir.name)"
               @mouseout="outdir"
               @contextmenu.prevent="downright($event, dir.name, 'dir', index)"
@@ -170,17 +172,22 @@
 
           <div
             class="video_option_content file"
+            v-show="value.value == 'all' || value.value == file.type"
             v-for="(file, index) in this.dirlist.files.filter(item => {
               return item.name != '' && item.name.match(newtitle) != null
             })"
             :key="'file' + index"
-            v-show="value.value == 'all' || value.value == file.type"
           >
             <div
               class="content_top"
-              :class="{ clicked: (file.state & 1) === 1 }"
+              :class="{
+                clicked: (file.state & 1) === 1,
+                actived: activeStr === 'file' + file.name + index
+              }"
               @mousedown.left="leftdown($event, file.name)"
-              @click.stop="clickedFn($event, file.name, 'file', index)"
+              @click.stop="
+                clickedFn($event, file.name, 'file', index, file.url)
+              "
               @mouseenter="isImageDelDivHandle($event, 'block')"
               @mouseleave="isImageDelDivHandle($event, 'none')"
               @contextmenu.prevent="downright($event, file.name, 'file', index)"
@@ -230,6 +237,12 @@
               <div>{{ formatDuration(file.time) }}</div>
             </div>
           </div>
+
+          <div
+            class="video_option_content fake-placeholder"
+            v-for="(item, index) in fakeData"
+            :key="'fake' + index"
+          ></div>
           <div class="loading" v-show="loadingShow">
             <div class="loading-item"></div>
             <div class="loading-item"></div>
@@ -252,11 +265,10 @@
         <div class="content_title">上传文件列表</div>
         <div
           class="content_select upfilelist_content_select bscroll"
-          style="height:170px"
           ref="fileBscroll"
         >
           <div class="bscroll-container">
-            <p style="color:#6d6a6a;text-align:center">
+            <p class="upload-info">
               红色文件不可上传，格式或大小不支持！
             </p>
             <p
@@ -279,8 +291,8 @@
           </div>
         </div>
         <div class="content_click">
-          <span class="content_click_make" @click="submitUpload">确认</span>
           <span class="content_click_cancel" @click="cel">取消</span>
+          <span class="content_click_make" @click="submitUpload">确认</span>
         </div>
       </div>
     </div>
@@ -292,8 +304,8 @@
           <el-input v-model="newDirName" class="input-item"></el-input>
         </div>
         <div class="content_click">
-          <span class="content_click_make" @click="submitMkDir">确认</span>
           <span class="content_click_cancel" @click="celMkDir">取消</span>
+          <span class="content_click_make" @click="submitMkDir">确认</span>
         </div>
       </div>
     </div>
@@ -380,8 +392,10 @@ import * as api from '@/api/Lib'
 // import { uploadForm } from '@/api/Upload'
 import BScroll from 'better-scroll'
 export default {
+  props: ['transPaneData', 'isDialog'],
   data() {
     return {
+      activeStr: '',
       imgLoaded: false,
       imgClicked: true,
       lasttime: 0,
@@ -450,14 +464,33 @@ export default {
       simDbclickTime: 0,
       clctimer: null,
       uploadInde: 0,
-      uploadFiles: null
+      uploadFiles: null,
+      // flex适应布局填充
+      fakeData: [...new Array(9).keys()]
     }
   },
   //   components: {
   //   		systemmes,
   //   },
-  created: function() {
+  watch: {
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'mydir')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
+    }
+  },
+  created() {
     this.intoDir('')
+    if (this.isDialog) {
+      this.value = {
+        value: 'image',
+        label: '图片'
+      }
+    }
   },
   computed: {
     ...mapState([
@@ -466,31 +499,33 @@ export default {
       'libsourcelist',
       'pastType',
       'libloading',
-      'libpath'
+      'libpath',
+      'isRefreshPanesBS',
+      'myDirDialogShow'
     ]),
     newtitle() {
       return new RegExp(this.title, 'i')
     },
     dirlist: {
-      get: function() {
+      get() {
         return this.libsourcelist
       },
-      set: function(data) {
+      set(data) {
         this.$store.state.libsourcelist = data
       }
     },
     url: {
-      get: function() {
+      get() {
         return this.libpath
       },
-      set: function(str) {
+      set(str) {
         this.$store.state.libpath = str
       }
     },
-    dirarr: function() {
+    dirarr() {
       return this.url.split('/')
     },
-    nowdir: function() {
+    nowdir() {
       return this.dirarr[this.dirarr.length - 1]
     },
     noDataShow() {
@@ -517,7 +552,8 @@ export default {
       'SET_MUL_SELE_LIST',
       'SET_LIB_PATH',
       'SET_PAST_TYPE',
-      'SET_LIB_LOADING'
+      'SET_LIB_LOADING',
+      'CHANGE_IS_REFRESH_PANES_BS'
     ]),
     change(obj) {
       this.value.value = obj
@@ -532,7 +568,7 @@ export default {
       window.zindex = 4
       this.$alert('单次上传文件数量不能超过 10 个！', '提示消息', {
         confirmButtonText: '确定',
-        callback: function() {
+        callback() {
           window.zindex = 1
         }
       })
@@ -574,6 +610,12 @@ export default {
       this.intoDir('')
     },
     backDir(index) {
+      // 清空激活并传空url给父组件
+      if (this.isDialog) {
+        this.$emit('updateSelect', '')
+      }
+      this.activeStr = ''
+
       const arr = this.url.split('/')
       let dir = ''
       if (index === '') {
@@ -592,6 +634,12 @@ export default {
       this.intoDir(dir)
     },
     async intoDir(dir) {
+      // 清空激活并传空url给父组件
+      if (this.isDialog) {
+        this.$emit('updateSelect', '')
+      }
+      this.activeStr = ''
+
       if (dir === '') this.isRecord = false
       this.toobj = ''
       if (this.pastType === '') {
@@ -608,7 +656,8 @@ export default {
         index: this.page,
         number: this.num,
         callback: res => {
-          this.loadingShow = false
+          // this.loadingShow = false
+          this.loadingShow = res.data.files.length === this.num
           this.tipobj.show = false
         }
       })
@@ -618,7 +667,8 @@ export default {
         index: ++this.page,
         number: this.num,
         callback: res => {
-          this.loadingShow = false
+          // this.loadingShow = false
+          this.loadingShow = res.data.files.length === this.num
         }
       })
     },
@@ -650,6 +700,9 @@ export default {
     },
     downright(e_para, name, type, index) {
       e_para.stopPropagation()
+      if (this.isDialog) {
+        return
+      }
       let e = e_para
       this.tipobj.show = false
       this.downrightIndex = index
@@ -945,7 +998,8 @@ export default {
     handleImgLoad() {
       this.imgLoaded = true
     },
-    clickedFn(e, name, type, index) {
+    clickedFn(e, name, type, index, url) {
+      this.activeStr = 'file' + name + index
       this.tipobj.show = false
       this.isSwitchDir = false
       this.beforSwitchDir = this.url
@@ -964,15 +1018,25 @@ export default {
       if (state & (state === 1)) {
         this.SET_MUL_SELE_LIST({ path: path, type: 'del' })
       } else {
-        this.SET_MUL_SELE_LIST({ path: path, type: 'add' })
+        let selectType
+        if (this.isDialog) {
+          selectType = 'change'
+        } else {
+          selectType = 'add'
+        }
+        this.SET_MUL_SELE_LIST({ path: path, type: selectType })
+        if (this.isDialog) {
+          this.$emit('updateSelect', url)
+        }
       }
 
       this.dirlist[type + 's'][index].state = state ^ 1
     },
     dirClickedFn(e, name, type, index) {
+      this.activeStr = 'dir' + name + index
       clearTimeout(this.clctimer)
       this.clctimer = setTimeout(() => {
-        this.clickedFn(e, name, type, index)
+        this.clickedFn(e, name, type, index, '')
       }, 300)
     },
     isImageDelDivHandle(e, hide) {
@@ -984,10 +1048,10 @@ export default {
     $(document).click(() => {
       that.tipobj.show = false
     })
-    document.oncontextmenu = function() {
-      /* 阻止浏览器默认弹框 */
-      return false
-    }
+    // document.oncontextmenu = function() {
+    //   /* 阻止浏览器默认弹框 */
+    //   return false
+    // }
     this.$nextTick(() => {
       const bscrollDom = this.$refs.libbscroll
       this.aBScroll = new BScroll(bscrollDom, {
@@ -1001,72 +1065,114 @@ export default {
       })
       this.aBScroll.on('scrollEnd', function({ x, y }) {
         if (y <= that.aBScroll.maxScrollY) {
-          that.loadingShow = true
+          // that.loadingShow = true
           setTimeout(() => {
             that.fetchMore()
           }, 800)
         }
       })
 
-      const fileBscrollDom = this.$refs.fileBscroll
-      this.fileBscroll = new BScroll(fileBscrollDom, {
-        mouseWheel: true,
-        click: true,
-        tap: true,
-        scrollbar: {
-          fade: true,
-          interactive: false
-        }
-      })
+      if (!this.isDialog) {
+        const fileBscrollDom = this.$refs.fileBscroll
+        this.fileBscroll = new BScroll(fileBscrollDom, {
+          mouseWheel: true,
+          click: true,
+          tap: true,
+          scrollbar: {
+            fade: true,
+            interactive: false
+          }
+        })
+      }
+      // console.log(this.aBScroll)
+      // console.log(this.isDialog)
+      if (this.isDialog) {
+        const unwatch = this.$watch('myDirDialogShow', function(newVal) {
+          if (newVal) {
+            this.$nextTick(() => {
+              // 解决aBScroll初始化时机不对导致的bug，一次更新后即取消监看
+              this.aBScroll.refresh()
+              unwatch()
+            })
+          }
+        })
+      }
     })
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .mydirContent {
   position: absolute;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
-
-  .search-box {
-    display: inline-block;
-    width: auto;
-    // padding: 0 18px;
-    // line-height: 50px;
-    .directSearch {
-      margin-right: 10px;
-    }
-    .input-search {
-      display: inline-block;
+  .mydir-top {
+    padding: 0 0.2rem;
+    height: 0.53rem;
+    line-height: 0.53rem;
+    background-color: #212931;
+    display: flex;
+    justify-content: space-between;
+    .search-box {
+      flex: 1;
       width: auto;
-      input {
-        width: 120px;
-        height: 25px;
-        background-color: rgb(48, 56, 64);
-        border: 1px solid #394149 !important;
-        border-radius: 3px;
-        box-sizing: border-box;
-        text-align: center;
-        font-size: 12px;
-        color: #e4e4e4;
-        -web-kit-appearance: none;
-        -moz-appearance: none;
-        display: inline-block;
-        outline: 0;
-        padding: 0 1em;
-        text-decoration: none;
+      display: flex;
+      .direct-search {
+        margin-right: 0.12rem;
+      }
+    }
+    .dir-set-box {
+      display: flex;
+      .create-dir {
+        background-color: transparent;
+        border-color: transparent;
+      }
+      .upload-demo {
+        margin: 0 0.2rem;
+        .el-button {
+          background-color: transparent;
+          border-color: transparent;
+        }
+      }
+      .dir-select {
+        width: 1rem;
       }
     }
   }
-
+  .mydir-bottom {
+    .mydir-bottom-title {
+      height: 40px;
+      .mydir-bottom-title-container {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding-left: 0.2rem;
+      }
+    }
+    .mydir-bottom-content {
+      height: calc(100% - 50px);
+      overflow-y: hidden;
+      position: relative;
+    }
+  }
+}
+</style>
+<style lang="scss">
+.mydirContent {
   .mydir-top {
-    padding: 0 18px;
-    line-height: 50px;
-    position: relative;
-    background-color: #212931;
+    .search-box {
+      margin-right: 0.2rem;
+      .input-search {
+        flex: 1;
+        max-width: 2rem;
+        > input {
+          width: 100%;
+        }
+      }
+    }
   }
   .mydir-bottom {
     height: calc(100% - 50px);
@@ -1081,14 +1187,6 @@ export default {
       width: 50px;
       margin-bottom: 10px;
     }
-  }
-  .mydir-bottom-content {
-    height: calc(100% - 50px);
-    overflow-y: hidden;
-    position: relative;
-  }
-  .mydir-bottom-title {
-    height: 40px;
   }
 
   .el-progress__text {
@@ -1131,136 +1229,81 @@ export default {
     color: #585252;
   }
   .upfilelist {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 1010;
-  }
-  .upfilelist .upfilelist_content {
-    position: absolute;
-    width: 510px;
-    height: 230px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #232323;
-    font-size: 12px;
-    overflow: hidden;
-    .upfilelist-item {
-      width: 400px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      line-height: 20px;
-      .input-item {
-        display: inline-block;
-        width: auto;
-        input {
-          box-sizing: border-box;
+    .upfilelist_content {
+      .upfilelist_content_select {
+        position: relative;
+        overflow-y: hidden;
+        height: 200px;
+        margin-bottom: 15px;
+        .upload-info {
+          color: rgb(109, 106, 106);
           text-align: center;
-          font-size: 12px;
-          height: 20px;
-          border: 1px solid #686868;
-          color: #e4e4e4;
-          -web-kit-appearance: none;
-          -moz-appearance: none;
+          pointer-events: auto;
+          width: 100%;
+        }
+      }
+      .upfilelist-item {
+        width: 400px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        line-height: 22px;
+        font-size: 14px;
+        .input-item {
           display: inline-block;
-          outline: 0;
-          padding: 0 1em;
-          text-decoration: none;
-          border-radius: 8px;
-          background-color: #1c1c1c;
-          width: 120px;
+          width: auto;
+          input {
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 12px;
+            height: 20px;
+            border: 1px solid #636a71;
+            color: #e4e4e4;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            display: inline-block;
+            outline: 0;
+            padding: 0 1em;
+            text-decoration: none;
+            border-radius: 8px;
+            background-color: #1c1c1c;
+            width: 120px;
+          }
         }
       }
     }
-    .content_title {
-      height: 30px;
-      line-height: 30px;
-      background-color: #2e2e2e;
-      text-align: center;
-    }
-    .upfilelist_content_select {
-      position: relative;
-      overflow-y: hidden;
-    }
-  }
-  .upfilelist .newDir_content {
-    position: absolute;
-    width: 510px;
-    // height: 230px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #232323;
-    font-size: 12px;
-    overflow: hidden;
-    .upfilelist-item {
-      width: 400px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      line-height: 20px;
-      .input-item {
-        display: inline-block;
-        width: auto;
-        input {
-          box-sizing: border-box;
-          text-align: center;
-          font-size: 12px;
-          height: 20px;
-          border: 1px solid #686868;
-          color: #e4e4e4;
-          -web-kit-appearance: none;
-          -moz-appearance: none;
+    .newDir_content {
+      .upfilelist-item {
+        width: 400px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        line-height: 20px;
+        font-size: 13px;
+        .input-item {
           display: inline-block;
-          outline: 0;
-          padding: 0 1em;
-          text-decoration: none;
-          border-radius: 8px;
-          background-color: #1c1c1c;
-          width: 345px;
+          width: auto;
+          input {
+            width: 345px;
+            height: 20px;
+            background-color: rgb(48, 56, 64);
+            border: 1px solid rgb(99, 106, 113);
+            border-radius: 3px;
+            box-sizing: border-box;
+            border: 1px solid #636a71;
+            color: #e4e4e4;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            display: inline-block;
+            outline: 0;
+            padding: 0 1em;
+            text-decoration: none;
+          }
         }
       }
     }
-    .content_title {
-      height: 30px;
-      line-height: 30px;
-      background-color: #2e2e2e;
-      text-align: center;
-    }
   }
-}
-.dir-select {
-  .el-input__inner,
-  .el-select-dropdown {
-    background-color: #232323; /* #1d1d1d; */
-    // border: 0px solid #636363 !important;
-    font-size: 14px !important;
-    color: rgb(170, 170, 170);
-  }
-  .el-select .el-input__inner:focus,
-  .el-select .el-input__inner:hover {
-    border-color: #636363;
-  }
-  .el-select-dropdown__item.hover,
-  .el-select-dropdown__item:hover {
-    background-color: #1d1d1d;
-    span {
-      color: #049eff;
-    }
-  }
-}
-.source-img {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.source-img.loaded {
-  opacity: 1;
 }
 </style>

@@ -13,9 +13,10 @@
         v-if="paneShow"
         :showDatePicker="showDatePicker"
         :showTitleSearch="showTitleSearch"
+        :transPaneData="transPaneData"
       ></pane>
       <div v-html="html"></div>
-      <mydir v-if="libShow"></mydir>
+      <mydir v-if="libShow" :transPaneData="transPaneData"></mydir>
     </div>
   </div>
 </template>
@@ -33,7 +34,12 @@ export default {
     pane,
     mydir
   },
-  props: ['handleMouseDown', 'handleMouseMove', 'handleMouseUp'],
+  props: [
+    'handleMouseDown',
+    'handleMouseMove',
+    'handleMouseUp',
+    'transPaneData'
+  ],
   data() {
     return {
       list: [
@@ -51,7 +57,6 @@ export default {
     }
   },
   inheritAttrs: false,
-  watch: {},
   computed: {},
   methods: {
     handleSelectLi(data) {

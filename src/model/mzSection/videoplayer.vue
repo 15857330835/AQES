@@ -1,5 +1,5 @@
 <template>
-  <div class="nces_videoplayer" :style="{ width: this.videoselw }">
+  <div class="nces_videoplayer" :style="{ width: videoselw }">
     <div class="player_title">
       <span class="u-icon">{{ this.v }}</span>
       <span
@@ -77,12 +77,7 @@
               : (100 * 9 * this.playerInfo.w) / 16 / this.playerInfo.h + '%'
         }"
       >
-        <newchartset
-          v-if="
-            this.filtershow == 'normal' &&
-              this.activechunk.chunk.chunk_type !== 2
-          "
-        ></newchartset>
+        <newchartset v-if="this.filtershow == 'normal'"></newchartset>
         <newDynamicTextSet
           v-else-if="this.filtershow === 'dynamicText'"
         ></newDynamicTextSet>
@@ -91,77 +86,80 @@
     </div>
     <div class="video_control">
       <div
+        class="time-to-line"
         v-if="this.chunksetshow"
-        style="height:6px;background-color:#6F7376;overflow:hidden;cursor:pointer;opacity:0.6;width:100%"
         @click="movetoposition($event)"
-        class="progress-line"
       >
         <div
+          class="line-active"
           :style="{
-            height: '100%',
             width:
               ((this.pointer.position - this.activechunk.chunk.track_start) *
                 100) /
                 (this.activechunk.chunk.src_end -
                   this.activechunk.chunk.src_start) +
-              '%',
-            backgroundColor: '#61ded0'
+              '%'
           }"
         ></div>
       </div>
-      <div class="control_Cleft">
-        <span @click="lastindex" class="u-icon" title="上一帧"></span>
-        <span
-          @click="videoplay"
-          :class="(this.pointer.speed == 0 ? '' : 'active') + ' u-icon play'"
-          :title="this.pointer.speed == 0 ? '播放' : '暂停'"
-        ></span>
-        <span @click="nextindex" class="u-icon" title="下一帧"></span>
-      </div>
       <div
-        title="添加时间点"
-        v-if="
-          this.chunksetshow &&
-            (this.activechunk.chunk.chunk_type != 2 ||
-              this.activechunk.chunk.chunk_type != 5)
-        "
-        @click="adddian"
-        style="float:left;margin: 0 20px;width:11px;height:7px;border-top-left-radius:2px;border-top-right-radius:2px;background-color:#61ded0;position:relative;top:14px;cursor:pointer"
+        class="bottom-control"
+        :style="{
+          height: chunksetshow ? '0.4rem' : '0.48rem'
+        }"
       >
-        <span
-          style="display:inline-block;border: 5.5px solid transparent;border-top:5.5px solid #61ded0;position:absolute;top:7px"
-        ></span>
-      </div>
-      <div style="float:left;line-height:40px ;" v-if="!this.chunksetshow">
-        <span
-          >{{ this.initdate(pointer.position) }} /
-          {{ this.initdate(length - 1) }}</span
+        <div class="control_Cleft">
+          <span @click="lastindex" class="u-icon" title="上一帧"></span>
+          <span
+            @click="videoplay"
+            :class="(this.pointer.speed == 0 ? '' : 'active') + ' u-icon play'"
+            :title="this.pointer.speed == 0 ? '播放' : '暂停'"
+          ></span>
+          <span @click="nextindex" class="u-icon" title="下一帧"></span>
+        </div>
+        <div
+          title="添加时间点"
+          class="add-tip"
+          v-if="
+            this.chunksetshow &&
+              (this.activechunk.chunk.chunk_type != 2 ||
+                this.activechunk.chunk.chunk_type != 5)
+          "
+          @click="adddian"
         >
-      </div>
-      <div
-        style="float:left;line-height:40px ;"
-        v-if="
-          this.chunksetshow &&
-            (this.activechunk.chunk.chunk_type != 2 ||
-              this.activechunk.chunk.chunk_type != 5)
-        "
-      >
-        <span
-          >{{
-            this.initdate(
-              this.pointer.position - this.activechunk.chunk.track_start
-            )
-          }}
-          /
-          {{
-            this.initdate(
-              Math.floor(originSrcLen / this.activechunk.chunk.speed)
-            )
-          }}</span
+          <span></span>
+        </div>
+        <div class="time-info" v-if="!this.chunksetshow">
+          <span
+            >{{ this.initdate(pointer.position) }} /
+            {{ this.initdate(length) }}</span
+          >
+        </div>
+        <div
+          class="time-info"
+          v-if="
+            this.chunksetshow &&
+              (this.activechunk.chunk.chunk_type != 2 ||
+                this.activechunk.chunk.chunk_type != 5)
+          "
         >
-      </div>
-      <div class="control_Cright">
-        <span @click="videoRefresh" class="u-icon" title="刷新播放器"></span>
+          <span
+            >{{
+              this.initdate(
+                this.pointer.position - this.activechunk.chunk.track_start
+              )
+            }}
+            /
+            {{
+              this.initdate(
+                Math.floor(originSrcLen / this.activechunk.chunk.speed)
+              )
+            }}</span
+          >
+        </div>
+        <div class="control_Cright">
+          <span @click="videoRefresh" class="u-icon" title="刷新播放器"></span>
+        </div>
       </div>
     </div>
     <div
@@ -182,9 +180,10 @@ import newchartset from './newchartSet'
 import newfilterset from './newfilterSet'
 import newDynamicTextSet from './NewDynamicTextSet'
 import _ from 'lodash'
+import { TIP_HEIGHT_NUMBER, TRACK_MAXHEIGHT_NUMBER } from '@/config'
 
 export default {
-  data: function() {
+  data() {
     return {
       videomove: false,
       x: 0,
@@ -225,17 +224,17 @@ export default {
     track_property() {
       return this.$store.state.all.track_property
     },
-    videoselw: function() {
+    videoselw() {
       if (this.clientwidth >= 1440) {
         return this.track_property.fanwei['1920'].now * 100 + '%'
       } else {
         return this.track_property.fanwei['1440'].now * 100 + '%'
       }
     },
-    playerInfo: function() {
+    playerInfo() {
       return this.systemmessage.player
     },
-    isPlaying: function() {
+    isPlaying() {
       return !!this.$store.state.all.pointer.speed
     }
   },
@@ -243,9 +242,7 @@ export default {
     chunksetshow(val) {
       if (val) {
         this.originSrcLen =
-          (this.activechunk.chunk.src_end -
-            this.activechunk.chunk.src_start -
-            1) *
+          (this.activechunk.chunk.src_end - this.activechunk.chunk.src_start) *
           this.activechunk.chunk.speed
       }
       this.getindex()
@@ -275,8 +272,7 @@ export default {
       'CHANGE_ACTIVEPROPERTY',
       'CHANGE_PROPERTYNUM',
       'ADD_REFRESH_KEY',
-      'CHANGE_IS_REFRESH_TRACK_BOX_BS',
-      'CHANGE_IS_REFRESH_CAPTION_SET_BS'
+      'CHANGE_IS_REFRESH_PANES_BS'
     ]),
     ...mapActions([
       'postPointer',
@@ -286,11 +282,12 @@ export default {
       // "initdate",
       'getindex',
       'Post',
-      'changeLoading'
+      'changeLoading',
+      'geoPost'
     ]),
     // eslint-disable-next-line no-empty-function
     temp() {},
-    adddian: function() {
+    adddian() {
       const geo_arr = []
       let flag = false
       let index = 0
@@ -323,51 +320,10 @@ export default {
         index = this.activeProperty.length
         geo_arr.push(datas)
       }
-      this.CHANGE_ACTIVEPROPERTY(geo_arr)
       this.CHANGE_PROPERTYNUM(index)
-      let geo = ''
-      for (let i = 0; i < geo_arr.length; i++) {
-        const f = geo_arr[i]
-        if (f.top < 0) {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        } else {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        }
-      }
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_property',
-        chunk_id: this.activechunk.chunk.chunk_id,
-        geometry: geo.substr(0, geo.length - 1)
-      }
-      this.Post(data)
+      this.geoPost({
+        geo_arr
+      })
     },
     movetoposition(obj) {
       const that = this
@@ -381,7 +337,7 @@ export default {
           cmd: 'set',
           position: parseInt(position, 10) + this.activechunk.chunk.track_start
         },
-        success: function(res) {
+        success(res) {
           that.getindex()
         }
       }
@@ -403,15 +359,16 @@ export default {
         $('.edit_ruler.clearfix').height() +
         $('#captionbox').height() +
         $('.time_track.clearfix').height() +
-        $('.nces_videooper').height()
-
+        $('.nces_videooper').height() +
+        TRACK_MAXHEIGHT_NUMBER -
+        72
+      // editHeight
       trackbox_max_height = parseInt(trackbox_max_height, 10)
       $('#trackbox').css(
         'max-height',
-        // $(document).height() - (width * 9) / 16 - num - 8
         'calc(100vh - ' + num + ' - ' + trackbox_max_height + 'px)'
       )
-      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+      $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
     },
     fullpage() {
       // 网页全屏方法
@@ -551,6 +508,9 @@ export default {
       $('.video_option')
         .getNiceScroll()
         .resize()
+      $('#trackbox')
+        .getNiceScroll()
+        .resize()
       $('.mydir-bottom-content')
         .getNiceScroll()
         .resize()
@@ -581,10 +541,12 @@ export default {
       $('.video_option')
         .getNiceScroll()
         .resize()
+      $('#trackbox')
+        .getNiceScroll()
+        .resize()
       $('.mydir-bottom-content')
         .getNiceScroll()
         .resize()
-      this.CHANGE_IS_REFRESH_TRACK_BOX_BS(true)
       this.resizeScreen()
     },
     mouseend(e) {
@@ -599,11 +561,11 @@ export default {
       this.UPDATE_TRACKBOX()
       this.UPDATE_TRACKPOSITION()
       this.UPDATE_CAPTIONPOSITION()
+      // console.log('move-video-box')
+      this.CHANGE_IS_REFRESH_PANES_BS(true)
       if (this.openway === 'pc') {
         $(document).unbind('mousemove')
       }
-      this.CHANGE_IS_REFRESH_TRACK_BOX_BS(true)
-      this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
     },
     mousedown(e_para) {
       // 视频播放器宽度调节
@@ -680,7 +642,7 @@ export default {
         window.zindex = 0
         that.$alert(data.message, '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -707,7 +669,7 @@ export default {
     this.mute = false
 
     this.originSrcLen =
-      (this.activechunk.chunk.src_end - this.activechunk.chunk.src_start - 1) *
+      (this.activechunk.chunk.src_end - this.activechunk.chunk.src_start) *
       this.activechunk.chunk.speed
 
     document.addEventListener('fullscreenchange', e => {
@@ -732,35 +694,37 @@ export default {
   top: 0;
   right: 0;
   width: 50%;
+  font-size: 0.18rem;
 
   .player_title {
-    height: 30px;
+    height: 0.4rem;
     background-color: #212931;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 15px;
+    padding: 0 0.2rem;
 
     .fullpage-in {
       background: url('../../img/u5.png');
-      transform: scale(0.7);
+      transform: scale(0.65);
     }
 
     .fullpage-out {
-      background: url('../../img/u5.png');
-      transform: scale(0.7);
+      background: url('../../img/u5_1.png');
+      transform: scale(0.65);
     }
 
     > span {
       &:nth-child(1) {
-        background: url(../../img/u1.png) 0 center no-repeat;
-        text-indent: 25px;
-        line-height: 30px;
+        background: url(../../img/video-player.png) 0 center no-repeat;
+        text-indent: 0.32rem;
+        line-height: 0.4rem;
+        background-size: 0.22rem;
       }
 
       &:nth-child(2) {
-        width: 20px;
-        height: 20px;
+        width: 0.28rem;
+        height: 0.28rem;
         background-size: 100%;
         cursor: pointer;
       }
@@ -771,84 +735,120 @@ export default {
     background: repeating-linear-gradient(
       -45deg,
       rgba(51, 51, 51, 0.5),
-      rgba(51, 51, 51, 0.5) 5px,
+      rgba(51, 51, 51, 0.5) 0.05rem,
       rgba(68, 68, 68, 0.5) 0,
-      rgba(68, 68, 68, 0.5) 10px
+      rgba(68, 68, 68, 0.5) 0.1rem
     );
     width: 100%;
-    height: calc(100% - 66px);
+    height: calc(100% - 0.88rem);
     position: relative;
   }
 
   .video_control {
     width: 100%;
-    height: 36px;
+    height: 0.48rem;
     background-color: #212931;
-    line-height: 30px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 
-    .control_Cleft {
-      float: left;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-
-      > span {
-        width: 37px;
-        height: 37px;
-        display: inline-block;
-        cursor: pointer;
-
-        &:nth-child(1) {
-          background-image: url(../../img/u2.png);
-          transform: scale(0.8);
-        }
-
-        &:nth-child(2) {
-          background-image: url(../../img/u3.png);
-          transform: scale(0.8);
-
-          &.active {
-            background-image: url(../../img/u13.png);
-            transform: scale(0.8);
-          }
-        }
-
-        &:nth-child(3) {
-          background-image: url(../../img/u4.png);
-          transform: scale(0.8);
-        }
+    .time-to-line {
+      height: 0.08rem;
+      background-color: #6f7376;
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0.6;
+      width: 100%;
+      .line-active {
+        height: 100%;
+        background-color: #61ded0;
       }
     }
+    .bottom-control {
+      .control_Cleft {
+        float: left;
+        user-select: none;
+        height: 100%;
+        padding: 0 0.2rem;
+        // display: flex;
+        // align-items: center;
 
-    .control_Cright {
-      margin-right: 10px;
-      margin-top: 10px;
-      float: right;
-
-      > span {
-        &:nth-child(1) {
-          background-image: url(../../img/restart.png);
-          transform: scale(0.8);
-          width: 20px;
-          height: 20px;
+        > span {
+          width: 0.42rem;
+          height: 100%;
           display: inline-block;
-          background-size: 100%;
           cursor: pointer;
-          margin-right: 10px;
+
+          &:nth-child(1) {
+            background: url(../../img/u2.png) left no-repeat;
+            transform: scale(0.9);
+          }
+
+          &:nth-child(2) {
+            background: url(../../img/u3.png) left no-repeat;
+            transform: scale(0.8);
+
+            &.active {
+              background: url(../../img/u13.png) left no-repeat;
+              transform: scale(0.8);
+            }
+          }
+
+          &:nth-child(3) {
+            background: url(../../img/u4.png) left no-repeat;
+            transform: scale(0.9);
+          }
         }
+      }
 
-        &:nth-child(2) {
-          background-image: url(../../img/quanping.png);
-          width: 20px;
-          height: 20px;
+      .control_Cright {
+        margin-right: 0.2rem;
+        height: 100%;
+        float: right;
+        // display: flex;
+        // align-items: center;
+        > span {
+          &:nth-child(1) {
+            background-image: url(../../img/restart.png);
+            transform: scale(0.7);
+            width: 0.28rem;
+            height: 100%;
+            display: inline-block;
+            background-size: 100%;
+            cursor: pointer;
+          }
+
+          &:nth-child(2) {
+            background-image: url(../../img/quanping.png);
+            width: 0.28rem;
+            height: 0.28rem;
+            display: inline-block;
+            background-size: 100%;
+            cursor: pointer;
+          }
+        }
+      }
+      .time-info {
+        float: left;
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+      .add-tip {
+        float: left;
+        margin: 0 20px;
+        width: 11px;
+        height: 7px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        background-color: #61ded0;
+        position: relative;
+        top: calc(0.24rem - 8px);
+        cursor: pointer;
+        > span {
           display: inline-block;
-          background-size: 100%;
-          cursor: pointer;
+          border: 5.5px solid transparent;
+          border-top: 5.5px solid #61ded0;
+          position: absolute;
+          top: 7px;
         }
       }
     }
@@ -862,17 +862,16 @@ export default {
     top: 0;
     height: 100%;
     cursor: url(../../img/videoMove.png), pointer;
-    line-height: 7px;
     font-weight: 900;
-    width: 20px;
-    left: -20px;
+    width: 0.25rem;
+    left: -0.25rem;
     box-sizing: border-box;
     background-color: #212931;
     border-left: 1px solid #151a20;
-    border-right: 2px solid #151a20;
+    border-right: 0.02rem solid #151a20;
     &.set-active {
-      background-color: transparent;
-      z-index: 666;
+      background-color: #151a20;
+      z-index: 1666;
       width: 10px;
       border: none;
       left: -10px;
@@ -883,10 +882,10 @@ export default {
 
     span {
       text-align: center;
-      width: 10px;
-      height: 20px;
+      width: 0.1rem;
+      height: 0.2rem;
       top: 50%;
-      transform: translate(3px, -50%);
+      transform: translate(0.05rem, -50%);
       background: url(../../img/left_move.png) no-repeat;
       background-size: contain;
     }

@@ -229,7 +229,7 @@ export default {
         })
       )
     },
-    sendmessage: function(onSuccess) {
+    sendmessage(onSuccess) {
       const that = this
       const data = {}
       data.type = 'chunk'

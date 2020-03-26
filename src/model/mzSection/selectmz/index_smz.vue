@@ -12,11 +12,13 @@
           <span class="tab-title">{{ item.title }}</span>
         </li>
       </ul>
+      <keypress></keypress>
     </div>
     <div class="listContent">
       <keep-alive>
         <component
           :is="currentComponent"
+          :transPaneData="transPaneData"
           style="height: 100%;"
           :handleMouseDown="mousedown"
           :handleMouseMove="mousemove"
@@ -25,11 +27,10 @@
       </keep-alive>
     </div>
     <audio-player></audio-player>
-    <keypress></keypress>
     <div
       class="fchunkbox clonediv"
       :class="this.clonediv.class"
-      v-if="this.clonediv.able"
+      v-show="this.clonediv.able"
       :style="{
         zIndex: 1010,
         position: 'fixed',
@@ -48,15 +49,11 @@
           v-for="(obj, k) in this.clonediv.imglist"
           v-bind:key="k"
           :style="{
-            width: '100px',
-            textAlign: 'center',
-            height: '56px',
-            backgroundColor: 'black',
-            position: 'absolute',
             left: obj.index * 100 + 'px'
           }"
+          class="img-container"
         >
-          <img :src="obj.url" alt />
+          <img :src="obj.url" alt class="img-item" />
         </div>
       </div>
       <div
@@ -95,12 +92,14 @@ import { transitionAddApi } from '@/api/Transition'
 import { chunkAddApi, chunkReplaceApi } from '@/api/Chunk'
 import { trackPropertyAppendApi } from '@/api/Track'
 // import { sourceDelApi } from '@/api/Source'
-// import _ from 'lodash'
+import _ from 'lodash'
 import axios from '@/http'
+import { ATTACH_NUMBER } from '@/config'
 
 export default {
   data() {
     return {
+      transPaneData: false,
       nav: [
         { title: '媒资', component: mzView, name: 'tab-media' },
         { title: '视频', component: videoView, name: 'tab-video' },
@@ -182,7 +181,8 @@ export default {
       'audioStatus',
       'systemmessage',
       'sourceIndexMap',
-      'chunkIndexMap'
+      'chunkIndexMap',
+      'isRefreshPanesBS'
     ]),
     tracksData() {
       return this.all.tracks
@@ -208,8 +208,21 @@ export default {
   watch: {
     tracksData: {
       immediate: true,
-      handler: function() {
+      handler() {
         this.refreshChunkPosition()
+      }
+    },
+    isRefreshPanesBS: {
+      immediate: true,
+      handler(newVal) {
+        if (newVal) {
+          // console.log(newVal, 'test')
+          this.transPaneData = newVal
+          this.$nextTick(() => {
+            this.CHANGE_IS_REFRESH_PANES_BS(false)
+            this.transPaneData = false
+          })
+        }
       }
     }
   },
@@ -225,7 +238,8 @@ export default {
       'CHANGE_MYDIRSHOW',
       'ACTIVE_CHUNK',
       'UPDATE_CHUNK_POSITION',
-      'INIT_CHUNKS'
+      'INIT_CHUNKS',
+      'CHANGE_IS_REFRESH_PANES_BS'
     ]),
     multiMediaHandler(res) {
       // console.log(res)
@@ -310,6 +324,15 @@ export default {
     handleNavClick(title, component) {
       this.isSelect = title
       this.currentComponent = component
+      this.CHANGE_IS_REFRESH_PANES_BS(true)
+      // todo test:清除添加的源
+      // console.log('nav 切换')
+      // console.log(this.sourceData, 1111)
+      // this.sourceData.forEach(item => {
+      //   sourceDelApi({
+      //     src_id: item.src_id
+      //   })
+      // })
     },
     gcd(a, b) {
       let temp
@@ -380,7 +403,7 @@ export default {
           if (res.code !== 0) {
             this.$alert('动效时长大于素材时长，设置失败！', '提示消息', {
               confirmButtonText: '确定',
-              callback: function() {
+              callback() {
                 window.zindex = 1
               }
             })
@@ -508,6 +531,7 @@ export default {
     sourcedataHas() {
       let has = false
       // console.log('sourceData:', _.cloneDeep(this.sourceData))
+      // console.log('clonediv:', _.cloneDeep(this.clonediv))
       for (let i = 0; i < this.sourceData.length; i++) {
         if (
           (this.sourceData[i].original_from || this.sourceData[i].from) ===
@@ -734,7 +758,7 @@ export default {
             ) < 10 &&
             xifu
           ) {
-            clonediv_.x = 188 - this.track_property.outLeft
+            clonediv_.x = ATTACH_NUMBER - this.track_property.outLeft
             this.xifuindex = 0
             faaa++
           }
@@ -752,7 +776,7 @@ export default {
             clonediv_.x =
               (this.chunkPosition.v[i][m].max - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.chunkPosition.v[i][m].max
             faaa++
@@ -771,7 +795,7 @@ export default {
             clonediv_.x =
               (this.chunkPosition.v[i][m].min - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.chunkPosition.v[i][m].min
             faaa++
@@ -792,7 +816,7 @@ export default {
             clonediv_.x =
               (this.chunkPosition.v[i][m].min - clonediv_.frame - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.chunkPosition.v[i][m].min - clonediv_.frame
             faaa++
@@ -813,7 +837,7 @@ export default {
             clonediv_.x =
               (this.chunkPosition.v[i][m].max - clonediv_.frame - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
-              188 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.chunkPosition.v[i][m].max - clonediv_.frame
             faaa++
@@ -965,7 +989,7 @@ export default {
         const has = this.sourcedataHas() // 判断是否已经加载过
         // console.log('Mrzydata:', _.cloneDeep(this.Mrzydata))
         if (!has) {
-          console.log('load source')
+          // console.log('load source')
           this.sourcedataNone()
         }
       }
@@ -1333,42 +1357,38 @@ export default {
     historyView,
     keypress,
     audioPlayer
-  },
-  // mounted() {
-  //   // 清除添加的源
-  //   console.log(this.sourceData, 1111)
-  //   this.sourceData.forEach(item => {
-  //     sourceDelApi({
-  //       src_id: item.src_id
-  //     })
-  //   })
-  // }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 $base-url: '../../../';
 .listTitle {
-  height: 50px;
-  font-size: 12px;
+  height: 0.68rem;
+  font-size: 0.16rem;
   background-color: #212931;
   position: relative;
-  border-bottom: 2px solid #151a20;
+  border-bottom: 0.02rem solid #151a20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   ul {
     display: inline-block;
     height: 100%;
+    display: flex;
     li {
-      float: left;
-      padding: 5px 15px;
+      padding: 0.11rem 0.06rem;
+      width: 0.7rem;
+      text-align: center;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 40px;
+      height: 0.46rem;
       position: relative;
       > span:first-of-type {
         cursor: pointer;
-        height: 16px;
+        height: 0.18rem;
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
@@ -1408,7 +1428,7 @@ $base-url: '../../../';
           position: absolute;
           width: 100%;
           height: 1px;
-          top: 50px;
+          bottom: 0;
           left: 0;
           z-index: 99;
           background-color: #61ded0;
@@ -1442,6 +1462,18 @@ $base-url: '../../../';
         }
       }
     }
+  }
+}
+.img-container {
+  width: 100px;
+  text-align: center;
+  height: 56px;
+  background-color: black;
+  position: absolute;
+  .img-item {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 </style>

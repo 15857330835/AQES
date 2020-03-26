@@ -1,6 +1,6 @@
 <template>
   <div class="video_option_content">
-    <div class="content_top" style="backgroundColor: #010101;">
+    <div class="content_top">
       <img
         :src="src"
         class="content_top_img dragele source-img"
@@ -168,12 +168,99 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.source-img {
-  opacity: 0;
-  transition: opacity 0.5s ease;
+<style lang="scss">
+.video_option_content {
+  width: 110px;
+  padding: 5px 15px;
+  margin: 0 auto;
+  .content_top {
+    position: relative;
+    height: 62.11px;
+    line-height: 0;
+    text-align: center;
+    background-color: #010101;
+    .content_top_img {
+      max-width: 100%;
+      height: 62.11px;
+      &.dragele {
+        cursor: pointer;
+      }
+    }
+    span {
+      &.content_top_img {
+        background-color: black;
+        display: inline-block;
+        line-height: 62.11px;
+        text-align: center;
+        cursor: no-drop;
+      }
+    }
+    .content_top_down {
+      height: 62.11px;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      text-align: center;
+      overflow: hidden;
+      line-height: 62px;
+      & > span {
+        &:nth-child(1) {
+          position: absolute;
+          box-sizing: border-box;
+          text-align: center;
+          left: 0;
+          height: 100%;
+          width: 100%;
+        }
+        &:nth-child(2) {
+          position: absolute;
+          right: 5px;
+          bottom: 5px;
+          width: 19px;
+          height: 12px;
+          background-image: url(../img/u9.png);
+          cursor: pointer;
+          z-index: 50;
+        }
+        &:nth-child(3) {
+          position: absolute;
+          right: 5px;
+          top: 5px;
+          width: 18px;
+          height: 18px;
+          background-image: url(../img/cancel.png);
+          cursor: pointer;
+          z-index: 50;
+        }
+      }
+    }
+  }
+  .content_mes {
+    line-height: 25px;
+    position: relative;
+    div {
+      height: 25px;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+  }
 }
-.source-img.loaded {
-  opacity: 1;
+</style>
+<style lang="scss">
+.video_option_content {
+  .content_top {
+    background-color: #010101;
+    .source-img {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      &.loaded {
+        opacity: 1;
+      }
+    }
+  }
 }
 </style>

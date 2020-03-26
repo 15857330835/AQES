@@ -26,12 +26,12 @@ Vue.config.performance = isDev
 
 const ie = window.NCES.Define()
 Vue.directive('focus', {
-  inserted: function(el, obj) {
+  inserted(el, obj) {
     if (obj.value) {
       el.focus()
     }
   },
-  componentUpdated: function(el, obj) {
+  componentUpdated(el, obj) {
     if (obj.value) {
       el.focus()
     }

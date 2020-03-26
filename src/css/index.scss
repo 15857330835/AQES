@@ -2,7 +2,11 @@ html {
   background-color: #151a20;
   overflow: hidden;
   width: 100%;
-  font: 12px/1.5 Arial, sans-serif;
+}
+
+body {
+  font: 12px/1.5 Arial,
+  sans-serif;
 }
 
 span {
@@ -17,6 +21,16 @@ textarea {
 ::-ms-clear,
 ::-ms-reveal {
   display: none;
+}
+
+/* 去除input等元素浏览器默认样式 */
+textarea,
+select,
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
 }
 
 body {
@@ -67,16 +81,6 @@ p.undisabled {
 
 #flashVideoID {
   margin-top: -3px;
-}
-
-#nces {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  color: #e4e4e4;
-  background-color: #1c232a;
-  position: relative;
 }
 
 input[type="checkbox"] {
@@ -255,35 +259,41 @@ input.mui-switch.mui-switch-anim:checked:before {
 }
 
 /* el组件样式begin */
-.el-slider__runway.disabled .el-slider__button {
-  border: 2px solid #575050;
-  background-color: #575050;
-  width: 12px;
-  height: 12px;
-}
+.el-slider {
+  .el-slider__runway {
+    background-color: #636363;
 
-.el-slider__button {
-  border: 2px solid #aaa;
-  background-color: #aaa;
-  width: 12px;
-  height: 12px;
-}
+    &.disabled {
+      background-color: #3b3939;
 
-.el-slider__bar {
-  background-color: #61ded0;
-}
+      .el-slider__bar {
+        background-color: #61ded0;
+        opacity: 0.6;
+      }
 
-.el-slider__runway.disabled .el-slider__bar {
-  background-color: #61ded0;
-  opacity: 0.6;
-}
+      .el-slider__button-wrapper {
+        .el-slider__button {
+          border: 2px solid #575050;
+          background-color: #575050;
+          width: 12px;
+          height: 12px;
+        }
+      }
+    }
 
-.el-slider__runway {
-  background-color: #636363;
-}
+    .el-slider__bar {
+      background-color: #61ded0;
+    }
 
-.el-slider__runway.disabled {
-  background-color: #3b3939;
+    .el-slider__button-wrapper {
+      .el-slider__button {
+        border: 2px solid #aaa;
+        background-color: #aaa;
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
 }
 
 .el-loading-spinner .el-loading-text {
@@ -297,68 +307,111 @@ input.mui-switch.mui-switch-anim:checked:before {
 .el-loading-spinner i {
   color: #61ded0;
 }
-
-.vol_content .el-slider__runway {
-  margin: 12px 0;
+.el-select:hover .el-input__inner {
+  border-color: #61ded0;
 }
-
-.right .el-slider__button {
-  border: 2px solid #61ded0;
-  background-color: #61ded0;
-  width: 12px;
-  height: 12px;
+.el-select .el-input__inner:focus {
+  border-color: #636a71;
 }
-
-.right .el-slider__bar {
-  background-color: transparent;
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: #61ded0;
 }
-
-.right .el-slider__runway {
-  background-color: #636363;
-}
-
 .el-input__inner,
 .el-select-dropdown {
-  background-color: rgb(48, 56, 64);
-  border: 1px solid #394149 !important;
-  font-size: 14px !important;
-  color: rgb(170, 170, 170)
+  background-color: #303840;
+  border: 1px solid #636a71;
+  font-size: 0.16rem;
+  color: rgb(170, 170, 170);
 }
 
-.el-select .el-input__inner:focus,
-.el-select .el-input__inner:hover {
-  border-color: #636363;
+.el-select-dropdown__item.selected {
+  color: #61ded0;
 }
 
 .el-select-dropdown__item.hover,
 .el-select-dropdown__item:hover {
-  background-color: #1d1d1d;
+  background-color: #1c232a;
 }
 
-.rename-decide-box,
-.export-decide-box {
-  .el-button {
+.el-button {
+  color: #cdd5dd;
+  background-color: #636a71;
+  border-color: #636a71;
+  &:focus,
+  &:hover {
+    color: #cdd5dd;
+    background-color: #636a71;
+    border-color: #636a71;
+  }
+}
 
-    &:focus,
-    &:hover {
-      color: #606266;
-      border-color: #dcdfe6;
-      background-color: #fff;
+.el-button--primary {
+  color: #203035;
+  background-color: #61ded0;
+  border-color: #61ded0;
+  border-radius: 3px;
+
+  &:focus,
+  &:hover {
+    color: #203035;
+    background-color: #61ded0;
+    border-color: #61ded0;
+  }
+}
+
+.el-button--info {
+  color: #cdd5dd;
+  background-color: #636a71;
+  border-color: #636a71;
+  border-radius: 3px;
+}
+.el-button--text {
+  color: #61ded0;
+  &:focus,
+  &:hover {
+    color: #61ded0;
+  }
+}
+
+.el-message-box {
+  background-color: #212931;
+  border-color: #212931;
+  .el-message-box__header {
+    background-color: #191e22;
+    .el-message-box__title {
+      color: #d8d8d8;
     }
   }
-
-  .el-button--primary {
-    color: #333 !important;
-    background-color: #61ded0 !important;
-    border-color: #61ded0 !important;
-
-    &:focus,
-    &:hover {
-      color: #333 !important;
-      background-color: #61ded0 !important;
-      border-color: #61ded0 !important;
-    }
+  .el-message-box__content {
+    color: #d8d8d8;
   }
+}
+
+.el-message-box__headerbtn:focus .el-message-box__close,
+.el-message-box__headerbtn:hover .el-message-box__close {
+  color: #61ded0;
+}
+
+.el-input.is-active .el-input__inner,
+.el-input__inner:focus {
+  border-color: #61ded0;
+}
+
+.el-form-item.is-success .el-input__inner,
+.el-form-item.is-success .el-input__inner:focus,
+.el-form-item.is-success .el-textarea__inner,
+.el-form-item.is-success .el-textarea__inner:focus {
+  border-color: #636a71;
+}
+.el-progress-bar__inner {
+  background-color: #61ded0;
+}
+.el-progress-bar__innerText {
+  color: #203035;
+}
+.el-input__suffix {
+  display: flex;
+  align-items: center;
 }
 /* el组件样式end */
 
@@ -458,69 +511,3 @@ div.loadingImg {
     transform: rotate(359deg);
   }
 }
-
-.loading {
-  float: left;
-  width: 100%;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.loading-item {
-  width: 4px;
-  height: 6px;
-  background: #68b2ce;
-  float: left;
-  margin: 0 3px;
-  animation: loading linear 1s infinite;
-  -webkit-animation: loading linear 1s infinite;
-}
-
-.loading-item:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.loading-item:nth-child(2) {
-  animation-delay: 0.15s;
-}
-
-.loading-item:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-.loading-item:nth-child(4) {
-  animation-delay: 0.45s;
-}
-
-.loading-item:nth-child(5) {
-  animation-delay: 0.6s;
-}
-
-@keyframes loading {
-
-  0%,
-  60%,
-  100% {
-    transform: scale(1);
-  }
-
-  30% {
-    transform: scaleY(3);
-  }
-}
-
-@-webkit-keyframes loading {
-
-  0%,
-  60%,
-  100% {
-    transform: scale(1);
-  }
-
-  30% {
-    transform: scaleY(3);
-  }
-}
-

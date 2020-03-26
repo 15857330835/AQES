@@ -41,9 +41,10 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { pointerSetApi } from '@/api/Pointer'
 import _ from 'lodash'
+import { TIP_HEIGHT_NUMBER } from '@/config'
 export default {
   name: 'videoTip',
-  data: function() {
+  data() {
     return {
       x: 0,
       width: 0,
@@ -62,7 +63,7 @@ export default {
       'trackStart',
       'trackEnd'
     ]),
-    loadingShow: function() {
+    loadingShow() {
       return this.startloading || this.onloading
     },
     track_property() {
@@ -108,7 +109,7 @@ export default {
     }
   },
   watch: {
-    left: function() {
+    left() {
       if (this.left < 0 || this.left > $('#ruler').width()) {
         $('#edit_tip_line').hide()
       } else {
@@ -156,12 +157,12 @@ export default {
         ? oElement.addEventListener(sEventType, fnHandler, false)
         : oElement.attachEvent('on' + sEventType, fnHandler)
     },
-    removeHandler: function(oElement, sEventType, fnHandler) {
+    removeHandler(oElement, sEventType, fnHandler) {
       return oElement.removeEventListener
         ? oElement.removeEventListener(sEventType, fnHandler, false)
         : oElement.detachEvent('on' + sEventType, fnHandler)
     },
-    moveDrag: function(e_para) {
+    moveDrag(e_para) {
       // e.preventDefault && e.preventDefault();
       // console.log({ onDraging: this.pointer.position });
       if (!this.flag) {
@@ -198,7 +199,7 @@ export default {
       )
       this.UPDATE_POINTER_POSITION(this.position)
     },
-    stopDrag: function() {
+    stopDrag() {
       // console.log({ onStopDrag: this.pointer.position });
       this.flag = false
       const that = this
@@ -219,10 +220,10 @@ export default {
           speed: that.pointer.speed,
           position: that.position
         },
-        success: function() {
+        success() {
           that.CHANGE_POS(false)
         },
-        error: function() {
+        error() {
           that.$notify({
             title: '提示',
             type: 'error',
@@ -248,8 +249,8 @@ export default {
       }
     }
   },
-  mounted: function() {
-    $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+  mounted() {
+    $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
     if (this.left < 0 || this.left > $('#ruler').width()) {
       $('#edit_tip_line').hide()
     }

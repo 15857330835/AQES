@@ -12,6 +12,7 @@
         :getData="currentNav.interface"
         :sourceType="currentNav.sourceType"
         :flag="currentNav.flag"
+        :transPaneData="transPaneData"
       ></pane>
     </div>
   </div>
@@ -27,7 +28,12 @@ export default {
     mzAside,
     pane
   },
-  props: ['handleMouseDown', 'handleMouseMove', 'handleMouseUp'],
+  props: [
+    'handleMouseDown',
+    'handleMouseMove',
+    'handleMouseUp',
+    'transPaneData'
+  ],
   data() {
     return {
       list: [

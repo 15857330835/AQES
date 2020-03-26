@@ -144,7 +144,8 @@ import {
   chunkUpdateLengthApi
 } from '@/api/Chunk'
 // import { trackType } from '@/config/type'
-import { deepClone } from '@/utils'
+import { ATTACH_NUMBER } from '@/config'
+import _ from 'lodash'
 
 export default {
   data() {
@@ -366,7 +367,7 @@ export default {
     imglist: {
       deep: true,
       immediate: true,
-      handler: function(value, oldvalue) {
+      handler(value, oldvalue) {
         if (typeof value === 'undefined') {
           return
         }
@@ -407,7 +408,7 @@ export default {
     originMousePos: {
       // ***+++
       deep: true,
-      handler: function(newVal) {
+      handler(newVal) {
         for (const restItem of this.restActiveChunks) {
           if (this.chunk.chunk_id === restItem.chunk.chunk_id) {
             this.t = Date.now()
@@ -429,7 +430,7 @@ export default {
       // ***+++
       deep: true,
       // eslint-disable-next-line complexity
-      handler: function(newVal) {
+      handler(newVal) {
         for (const restItem of this.restActiveChunks) {
           if (this.chunk.chunk_id === restItem.chunk.chunk_id) {
             this.mapMoveMousePos.x =
@@ -488,7 +489,7 @@ export default {
     endMousePos: {
       // ***+++
       deep: true,
-      handler: function(newVal) {
+      handler(newVal) {
         for (const restItem of this.restActiveChunks) {
           if (this.chunk.chunk_id === restItem.chunk.chunk_id) {
             const e = {}
@@ -502,7 +503,7 @@ export default {
         }
       }
     },
-    moveListCount: function(newVal, oldVal) {
+    moveListCount(newVal, oldVal) {
       if (this.chunk.chunk_id !== this.activechunk.chunk.chunk_id) return
       if (!this.moveListData.length) return
       if (newVal === this.restActiveChunks.length + 1) {
@@ -555,7 +556,9 @@ export default {
       'POP_REST_ACTIVE_CHUNKS',
       'CHANGE_IS_TRACK_SELECT',
       'CHANGE_MODAL_CONTENT',
-      'UPDATE_AI_CHUNKS_POSITION'
+      'UPDATE_AI_CHUNKS_POSITION',
+      'SET_ASYNC_SET_CHART',
+      'CHANGE_CATEGORY_TYPE'
     ]),
     url(url) {
       if (url.indexOf('//') === -1) {
@@ -663,7 +666,7 @@ export default {
             ) < 10 &&
             this.track_property.xifuFlag
           ) {
-            this.x = 170 - this.track_property.outLeft
+            this.x = ATTACH_NUMBER - this.track_property.outLeft
             this.xifuindex = 0
             faaa++
           }
@@ -681,7 +684,7 @@ export default {
             this.x =
               this.delchunkposition.v[i][m].max /
                 (this.slidernum.max - this.track_property.ratio) +
-              170 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.delchunkposition.v[i][m].max
             faaa++
@@ -700,7 +703,7 @@ export default {
             this.x =
               this.delchunkposition.v[i][m].min /
                 (this.slidernum.max - this.track_property.ratio) +
-              170 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex = this.delchunkposition.v[i][m].min
             faaa++
@@ -723,7 +726,7 @@ export default {
                 this.chunk.track_end +
                 this.chunk.track_start) /
                 (this.slidernum.max - this.track_property.ratio) +
-              170 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex =
               this.delchunkposition.v[i][m].min -
@@ -749,7 +752,7 @@ export default {
                 this.chunk.track_end +
                 this.chunk.track_start) /
                 (this.slidernum.max - this.track_property.ratio) +
-              170 -
+              ATTACH_NUMBER -
               this.track_property.outLeft
             this.xifuindex =
               this.delchunkposition.v[i][m].max -
@@ -1039,7 +1042,7 @@ export default {
           this.chunk.track_id !== this.activechunk.chunk.track_id
         if (this.isMultiSelect && !modalReject) {
           if (this.activechunk.chunk) {
-            const activeClone = deepClone(this.activechunk)
+            const activeClone = _.cloneDeep(this.activechunk)
             this.CHANGE_REST_ACTIVE_CHUNKS(activeClone)
           }
         } else {
@@ -1054,7 +1057,7 @@ export default {
         ) {
           this.DEL_REST_ACTIVE_CHUNKS(this.chunk)
           if (this.activechunk.chunk !== '') {
-            const activeClone = deepClone(this.activechunk)
+            const activeClone = _.cloneDeep(this.activechunk)
             this.CHANGE_REST_ACTIVE_CHUNKS(activeClone)
           }
           this.ACTIVE_CHUNK({ chunk: this.chunk, state: 'active' })
@@ -1141,7 +1144,7 @@ export default {
         this.Post({
           type: 'pointer',
           data: { cmd: 'set', speed: 0 },
-          error: function() {
+          error() {
             that.$notify({
               title: '提示',
               type: 'error',
@@ -1244,7 +1247,6 @@ export default {
         clearTimeout(this.timer)
         if (this.timer !== 0) {
           this.ACTIVE_CHUNK({ state: 'active', chunk: this.chunk })
-
           return
         }
       }
@@ -1420,12 +1422,12 @@ export default {
               }
             ]
           },
-          success: function(res) {
+          success(res) {
             that.changeLoading(function() {
               that.move = false
             })
           },
-          error: function(res) {
+          error(res) {
             that.move = false
             return
           }
@@ -1464,20 +1466,32 @@ export default {
             }
           ]
         },
-        success: function(res) {
+        success(res) {
           that.changeLoading(function() {
             that.move = false
           })
         },
-        error: function(res) {
+        error(res) {
           that.move = false
         }
       })
       this.ACTIVE_CHUNK({ state: 'active' })
       this.up = false
     },
+    // eslint-disable-next-line complexity
     dblclick() {
-      console.log('chunkbox dblclick')
+      // console.log('chunkbox dblclick')
+      // 定义text的category
+      if (this.activechunk.chunk.chunk_type === 3) {
+        const partner = this.sourceData.find(item => {
+          return item.src_id === this.activechunk.chunk.src_id
+        })
+        if (partner && partner.category) {
+          // console.log(partner.category)
+          this.CHANGE_CATEGORY_TYPE(partner.category)
+        }
+      }
+      this.SET_ASYNC_SET_CHART(true) // todo
       this.ACTIVE_CHUNK({ chunk: this.chunk, state: 'active' })
       if (this.modalVoiceApplyIsShow) {
         return
@@ -1562,7 +1576,7 @@ export default {
             if (res.code !== 0) {
               console.log(res.msg)
             } else {
-              console.log('to chunkset refresh pointer ok')
+              // console.log('to chunkset refresh pointer ok')
             }
           },
           'json'
@@ -1988,6 +2002,13 @@ export default {
       )
     }
   },
+  // mounted() {
+  //   // todo 开发测试
+  //   if (this.chunk.chunk_type === 3) {
+  //     this.ACTIVE_CHUNK({ state: 'active', chunk: this.chunk })
+  //     this.CHANGE_CHUNKSETSHOW(true)
+  //   }
+  // },
   updated() {
     if (this.moveResultFlag === 1 || this.moveResultFlag === 2) {
       this.move = false
@@ -2024,9 +2045,9 @@ export default {
     text-align: center;
 
     &.track-select {
-      background: rgba(8, 143, 211, 1);
-      border: 1px solid rgba(8, 143, 211, 1);
-      color: rgba(255, 255, 255, 1);
+      background: #61ded0;
+      border: 1px solid #61ded0;
+      color: #203035;
     }
 
     &.track-cancel {

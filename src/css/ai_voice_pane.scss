@@ -21,6 +21,7 @@
   text-align: center;
   border-radius: 10px;
   background-color: #61ded0;
+  color: #203035;
   cursor: pointer;
 }
 
@@ -44,6 +45,7 @@
 
 .content_top:hover .zmTouse {
   display: inline-block;
+  color: #203035;
 }
 
 .content_top.active .zmTouse {

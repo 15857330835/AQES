@@ -7,7 +7,7 @@ import getters from './getters'
 Vue.use(Vuex)
 
 const state = {
-  v: `v_1.226.03111447`, // 版本信息
+  v: `v_1.226.03252019`, // 版本信息
   startloading: true, // 工程是否在加载中
   onloading: false,
   all: {}, // 工程所有的信息
@@ -26,6 +26,7 @@ const state = {
   trackposition: [], // 视频块轨道有效区域
   trackcaption: {}, // 字幕块有效区域
   sourceData: [], // 已经添加的源的数据
+  categoryType: '',
   showwhat: null, // [chunk,filter]值为chunk显示块的位置，值为filter显示滤镜的位置
   slidernum: {
     max: 30.1, // 最大比例
@@ -48,6 +49,7 @@ const state = {
   changepos: false,
   speed: 1,
   filterlist: '', // 滤镜列表
+  filterIndex: -1,
   historyindex: 0, // 进入chunk设置界面时记录历史序列用于取消时撤回操作
   newchartbili: 1, // 裁剪框的宽高比  用于放大缩小时计算
   isAsyncSetchart: true, // 对裁剪框修改时是否同步数据
@@ -140,7 +142,11 @@ const state = {
   /* BS滚动begin */
   isRefreshTrackBoxBS: false,
   isRefreshCaptionSetBS: false,
+  isRefreshPanesBS: false,
   /* BS滚动end */
+
+  myDirDialogShow: false,
+  // dialogImageFrom: '',
   filterIndexMap: new Map([
     [1, 'video'],
     [2, 'text'],

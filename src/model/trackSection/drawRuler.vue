@@ -23,8 +23,10 @@
         @touchstart="touchstart"
         @touchmove="touchmove"
         @touchend="touchend"
+        class="drawer-out"
+        ref="drawerOut"
       >
-        <canvas id="ruler" height="58"></canvas>
+        <canvas id="ruler" :height="canvasHeight" class="drawer-inner"></canvas>
       </div>
     </div>
     <div
@@ -62,7 +64,7 @@ import { pointerSetApi } from '@/api/Pointer'
 import _ from 'lodash'
 export default {
   name: 'drawRuler',
-  data: function() {
+  data() {
     return {
       startt: 0,
       endt: 0,
@@ -74,13 +76,14 @@ export default {
       baseX: 170, // 0:00的线到浏览器最左端的距离
       moved: false, // 是否移动过左右指针
       unwatchStart: null,
-      unwatchEnd: null
+      unwatchEnd: null,
+      canvasHeight: 42
     }
   },
   watch: {
     track_property: {
       deep: true,
-      handler: function(value, oldvalue) {
+      handler(value, oldvalue) {
         this.drawruler()
       }
     },
@@ -156,8 +159,8 @@ export default {
       'UPDATE_TRACK_END'
     ]),
     // eslint-disable-next-line no-empty-function
-    temp: function() {},
-    addtrack: function() {
+    temp() {},
+    addtrack() {
       this.CHANGE_BOXSET('addtrack')
       window.zindex = 0
     },
@@ -239,7 +242,7 @@ export default {
         y: pos[1]
       }
     },
-    xifuflagChange: function() {
+    xifuflagChange() {
       const that = this
       const data = {}
       const flag = !that.track_property.xifuFlag
@@ -255,7 +258,7 @@ export default {
         window.zindex = 0
         that.$alert('吸附切换失败！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -291,12 +294,12 @@ export default {
         )
       }
     },
-    touchstart: function(e_para) {
+    touchstart(e_para) {
       const e = e_para.touches[0]
       this.start = e.pageX
       this.startt = Date.now()
     },
-    touchmove: function(e_para) {
+    touchmove(e_para) {
       const e = e_para.touches[0]
       const left = parseFloat($('#edit_tip_line').css('left'))
       if (left < 0 || left > $('#ruler').width()) {
@@ -318,7 +321,7 @@ export default {
       // this.track_property.outLeft = a
       this.start = e.pageX
     },
-    touchend: function(e_para) {
+    touchend(e_para) {
       const that = this
       const e = e_para.changedTouches[0]
       if (Date.now() - this.startt < 200) {
@@ -377,7 +380,7 @@ export default {
         'json'
       )
     },
-    trantime: function(s_para) {
+    trantime(s_para) {
       let s = s_para
       let h = Math.floor(s / 1500)
       let m = Math.floor((s % 1500) / 25)
@@ -390,10 +393,11 @@ export default {
     throttleResizeDrawRuler: _.throttle(function() {
       this.drawruler()
     }, 100),
-    drawruler: function(resize) {
+    drawruler(resize) {
       const canvas = $('#ruler')[0]
       const ctx = canvas.getContext('2d')
-      canvas.width = $('.edit_ruler_content>div').width()
+      canvas.width = this.$refs.drawerOut.offsetWidth
+      canvas.height = this.$refs.drawerOut.offsetHeight
       const that = this
       // canvas.style.background = "#2B2B2B";
       // 画刻度尺
@@ -410,23 +414,23 @@ export default {
 
         if (i % 100 === 0) {
           // 起点x坐标10像素，画厘米线
-          ctx.moveTo(0, 32)
-          ctx.lineTo(0, 42)
+          ctx.moveTo(0, canvas.height - 10)
+          ctx.lineTo(0, canvas.height)
           const s = i * (this.slidernum.max - that.track_property.ratio) // 帧数*每个px对应的帧数
           // var s = i * (30.0).toFixed(1);
           // console.log(s);
           const text = this.trantime(s)
           const txtWidth = ctx.measureText(text).width
           ctx.font = '10px sans-serif'
-          ctx.fillText(text, 0 - txtWidth / 2, 25)
+          ctx.fillText(text, 0 - txtWidth / 2, canvas.height / 2)
         } else if (i % 50 === 0) {
           // 每隔0.5cm画间隔线
-          ctx.moveTo(0, 35)
-          ctx.lineTo(0, 42)
+          ctx.moveTo(0, canvas.height - 7)
+          ctx.lineTo(0, canvas.height)
         } else if (i % 10 === 0) {
           // 画毫米线
-          ctx.moveTo(0, 37)
-          ctx.lineTo(0, 42)
+          ctx.moveTo(0, canvas.height - 5)
+          ctx.lineTo(0, canvas.height)
         }
         ctx.stroke()
         ctx.translate(1, 0) // 每隔10像素移动一次，达到画线效果
@@ -554,8 +558,6 @@ $active-color: #61ded0;
       width: 16px;
       height: 16px;
       display: inline-block;
-      /*position: absolute;*/
-      line-height: 58px;
       margin: 12px 10px 0;
       background-size: contain;
       cursor: pointer;
@@ -576,11 +578,15 @@ $active-color: #61ded0;
   .edit_ruler_content {
     width: calc(100% - 160px);
     float: left;
-    > div {
+    .drawer-out {
       margin: 0 25px 0 10px;
       height: 42px;
       box-sizing: border-box;
       border-bottom: 1px solid #565656;
+      position: relative;
+      .drawer-inner {
+        position: absolute;
+      }
     }
   }
   .export-time-line {

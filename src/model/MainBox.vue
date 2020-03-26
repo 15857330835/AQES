@@ -4,9 +4,13 @@
     <mzsection></mzsection>
     <videooper v-show="videooperShow && !chunksetshow"></videooper>
     <tracksection></tracksection>
+    <tracktimer></tracktimer>
+
     <chunkset></chunkset>
     <ExportVideoSet v-if="exportVideoSetShow"></ExportVideoSet>
     <VoiceApplyModal v-if="modalVoiceApplyIsShow"></VoiceApplyModal>
+    <SetBox></SetBox>
+    <MyDirDialog></MyDirDialog>
   </div>
 </template>
 
@@ -15,9 +19,12 @@ import systemmes from '@/model/Systemmes'
 import mzsection from '@/model/mzSection/mzsection'
 import videooper from '@/model/videooper'
 import tracksection from '@/model/trackSection'
+import tracktimer from '@/model/trackSection/trackTimer'
 import chunkset from '@/model/chunkSet'
+import MyDirDialog from '@/model/chunkSet/MyDirDialog'
 import ExportVideoSet from '@/model/mzSection/ExportVideoSet'
 import VoiceApplyModal from '@/model/aiVoiceApply/VoiceApplyModal.vue'
+import SetBox from '@/model/setBox'
 
 import _ from 'lodash'
 import { mapState, mapMutations } from 'vuex'
@@ -27,9 +34,12 @@ export default {
     mzsection,
     videooper,
     tracksection,
+    tracktimer,
     chunkset,
     ExportVideoSet,
-    VoiceApplyModal
+    VoiceApplyModal,
+    SetBox,
+    MyDirDialog
   },
   computed: {
     ...mapState([
@@ -42,11 +52,13 @@ export default {
   methods: {
     ...mapMutations([
       'CHANGE_CLIENTWIDTH',
+      'GET_OPENWAY',
       'UPDATE_TRACK_MIX',
       'CHANGE_IS_MULTI_SELECT',
       'CHANGE_VIS_TIMER_WIDTH',
       'CHANGE_IS_REFRESH_TRACK_BOX_BS',
-      'CHANGE_IS_REFRESH_CAPTION_SET_BS'
+      'CHANGE_IS_REFRESH_CAPTION_SET_BS',
+      'CHANGE_IS_REFRESH_PANES_BS'
     ]),
     throttleResize: _.throttle(function() {
       this.CHANGE_CLIENTWIDTH($(document).width())
@@ -55,13 +67,15 @@ export default {
       )
     }, 200),
     debounceResize: _.debounce(function() {
+      // console.log('window-resize-end')
       this.GET_OPENWAY()
       setTimeout(() => {
         this.UPDATE_TRACK_MIX()
       }, 1000)
       this.CHANGE_IS_REFRESH_TRACK_BOX_BS(true)
       this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
-    }),
+      this.CHANGE_IS_REFRESH_PANES_BS(true)
+    }, 300),
     mixedResize() {
       this.throttleResize()
       this.debounceResize()
@@ -98,4 +112,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.main-box {
+  width: 100%;
+  height: 100%;
+}
+</style>

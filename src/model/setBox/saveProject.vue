@@ -1,22 +1,24 @@
 <template>
-  <div class=" newsaveTable">
+  <div class="newsaveTable">
     <div class="newsaveTable_content">
       <div class="content_title">保存信息设置</div>
-      <div class="content_select">
-        <p
-          v-if="this.all.project.id != undefined"
-          style="text-align: center;line-height: 50px;"
-        >
-          保存当前工程！
-        </p>
-        <p v-if="this.all.project.id == undefined">
+      <div
+        class="content_select add-height"
+        v-if="this.all.project.id == undefined"
+      >
+        <p>
           <span>工程名称 : </span
           ><input type="text" class="newsave_file_name" v-model="name" />
         </p>
       </div>
+      <div class="content_select" v-else>
+        <p style="text-align: center;line-height: 50px;">
+          保存当前工程！
+        </p>
+      </div>
       <div class="content_click">
-        <span class="content_click_make" @click="sure">确认</span
-        ><span class="content_click_cancel" @click="cel">取消</span>
+        <span class="content_click_cancel" @click="cel">取消</span>
+        <span class="content_click_make" @click="sure">确认</span>
       </div>
     </div>
   </div>
@@ -27,7 +29,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return { player: {}, name: '', loading: {} }
   },
   computed: {
@@ -37,10 +39,10 @@ export default {
   methods: {
     ...mapActions(['Post', 'changeLoading']),
     ...mapMutations(['CHANGE_BOXSET']),
-    cel: function() {
+    cel() {
       this.CHANGE_BOXSET('')
     },
-    sure: function() {
+    sure() {
       const that = this
       const data = {}
       data.type = 'project'
@@ -50,7 +52,7 @@ export default {
         if (this.name === '') {
           this.$alert('请输入要保存的工程的名称', '提示消息', {
             confirmButtonText: '确定',
-            callback: function() {
+            callback() {
               window.zindex = 1
             }
           })
@@ -65,7 +67,7 @@ export default {
         that.changeLoading()
         that.$alert('保存工程成功！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -74,7 +76,7 @@ export default {
         that.loading.close()
         that.$alert('工程保存失败！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -91,29 +93,8 @@ export default {
   }
 }
 </script>
-<style>
-.newsaveTable {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1010;
-}
-.newsaveTable .newsaveTable_content {
-  position: absolute;
-  width: 510px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #232323;
-  font-size: 12px;
-  overflow: hidden;
-}
-.newsaveTable .content_title {
-  height: 30px;
-  line-height: 30px;
-  background-color: #2e2e2e;
-  text-align: center;
+<style lang="scss" scoped>
+.content_select.add-height {
+  padding: 20px 0;
 }
 </style>

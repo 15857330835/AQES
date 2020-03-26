@@ -14,11 +14,10 @@
         :rules="rules"
         label-width="100px"
         size="mini"
-        style="margin-top: 16px;"
-        class="form"
+        class="form set-form"
         ref="form"
       >
-        <el-form-item label="视频名称" style="width: 70%;" prop="mss_title">
+        <el-form-item label="视频名称" style="width: 80%;" prop="mss_title">
           <el-input
             v-model="form.mss_title"
             @focus="blockShortcuts"
@@ -246,14 +245,14 @@ export default {
     track_property() {
       return this.$store.state.all.track_property
     },
-    videoselw: function() {
+    videoselw() {
       if (this.clientwidth >= 1440) {
         return 100 - this.track_property.fanwei['1920'].now * 100 + '%'
       } else {
         return 100 - this.track_property.fanwei['1440'].now * 100 + '%'
       }
     },
-    videoHeight_: function() {
+    videoHeight_() {
       if (this.clientwidth >= 1440) {
         return (
           (this.clientwidth * this.track_property.fanwei['1920'].now * 9) / 16 +
@@ -486,21 +485,27 @@ $font-color: #909399;
   .el-slider__marks-text {
     white-space: nowrap;
   }
+  .set-form {
+    margin-top: 16px;
+    width: 100%;
+  }
   .export-tip {
     text-align: center;
+    margin: auto;
     color: $font-color;
     font-size: 12px;
     min-height: 60px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     .u-icon {
-      background-image: url(../../img/u10.png);
+      background-image: url(../../img/danger.png);
       display: inline-block;
       vertical-align: middle;
       margin-top: -2px;
       margin-right: 5px;
-      background-size: 14px;
+      background-size: 100%;
       width: 14px;
       height: 14px;
     }

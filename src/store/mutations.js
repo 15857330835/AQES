@@ -1,3 +1,13 @@
+import { TIP_HEIGHT_NUMBER } from '@/config'
+
+/* chunkset抽取公共部分begin */
+const CHANGE_POSITION = 'CHANGE_POSITION'
+const CHANGE_CATEGORY_TYPE = 'CHANGE_CATEGORY_TYPE'
+const CHANGE_MY_DIR_DIALOG_SHOW = 'CHANGE_MY_DIR_DIALOG_SHOW'
+// const CHANGE_DIALOG_IMAGE_FROM = 'CHANGE_DIALOG_IMAGE_FROM'
+const CHANGE_FILTER_INDEX = 'CHANGE_FILTER_INDEX'
+/* chunkset抽取公共部分end */
+
 const CHANGE_LOADING = 'CHANGE_LOADING' // 改变loading状态
 const IMG_LISTS = 'IMG_LISTS' // 图片列表
 const UPDATE_POINTER = 'UPDATE_POINTER' // 更新播放状态和视频位置位置
@@ -89,6 +99,14 @@ const CHANGE_IS_ADD_CAPTION = 'CHANGE_IS_ADD_CAPTION'
 /* BS滚动begin */
 const CHANGE_IS_REFRESH_TRACK_BOX_BS = 'CHANGE_IS_REFRESH_TRACK_BOX_BS'
 const CHANGE_IS_REFRESH_CAPTION_SET_BS = 'CHANGE_IS_REFRESH_CAPTION_SET_BS'
+
+// panes
+const CHANGE_IS_REFRESH_PANES_BS = 'CHANGE_IS_REFRESH_PANES_BS'
+// const CHANGE_IS_REFRESH_MEDIA_PANE_BS = 'CHANGE_IS_REFRESH_MEDIA_PANE_BS'
+// const CHANGE_IS_REFRESH_MYDIR_PANE_BS = 'CHANGE_IS_REFRESH_MYDIR_PANE_BS'
+// const CHANGE_IS_REFRESH_BASIC_PANE_BS = 'CHANGE_IS_REFRESH_BASIC_PANE_BS'
+// const CHANGE_IS_REFRESH_CAPTION_PANE_BS = 'CHANGE_IS_REFRESH_CAPTION_PANE_BS'
+// const CHANGE_IS_REFRESH_HISTORY_PANE_BS = 'CHANGE_IS_REFRESH_HISTORY_PANE_BS'
 /* BS滚动end */
 
 const CHANGE_TRANKEY_PRESS = 'CHANGE_TRANKEY_PRESS'
@@ -227,7 +245,7 @@ export default {
     }
     state.trackposition = arr
     setTimeout(() => {
-      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+      $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
     }, 0)
 
     // UPDATE_CAPTIONPOSITION
@@ -263,7 +281,7 @@ export default {
     }
     state.trackposition = arr
     setTimeout(() => {
-      $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+      $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
     }, 0)
   },
   [UPDATE_CAPTIONPOSITION](state, data) {
@@ -296,6 +314,11 @@ export default {
         data.chunk.speed = 1
       }
       state.activechunk.chunk = data.chunk
+      if (state.activechunk.chunk.filter) {
+        state.activechunk.chunk.filter.forEach((item, index) => {
+          item.fromIndex = index
+        })
+      }
       if (data.chunk.geometry === 'undefined') {
         return
       }
@@ -396,42 +419,12 @@ export default {
     }
   },
   [CHANGE_ACTIVEPROPERTY](state, data) {
-    state.activeProperty = data
+    state.activeProperty = data // todo 必要？
     const geo_arr = data
     let geo = ''
     for (let i = 0; i < geo_arr.length; i++) {
       const f = geo_arr[i]
-      if (f.top < 0) {
-        geo =
-          geo +
-          f.f +
-          '=' +
-          f.left +
-          '%/' +
-          f.top +
-          '%:' +
-          f.w +
-          '%x' +
-          f.h +
-          '%:' +
-          f.transparency +
-          ';'
-      } else {
-        geo =
-          geo +
-          f.f +
-          '=' +
-          f.left +
-          '%/' +
-          f.top +
-          '%:' +
-          f.w +
-          '%x' +
-          f.h +
-          '%:' +
-          f.transparency +
-          ';'
-      }
+      geo += `${f.f}=${f.left}%/${f.top}%:${f.w}%x${f.h}%:${f.transparency};`
     }
     state.activechunk.chunk.geometry = geo.substr(0, geo.length - 1)
   },
@@ -501,7 +494,7 @@ export default {
     state.trackEnd = val
   },
   UPDATE_MRZY_DATA(state, val) {
-    console.log('MRZY change')
+    // console.log('MRZY change')
     state.Mrzydata = val
   },
   UPDATE_AUDIO_STATUS(state, val) {
@@ -516,6 +509,8 @@ export default {
   [SET_MUL_SELE_LIST](state, data) {
     if (data.type === 'add') {
       state.MulSeleList.push(data.path)
+    } else if (data.type === 'change') {
+      state.MulSeleList = [data.path]
     } else if (data.type === 'del') {
       state.MulSeleList = state.MulSeleList.filter(item => {
         return item !== data.path
@@ -875,7 +870,45 @@ export default {
   [CHANGE_IS_REFRESH_CAPTION_SET_BS](state, payload) {
     state.isRefreshCaptionSetBS = payload
   },
+  [CHANGE_IS_REFRESH_PANES_BS](state, payload) {
+    state.isRefreshPanesBS = payload
+  },
   [CHANGE_TRANKEY_PRESS](state, payload) {
     state.trankeyPress = payload
+  },
+
+  /* chunkset抽取公共部分begin */
+  [CHANGE_POSITION](state, payload) {
+    const way = payload.way
+    const target = payload.target
+    if (target.value === '') {
+      target.value = 0
+    } else {
+      target.value = parseInt(target.value, 10)
+    }
+
+    if (way === 'x') {
+      const num =
+        (parseInt(target.value, 10) * 100) / state.systemmessage.player.w
+      state.activeProperty[state.propertyNum].left = num
+    }
+    if (way === 'y') {
+      const num =
+        (parseInt(target.value, 10) * 100) / state.systemmessage.player.h
+      state.activeProperty[state.propertyNum].top = num
+    }
+  },
+  [CHANGE_CATEGORY_TYPE](state, payload) {
+    state.categoryType = payload
+  },
+  [CHANGE_MY_DIR_DIALOG_SHOW](state, payload) {
+    state.myDirDialogShow = payload
+  },
+  // [CHANGE_DIALOG_IMAGE_FROM](state, payload) {
+  //   state.dialogImageFrom = payload
+  // },
+  [CHANGE_FILTER_INDEX](state, payload) {
+    state.filterIndex = payload
   }
+  /* chunkset抽取公共部分end */
 }

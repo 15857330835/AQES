@@ -1,15 +1,13 @@
 <template>
   <span class="ai-caption-pane">
     <div class="bscroll main highest" ref="bscroll">
-      <div class="bscroll-container">
-        <!-- <transition-group name="source-list" appear> -->
+      <div class="bscroll-container ai-fix">
         <ai-caption-source
           v-for="(item, index) in sources"
           :key="item.style + index"
           :source="item"
           :index="index"
         ></ai-caption-source>
-        <!-- </transition-group> -->
         <div style="clear: both"></div>
       </div>
     </div>
@@ -25,7 +23,7 @@ export default {
   components: {
     aiCaptionSource
   },
-  props: ['getData'],
+  props: ['getData', 'transPaneData'],
   data() {
     return {
       sources: [],
@@ -39,6 +37,15 @@ export default {
     getData() {
       // 左侧被点击后pane数据重新刷新
       this.reset()
+    },
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'aiCaption')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
     }
   },
   computed: {},
@@ -69,26 +76,9 @@ export default {
 }
 </script>
 <style lang="scss">
-.ai-caption-pane {
-  .main {
-    position: relative;
-    height: calc(100% - 90px);
-    overflow-y: hidden;
-    outline: none;
-    &.highest {
-      height: 100%;
-    }
+.ai-fix {
+  > div {
+    width: 100%;
   }
-}
-.source-list-enter-active,
-.source-list-leave-active {
-  transition: all 0.5s;
-}
-.source-list-enter,
-.source-list-leave-to {
-  opacity: 0;
-}
-.source-list-move {
-  transition: transform 0.5s;
 }
 </style>

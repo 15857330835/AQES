@@ -4,19 +4,19 @@
     @mousedown="clearActiveChunks"
     class="track-box bscroll"
     ref="bscroll"
+    :style="{
+      maxHeight: editHeight
+    }"
   >
-    <div class="edit_track clearfix bscroll-container">
-      <div
-        style="width:160px;float:left;position:relative"
-        @mousedown="failClick"
-      >
+    <div class="edit_track bscroll-container">
+      <div class="edit_track_titles" @mousedown="failClick">
         <div
+          class="edit_track_title"
           v-for="(tracks, index) in this.track.v_track_list"
           :key="tracks.track_id"
-          class="clearfix"
         >
-          <div class="edit_track_title">
-            <div class="icon">
+          <div class="track-up-content">
+            <div class="track-icon-content">
               <span class="vicon"></span>
               <span
                 class="vtitle"
@@ -25,31 +25,33 @@
                 >{{ tracks.name }}</span
               >
             </div>
-            <trackstatus
-              :track="tracks"
-              :type="'v_track_list'"
-              :index="index"
-            ></trackstatus>
-            <trackset
-              :track="tracks"
-              :type="'v_track_list'"
-              :index="index"
-              :tracks="track.v_track_list"
-            ></trackset>
-            <trackvolue
-              :track="tracks"
-              :type="'v_track_list'"
-              :index="index"
-            ></trackvolue>
+            <div class="track-set-content">
+              <trackstatus
+                :track="tracks"
+                :type="'v_track_list'"
+                :index="index"
+              ></trackstatus>
+              <trackset
+                :track="tracks"
+                :type="'v_track_list'"
+                :index="index"
+                :tracks="track.v_track_list"
+              ></trackset>
+            </div>
           </div>
+          <trackvolue
+            :track="tracks"
+            :type="'v_track_list'"
+            :index="index"
+          ></trackvolue>
         </div>
         <div
+          class="edit_track_title"
           v-for="(tracks, index) in this.track.a_track_list"
           :key="tracks.track_id"
-          class="clearfix"
         >
-          <div class="edit_track_title">
-            <div class="icon">
+          <div class="track-up-content">
+            <div class="track-icon-content">
               <span class="aicon"></span>
               <span
                 class="atitle"
@@ -58,27 +60,29 @@
                 >{{ tracks.name }}</span
               >
             </div>
-            <trackstatus
-              :track="tracks"
-              :type="'a_track_list'"
-              :index="index"
-            ></trackstatus>
-            <trackset
-              :track="tracks"
-              :type="'a_track_list'"
-              :index="index"
-              :tracks="track.a_track_list"
-            ></trackset>
-            <trackvolue
-              :track="tracks"
-              :type="'a_track_list'"
-              :index="index"
-            ></trackvolue>
+            <div class="track-set-content">
+              <trackstatus
+                :track="tracks"
+                :type="'a_track_list'"
+                :index="index"
+              ></trackstatus>
+              <trackset
+                :track="tracks"
+                :type="'a_track_list'"
+                :index="index"
+                :tracks="track.a_track_list"
+              ></trackset>
+            </div>
           </div>
+          <trackvolue
+            :track="tracks"
+            :type="'a_track_list'"
+            :index="index"
+          ></trackvolue>
         </div>
         <div class="track-box-left-mask" v-if="modalVoiceApplyIsShow"></div>
       </div>
-      <div class="bg-container clearfix">
+      <div class="bg-container">
         <div class="edit_track_contents clearfix" ref="trackbox">
           <div
             v-for="(tracks, index) in track.v_track_list"
@@ -182,7 +186,6 @@
         </div>
       </div>
     </div>
-    <!-- <div style="width: 100%;height: 2px;" @mousemove="changeTrackboxSize"></div> -->
   </div>
 </template>
 <script>
@@ -196,6 +199,7 @@ import chunkbox from './chunkBox'
 import trackhide from './trackHide'
 import TrackMask from './TrackMask.vue'
 import { trackRenameApi } from '@/api/Track'
+import { TIP_HEIGHT_NUMBER } from '@/config'
 
 export default {
   components: {
@@ -208,7 +212,12 @@ export default {
     trackhide,
     TrackMask
   },
-  data: function() {
+  props: {
+    editHeight: {
+      type: String
+    }
+  },
+  data() {
     return {}
   },
   computed: {
@@ -318,7 +327,7 @@ export default {
         that.UPDATE_TRACKBOX()
         that.UPDATE_TRACKPOSITION(5)
         that.UPDATE_CAPTIONPOSITION()
-        $('#edit_tip_line').height($('.nces_edit').height() + 32 - 42)
+        $('#edit_tip_line').height($('.nces_edit').height() + TIP_HEIGHT_NUMBER)
       }, 0)
       // this.aBScroll.refresh()
       setTimeout(() => {
@@ -386,141 +395,112 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.edit_track_title {
-  width: 160px;
-  height: 63px;
-  box-sizing: border-box;
-  border-right: 1px solid #141414;
-  border-bottom: 1px solid #141414;
-  float: left;
-  position: relative;
-
-  .icon {
-    width: 159px;
-    height: 26px;
-    position: relative;
-    top: 0;
-
-    .cicon {
-      background-image: url(../../img/ziti.png);
-      background-repeat: no-repeat;
-      background-size: 95%;
-      width: 18px;
-      height: 18px;
-      display: inline-block;
-      position: relative;
-      top: 50%;
-      transform: translate(0, -50%);
-      margin: 0 6px;
-    }
-
-    .vicon {
-      background-image: url(../../img/vtrack.png);
-      background-repeat: no-repeat;
-      background-size: 100%;
-      width: 18px;
-      height: 18px;
-      display: inline-block;
-      position: relative;
-      top: 50%;
-      transform: translate(0, -50%);
-      margin: 0 6px;
-    }
-
-    .aicon {
-      background-image: url(../../img/atrack.png);
-      background-repeat: no-repeat;
-      background-size: 95%;
-      width: 18px;
-      height: 18px;
-      display: inline-block;
-      position: relative;
-      top: 50%;
-      transform: translate(0, -50%);
-      margin: 0 6px;
-    }
-
-    .vtitle,
-    .atitle {
-      display: inline-block;
-      position: absolute;
-      top: 50%;
-      transform: translate(0, -50%);
-      width: 60px;
-      font-size: 14px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      word-break: keep-all;
-    }
-  }
-}
-.bg-container {
-  float: left;
-  width: calc(100% - 160px);
-  background-image: repeating-linear-gradient(
-    #151a20,
-    #151a20 62px,
-    #1c232a 63px,
-    #1c232a 126px
-  );
-}
-.edit_track_contents {
-  float: left;
-  position: relative;
-  margin: 0 25px 0 10px;
-  width: calc(100% - 35px);
+<style lang="scss" scoped>
+.track-box {
+  max-height: calc(100vh - 50vw * 9 / 16 - 1.4rem);
   overflow: hidden;
-
-  .edit_track_content {
-    float: left;
+  width: 100%;
+  font-size: 12px;
+  border-bottom: 2px solid #151a20;
+  .edit_track {
     width: 100%;
-    height: 100%;
-    position: relative;
-    border: 1px solid transparent;
-    box-sizing: border-box;
+    .edit_track_titles {
+      width: 160px;
+      height: 100%;
+      .edit_track_title {
+        width: 160px;
+        height: 63px;
+        box-sizing: border-box;
+        border-right: 1px solid #151a20;
+        border-bottom: 1px solid #151a20;
+        position: relative;
+        &:last-of-type {
+          border-bottom: none;
+        }
+        .track-up-content {
+          width: 159px;
+          height: 26px;
+          display: flex;
+          justify-content: space-between;
+          .track-icon-content {
+            display: flex;
+            align-items: center;
+            .vicon {
+              background-image: url(../../img/vtrack.png);
+              background-repeat: no-repeat;
+              background-size: 100%;
+              width: 0.2rem;
+              height: 0.2rem;
+              margin: 0 0.06rem;
+            }
 
-    .track_able_content {
-      min-width: 100%;
-      width: 100%;
-      height: 62px;
-      position: absolute;
-      left: 0;
+            .aicon {
+              background-image: url(../../img/atrack.png);
+              background-repeat: no-repeat;
+              background-size: 95%;
+              width: 0.2rem;
+              height: 0.2rem;
+              margin: 0 0.06rem;
+            }
+
+            .vtitle,
+            .atitle {
+              width: 0.6rem;
+              font-size: 0.14rem;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              word-break: keep-all;
+            }
+          }
+          .track-set-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 0.69rem;
+            height: 100%;
+            margin-right: 0.06rem;
+          }
+        }
+      }
+    }
+    .bg-container {
+      flex: 1;
+      height: 100%;
+      padding: 0 25px 0 10px;
+      background-image: repeating-linear-gradient(
+        #151a20,
+        #151a20 63px,
+        #1c232a 63px,
+        #1c232a 126px
+      );
+      .edit_track_contents {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        .edit_track_content {
+          float: left;
+          width: 100%;
+          height: 100%;
+          position: relative;
+          border: 1px solid transparent;
+          box-sizing: border-box;
+
+          .track_able_content {
+            min-width: 100%;
+            width: 100%;
+            height: 62px;
+            position: absolute;
+            left: 0;
+          }
+        }
+      }
     }
   }
-}
-
-.rename-decide-box {
-  background-color: #222;
-  color: #fff;
-  border: none;
-
-  .el-message-box__header {
-    background-color: #2e2e2e;
-
-    .el-message-box__title {
-      color: inherit;
-    }
-  }
-
-  .el-message-box__content {
-    color: inherit;
-  }
-}
-
-#trackbox {
-  max-height: calc(100vh - 50vw * 9 / 16 - 250px);
-  overflow: hidden;
-  width: 100vw;
-
-  > div {
-    width: 100vw;
-  }
-
   .track-box-left-mask {
     height: 100%;
-    width: 100%;
+    width: 160px;
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
     top: 0;

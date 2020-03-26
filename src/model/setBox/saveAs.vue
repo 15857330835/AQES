@@ -1,8 +1,5 @@
 <template>
-  <div
-    class=" makeTable"
-    style="width: 100%;height: 100%;position: fixed;top: 0;background-color: rgba(0,0,0,0.4);z-index: 1010;"
-  >
+  <div class="makeTable">
     <div class="makeTable_content">
       <div class="content_title">工程另存为</div>
       <div class="content_select">
@@ -12,8 +9,8 @@
         </p>
       </div>
       <div class="content_click">
-        <span class="content_click_make" @click="sure">确认</span
-        ><span class="content_click_cancel" @click="cel">取消</span>
+        <span class="content_click_cancel" @click="cel">取消</span>
+        <span class="content_click_make" @click="sure">确认</span>
       </div>
     </div>
   </div>
@@ -24,7 +21,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return { show: false, loading: {}, player: {}, name: '' }
   },
   computed: {
@@ -34,16 +31,16 @@ export default {
   methods: {
     ...mapActions(['Post', 'changeLoading']),
     ...mapMutations(['CHANGE_BOXSET']),
-    cel: function() {
+    cel() {
       this.CHANGE_BOXSET('')
     },
-    sure: function() {
+    sure() {
       const that = this
       if (this.name === '') {
         window.zindex = 0
         this.$alert('请输入要另存的工程的名称!', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -61,7 +58,7 @@ export default {
         window.zindex = 0
         that.$alert('工程另存为成功！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -70,7 +67,7 @@ export default {
         window.zindex = 1
         that.$alert('工程另存为失败！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -89,25 +86,10 @@ export default {
 }
 </script>
 
-<style>
-.saveTable_content,
-.makeTable_content,
-.delproTable_content {
-  position: absolute;
-  width: 510px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #232323;
-  font-size: 14px;
-}
-.makeTable_content .content_title {
-  height: 40px;
-  line-height: 40px;
-  background-color: #2e2e2e;
-  text-align: center;
-}
-.makeTable_content .content_select {
-  padding: 20px 0;
+<style lang="scss" scoped>
+.makeTable_content {
+  .content_select {
+    padding: 20px 0;
+  }
 }
 </style>

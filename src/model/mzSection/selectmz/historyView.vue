@@ -13,6 +13,7 @@
         :sourceType="currentNav.sourceType"
         :flag="currentNav.flag"
         v-if="paneShow"
+        :transPaneData="transPaneData"
       ></pane>
     </div>
   </div>
@@ -29,7 +30,12 @@ export default {
     mzAside,
     pane
   },
-  props: ['handleMouseDown', 'handleMouseMove', 'handleMouseUp'],
+  props: [
+    'handleMouseDown',
+    'handleMouseMove',
+    'handleMouseUp',
+    'transPaneData'
+  ],
   data() {
     return {
       paneShow: true,

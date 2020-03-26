@@ -39,17 +39,17 @@ export default {
 </script>
 <style lang="scss">
 .videolist_left {
-  width: 100px;
+  width: 1.75rem;
   float: left;
   height: 100%;
   .list_leftlist {
     background-color: #212931;
-    font-size: 12px;
+    font-size: 0.14rem;
     height: 100%;
-    border-right: 2px solid #151a20;
+    border-right: 0.02rem solid #151a20;
     & > li {
-      padding: 5px 15px;
-      line-height: 25px;
+      padding: 0.07rem 0 0.07rem 0.3rem;
+      line-height: 0.28rem;
       cursor: pointer;
       color: #e4e4e4;
       &.active,

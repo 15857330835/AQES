@@ -50,7 +50,7 @@ import { setInterval, clearInterval } from 'timers'
 // import * as api from "@/api/Lib";
 // import _ from 'lodash'
 export default {
-  data: function() {
+  data() {
     return {
       countdown: 3,
       recorStatus: 0,
@@ -69,7 +69,7 @@ export default {
   //   },
   computed: {
     ...mapState([]),
-    loadingShow: function() {
+    loadingShow() {
       return this.startloading || this.onloading
     }
   },
@@ -142,7 +142,7 @@ export default {
       this.CHANGE_BOXSET('')
     }
   },
-  mounted: function() {
+  mounted() {
     this.record = new Recorder()
   },
   destroyed() {
@@ -164,46 +164,30 @@ export default {
 <style lang="scss">
 /* 添加轨道的弹窗样式*/
 .addRecordrop {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1010;
   .recordProp_content {
     position: absolute;
     width: 361px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: #333333;
-
-    padding: 12px 0 20px 0;
-    // border: 1px solid rgba(121, 121, 121, 1);
+    background-color: #212931;
+    padding: 0 0 20px 0;
     .header {
-      height: 24px;
-      text-align: center;
       .content_title {
-        line-height: 24px;
-        background-color: #333333;
         font-size: 18px;
-        // padding-left: 20px;
-        // border-bottom: 1px solid rgba(121, 121, 121, 1);
       }
       .close {
         width: 20px;
         height: 20px;
-        line-height: 20px;
         position: absolute;
         right: 16px;
-        top: 12px;
+        top: 9px;
         cursor: pointer;
         display: inline-block;
       }
     }
 
     .content_icon {
-      // height:70px;
       text-align: center;
       position: relative;
       margin-top: 25px;
@@ -212,17 +196,10 @@ export default {
         height: 96px;
         margin-left: calc(50% - 48px);
         border-radius: 48px;
-        // background-color: #008000;
         cursor: pointer;
         .icon {
           font-size: 48px;
           line-height: 96px;
-          // width:96px;
-          // height:96px;
-          // background-position: center;
-          // background-size: 48px 48px;
-          // background-repeat: no-repeat;
-          // background-image: url(../../img/record.png);
         }
         .zt-icon-div {
           background-color: #fe6262;
@@ -271,15 +248,18 @@ export default {
         font-size: 16px;
         text-align: center;
         display: inline-block;
-        border-radius: 5px;
-        // background-color: #61ded0;
-        border: 1px solid rgba(121, 121, 121, 1);
+        border-radius: 3px;
         cursor: pointer;
         &:first-child {
-          margin-right: 50px;
+          margin-right: 30px;
+          background-color: #636a71;
+          border: 1px solid #636a71;
+          color: #fff;
         }
         &:last-child {
           background-color: #61ded0;
+          border: 1px solid #61ded0;
+          color: #203035;
         }
       }
       // .con_click{

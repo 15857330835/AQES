@@ -14,24 +14,11 @@
       "
     ></videoset>
     <audioset v-if="this.activechunk.chunk.chunk_type == 2"></audioset>
-    <textset
-      v-if="
-        this.activechunk.chunk.chunk_type == 3 &&
-          this.activechunk.chunk.filter.length > 1
-      "
-    ></textset>
-    <putextset
-      v-if="
-        this.activechunk.chunk.chunk_type == 3 &&
-          this.activechunk.chunk.filter.length == 1
-      "
-    ></putextset>
-    <dynamicTextSet
-      v-if="
-        this.activechunk.chunk.chunk_type == 3 &&
-          this.activechunk.chunk.template
-      "
-    ></dynamicTextSet>
+    <template v-if="this.activechunk.chunk.chunk_type == 3">
+      <putextset v-if="categoryType == '基础文本'"></putextset>
+      <dynamicTextSet v-else-if="categoryType == '动态文本'"></dynamicTextSet>
+      <textset v-else></textset>
+    </template>
     <div
       class="setContent-do"
       :style="{ width: 'calc(100vw * ' + this.videosurew + ')' }"
@@ -43,26 +30,20 @@
         @click="handleCancel"
         >{{ celBtnLoading ? '取消中' : '取消' }}
       </el-button>
-      <el-button
-        class="do-sure"
-        type="primary"
-        @click="sure"
-        style="backgroundColor:#61ded0;border:none;"
-        >确认</el-button
-      >
+      <el-button class="do-sure" type="primary" @click="sure">确认</el-button>
     </div>
   </div>
 </template>
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 import videoset from './videoset'
-import audioset from './audio'
+import audioset from './audioset'
 import textset from './textset'
 import putextset from './putextset'
 import dynamicTextSet from './dynamicTextSet'
 
 export default {
-  data: function() {
+  data() {
     return {
       activeTab: 'content-sel__O1',
       celBtnLoading: false
@@ -99,7 +80,8 @@ export default {
       'clientwidth',
       'propertyNum',
       'historyindex',
-      'allowHistoryBack'
+      'allowHistoryBack',
+      'categoryType'
     ]),
     track() {
       return this.$store.state.all.tracks
@@ -162,7 +144,7 @@ export default {
         window.zindex = 0
         that.$alert('清除内部操作记录失败！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })

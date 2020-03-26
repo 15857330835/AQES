@@ -10,10 +10,15 @@
       <div class="bscroll-container">
         <!-- <transition-group name="source-list" appear> -->
         <base-source
+          :source="item"
           v-for="(item, index) in sources"
           :key="item.title + index"
-          :source="item"
         ></base-source>
+        <div
+          class="video_option_content fake-placeholder"
+          v-for="(item, index) in fakeData"
+          :key="'fake' + index"
+        ></div>
         <!-- </transition-group> -->
         <div class="loading" v-show="loadingShow">
           <div class="loading-item"></div>
@@ -28,7 +33,6 @@
         >
           暂无数据
         </div>
-        <div style="clear: both"></div>
       </div>
     </div>
     <div class="videolist_right_bottom"></div>
@@ -48,7 +52,15 @@ export default {
     baseSource,
     SearchBar
   },
-  props: ['getData', 'sourceType', 'flag', 'searchDisable', 'paneTitle'],
+  props: [
+    'getData',
+    'sourceType',
+    'flag',
+    'searchDisable',
+    'paneTitle',
+    'transPaneData',
+    'sourceTitle'
+  ],
   data() {
     return {
       page: 1,
@@ -56,7 +68,8 @@ export default {
       aBScroll: null,
       loadingShow: true,
       title: '',
-      sources: []
+      sources: [],
+      fakeData: [...new Array(9).keys()]
     }
   },
   watch: {
@@ -64,6 +77,15 @@ export default {
       // 左侧被点击后pane数据重新刷新
       this.reset()
       this.title = ''
+    },
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'basic')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
     }
   },
   computed: {
@@ -84,7 +106,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['UPDATE_MRZY_DATA']),
+    ...mapMutations(['UPDATE_MRZY_DATA', 'CHANGE_IS_REFRESH_PANES_BS']),
     isSuccess(res) {
       return res.Flag === 100 || res.code === 0
     },
@@ -111,7 +133,10 @@ export default {
             service: item.service
           }
         }
-        if (typeof item.category === 'undefined') {
+        if (
+          typeof item.category === 'undefined' ||
+          item.category === '动效列表'
+        ) {
           // 动效列表的特殊情况
           return {
             staticImg: `//${item.preview_img}`,
@@ -143,6 +168,9 @@ export default {
         if (typeof res.data === 'undefined') {
           res.data = res.List
         }
+        if (this.sourceTitle === '动效列表') {
+          res.data.forEach(item => (item.category = '动效列表'))
+        }
         this.UPDATE_MRZY_DATA([...this.Mrzydata, ...res.data])
         const formatedData = this.transferData(res.data)
         this.sources = this.sources.concat(formatedData)
@@ -169,12 +197,15 @@ export default {
       }
     }, 500),
     async reset() {
-      console.log('mounted get pane')
+      // console.log('mounted get pane')
       this.page = 1
       const res = await this.getData.list({ page: this.page++, num: this.num })
       if (this.isSuccess(res)) {
         if (typeof res.data === 'undefined') {
           res.data = res.List
+        }
+        if (this.sourceTitle === '动效列表') {
+          res.data.forEach(item => (item.category = '动效列表'))
         }
         // this.UPDATE_MRZY_DATA(res.data)
         this.UPDATE_MRZY_DATA([...this.Mrzydata, ...res.data])
@@ -212,15 +243,26 @@ export default {
 }
 </script>
 <style lang="scss">
-.basic-pane {
-  .main {
-    position: relative;
-    height: calc(100% - 90px);
-    overflow-y: hidden;
-    outline: none;
-    &.highest {
-      height: calc(100% - 10px);
-    }
+.fake-placeholder {
+  padding: 0 15px !important;
+}
+.caption-fake-placeholder {
+  width: 192px;
+  padding: 0 5px;
+  pointer-events: none;
+}
+
+.main {
+  position: relative;
+  height: calc(100% - 1.06rem);
+  overflow-y: hidden;
+  outline: none;
+  &.highest {
+    height: calc(100% - 0.12rem);
+  }
+  .bscroll-indicator {
+    background-color: rgb(170, 170, 170) !important;
+    border: none !important;
   }
 }
 .source-list-enter-active,
@@ -245,7 +287,7 @@ export default {
 .loading-item {
   width: 4px;
   height: 6px;
-  background: #68b2ce;
+  background: #61ded0;
   float: left;
   margin: 0 3px;
   animation: loading linear 1s infinite;

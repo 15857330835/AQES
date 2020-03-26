@@ -5,6 +5,7 @@
       placeholder="请选择"
       size="mini"
       @change="fontchange"
+      style="width:2.2rem;margin-right:0.16rem;"
     >
       <el-option-group
         v-for="group in options3"
@@ -28,7 +29,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return {
       holder: null,
       cmd: '',
@@ -38,7 +39,7 @@ export default {
   //   components: {
   //   		systemmes,
   //   },
-  created: function() {
+  created() {
     this.holder =
       this.activechunk.chunk.filter[this.index] ||
       this.activechunk.chunk.template_parameter
@@ -52,7 +53,7 @@ export default {
   },
   computed: {
     ...mapState(['fontlist', 'activechunk']),
-    loadingShow: function() {
+    loadingShow() {
       return this.startloading || this.onloading
     },
     sortBy(field) {
@@ -60,7 +61,7 @@ export default {
         return a[field] - b[field]
       }
     },
-    options3: function() {
+    options3() {
       const a = []
       let b = {}
       const e = []
@@ -113,7 +114,7 @@ export default {
       }
       this.Post(data)
     },
-    tranfont: function() {
+    tranfont() {
       const a = {}
       let b = []
       for (const i of Object.keys(this.fontlist)) {
@@ -174,18 +175,4 @@ export default {
 }
 </script>
 
-<style>
-/* .el-input__inner .el-select-dropdown {
-  background-color:#1d1d1d;
-  border:1px solid #636363 !important;
-  font-size:14px !important;
-  color:rgb(170,170,170)
-} */
-/* .el-select .el-input__inner:focus .el-select .el-input__inner:hover{
-  border-color: #636363;
-}
-.el-select-dropdown__item:hover{
-  /* background-color:#1d1d1d; */
-
-/* } */
-</style>
+<style lang="scss"></style>

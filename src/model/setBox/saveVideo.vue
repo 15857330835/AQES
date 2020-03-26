@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="saveTable"
-    style="width: 100%;height: 100%;position: fixed;top: 0;background-color: rgba(0,0,0,0.4);z-index: 1010;"
-  >
+  <div class="saveTable">
     <div class="saveTable_content">
       <div class="content_title">视频生成设置</div>
       <div class="content_select">
@@ -76,8 +73,8 @@
         </div>
       </div>
       <div class="content_click">
-        <span class="content_click_make" @click="sure">确认</span
-        ><span class="content_click_cancel" @click="cel">取消</span>
+        <span class="content_click_cancel" @click="cel">取消</span>
+        <span class="content_click_make" @click="sure">确认</span>
       </div>
     </div>
   </div>
@@ -88,7 +85,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return { player: {}, zhiliang: 0.5 }
   },
   computed: {
@@ -98,10 +95,10 @@ export default {
   methods: {
     ...mapActions(['Post']),
     ...mapMutations(['CHANGE_BOXSET']),
-    cel: function() {
+    cel() {
       this.CHANGE_BOXSET('')
     },
-    sure: function() {
+    sure() {
       const that = this
 
       if (window.NCES.backStr) {
@@ -110,7 +107,7 @@ export default {
         that.add()
       }
     },
-    add: function(str_para) {
+    add(str_para) {
       let str = ''
       if (typeof str_para !== 'undefined') {
         str = str_para
@@ -119,7 +116,7 @@ export default {
         window.zindex = 0
         this.$alert('请输入要生成的视频的名称', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -182,7 +179,7 @@ export default {
         window.zindex = 1
         this.$alert('保存视频失败!', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -196,7 +193,7 @@ export default {
       window.zindex = 1
     }
   },
-  mounted: function() {
+  mounted() {
     const that = this
     if (window.NCES.strOfname) {
       this.strofname = window.NCES.strOfname
@@ -329,4 +326,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped></style>

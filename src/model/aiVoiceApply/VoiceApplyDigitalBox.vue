@@ -184,7 +184,7 @@ export default {
 
       .ai-cost-time {
         font-size: 20px;
-        color: rgba(8, 143, 211, 1);
+        color: #61ded0;
         vertical-align: middle;
       }
 
@@ -220,9 +220,9 @@ export default {
       }
 
       &.ai-btn-confirm {
-        background: rgba(8, 143, 211, 1);
-        color: rgba(255, 255, 255, 1);
-        border: 1px solid rgba(8, 143, 211, 1);
+        background-color: #61ded0;
+        color: #203035;
+        border: 1px solid #61ded0;
       }
       &.unsureAi {
         cursor: not-allowed !important;

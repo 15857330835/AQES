@@ -175,18 +175,18 @@ export default {
       return this.startloading || this.onloading
     },
     font: {
-      get: function() {
+      get() {
         return this.all.caption.status.font
       },
-      set: function(val) {
+      set(val) {
         this.all.caption.status.font = val
       }
     },
     fontSize: {
-      get: function() {
+      get() {
         return this.all.caption.status.font.size
       },
-      set: function(val) {
+      set(val) {
         if (val <= 4) {
           this.font.size = 4
         } else if (val >= 96) {
@@ -197,10 +197,10 @@ export default {
       }
     },
     outline: {
-      get: function() {
+      get() {
         return parseInt(this.font.outline, 10).toFixed(2)
       },
-      set: function(val) {
+      set(val) {
         if (val < 0) {
           this.font.outline = 0
         } else {
@@ -307,16 +307,16 @@ export default {
       }
       // eslint-disable-next-line
 				const selectType = new SelectBox($('#zmstyleSelect'), a, fnBack2, {
-        color: '#fff', // 输入框字体颜色
-        height: 20,
+        color: '#aaa', // 输入框字体颜色
+        height: 22,
         fontSize: 12,
         optionFontSize: 12,
-        optionColor: '#fff', // 下拉框字体颜色
-        arrowColor: '#fff', // 箭头颜色
-        borderColor: '#606060', // 边线颜色
+        optionColor: '#aaa', // 下拉框字体颜色
+        arrowColor: '#aaa', // 箭头颜色
+        borderColor: '#636a71', // 边线颜色
         borderRadius: 3,
         borderWidth: 1, // 边线宽度
-        backgroundColor: '#1d1d1d', // 背景色颜色
+        backgroundColor: '#303840', // 背景色颜色
         hoverColor: '#151a20', // 下拉框HOVER颜色
         arrowBorderWidth: 0, // 箭头左侧分割线宽度。如果为0则不显示
         placeholder: '', // 默认提示
@@ -349,7 +349,7 @@ export default {
         window.zindex = 1
         that.$alert('字幕内容修改失败!', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -369,7 +369,7 @@ export default {
       )
       window.zindex = 1
     },
-    captionSureHandler: function() {
+    captionSureHandler() {
       this.CHANGE_CAPTIONSETSHOW(false)
       const that = this
       if (window.type === 'caption') {
@@ -378,7 +378,7 @@ export default {
         })
       }
     },
-    captionExportHandler: function() {
+    captionExportHandler() {
       const isEmpty = this.all.caption.chunks.every(item => !item.text.length)
       if (!this.all.caption.chunks.length || isEmpty) {
         this.$alert('无字幕内容', '警告')
@@ -392,7 +392,7 @@ export default {
         window.zindex = 0
         that.$alert('请选择目标字幕块!', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -475,7 +475,7 @@ export default {
       this.fontSize = parseInt(target.value, 10)
       this.fontUpdate(this.font)
     },
-    togglefont: function(style) {
+    togglefont(style) {
       if (style === 'weight') {
         if (this.font.weight === 500) {
           this.font.weight = 600
@@ -565,6 +565,9 @@ export default {
       padding: 10px 10px 0 10px;
       overflow: hidden;
       flex: 1;
+      .bscroll-container {
+        display: block;
+      }
       .captionset_contents {
         &.active {
           background-color: #131212;
@@ -615,29 +618,37 @@ export default {
   .captionsel_sure,
   .captionsel_export {
     width: 90px;
-    background-color: #61ded0;
     height: 30px;
     text-align: center;
     line-height: 30px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 3px;
     float: right;
     margin-right: 20px;
     margin-top: 10px;
     cursor: pointer;
     color: #333;
   }
+  .captionsel_sure {
+    color: #203035;
+    background-color: #61ded0;
+    border-color: #61ded0;
+  }
+  .captionsel_export {
+    color: #cdd5dd;
+    background-color: #636a71;
+    border-color: #636a71;
+  }
 }
 
 input[type='number'].styCap {
-  border-radius: 4px;
-  background-color: #1d1d1d;
-  color: #61ded0;
-  -webkit-box-sizing: border-box;
+  background-color: #303840;
+  color: #aaaaaa;
+  border: 1px solid #636a71;
+  border-radius: 0.03rem;
   box-sizing: border-box;
   text-align: center;
-  height: 30px;
-  border: 1px solid #636363;
+  height: 28px;
   -webkit-appearance: none;
   -moz-appearance: textfield;
   display: inline-block;
@@ -645,16 +656,19 @@ input[type='number'].styCap {
   padding: 0.2em;
   text-decoration: none;
   width: 60px;
-  margin-top: 4px;
+  margin-top: 5px;
 }
 
 .textBorder {
+  // background-color: #595f65;
+  border: 1px solid #595f65;
+  border-radius: 0.03rem;
   height: 28px;
-  border: 1px solid #616161;
   line-height: 28px;
   overflow: hidden;
   display: flex;
-  margin-top: 5px;
+  margin-top: 4px;
+  box-sizing: border-box;
 
   .icon-item {
     width: 28px;

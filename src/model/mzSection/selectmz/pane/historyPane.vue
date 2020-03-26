@@ -4,10 +4,15 @@
       <div class="bscroll-container">
         <!-- <transition-group name="source-list" appear> -->
         <history-source
+          :data="item"
           v-for="(item, index) in sources"
           :key="item.src_id + index"
-          :data="item"
         ></history-source>
+        <div
+          class="video_option_content fake-placeholder"
+          v-for="(item, index) in fakeData"
+          :key="'fake' + index"
+        ></div>
         <!-- </transition-group> -->
         <div class="loading" v-show="loadingShow">
           <div class="loading-item"></div>
@@ -22,7 +27,6 @@
         >
           暂无数据
         </div>
-        <div style="clear: both"></div>
       </div>
     </div>
     <div class="videolist_right_bottom"></div>
@@ -39,30 +43,40 @@ export default {
   components: {
     historySource
   },
-  props: ['getData'],
+  props: ['getData', 'transPaneData'],
   data() {
     return {
       page: 1,
       num: 20,
       aBScroll: null,
       loadingShow: true,
-      sources: []
+      sources: [],
+      fakeData: [...new Array(9).keys()]
     }
   },
   watch: {
     getData() {
       // 左侧被点击后pane数据重新刷新
       this.reset()
+    },
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'history')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
     }
   },
   computed: {
-    ...mapState([]),
+    ...mapState(['isRefreshPanesBS']),
     noDataShow() {
       return this.sources.length === 0
     }
   },
   methods: {
-    ...mapMutations([]),
+    ...mapMutations(['CHANGE_IS_REFRESH_PANES_BS']),
     isSuccess(res) {
       return res.Flag === 100 || res.code === 0
     },
@@ -119,79 +133,4 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.basic-pane {
-  .main {
-    position: relative;
-    height: calc(100% - 90px);
-    overflow-y: hidden;
-    outline: none;
-    &.highest {
-      height: calc(100% - 10px);
-    }
-  }
-}
-.source-list-enter-active,
-.source-list-leave-active {
-  transition: all 0.5s;
-}
-.source-list-enter,
-.source-list-leave-to {
-  opacity: 0;
-}
-.source-list-move {
-  transition: transform 0.5s;
-}
-.loading {
-  float: left;
-  width: 100%;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.loading-item {
-  width: 4px;
-  height: 6px;
-  background: #68b2ce;
-  float: left;
-  margin: 0 3px;
-  animation: loading linear 1s infinite;
-  -webkit-animation: loading linear 1s infinite;
-}
-.loading-item:nth-child(1) {
-  animation-delay: 0s;
-}
-.loading-item:nth-child(2) {
-  animation-delay: 0.15s;
-}
-.loading-item:nth-child(3) {
-  animation-delay: 0.3s;
-}
-.loading-item:nth-child(4) {
-  animation-delay: 0.45s;
-}
-.loading-item:nth-child(5) {
-  animation-delay: 0.6s;
-}
-@keyframes loading {
-  0%,
-  60%,
-  100% {
-    transform: scale(1);
-  }
-  30% {
-    transform: scaleY(3);
-  }
-}
-@-webkit-keyframes loading {
-  0%,
-  60%,
-  100% {
-    transform: scale(1);
-  }
-  30% {
-    transform: scaleY(3);
-  }
-}
-</style>
+<style lang="scss" scoped></style>

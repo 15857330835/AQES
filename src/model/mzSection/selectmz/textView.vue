@@ -11,7 +11,9 @@
       <pane
         :getData="currentNav.interface"
         :sourceType="currentNav.sourceType"
+        :sourceTitle="currentNav.title"
         :flag="currentNav.flag"
+        :transPaneData="transPaneData"
       ></pane>
     </div>
   </div>
@@ -32,7 +34,12 @@ export default {
     mzAside,
     pane
   },
-  props: ['handleMouseDown', 'handleMouseMove', 'handleMouseUp'],
+  props: [
+    'handleMouseDown',
+    'handleMouseMove',
+    'handleMouseUp',
+    'transPaneData'
+  ],
   data() {
     return {
       aspect_ratio: '16:9',
@@ -108,7 +115,7 @@ export default {
           title: '动效列表',
           interface: {
             list: _.partial(openapiTextTemplateList, {
-              category: '',
+              category: '动效列表',
               aspect_ratio: this.aspect_ratio,
               status: 2
             }),

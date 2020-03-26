@@ -1,5 +1,5 @@
 <template>
-  <div style="padding:5px;box-sizing:border-box;display:inline-block">
+  <div class="color-container">
     <input type="color" :ref="'color'" />
   </div>
 </template>
@@ -8,9 +8,10 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 import _ from 'lodash'
+import { chunkUpdateFilterApi } from '@/api/Chunk'
 
 export default {
-  data: function() {
+  data() {
     return {}
   },
   //   components: {
@@ -18,28 +19,28 @@ export default {
   //   },
   props: ['index', 'type'],
   computed: {
-    ...mapState(['activechunk'])
+    ...mapState(['activechunk', 'notify'])
   },
   watch: {},
   methods: {
     ...mapActions([]),
     ...mapMutations(['UPDATE_ALLOW_HISTORY_BACK']),
     // chunkvolumeChange(value) {},
-    colorChange: function(color_para) {
+    colorChange(color_para) {
       // return
       const color = this.colorReset(color_para.toRgb())
       if (this.type === 'font') {
         this.activechunk.chunk.filter[this.index].fgcolour = color
-      }
-      if (this.type === 'b') {
+      } else if (this.type === 'b') {
         this.activechunk.chunk.filter[this.index].olcolour = color
-      }
-      if (this.type === 'backg') {
+      } else if (this.type === 'backg') {
         this.activechunk.chunk.filter[this.index].bgcolour = color
+      } else if (this.type === 'srcFrom') {
+        this.activechunk.chunk.filter[this.index].from = 'color:' + color
       }
       this.sendmessage()
     },
-    colorReset: function(obj) {
+    colorReset(obj) {
       let r = obj.r.toString(16)
       r = r.length === 1 ? '0' + r : r
       let g = obj.g.toString(16)
@@ -51,32 +52,50 @@ export default {
       a = a.length === 1 ? '0' + a : a
       return ('#' + a + r + g + b).toUpperCase()
     },
-    sendmessage: function() {
+    sendmessage(callback) {
       this.UPDATE_ALLOW_HISTORY_BACK(false)
-      $.post(
-        window.NCES.DOMAIN + '/api/chunk',
-        JSON.stringify({
-          cmd: 'update_filter',
-          chunk_id: this.activechunk.chunk.chunk_id,
-          property: this.activechunk.chunk.filter
-        }),
-        res => {
+      chunkUpdateFilterApi({
+        chunk_id: this.activechunk.chunk.chunk_id,
+        property: this.activechunk.chunk.filter
+      })
+        .then(res => {
           if (res.code === 0) {
             this.UPDATE_ALLOW_HISTORY_BACK(true)
-          }
-          if (res.code !== 0) {
+          } else {
             console.warn(res.msg)
           }
-        },
-        'json'
-      )
+        })
+        .catch(() => {
+          this.$notify({
+            title: '提示',
+            type: 'error',
+            message: '操作失败！',
+            position: 'bottom-right',
+            duration: this.notify.time
+          })
+        })
+    },
+    getColor() {
+      let color
+      if (this.type === 'font') {
+        color = this.activechunk.chunk.filter[this.index].fgcolour
+      } else if (this.type === 'b') {
+        color = this.activechunk.chunk.filter[this.index].olcolour
+      } else if (this.type === 'backg') {
+        // console.log(this.activechunk.chunk.filter[this.index])
+        color = this.activechunk.chunk.filter[this.index].bgcolour
+      } else if (this.type === 'srcFrom') {
+        color = this.activechunk.chunk.filter[this.index].from.split(':')[1]
+      }
+      return color
     }
   },
-  mounted: function() {
+  mounted() {
+    const color = this.getColor()
     const that = this
     $(this.$refs.color).spectrum({
       preferredFormat: true,
-      color: that.activechunk.chunk.filter[that.index].fgcolour,
+      color,
       allowEmpty: true,
       showInitial: true,
       // showAlpha: true,

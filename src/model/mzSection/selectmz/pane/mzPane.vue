@@ -18,10 +18,15 @@
     <div class="bscroll main" ref="bscroll">
       <div class="bscroll-container">
         <mz-source
+          :source="item"
           v-for="(item, index) in sources"
           :key="item.id + index"
-          :source="item"
         ></mz-source>
+        <div
+          class="video_option_content fake-placeholder"
+          v-for="(item, index) in fakeData"
+          :key="'fake' + index"
+        ></div>
         <div class="loading" v-show="loadingShow">
           <div class="loading-item"></div>
           <div class="loading-item"></div>
@@ -35,7 +40,6 @@
         >
           暂无数据
         </div>
-        <div style="clear: both"></div>
       </div>
     </div>
     <div class="videolist_right_bottom">
@@ -53,6 +57,7 @@ import mzSource from '@/components/mzSource'
 import BScroll from 'better-scroll'
 import SearchBar from '@/components/searchBar'
 import _ from 'lodash'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -66,7 +71,8 @@ export default {
     'handleMouseUp',
     'getData',
     'showDatePicker',
-    'showTitleSearch'
+    'showTitleSearch',
+    'transPaneData'
   ],
   data() {
     return {
@@ -78,7 +84,8 @@ export default {
       loadingShow: true,
       title: '',
       sTime: '',
-      eTime: ''
+      eTime: '',
+      fakeData: [...new Array(9).keys()]
     }
   },
   watch: {
@@ -87,6 +94,15 @@ export default {
       this.$refs.datePicker && this.$refs.datePicker.clearDate()
       this.title = ''
       this.reset()
+    },
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'mz')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
     }
     // sources:{
     //   handle:function(){
@@ -96,11 +112,13 @@ export default {
     // }
   },
   computed: {
+    ...mapState(['isRefreshPanesBS']),
     noDataShow() {
       return this.sources.length === 0
     }
   },
   methods: {
+    ...mapMutations(['CHANGE_IS_REFRESH_PANES_BS']),
     fetchMore() {
       this.getData(
         {
@@ -185,29 +203,34 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .mz-pane {
   .datepicker {
     padding: 0 18px;
     line-height: 50px;
-    background-color: #212931;
-  }
-  .main {
-    position: relative;
-    height: calc(100% - 90px);
-    overflow-y: hidden;
-    outline: none;
   }
 }
-.source-list-enter-active,
-.source-list-leave-active {
-  transition: all 0.5s;
-}
-.source-list-enter,
-.source-list-leave-to {
-  opacity: 0;
-}
-.source-list-move {
-  transition: transform 0.5s;
+</style>
+<style lang="scss">
+.videolist_right_bottom {
+  height: 0.53rem;
+  line-height: 0.53rem;
+  padding: 0 0.2rem;
+  .bottom_tips {
+    float: left;
+    span {
+      color: #61ded0;
+      &.u-icon {
+        background-image: url(../../../../img/danger.png);
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: -2px;
+        margin-right: 10px;
+        width: 16px;
+        height: 16px;
+        background-size: 100%;
+      }
+    }
+  }
 }
 </style>

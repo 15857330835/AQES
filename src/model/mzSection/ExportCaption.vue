@@ -160,7 +160,7 @@ export default {
       }
       &.con_click_cancel {
         background-color: #232323;
-        border: 1px solid #686868;
+        border: 1px solid #636a71;
       }
     }
   }

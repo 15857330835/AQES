@@ -14,6 +14,7 @@
         :flag="currentNav.flag"
         :searchDisable="currentNav.searchDisable"
         :paneTitle="currentNav.title"
+        :transPaneData="transPaneData"
       ></pane>
     </div>
   </div>
@@ -30,7 +31,12 @@ export default {
     mzAside,
     pane
   },
-  props: ['handleMouseDown', 'handleMouseMove', 'handleMouseUp'],
+  props: [
+    'handleMouseDown',
+    'handleMouseMove',
+    'handleMouseUp',
+    'transPaneData'
+  ],
   data() {
     return {
       currentNav: null,

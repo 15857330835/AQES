@@ -29,7 +29,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return {}
   },
   //   components: {
@@ -48,9 +48,9 @@ export default {
   },
   watch: {},
   methods: {
-    ...mapActions(['Post', 'getindex']),
+    ...mapActions(['Post', 'getindex', 'geoPost']),
     ...mapMutations(['CHANGE_PROPERTYNUM', 'CHANGE_ACTIVEPROPERTY']),
-    sel: function(target) {
+    sel(target) {
       this.CHANGE_PROPERTYNUM(this.index)
       const position =
         this.activechunk.chunk.track_start + this.activeProperty[this.index].f
@@ -64,58 +64,17 @@ export default {
       }
       this.Post(data)
     },
-    del: function() {
+    del() {
       const geo_arr = []
       for (let i = 0; i < this.activeProperty.length; i++) {
         if (i !== this.index) {
           geo_arr.push(this.activeProperty[i])
         }
       }
-      this.CHANGE_ACTIVEPROPERTY(geo_arr)
       this.CHANGE_PROPERTYNUM(this.index - 1)
-      let geo = ''
-      for (let i = 0; i < geo_arr.length; i++) {
-        const f = geo_arr[i]
-        if (f.top < 0) {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        } else {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        }
-      }
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_property',
-        chunk_id: this.activechunk.chunk.chunk_id,
-        geometry: geo.substr(0, geo.length - 1)
-      }
-      this.Post(data)
+      this.geoPost({
+        geo_arr
+      })
     }
   }
 }

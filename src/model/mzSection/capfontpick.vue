@@ -28,7 +28,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
 
 export default {
-  data: function() {
+  data() {
     return {
       // holder_: {},
       cmd: '',
@@ -38,7 +38,7 @@ export default {
   //   components: {
   //   		systemmes,
   //   },
-  created: function() {
+  created() {
     //   this.holder = this.activechunk.chunk.filter[this.index] || this.activechunk.chunk.template_parameter;
     //   if(this.activechunk.chunk.filter.length>0){
     //       this.cmd = "update_filter"
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     ...mapState(['fontlist', 'activechunk']),
-    loadingShow: function() {
+    loadingShow() {
       return this.startloading || this.onloading
     },
     sortBy(field) {
@@ -61,7 +61,7 @@ export default {
         return a[field] - b[field]
       }
     },
-    options3: function() {
+    options3() {
       const a = []
       let b = {}
       const e = []
@@ -88,7 +88,7 @@ export default {
       }
       return a
     },
-    holder_: function() {
+    holder_() {
       return this.holder
     }
   },
@@ -118,24 +118,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-// .el-input__inner,.el-select-dropdown {
-//     background-color:#1d1d1d;
-//     border:1px solid #636363 !important;
-//     font-size:14px !important;
-//     color:rgb(170,170,170)
-// }
-//     .el-input__inner .el-select-dropdown {
-//   background-color:#1d1d1d;
-//   border:1px solid #636363 !important;
-//   font-size:14px !important;
-//   color:rgb(170,170,170)
-// }
-// .el-select .el-input__inner:focus .el-select .el-input__inner:hover{
-//   border-color: #636363;
-// }
-// .el-select-dropdown__item:hover{
-//   // background-color:#1d1d1d;
-
-// }
-</style>
+<style lang="scss" scoped></style>

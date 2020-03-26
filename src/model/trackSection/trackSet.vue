@@ -41,7 +41,7 @@ import { mapActions, mapMutations } from 'vuex'
 import { trackRenameApi } from '@/api/Track'
 
 export default {
-  data: function() {
+  data() {
     return {
       show: false
     }
@@ -60,7 +60,7 @@ export default {
       }
       this.show = !this.show
     },
-    movetoTop: function() {
+    movetoTop() {
       const that = this
       const data = {}
       data.type = 'track'
@@ -77,7 +77,7 @@ export default {
       }
       this.Post(data)
     },
-    movetoBottom: function() {
+    movetoBottom() {
       const that = this
       const data = {}
       data.type = 'track'
@@ -94,7 +94,7 @@ export default {
       }
       this.Post(data)
     },
-    moveTrack: function(id) {
+    moveTrack(id) {
       const that = this
       const data = {}
       data.type = 'track'
@@ -112,17 +112,17 @@ export default {
       }
       this.Post(data)
     },
-    movetoLast: function() {
+    movetoLast() {
       if (this.index === 1) {
         this.movetoTop()
       } else {
         this.moveTrack(this.tracks[this.index - 2].track_id)
       }
     },
-    movetoNext: function() {
+    movetoNext() {
       this.moveTrack(this.tracks[this.index + 1].track_id)
     },
-    renameTrack: function() {
+    renameTrack() {
       const tracks = this.track
       const track_id = tracks.track_id
       const track_type = tracks.track_type
@@ -161,14 +161,14 @@ export default {
           window.zindex = 1 // 恢复屏蔽全局的按键事件
         })
     },
-    delTrack: function() {
+    delTrack() {
       const that = this
       if (this.tracks.length <= 1) {
         window.zindex = 0
 
         that.$alert('该轨道不能删除！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -190,10 +190,9 @@ export default {
       this.Post(data)
     }
   },
-  mounted: function() {
-    const that = this
-    $(document).on('click', function() {
-      that.show = false
+  mounted() {
+    $(document).on('click', () => {
+      this.show = false
     })
   }
 }
@@ -201,16 +200,13 @@ export default {
 
 <style lang="scss" scoped>
 .dolist {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: 3px;
-  right: 3px;
+  width: 0.2rem;
+  height: 0.2rem;
   background-image: url(../../img/caidan.png);
-  background-size: 70%;
+  background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 3px;
+  border-radius: 0.04rem;
   cursor: pointer;
 
   .dolist_prop {

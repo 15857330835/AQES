@@ -61,9 +61,10 @@
 </template>
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
+import { ATTACH_NUMBER } from '@/config'
 
 export default {
-  data: function() {
+  data() {
     return {
       move: false,
       x: 0,
@@ -135,7 +136,7 @@ export default {
         index: this.index
       })
     },
-    down: function(e, time) {
+    down(e, time) {
       const that = this
       this.ACTIVE_CHUNK({
         chunk: this.chunk,
@@ -157,7 +158,6 @@ export default {
       }
       this.CLEAR_REST_ACTIVE_CHUNKS()
       this.chunkmove = 'all'
-      const that = this
       this.x = this.getElementPos(this.chunk.chunk_id).x - 3
       this.y = this.getElementPos(this.chunk.chunk_id).y - 3
       this.offsetx = e.pageX - this.x
@@ -180,8 +180,8 @@ export default {
         this.Post({
           type: 'pointer',
           data: { cmd: 'set', speed: 0 },
-          error: function() {
-            that.$notify({
+          error: () => {
+            this.$notify({
               title: '提示',
               type: 'error',
               message: '操作失败！',
@@ -208,7 +208,7 @@ export default {
           ) < 10 &&
           this.track_property.xifuFlag
         ) {
-          this.x = 188 - this.track_property.outLeft
+          this.x = ATTACH_NUMBER - this.track_property.outLeft
           this.xifuindex = 0
           faaa++
         }
@@ -226,7 +226,7 @@ export default {
           this.x =
             this.delchunkposition.v[m].max /
               (this.slidernum.max - this.track_property.ratio) +
-            188 -
+            ATTACH_NUMBER -
             this.track_property.outLeft
           this.xifuindex = this.delchunkposition.v[m].max
           faaa++
@@ -245,7 +245,7 @@ export default {
           this.x =
             this.delchunkposition.v[m].min /
               (this.slidernum.max - this.track_property.ratio) +
-            188 -
+            ATTACH_NUMBER -
             this.track_property.outLeft
           this.xifuindex = this.delchunkposition.v[m].min
           faaa++
@@ -268,7 +268,7 @@ export default {
               this.chunk.track_end +
               this.chunk.track_start) /
               (this.slidernum.max - this.track_property.ratio) +
-            188 -
+            ATTACH_NUMBER -
             this.track_property.outLeft
           this.xifuindex =
             this.delchunkposition.v[m].min -
@@ -294,7 +294,7 @@ export default {
               this.chunk.track_end +
               this.chunk.track_start) /
               (this.slidernum.max - this.track_property.ratio) +
-            188 -
+            ATTACH_NUMBER -
             this.track_property.outLeft
           this.xifuindex =
             this.delchunkposition.v[m].max -
@@ -303,7 +303,7 @@ export default {
           faaa++
         }
       }
-      this.y = this.trackcaption.minY + 1
+      this.y = this.trackcaption.minY
       if (faaa === 0) {
         this.xifuindex = null
         if (this.activechunk.chunkstate === 'moveing') {
@@ -510,12 +510,12 @@ export default {
             track_end: end,
             mode: mode
           },
-          success: function(res) {
+          success(res) {
             that.changeLoading(function() {
               that.move = false
             })
           },
-          error: function(res) {
+          error(res) {
             console.log(res)
             that.move = false
             return
@@ -528,7 +528,7 @@ export default {
       this.CHANGE_CAPTIONSETSHOW(true)
       this.CHANGE_IS_REFRESH_CAPTION_SET_BS(true)
     },
-    toLeft: function(e_para) {
+    toLeft(e_para) {
       e_para.stopPropagation()
       let e = e_para
       this.chunkmove = 'left'
@@ -546,7 +546,7 @@ export default {
         $(document).one('mouseup', this.toLeftup)
       }
     },
-    toLeftmove: function(e_para) {
+    toLeftmove(e_para) {
       let e = e_para
       if (this.chunkmove !== 'left') {
         return
@@ -584,7 +584,7 @@ export default {
         }
       }
     },
-    toLeftup: function(e) {
+    toLeftup(e) {
       const that = this
       this.chunkmove = ''
       if (this.openway === 'pc') {
@@ -627,7 +627,7 @@ export default {
         $(document).one('mouseup', this.toRightup)
       }
     },
-    toRightmove: function(e_para) {
+    toRightmove(e_para) {
       if (this.chunkmove !== 'right') {
         return
       }
@@ -661,7 +661,7 @@ export default {
         }
       }
     },
-    toRightup: function(e) {
+    toRightup(e) {
       const that = this
       this.chunkmove = ''
       if (this.openway === 'pc') {
@@ -686,7 +686,7 @@ export default {
         'json'
       )
     },
-    getElementPos: function(elementId) {
+    getElementPos(elementId) {
       const ua = navigator.userAgent.toLowerCase()
       const isOpera = ua.indexOf('opera') !== -1
       // eslint-disable-next-line no-unused-vars

@@ -1,7 +1,7 @@
 <template>
   <div class="keyPress">
     <div class="keypress_out" title="快捷键" @click="changeShow">
-      <span>快捷键</span>
+      <span class="title">快捷键</span>
     </div>
     <div class="keypress_set" v-show="this.keypressStaus">
       <div class="keypress_set_title">快捷键<em @click="changeShow">X</em></div>
@@ -212,7 +212,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
-import { deepClone } from '@/utils'
+import _ from 'lodash'
 
 export default {
   data() {
@@ -410,7 +410,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要删除的素材或文件夹！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 3
           }
         })
@@ -421,7 +421,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要剪辑的素材或文件夹！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 3
           }
         })
@@ -434,7 +434,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要复制的素材或文件夹！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 3
           }
         })
@@ -447,7 +447,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要粘贴的素材或文件夹！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 3
           }
         })
@@ -460,7 +460,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要删除的块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -482,7 +482,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要剪辑的视频块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -492,7 +492,7 @@ export default {
         window.zindex = 0
         this.$alert('不能对字幕块进行剪辑！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -520,7 +520,7 @@ export default {
         window.zindex = 0
         this.$alert('必须在选中的区域内剪辑！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -542,13 +542,13 @@ export default {
       console.log(cut_chunks)
       this.cut(cut_chunks)
     },
-    avleavechunk: function() {
+    avleavechunk() {
       const that = this
       if (this.activechunk.chunk === '') {
         window.zindex = 0
         this.$alert('请选择要音视频分离的块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -569,10 +569,10 @@ export default {
           cmd: 'separate_audio',
           chunk_id: this.activechunk.chunk.chunk_id
         },
-        success: function() {
+        success() {
           that.changeLoading()
         },
-        error: function() {
+        error() {
           that.$alert('该资源非视频资源或已进行过音视频分离！', '提示消息', {
             confirmButtonText: '确定'
           })
@@ -584,7 +584,7 @@ export default {
         window.zindex = 0
         this.$alert('请选择要复制粘贴的块！', '提示消息', {
           confirmButtonText: '确定',
-          callback: function() {
+          callback() {
             window.zindex = 1
           }
         })
@@ -593,7 +593,7 @@ export default {
           window.zindex = 0
           this.$alert('字幕快请到字幕设置界面添加！', '提示消息', {
             confirmButtonText: '确定',
-            callback: function() {
+            callback() {
               window.zindex = 1
             }
           })
@@ -623,7 +623,7 @@ export default {
           trackItem.chunks.forEach(chunkItem => {
             if (chunkItem.chunk_type === 5) return
             this.ACTIVE_CHUNK({ chunk: chunkItem, state: 'active' })
-            const activeClone = deepClone(this.activechunk)
+            const activeClone = _.cloneDeep(this.activechunk)
             this.CHANGE_REST_ACTIVE_CHUNKS(activeClone)
           })
         }
@@ -633,7 +633,7 @@ export default {
           trackItem.chunks.forEach(chunkItem => {
             if (chunkItem.chunk_type === 5) return
             this.ACTIVE_CHUNK({ chunk: chunkItem, state: 'active' })
-            const activeClone = deepClone(this.activechunk)
+            const activeClone = _.cloneDeep(this.activechunk)
             this.CHANGE_REST_ACTIVE_CHUNKS(activeClone)
           })
         }
@@ -846,7 +846,7 @@ export default {
         }
       }
     },
-    initkeypress: function() {
+    initkeypress() {
       // zindex=0: none
       // zindex=1 : delchunk,cutchunk,zhantiechunk,nextTemp,lastTemp,savevideo,lastindex,nextindex,videoplay
       // zindex=2: lastindex,nextindex,videoplay
@@ -953,7 +953,7 @@ export default {
         arr.push('Shift')
       }
     },
-    inputdown: function(e, type) {
+    inputdown(e, type) {
       // 修改快捷键事件
       console.log(e)
       const that = this
@@ -1107,26 +1107,34 @@ export default {
 
 <style lang="scss" scoped>
 .keyPress {
-  background: url(../../img/keypress.png) center top no-repeat;
+  background: url(../../img/keyboard.png) center top no-repeat;
   display: inline-block;
-  width: 60px;
-  height: 50px;
-  background-size: 30px 27px;
+  width: 0.6rem;
+  height: 0.46rem;
+  box-sizing: border-box;
+  background-size: 45%;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 0.11rem;
+  top: 0.11rem;
+  &:hover {
+    background: url(../../img/keyboard_a.png) center top no-repeat;
+    background-size: 45%;
+    .keypress_out {
+      > .title {
+        color: #61ded0;
+      }
+    }
+  }
 
   .keypress_out {
     height: 100%;
     cursor: pointer;
     position: relative;
-    > span {
+    > .title {
       width: 100%;
       text-align: center;
       position: absolute;
-      bottom: 5px;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 0;
     }
   }
 
@@ -1135,69 +1143,63 @@ export default {
     top: 26px;
     width: 440px;
     background-color: #151a20;
+    // background-color: #212931;
+    // background-color: #1c232a;
     z-index: 1000;
     left: 50%;
     transform: translate(-50%, 0);
-  }
-}
+    &.active {
+      display: block;
+    }
+    .keypress_set_title {
+      position: relative;
+      height: 40px;
+      line-height: 40px;
+      font-size: 18px;
+      text-align: center;
+      background-color: #303840;
+      // background: #191e22;
+      border-radius: 4px 4px 0px 0px;
 
-.keypress_set_title {
-  position: relative;
-  height: 40px;
-  background-color: #303840;
-  line-height: 40px;
-  font-size: 18px;
-  text-align: center;
-
-  em {
-    font-style: normal;
-    position: absolute;
-    right: 0;
-    padding: 0 10px;
-    cursor: pointer;
-  }
-}
-
-.keypress_set {
-  &.active {
-    display: block;
-  }
-
-  label {
-    position: relative;
-  }
-
-  input[type='radio']:checked {
-    & + input[type='text'] {
-      border: 1px solid #61ded0;
+      em {
+        font-style: normal;
+        position: absolute;
+        right: 0;
+        padding: 0 10px;
+        cursor: pointer;
+      }
+    }
+    .keypress_set_content {
+      .keypress_set_contentL,
+      .keypress_set_contentR {
+        float: left;
+        width: 50%;
+        border-right: 1px solid #2e2e2e;
+        box-sizing: border-box;
+        p {
+          margin: 5px;
+          label {
+            position: relative;
+            i {
+              width: 80px;
+              display: inline-block;
+              font-style: normal;
+              text-align: center;
+            }
+            input {
+              width: 90px;
+              cursor: pointer;
+            }
+            input[type='radio']:checked {
+              & + input[type='text'] {
+                border: 1px solid #61ded0;
+              }
+            }
+          }
+        }
+      }
     }
   }
-}
-
-.keypress_set_contentL,
-.keypress_set_contentR {
-  float: left;
-  width: 50%;
-  border-right: 1px solid #2e2e2e;
-  box-sizing: border-box;
-}
-
-.keypress_set_contentL p,
-.keypress_set_contentR p {
-  margin: 5px;
-}
-
-.keypress_set_contentL input,
-.keypress_set_contentR input {
-  width: 90px;
-}
-
-.keypress_set_contentL i,
-.keypress_set_contentR i {
-  width: 80px;
-  display: inline-block;
-  font-style: normal;
-  text-align: center;
 }
 .captiontext {
   border-radius: 4px;
@@ -1220,18 +1222,5 @@ export default {
   &.active {
     border: 1px solid #61ded0;
   }
-}
-.captionsel_sure {
-  width: 90px;
-  background-color: #61ded0;
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
-  font-size: 16px;
-  border-radius: 5px;
-  float: right;
-  margin-right: 20px;
-  margin-top: 10px;
-  cursor: pointer;
 }
 </style>

@@ -61,7 +61,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([]),
+    ...mapState(['sourceData']),
     tip() {
       const progress = parseInt(this.source.progress, 10)
       if (progress > 0 && progress < 100) return `下载中 ${progress}%`
@@ -178,12 +178,4 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.source-img {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.source-img.loaded {
-  opacity: 1;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -271,6 +271,8 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 // import systemmes from './model/Systemmes'
+// import _ from 'lodash'
+import { transGeoValue, transGeoValue2 } from '@/utils'
 
 export default {
   data() {
@@ -386,7 +388,7 @@ export default {
   },
   watch: {},
   methods: {
-    ...mapActions(['Post']),
+    ...mapActions(['Post', 'geoPost']),
     ...mapMutations([
       // 'UPDATE_ACTIVEFILTER',
       'CHANGE_FILTERSHOW',
@@ -428,15 +430,18 @@ export default {
       this.x2 = e.pageX - this.ePosx + this.x2
       this.y2 = e.pageY - this.ePosy + this.y2
       const active = this.activeProperty[this.propertyNum]
-      active.left = ((e.pageX - this.ePosx) * 100) / width + active.left
-      active.top = ((e.pageY - this.ePosy) * 100) / height + active.top
+      active.left = transGeoValue2(
+        ((e.pageX - this.ePosx) * 100) / width + active.left
+      )
+      active.top = transGeoValue2(
+        ((e.pageY - this.ePosy) * 100) / height + active.top
+      )
       this.ePosx = e.pageX
       this.ePosy = e.pageY
-      this.activeProperty[this.propertyNum] = active
     },
     mouseup_box(e) {
       this.chunkmove = ''
-      this.sendmessage()
+      this.geoPost()
       if (!e.touches) {
         $(document).unbind('.boxx')
       }
@@ -468,6 +473,7 @@ export default {
     },
     mousemove_drag_e(e_para) {
       let e = e_para
+      // console.log('east move')
       if (this.chunkmove !== 'e') {
         return
       }
@@ -477,16 +483,13 @@ export default {
       const width = $('.boxx').width()
       const variation = e.pageX - this.ePosx
       const active = this.activeProperty[this.propertyNum]
-      active.w =
+      const before_width =
         (variation * 100) / width + active.w < 0
           ? 0
           : (variation * 100) / width + active.w
-      // if (this.changeWay) {
-      //   active.h = active.w / this.bili
-      // }
+      active.w = transGeoValue(before_width)
       this.ePosx = e.pageX
       this.ePosy = e.pageY
-      this.activeProperty[this.propertyNum] = active
     },
     mousemove_drag_s(e_para) {
       let e = e_para
@@ -499,16 +502,16 @@ export default {
       const height = $('.boxx').height()
       const variation = e.pageY - this.ePosy
       const active = this.activeProperty[this.propertyNum]
-      active.h =
+      const before_height =
         (variation * 100) / height + active.h < 0
           ? 0
           : (variation * 100) / height + active.h
+      active.h = transGeoValue(before_height)
       // if (this.changeWay) {
       //   active.w = active.h * this.bili
       // }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
-      this.activeProperty[this.propertyNum] = active
     },
     mousemove_drag_w(e_para) {
       let e = e_para
@@ -522,20 +525,21 @@ export default {
       const variation = this.ePosx - e.pageX
       const active = this.activeProperty[this.propertyNum]
       const length = active.w + active.left
-      active.w =
+      const before_width =
         (variation * 100) / width + active.w < 0
           ? 0
           : (variation * 100) / width + active.w
-      active.left = length - active.w
+      active.w = transGeoValue(before_width)
+      active.left = transGeoValue2(length - active.w)
       // if (this.changeWay) {
       //   active.h = active.w / this.bili
       // }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
-      this.activeProperty[this.propertyNum] = active
     },
     mousemove_drag_n(e_para) {
       let e = e_para
+      console.log('north move')
       if (this.chunkmove !== 'n') {
         return
       }
@@ -543,20 +547,21 @@ export default {
         e = e.touches[0]
       }
       const height = $('.boxx').height()
-      const variation = this.ePosy - e.pageY
       const active = this.activeProperty[this.propertyNum]
       const length = active.h + active.top
-      active.h =
-        (variation * 100) / height + active.h < 0
+      const before_height =
+        ((this.ePosy - e.pageY) * 100) / height + active.h < 0
           ? 0
-          : (variation * 100) / height + active.h
-      active.top = length - active.h
+          : ((this.ePosy - e.pageY) * 100) / height + active.h
+      active.h = transGeoValue(before_height)
+      active.top = transGeoValue2(length - active.h)
+      // console.log(_.cloneDeep(active.h))
+      // console.log(_.cloneDeep(active.top))
       // if (this.changeWay) {
       //   active.w = active.h * this.bili
       // }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
-      this.activeProperty[this.propertyNum] = active
     },
     mousemove_drag_se(e_para) {
       let e = e_para
@@ -591,17 +596,19 @@ export default {
           ? 0
           : ((e.pageY - this.offsetY) * 100) / height - active.top) * this.bili
       if (w1 > w2) {
-        active.w =
+        const before_width2 =
           ((e.pageX - this.offsetX) * 100) / width - active.left < 0
             ? 0
             : ((e.pageX - this.offsetX) * 100) / width - active.left
-        active.h = active.w / this.bili
+        active.w = transGeoValue(before_width2)
+        active.h = transGeoValue(active.w / this.bili)
       } else {
-        active.h =
+        const before_height2 =
           ((e.pageY - this.offsetY) * 100) / height - active.top < 0
             ? 0
             : ((e.pageY - this.offsetY) * 100) / height - active.top
-        active.w = active.h * this.bili
+        active.h = transGeoValue(before_height2)
+        active.w = transGeoValue(active.h * this.bili)
       }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
@@ -640,23 +647,26 @@ export default {
           ? 0
           : ((e.pageY - this.offsetY) * 100) / height - active.top) * this.bili
       if (w1 > w2) {
-        active.w =
+        const before_width2 =
           active.left + active.w - ((e.pageX - this.offsetX) * 100) / width < 0
             ? 0
             : active.left + active.w - ((e.pageX - this.offsetX) * 100) / width
-        active.left = ((e.pageX - this.offsetX) * 100) / width
-        active.h = active.w / this.bili
+        active.w = transGeoValue(before_width2)
+        active.left = transGeoValue2(((e.pageX - this.offsetX) * 100) / width)
+        active.h = transGeoValue(active.w / this.bili)
       } else {
-        active.h =
+        const before_height2 =
           ((e.pageY - this.offsetY) * 100) / height - active.top < 0
             ? 0
             : ((e.pageY - this.offsetY) * 100) / height - active.top
-        active.left = active.left + active.w - active.h * this.bili
-        active.w = active.h * this.bili
+        active.h = transGeoValue(before_height2)
+        active.left = transGeoValue2(
+          active.left + active.w - active.h * this.bili
+        )
+        active.w = transGeoValue(active.h * this.bili)
       }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
-      this.activeProperty[this.propertyNum] = active
     },
     mousemove_drag_nw(e_para) {
       let e = e_para
@@ -692,25 +702,30 @@ export default {
           : active.top + active.h - ((e.pageY - this.offsetY) * 100) / height) *
         this.bili
       if (w1 > w2) {
-        active.w =
+        const before_width2 =
           active.left + active.w - ((e.pageX - this.offsetX) * 100) / width < 0
             ? 0
             : active.left + active.w - ((e.pageX - this.offsetX) * 100) / width
-        active.left = ((e.pageX - this.offsetX) * 100) / width
-        active.top = active.h + active.top - active.w / this.bili
-        active.h = active.w / this.bili
+        active.w = transGeoValue(before_width2)
+        active.left = transGeoValue2(((e.pageX - this.offsetX) * 100) / width)
+        active.top = transGeoValue2(
+          active.h + active.top - active.w / this.bili
+        )
+        active.h = transGeoValue(active.w / this.bili)
       } else {
-        active.h =
+        const before_height2 =
           active.top + active.h - ((e.pageY - this.offsetY) * 100) / height < 0
             ? 0
             : active.top + active.h - ((e.pageY - this.offsetY) * 100) / height
-        active.top = ((e.pageY - this.offsetY) * 100) / height
-        active.left = active.left + active.w - active.h * this.bili
-        active.w = active.h * this.bili
+        active.h = transGeoValue(before_height2)
+        active.top = transGeoValue2(((e.pageY - this.offsetY) * 100) / height)
+        active.left = transGeoValue2(
+          active.left + active.w - active.h * this.bili
+        )
+        active.w = transGeoValue(active.h * this.bili)
       }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
-      this.activeProperty[this.propertyNum] = active
     },
     mousemove_drag_ne(e_para) {
       let e = e_para
@@ -746,23 +761,26 @@ export default {
           : active.top + active.h - ((e.pageY - this.offsetY) * 100) / height) *
         this.bili
       if (w1 > w2) {
-        active.w =
+        const before_width2 =
           ((e.pageX - this.offsetX) * 100) / width - active.left < 0
             ? 0
             : ((e.pageX - this.offsetX) * 100) / width - active.left
-        active.top = active.h + active.top - active.w / this.bili
-        active.h = active.w / this.bili
+        active.w = transGeoValue(before_width2)
+        active.top = transGeoValue2(
+          active.h + active.top - active.w / this.bili
+        )
+        active.h = transGeoValue(active.w / this.bili)
       } else {
-        active.h =
+        const before_height2 =
           active.top + active.h - ((e.pageY - this.offsetY) * 100) / height < 0
             ? 0
             : active.top + active.h - ((e.pageY - this.offsetY) * 100) / height
-        active.top = ((e.pageY - this.offsetY) * 100) / height
-        active.w = active.h * this.bili
+        active.h = transGeoValue(before_height2)
+        active.top = transGeoValue2(((e.pageY - this.offsetY) * 100) / height)
+        active.w = transGeoValue(active.h * this.bili)
       }
       this.ePosx = e.pageX
       this.ePosy = e.pageY
-      this.activeProperty[this.propertyNum] = active
     },
     mouseup_drag(e) {
       let temp = null
@@ -781,55 +799,8 @@ export default {
         this.y1 = this.y2
         this.y2 = temp
       }
-      this.SET_ASYNC_SET_CHART(true)
-      this.sendmessage()
-    },
-    sendmessage() {
-      const geo_arr = this.activeProperty
-      this.CHANGE_ACTIVEPROPERTY(geo_arr)
-      let geo = ''
-      for (let i = 0; i < geo_arr.length; i++) {
-        const f = geo_arr[i]
-        if (f.top < 0) {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        } else {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        }
-      }
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_property',
-        chunk_id: this.activechunk.chunk.chunk_id,
-        geometry: geo.substr(0, geo.length - 1)
-      }
-      this.Post(data)
+      // this.SET_ASYNC_SET_CHART(true)
+      this.geoPost()
     }
   }
 }

@@ -7,23 +7,26 @@
           style="cursor:pointer"
           :class="this.classname == 'content-sel_O1' ? 'active' : ''"
           @click="tabChange('content-sel_O1')"
+          title="动画"
         ></span>
         <span
           class="u-icon setpng"
           style="cursor:pointer"
           :class="this.classname == 'content-sel_O2' ? 'active' : ''"
           @click="tabChange('content-sel_O2')"
+          title="变换"
         ></span>
         <span
           class="u-icon filterpng"
           style="cursor:pointer"
           :class="this.classname == 'content-sel_O3' ? 'active' : ''"
           @click="tabChange('content-sel_O3')"
+          title="色彩"
         ></span>
       </div>
     </div>
     <div class="content-sel_O1" v-if="this.classname == 'content-sel_O1'">
-      <div class="content-sel-option">
+      <div class="content-sel-option clearfix">
         <div class="sel-option">
           <div class="sel-option-name">旋转</div>
           <div class="sel-option-con ar">
@@ -458,7 +461,7 @@
           </div>
         </div>
         <div class="sel-option">
-          <div class="sel-option-name">比例</div>
+          <div class="sel-option-name">宽度</div>
           <div class="sel-option-con">
             <div style="float:right;position: relative;width:60px;height:100%">
               <input
@@ -467,7 +470,7 @@
                 style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 max="200"
                 min="0"
-                v-model.number="setbili"
+                v-model.number="activeGeo.w"
                 @blur="wChange"
               />
               <span style="float:right;color:#61ded0">%</span>
@@ -476,8 +479,37 @@
               style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
             >
               <el-slider
-                v-model="setbili"
+                v-model="activeGeo.w"
                 @change="wChange"
+                mini
+                :max="200"
+                :min="0"
+                :step="1"
+              ></el-slider>
+            </div>
+          </div>
+        </div>
+        <div class="sel-option">
+          <div class="sel-option-name">高度</div>
+          <div class="sel-option-con">
+            <div style="float:right;position: relative;width:60px;height:100%">
+              <input
+                type="number"
+                class="sty"
+                style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
+                max="200"
+                min="0"
+                v-model.number="activeGeo.h"
+                @blur="hChange"
+              />
+              <span style="float:right;color:#61ded0">%</span>
+            </div>
+            <div
+              style="position: relative;width:calc(100% - 80px);height:38px;top:50%;transform:translate(0,-50%)"
+            >
+              <el-slider
+                v-model="activeGeo.h"
+                @change="hChange"
                 mini
                 :max="200"
                 :min="0"
@@ -497,10 +529,10 @@
                 style="color:#61ded0;background-color:transparent;border:none;top:0;height:100%"
                 max="100"
                 min="0"
-                v-model.number="activeProperty[propertyNum].transparency"
-                @blur="tmdChange"
+                v-model.number="activeGeo.transparency"
+                @blur="geoPost"
               />
-              <!-- :value = "this.propertyOfnum.transparency" -->
+              <!-- :value = "this.activeGeo.transparency" -->
               <span style="float:right;color:#61ded0">%</span>
             </div>
             <div
@@ -508,7 +540,7 @@
             >
               <el-slider
                 v-model="activeProperty[propertyNum].transparency"
-                @change="tmdChange"
+                @change="geoPost"
                 mini
                 :max="100"
                 :min="0"
@@ -822,16 +854,14 @@ import timerdian from './timerdian'
 import quickposition from './quickPosition'
 import { chunkUpdateFilterApi, chunkAddFilterApi } from '@/api/Chunk'
 export default {
-  data: function() {
+  data() {
     return {
       classname: 'content-sel_O1',
       sel: false,
       writeFlag: 0,
       setproperty: false,
       quickposi: false,
-      speed: 1,
-      wh: 1,
-      billVal: 0
+      speed: 1
       // 'key':0,
     }
   },
@@ -839,7 +869,6 @@ export default {
     timerdian,
     quickposition
   },
-  created: function() {},
   //   watch:{
   //       mosaicKey:function(n){
   //           this.mosaicKey = n
@@ -859,10 +888,10 @@ export default {
       'propertyNum',
       'isAsyncSetchart'
     ]),
-    loadingShow: function() {
+    loadingShow() {
       return this.startloading || this.onloading
     },
-    filterList: function() {
+    filterList() {
       // 格式化滤镜数据
       const filter = this.activechunk.chunk.filter
       const data = {}
@@ -909,31 +938,10 @@ export default {
       // this.SET_CHANGE_FILTERSHOW_KEY(key)
       return data
     },
-    propertyOfnum: function() {
+    activeGeo() {
       return this.activeProperty[this.propertyNum]
     },
-    setbili: {
-      get: function() {
-        if (this.isAsyncSetchart) {
-          this.billVal =
-            this.wh >= 1
-              ? this.activeProperty[this.propertyNum].w
-              : this.activeProperty[this.propertyNum].h
-          return this.billVal
-        }
-        return this.billVal
-      },
-      set: function(newValue) {
-        if (this.wh >= 1) {
-          this.activeProperty[this.propertyNum].w = parseInt(newValue)
-          this.activeProperty[this.propertyNum].h = parseInt(newValue / this.wh)
-        } else {
-          this.activeProperty[this.propertyNum].h = parseInt(newValue)
-          this.activeProperty[this.propertyNum].w = parseInt(newValue * this.wh)
-        }
-      }
-    },
-    isNormal: function() {
+    isNormal() {
       if (
         this.filterList.grayscale.parameter.disable == 1 &&
         this.filterList.exposure.parameter.disable == 1 &&
@@ -944,21 +952,21 @@ export default {
         return ''
       }
     },
-    isPuguang: function() {
+    isPuguang() {
       if (this.filterList.exposure.parameter.disable == 0) {
         return 'activ'
       } else {
         return ''
       }
     },
-    isMohu: function() {
+    isMohu() {
       if (this.filterList.boxblur.parameter.disable == 0) {
         return 'activ'
       } else {
         return ''
       }
     },
-    isBlackwhite: function() {
+    isBlackwhite() {
       if (this.filterList.grayscale.parameter.disable == 0) {
         return 'activ'
       } else {
@@ -966,20 +974,20 @@ export default {
       }
     },
     blurV: {
-      get: function() {
+      get() {
         if (this.mosaicKey) {
           return this.filterList.mosaic[this.mosaicKey].parameter.v
         }
         return 40
       },
-      set: function(newValue) {
+      set(newValue) {
         if (this.mosaicKey) {
           this.activechunk.chunk.filter[this.mosaicKey].parameter.v = newValue
         }
       }
     },
     fade_in: {
-      get: function() {
+      get() {
         return parseFloat(
           (
             this.filterList.volume.parameter.fade_in /
@@ -987,14 +995,15 @@ export default {
           ).toFixed(1)
         )
       },
-      set: function(newValue) {
+      set(newValue) {
         this.filterList.volume.parameter.fade_in = parseInt(
-          newValue * this.systemmessage.player.fps
+          newValue * this.systemmessage.player.fps,
+          10
         )
       }
     },
     fade_out: {
-      get: function() {
+      get() {
         return parseFloat(
           (
             this.filterList.volume.parameter.fade_out /
@@ -1002,28 +1011,29 @@ export default {
           ).toFixed(1)
         )
       },
-      set: function(newValue) {
+      set(newValue) {
         this.filterList.volume.parameter.fade_out = parseInt(
-          newValue * this.systemmessage.player.fps
+          newValue * this.systemmessage.player.fps,
+          10
         )
       }
     }
   },
   watch: {},
   methods: {
-    ...mapActions(['Post']),
+    ...mapActions(['Post', 'geoPost']),
     ...mapMutations([
       'UPDATE_ACTIVEFILTER',
       'CHANGE_FILTERSHOW',
       'SET_CHANGE_FILTERSHOW_KEY',
       'ACTIVE_CHUNK',
-      'SET_NEWCHART_BILI',
       'CHANGE_ACTIVEPROPERTY',
-      'CHANGE_PROPERTYNUM'
+      'CHANGE_PROPERTYNUM',
+      'CHANGE_POSITION'
     ]),
-    tabChange: function(name) {
+    tabChange(name) {
       // 导航切换
-      if (name != 'content-sel_O1') {
+      if (name !== 'content-sel_O1') {
         this.CHANGE_FILTERSHOW('normal')
       }
       this.classname = name
@@ -1033,35 +1043,38 @@ export default {
         case 'brightness': {
           this.filterList.bcs.parameter.disable = 0
           this.filterList.bcs.parameter.brightness =
-            parseInt(target.value) / 100
+            parseInt(target.value, 10) / 100
           break
         }
         case 'contrast': {
           this.filterList.bcs.parameter.disable = 0
-          this.filterList.bcs.parameter.contrast = parseInt(target.value) / 100
+          this.filterList.bcs.parameter.contrast =
+            parseInt(target.value, 10) / 100
           break
         }
         case 'saturation': {
           this.filterList.bcs.parameter.disable = 0
           this.filterList.bcs.parameter.saturation =
-            parseInt(target.value) / 100
+            parseInt(target.value, 10) / 100
           break
         }
         case 'coloring': {
           this.filterList.bcs.parameter.disable = 0
-          this.filterList.bcs.parameter.brightness = parseInt(target.value)
+          this.filterList.bcs.parameter.brightness = parseInt(target.value, 10)
           break
         }
         case 'volume': {
           this.filterList.volume.parameter.disable = 0
-          this.filterList.volume.parameter.value = parseInt(target.value) / 100
+          this.filterList.volume.parameter.value =
+            parseInt(target.value, 10) / 100
           break
         }
         case 'volume_fade_in':
           this.filterList.volume.parameter.disable = 0
           // this.fade_in = target.value
           this.filterList.volume.parameter.fade_in = parseInt(
-            target.value * this.systemmessage.player.fps
+            target.value * this.systemmessage.player.fps,
+            10
           )
           // this.filterList.volume.parameter.fade_in = parseInt(target.value) / 100
           break
@@ -1070,9 +1083,13 @@ export default {
           this.filterList.volume.parameter.disable = 0
           // this.fade_out = target.value
           this.filterList.volume.parameter.fade_out = parseInt(
-            target.value * this.systemmessage.player.fps
+            target.value * this.systemmessage.player.fps,
+            10
           )
           // this.filterList.volume.parameter.fade_out = parseInt(target.value) / 100
+          break
+
+        default:
           break
       }
       this.sendmessage()
@@ -1090,8 +1107,8 @@ export default {
       this.ACTIVE_CHUNK({ speed: value })
       // this.activechunk.chunk.speed = value
       const that = this
-      const data = {};
-(data.type = 'chunk'),
+      const data = {}
+      ;(data.type = 'chunk'),
         (data.data = {
           cmd: 'update_speed',
           chunk_id: this.activechunk.chunk.chunk_id,
@@ -1110,76 +1127,21 @@ export default {
       this.Post(data)
       // this.sendmessage()
     },
-    tmdChange(value) {
-      const geo_arr = this.activeProperty
-      this.CHANGE_ACTIVEPROPERTY(geo_arr)
-      let geo = ''
-      for (let i = 0; i < geo_arr.length; i++) {
-        const f = geo_arr[i]
-        if (f.top < 0) {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        } else {
-          geo =
-            geo +
-            f.f +
-            '=' +
-            f.left +
-            '%/' +
-            f.top +
-            '%:' +
-            f.w +
-            '%x' +
-            f.h +
-            '%:' +
-            f.transparency +
-            ';'
-        }
-      }
-      const data = {}
-      data.type = 'chunk'
-      data.data = {
-        cmd: 'update_property',
-        chunk_id: this.activechunk.chunk.chunk_id,
-        geometry: geo.substr(0, geo.length - 1)
-      };
-(data.success = function() {}), (data.error = function() {})
-      this.Post(data)
-    },
     wChange(value) {
-      this.tmdChange()
+      if (this.activeGeo.w <= 1) {
+        this.activeGeo.w = 1
+      }
+      this.geoPost()
     },
     hChange(value) {
-      this.tmdChange()
+      if (this.activeGeo.h <= 1) {
+        this.activeGeo.h = 1
+      }
+      this.geoPost()
     },
     changePosition(way, target) {
-      if (target.value == '') {
-        target.value = 0
-      } else {
-        target.value = parseInt(target.value)
-      }
-
-      if (way == 'x') {
-        var num = (parseInt(target.value) * 100) / this.systemmessage.player.w
-        this.activeProperty[this.propertyNum].left = num
-      }
-      if (way == 'y') {
-        num = (parseInt(target.value) * 100) / this.systemmessage.player.h
-        this.activeProperty[this.propertyNum].top = num
-      }
-      this.tmdChange()
+      this.CHANGE_POSITION({ way, target })
+      this.geoPost()
     },
     closeVol() {
       // 一键静音
@@ -1251,7 +1213,7 @@ export default {
       this.filterList.cutting.parameter.softness = value
       this.sendmessage()
     },
-    xzFilter: function() {
+    xzFilter() {
       let value = parseInt(this.filterList.rotate.parameter.value)
       value = (value + 45) % 360
       this.filterList.rotate.parameter.value = value
@@ -1259,7 +1221,7 @@ export default {
       this.UPDATE_ACTIVEFILTER(this.activechunk.chunk.filter)
       this.sendmessage()
     },
-    getfilter: function(service) {
+    getfilter(service) {
       // 获取指定滤镜的数据
       const filterArr = this.activechunk.chunk.filter
       for (let i = 0; i < filterArr.length; i++) {
@@ -1372,7 +1334,7 @@ export default {
         this.CHANGE_FILTERSHOW('normal')
       }
     },
-    changeFilter: function(type) {
+    changeFilter(type) {
       // 改变颜色滤镜的种类
       switch (type) {
         case 'normal': {
@@ -1488,13 +1450,11 @@ export default {
         chunk_id: this.activechunk.chunk.chunk_id,
         property: this.activechunk.chunk.filter
       })
-      if (res.code === 0) {
-      }
       if (res.code !== 0) {
         this.$notify({
           title: '提示',
           type: 'error',
-          message: '操作失败！',
+          message: '滤镜更新失败！',
           position: 'bottom-right',
           duration: this.notify.time
         })
@@ -1505,18 +1465,12 @@ export default {
         chunk_id: this.activechunk.chunk.chunk_id,
         filter: obj
       })
-      if (res.code === 0) {
-      }
       if (res.code !== 0) {
         console.warn(res.msg)
       }
     }
   },
-  mounted: function() {
-    this.wh =
-      this.activeProperty[this.propertyNum].w /
-      this.activeProperty[this.propertyNum].h
-    this.SET_NEWCHART_BILI(this.wh)
+  mounted() {
     this.speed = Math.abs(this.activechunk.chunk.speed)
     this.setproperty = this.activeProperty.length > 1
   },

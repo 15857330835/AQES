@@ -4,12 +4,16 @@
       <div class="bscroll-container">
         <!-- <transition-group name="source-list" appear> -->
         <caption-source
+          :source="item"
           v-for="(item, index) in sources"
           :key="item.style + index"
-          :source="item"
         ></caption-source>
+        <div
+          class="video_option_content caption-fake-placeholder"
+          v-for="(item, index) in fakeData"
+          :key="'fake' + index"
+        ></div>
         <!-- </transition-group> -->
-        <div style="clear: both"></div>
       </div>
     </div>
   </span>
@@ -19,29 +23,43 @@
 import captionSource from '@/components/captionSource'
 import BScroll from 'better-scroll'
 // import _ from 'lodash'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   components: {
     captionSource
   },
-  props: ['getData'],
+  props: ['getData', 'transPaneData'],
   data() {
     return {
       sources: [],
       page: 1,
       num: 20,
       aBScroll: null,
-      title: ''
+      title: '',
+      fakeData: [...new Array(9).keys()]
     }
   },
   watch: {
     getData() {
       // 左侧被点击后pane数据重新刷新
       this.reset()
+    },
+    transPaneData(newVal) {
+      if (newVal) {
+        // console.log(newVal, 'caption')
+        this.$nextTick(() => {
+          this.aBScroll.refresh()
+          // this.CHANGE_IS_REFRESH_PANES_BS(false)
+        })
+      }
     }
   },
-  computed: {},
+  computed: {
+    ...mapState(['isRefreshPanesBS'])
+  },
   methods: {
+    ...mapMutations(['CHANGE_IS_REFRESH_PANES_BS']),
     async reset() {
       this.page = 1
       const res = await this.getData.list()
@@ -68,24 +86,14 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .caption-pane {
+  font-size: 12px;
   .main {
-    position: relative;
-    height: calc(100% - 10px);
-    overflow-y: hidden;
-    outline: none;
+    height: calc(100% - 0.12rem);
   }
-}
-.source-list-enter-active,
-.source-list-leave-active {
-  transition: all 0.5s;
-}
-.source-list-enter,
-.source-list-leave-to {
-  opacity: 0;
-}
-.source-list-move {
-  transition: transform 0.5s;
+  .fake-container {
+    min-width: 202px;
+  }
 }
 </style>

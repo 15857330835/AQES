@@ -3,7 +3,10 @@
     <div class="ai-view-mask" v-if="aiViewMaskIsShow"></div>
     <mzAside :list="list" @selectLi="handleSelectLi"></mzAside>
     <div :class="{ videolist_right: true, 'ai-view-show': aiViewMaskIsShow }">
-      <pane :getData="currentNav.interface"></pane>
+      <pane
+        :getData="currentNav.interface"
+        :transPaneData="transPaneData"
+      ></pane>
     </div>
   </div>
 </template>
@@ -20,7 +23,7 @@ export default {
     mzAside,
     pane
   },
-  props: [],
+  props: ['transPaneData'],
   data() {
     return {
       list: [
@@ -53,7 +56,6 @@ export default {
 <style lang="scss" scoped>
 .ai-view-mask {
   position: fixed;
-  margin: 0 18px;
   top: 0;
   left: 0;
   right: 0;

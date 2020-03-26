@@ -6,11 +6,10 @@
   >
     <drawruler></drawruler>
     <videotip></videotip>
-    <div v-show="trackBoxShow">
-      <trackbox></trackbox>
+    <div v-show="trackBoxShow" class="tracks-container">
+      <trackbox :editHeight="editHeight"></trackbox>
       <trackcaption></trackcaption>
     </div>
-    <tracktimer></tracktimer>
   </div>
 </template>
 <script>
@@ -18,12 +17,12 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import drawruler from './drawRuler'
 import trackbox from './trackBox'
 import trackcaption from './trackCaption'
-import tracktimer from './trackTimer'
 import videotip from './videoTip'
 import _ from 'lodash'
+import { TRACK_MAXHEIGHT_NUMBER } from '@/config'
 
 export default {
-  data: function() {
+  data() {
     return {
       trackWidth: 0
     }
@@ -33,7 +32,8 @@ export default {
       'chunksetshow',
       'trackBoxShow',
       'slidernum',
-      'trackAbleWidth'
+      'trackAbleWidth',
+      'clientwidth'
     ]),
     pointer() {
       return this.$store.state.all.pointer
@@ -49,13 +49,22 @@ export default {
     },
     outleft() {
       return this.$store.state.all.track_property.outLeft
+    },
+    widthScale() {
+      if (this.clientwidth >= 1440) {
+        return this.track_property.fanwei['1920'].now * 100
+      } else {
+        return this.track_property.fanwei['1440'].now * 100
+      }
+    },
+    editHeight() {
+      return `calc(100vh - ${this.widthScale}vw / 16 * 9 - 2.56rem - ${TRACK_MAXHEIGHT_NUMBER}px)`
     }
   },
   components: {
     drawruler,
     trackbox,
     trackcaption,
-    tracktimer,
     videotip
   },
   methods: {
@@ -78,7 +87,7 @@ export default {
   watch: {
     position: {
       deep: true,
-      handler: function() {
+      handler() {
         const a = this.position
         const that = this
         if (
@@ -120,7 +129,7 @@ export default {
     },
     length: {
       immediate: true,
-      handler: function() {
+      handler() {
         const a = this.length
         const that = this
         if (
@@ -171,7 +180,7 @@ export default {
 
 <style lang="scss" scoped>
 .nces_edit {
-  margin: 2px;
+  margin: 2px 2px 0;
   background-color: #1c232a;
 }
 </style>
