@@ -148,6 +148,7 @@ export default {
           }
         })
       } else {
+        //.......
         // const del_chunks_id = []
         // if (this.activechunk.chunk.chunk_id) {
         //   del_chunks_id.push(this.activechunk.chunk.chunk_id)
