@@ -3,15 +3,9 @@
     <div class="oper_sel">
       <span title="撤回" @click="lastTemp(2)"></span>
       <span title="取消撤回" @click="nextTemp(2)"></span>
-      <span title="剪辑" @click="cutchunk"></span>
       <span title="删除" @click="delchunk"></span>
-      <span title="音视频分离" @click="avleavechunk"></span>
-      <span title="设置" @click="setchunk"></span>
-      <span title="录音" @click="record"></span>
-      <span title="复制" @click="zhantiechunk"></span>
-      <span title="保存工程" @click="click('saveproject')"></span>
-      <span title="当前工程另存为" @click="click('saveas')"></span>
-      <span title="生成视频" @click="handleExportVideoClick"></span>
+      <span title="清空" @click="emptychunk"></span>
+      <span title="生成视频" @click="click('saveas')"></span>
     </div>
   </div>
 </template>
@@ -54,7 +48,8 @@ export default {
       'videooperShow',
       'exportVideoSetShow',
       'trackBoxShow',
-      'gethistoryindex'
+      'gethistoryindex',
+      'empty'
     ]),
     ...mapMutations([
       'CHANGE_BOXSET',
@@ -153,15 +148,18 @@ export default {
           }
         })
       } else {
-        const del_chunks_id = []
-        if (this.activechunk.chunk.chunk_id) {
-          del_chunks_id.push(this.activechunk.chunk.chunk_id)
-        }
-        this.restActiveChunks.forEach(restItem => {
-          del_chunks_id.push(restItem.chunk.chunk_id)
-        })
-        this.del(del_chunks_id)
+        // const del_chunks_id = []
+        // if (this.activechunk.chunk.chunk_id) {
+        //   del_chunks_id.push(this.activechunk.chunk.chunk_id)
+        // }
+        // this.restActiveChunks.forEach(restItem => {
+        //   del_chunks_id.push(restItem.chunk.chunk_id)
+        // })
+        this.del([this.activechunk.index])
       }
+    },
+    emptychunk() {
+      this.empty()
     },
     cutchunk() {
       const linePos = this.pointer.position
@@ -311,7 +309,7 @@ export default {
       }
       for (let i = 0; i < serviceList.length; i++) {
         $.post(
-          window.NCES.DOMAIN + '/api/chunk',
+          window.AQES.DOMAIN + '/api/chunk',
           JSON.stringify({
             cmd: 'add_filter',
             chunk_id: this.activechunk.chunk.chunk_id,
@@ -326,7 +324,7 @@ export default {
         )
       }
       $.post(
-        window.NCES.DOMAIN + '/api/pointer',
+        window.AQES.DOMAIN + '/api/pointer',
         JSON.stringify({
           cmd: 'set',
           position: this.activechunk.chunk.track_start
@@ -518,30 +516,12 @@ export default {
         background-image: url(../img/trackreset.png);
       }
       &:nth-child(3) {
-        background-image: url(../img/edit.png);
-      }
-      &:nth-child(4) {
         background-image: url(../img/delete.png);
       }
+      &:nth-child(4) {
+        background-image: url(../img/empty.png);
+      }
       &:nth-child(5) {
-        background-image: url(../img/avleave.png);
-      }
-      &:nth-child(6) {
-        background-image: url(../img/chunkset.png);
-      }
-      &:nth-child(7) {
-        background-image: url(../img/record.png);
-      }
-      &:nth-child(8) {
-        background-image: url(../img/zhantie.png);
-      }
-      &:nth-child(9) {
-        background-image: url(../img/save.png);
-      }
-      &:nth-child(10) {
-        background-image: url(../img/newsave.png);
-      }
-      &:nth-child(11) {
         background-image: url(../img/export.png);
       }
     }

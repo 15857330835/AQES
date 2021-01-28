@@ -1,6 +1,6 @@
 <template>
   <div class="clearfix caption-box" id="captionbox">
-    <div class="edit_track_title">
+    <!-- <div class="edit_track_title">
       <div class="track-icon-content">
         <span class="cicon"></span>
         <span class="ctitle">字幕轨道</span>
@@ -35,7 +35,7 @@
           ></chunkcaption>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -80,7 +80,7 @@ export default {
       }
       const that = this
       $.post(
-        window.NCES.DOMAIN + '/api/caption',
+        window.AQES.DOMAIN + '/api/caption',
         JSON.stringify({ cmd: 'clear' }),
         function(res) {
           if (res.code !== 0) {
@@ -102,7 +102,7 @@ export default {
 <style lang="scss" scoped>
 .caption-box {
   width: 100vw;
-  height: 30px;
+  height: 0px; //30
   display: flex;
   font-size: 12px;
   border-bottom: 1px solid #151a20;

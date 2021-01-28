@@ -113,13 +113,13 @@ export default {
   },
   async mounted() {
     if (
-      window.NCES.diff_server &&
-      window.NCES.diff_server === 'GuangdianCloud'
+      window.AQES.diff_server &&
+      window.AQES.diff_server === 'GuangdianCloud'
     ) {
       this.showCostMoney = false
       this.boxWidth = 420
     }
-    if (window.NCES.captext) {
+    if (window.AQES.captext) {
       this.showCostMoney = false
       this.boxWidth = 420
     }

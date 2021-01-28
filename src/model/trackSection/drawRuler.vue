@@ -4,13 +4,6 @@
     :class="{ 'extend-height': exportVideoSetShow }"
   >
     <div class="edit_ruler_title" v-if="!exportVideoSetShow">
-      <span class="icon addT" @click="addtrack" title="添加轨道"></span>
-      <span
-        class="icon xifu"
-        :class="this.track_property.xifuFlag ? 'active' : ''"
-        @click="xifuflagChange"
-        :title="this.track_property.xifuFlag ? '关闭吸附' : '开启吸附'"
-      ></span>
     </div>
     <div class="edit_ruler_title" v-else>
       <span :title="moved ? '输出时长' : ''">{{
@@ -246,10 +239,10 @@ export default {
       const that = this
       const data = {}
       const flag = !that.track_property.xifuFlag
-      data.type = 'track'
+      data.type = 'property'
       data.data = {
-        cmd: 'property_append',
-        track_property: { xifuFlag: flag }
+        cmd: 'append',
+        property: { xifuFlag: flag }
       }
       data.success = function(res) {
         that.PROPERTY_XIFU(flag)
@@ -282,7 +275,7 @@ export default {
         $('#edit_tip_line').show()
         const data = { cmd: 'set', position: position }
         $.post(
-          window.NCES.DOMAIN + '/api/pointer',
+          window.AQES.DOMAIN + '/api/pointer',
           JSON.stringify(data),
           function(res) {
             if (res.code !== 0) {
@@ -333,7 +326,8 @@ export default {
           (this.track_property.outLeft + $('.edit_track_contents').width()) *
             (this.slidernum.max - this.track_property.ratio),
           10
-        ) > this.length - 1
+        ) >
+        this.length - 1
           ? this.length - 1
           : parseInt(
               (this.track_property.outLeft +
@@ -342,10 +336,10 @@ export default {
               10
             )
       $.post(
-        window.NCES.DOMAIN + '/api/track',
+        window.AQES.DOMAIN + '/api/property',
         JSON.stringify({
-          cmd: 'property_append',
-          track_property: { outLeft: this.track_property.outLeft }
+          cmd: 'append',
+          property: { outLeft: this.track_property.outLeft }
         }),
         function(res) {
           if (res.code === 0) {

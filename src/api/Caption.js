@@ -1,6 +1,6 @@
 import axios from '../http'
 
-const url = window.NCES.DOMAIN + '/api/caption'
+const url = window.AQES.DOMAIN + '/api/caption'
 
 // ALL
 export const captionAllApi = (payload = {}) => {

@@ -54,7 +54,7 @@ export default {
       if (this.chunksetshow) {
         const that = this
         $.post(
-          window.NCES.DOMAIN + '/api/history',
+          window.AQES.DOMAIN + '/api/history',
           JSON.stringify({ cmd: 'list' }),
           function(res) {
             if (res.code === 0) {
@@ -155,12 +155,12 @@ export default {
       const that = this
       console.log(that.historyindex)
       $.post(
-        window.NCES.DOMAIN + '/api/history',
+        window.AQES.DOMAIN + '/api/history',
         JSON.stringify({ cmd: 'set', index: that.historyindex }),
         function(res) {
           if (res.code === 0) {
             $.post(
-              window.NCES.DOMAIN + '/api/history',
+              window.AQES.DOMAIN + '/api/history',
               JSON.stringify({ cmd: 'clear', type: 1 }),
               function(resp) {
                 if (resp.code === 0) {

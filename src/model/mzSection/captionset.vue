@@ -294,7 +294,7 @@ export default {
       }
       const fnBack2 = function(result) {
         $.post(
-          window.NCES.DOMAIN + '/api/caption',
+          window.AQES.DOMAIN + '/api/caption',
           JSON.stringify({
             cmd: 'update_style',
             style: result.id
@@ -306,7 +306,7 @@ export default {
         )
       }
       // eslint-disable-next-line
-				const selectType = new SelectBox($('#zmstyleSelect'), a, fnBack2, {
+      const selectType = new SelectBox($('#zmstyleSelect'), a, fnBack2, {
         color: '#aaa', // 输入框字体颜色
         height: 22,
         fontSize: 12,
@@ -356,7 +356,7 @@ export default {
         console.log('字幕内容修改失败:' + res.msg)
       }
       $.post(
-        window.NCES.DOMAIN + '/api/caption',
+        window.AQES.DOMAIN + '/api/caption',
         JSON.stringify({
           cmd: 'update_text',
           chunk_id: id,
@@ -373,7 +373,7 @@ export default {
       this.CHANGE_CAPTIONSETSHOW(false)
       const that = this
       if (window.type === 'caption') {
-        window.NCES.Getcaptionstyles(function(res) {
+        window.AQES.Getcaptionstyles(function(res) {
           that.INIT_CAPTIONLIST(res)
         })
       }

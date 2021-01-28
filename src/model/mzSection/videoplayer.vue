@@ -400,7 +400,7 @@ export default {
     videoRefresh() {
       // 刷新播放器
       $.post(
-        window.NCES.DOMAIN + '/api/player',
+        window.AQES.DOMAIN + '/api/player',
         JSON.stringify({ cmd: 'restart' }),
         function(res) {
           if (res.code !== 0) {
@@ -506,13 +506,13 @@ export default {
         this.track_property.fanwei['1440'].now = width / lh.width()
       }
       $('.video_option')
-        .getNiceScroll()
+        // .getNiceScroll()
         .resize()
       $('#trackbox')
-        .getNiceScroll()
+        // .getNiceScroll()
         .resize()
       $('.mydir-bottom-content')
-        .getNiceScroll()
+        // .getNiceScroll()
         .resize()
       this.resizeScreen()
     },
@@ -552,10 +552,10 @@ export default {
     mouseend(e) {
       this.videomove = false
       const data = {}
-      data.type = 'track'
+      data.type = 'property'
       data.data = {
-        cmd: 'property_append',
-        track_property: { fanwei: this.track_property.fanwei }
+        cmd: 'append',
+        property: { fanwei: this.track_property.fanwei }
       }
       this.Post(data)
       this.UPDATE_TRACKBOX()
@@ -627,7 +627,7 @@ export default {
     }
 
     const stream = 'allpreview'
-    const domain = window.NCES.D // "xx.uid.lcps.aodianyun.com";
+    const domain = window.AQES.D // "xx.uid.lcps.aodianyun.com";
     const rtcVideoID = 'webrtcVideoID'
     const flashVideoID = 'flashVideoID'
     const width = '100%'
@@ -648,12 +648,12 @@ export default {
         })
       }
     }
-    dynamicLoadJs(window.NCES.DOM + '/lcpsplayer.js', function() {
+    dynamicLoadJs(window.AQES.DOM + '/lcpsplayer.js', function() {
       // eslint-disable-next-line no-undef
       LcpsPlayerInit(domain, function() {
         // var player = new LcpsPlayer(domain, stream, "rtcVideoID", "flashVideoID", "auto");
         // eslint-disable-next-line
-					const player = new LcpsPlayer(
+        const player = new LcpsPlayer(
           domain,
           stream,
           rtcVideoID,
@@ -681,7 +681,7 @@ export default {
     })
   },
   beforeDestroy() {
-    window.EventListener('resize', this.throttleResizeScreen)
+    // window.EventListener('resize', this.throttleResizeScreen)
   }
 }
 </script>

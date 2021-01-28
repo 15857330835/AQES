@@ -156,8 +156,8 @@ export default {
     }
   },
   async mounted() {
-    /* if (NCES.captext) {
-        this.outsideHtml = NCES.captext({
+    /* if (AQES.captext) {
+        this.outsideHtml = AQES.captext({
           data: this.info.data,
           trantime: this.info.time
         });

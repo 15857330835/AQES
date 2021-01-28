@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.NCES.DOMAIN + '/api/output'
+const url = window.AQES.DOMAIN + '/api/output'
 
 // All
 export const outputAllApi = (payload = {}) => {
@@ -21,7 +21,7 @@ export const outputDelApi = (payload = {}) => {
 
 // 添加
 export const outputAddApi = (payload = {}) => {
-  payload.cmd = 'add'
+  payload.cmd = 'run'
   return axios.post(url, JSON.stringify(payload))
 }
 

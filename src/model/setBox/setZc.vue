@@ -128,7 +128,7 @@ export default {
     gettxlist() {
       const that = this
       $.post(
-        window.NCES.DOMAIN + '/api/transition',
+        window.AQES.DOMAIN + '/api/transition',
         JSON.stringify({ cmd: 'all' }),
         function(res) {
           if (res.code !== 0) {
@@ -172,7 +172,7 @@ export default {
         }
       }
       $.post(
-        window.NCES.DOMAIN + '/api/transition',
+        window.AQES.DOMAIN + '/api/transition',
         JSON.stringify(data),
         function(res) {
           if (res.code === 0) {

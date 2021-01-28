@@ -13,6 +13,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 import MainBox from '@/model/MainBox.vue'
+import { outputAllApi } from '@/api/Output'
 
 export default {
   components: {
@@ -21,7 +22,7 @@ export default {
   data() {
     return {
       loadingObj: {},
-      id: window.NCES.id
+      id: window.AQES.id
     }
   },
   computed: {
@@ -59,17 +60,17 @@ export default {
         $(document).click(function(e) {
           $('.keypress_set input').prop('checked', false)
         })
-        window.NCES.Getopenapi(
-          'FontCategory',
-          { uin: window.NCES.uin },
-          function(res) {
-            for (const i in res) {
-              if (res.hasOwnProperty(i)) {
-                that.getfont(i)
-              }
-            }
-          }
-        )
+        // window.AQES.Getopenapi(
+        //   'FontCategory',
+        //   { uin: window.AQES.uin },
+        //   function(res) {
+        //     for (const i in res) {
+        //       if (res.hasOwnProperty(i)) {
+        //         that.getfont(i)
+        //       }
+        //     }
+        //   }
+        // )
         // 阻止平板端默认拖动效果
         document.addEventListener(
           'touchmove',
@@ -94,6 +95,13 @@ export default {
     }) // 判断是否已经加载完成
     this.clearHistory()
   },
+  mounted() {
+    outputAllApi().then(res => {
+      if (res.data.state == 1) {
+        this.CHANGE_BOXSET('saveprogress')
+      }
+    })
+  },
   methods: {
     ...mapActions([
       'changeLoading',
@@ -106,57 +114,58 @@ export default {
       'INIT_FONTLIST',
       'GET_OPENWAY',
       'INIT_CAPTIONLIST',
-      'INIT_FILTERLIST'
+      'INIT_FILTERLIST',
+      'CHANGE_BOXSET'
     ]),
     getFilter() {
-      const that = this
-      $.post(
-        window.NCES.DOMAIN + '/api/filter',
-        JSON.stringify({ cmd: 'all' }),
-        function(res) {
-          if (res.code !== 0) {
-            setTimeout(that.getFilter, 500)
-            return
-          }
-          const filterlist = []
-          for (let i = 0; i < res.data.length; i++) {
-            filterlist.push(res.data[i])
-            if (res.data[i].service === 'mirror') {
-              filterlist.push({
-                name: '镜像',
-                parameter: {
-                  disable: 1,
-                  value: 6
-                },
-                service: 'mirror',
-                type: 1
-              })
-            }
-          }
-          that.INIT_FILTERLIST(JSON.stringify(filterlist))
-        },
-        'json'
-      )
+      // const that = this
+      // $.post(
+      //   window.AQES.DOMAIN + '/api/filter',
+      //   JSON.stringify({ cmd: 'all' }),
+      //   function(res) {
+      //     if (res.code !== 0) {
+      //       setTimeout(that.getFilter, 500)
+      //       return
+      //     }
+      //     const filterlist = []
+      //     for (let i = 0; i < res.data.length; i++) {
+      //       filterlist.push(res.data[i])
+      //       if (res.data[i].service === 'mirror') {
+      //         filterlist.push({
+      //           name: '镜像',
+      //           parameter: {
+      //             disable: 1,
+      //             value: 6
+      //           },
+      //           service: 'mirror',
+      //           type: 1
+      //         })
+      //       }
+      //     }
+      //     that.INIT_FILTERLIST(JSON.stringify(filterlist))
+      //   },
+      //   'json'
+      // )
     },
     getcaption() {
       // 获取字幕分类的列表
-      const that = this
-      const data = {}
-      data.type = 'caption'
-      data.data = { cmd: 'style_list' }
-      data.success = function(res) {
-        that.INIT_CAPTIONLIST(res.data)
-      }
-      data.error = function(err) {
-        console.log(err)
-      }
-      this.Post(data)
+      // const that = this
+      // const data = {}
+      // data.type = 'caption'
+      // data.data = { cmd: 'style_list' }
+      // data.success = function(res) {
+      //   that.INIT_CAPTIONLIST(res.data)
+      // }
+      // data.error = function(err) {
+      //   console.log(err)
+      // }
+      // this.Post(data)
     },
     getfont(i) {
       const that = this
-      window.NCES.Getopenapi(
+      window.AQES.Getopenapi(
         'FontList',
-        { uin: window.NCES.uin, category: i },
+        { uin: window.AQES.uin, category: i },
         function(re) {
           that.fontlist[i] = re
           that.INIT_FONTLIST(that.fontlist)
@@ -164,26 +173,26 @@ export default {
       )
     },
     clearHistory() {
-      this.$axios
-        .post(
-          window.NCES.DOMAIN + '/api/history',
-          JSON.stringify({
-            cmd: 'clear',
-            type: 1
-          })
-        )
-        .then(res => {
-          if (res === 'success') {
-            console.log('successfully clear history')
-          }
-        })
+      // this.$axios
+      //   .post(
+      //     window.AQES.DOMAIN + '/api/history',
+      //     JSON.stringify({
+      //       cmd: 'clear',
+      //       type: 1
+      //     })
+      //   )
+      //   .then(res => {
+      //     if (res === 'success') {
+      //       console.log('successfully clear history')
+      //     }
+      //   })
     }
   }
 }
 </script>
 
 <style lang="scss">
-#nces {
+#aqes {
   width: 100%;
   height: 100%;
   box-sizing: border-box;

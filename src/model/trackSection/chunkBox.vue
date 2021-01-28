@@ -6,11 +6,9 @@
       active: isActive,
       warn: isWarn,
       moveing: isMove,
-      moveing1: isMoveing1
     }"
     :style="{
       backgroundRepeat: 'repeat',
-      position: this.move ? 'fixed' : 'absolute',
       zIndex: this.move ? 1010 : this.isAiSelect ? 1004 : 1002,
       backgroundColor: '#000',
       backgroundImage: this.newprevImg,
@@ -21,31 +19,24 @@
           this.chunk.src_start /
           (this.slidernum.max - this.track_property.ratio)
         ) + 'px',
-      top: (this.move ? this.y : 0) + 'px',
       width:
         (this.chunk.track_end - this.chunk.track_start) /
           (this.slidernum.max - this.track_property.ratio) +
         'px',
-      left:
-        (this.move
-          ? this.x
-          : this.chunk.track_start /
-            (this.slidernum.max - this.track_property.ratio)) + 'px'
     }"
   >
     <div
       class="av-container"
       v-if="
-        (this.chunk.chunk_type == 1 && this.chunk.preview_img == null) ||
-          this.chunk.chunk_type == 2
+        this.useimglist
       "
       style="position:absolute;height:100%;width:100%;overflow:hidden"
     >
-      <div v-if="chunk.chunk_type == 1">
+      <div>
         <transition-group name="img-list">
           <div
             v-for="(str, k) in this.useimglist"
-            :key="k"
+            :key="k + 1"
             :style="{
               backgroundColor: '#000',
               position: 'absolute',
@@ -59,21 +50,6 @@
           </div>
         </transition-group>
       </div>
-      <div v-else-if="chunk.chunk_type == 2">
-        <div
-          v-for="(str, k) in this.useimglist"
-          :key="k"
-          :style="{
-            backgroundImage: 'url(' + str + ')',
-            backgroundColor: '#000',
-            position: 'absolute',
-            width: '100%',
-            left: posit(str),
-            height: '56px',
-            textAlign: 'center'
-          }"
-        ></div>
-      </div>
     </div>
     <div
       class="chunkbox"
@@ -83,9 +59,11 @@
       @touchstart="down($event, 500)"
       @touchmove="mousemove"
       @touchend="mouseup"
-      @dblclick="dblclick"
     >
-      <div
+      <span v-if="tip" style="position:absolute;z-index:5;left:0;top:0;width:15%">
+        <el-progress :text-inside="true" :percentage='tip' :stroke-width="12"></el-progress>
+      </span>
+      <!-- <div
         @mousedown="openway == 'pc' ? toLeft($event) : temp()"
         @touchstart="toLeft($event)"
         @touchmove="toLeftmove"
@@ -96,9 +74,9 @@
         @touchstart="toRight($event)"
         @touchmove="toRightmove"
         @touchend="toRightup"
-      ></div>
+      ></div> -->
     </div>
-    <div
+    <!-- <div
       v-if="this.up && !restActiveChunks.length"
       :style="{
         position: 'absolute',
@@ -118,7 +96,7 @@
       <p class="undisabled location-cover" @mousedown="coverHandler">
         位置覆盖
       </p>
-    </div>
+    </div> -->
     <div
       v-if="isAiSelect"
       class="track-choose"
@@ -145,6 +123,8 @@ import {
 } from '@/api/Chunk'
 // import { trackType } from '@/config/type'
 import { ATTACH_NUMBER } from '@/config'
+import { sourceLoadApi, sourceGetApi, sourceClearApi } from '@/api/Source'
+import { loadingStatus } from '@/config/type'
 import _ from 'lodash'
 
 export default {
@@ -185,7 +165,11 @@ export default {
         y: 0
       },
       boxScrollTop: 0,
-      appendTop: 0
+      appendTop: 0,
+      imgs: [],
+      pg: 0,
+      timer: null,
+      idx: null
     }
   },
   props: ['chunk', 'trackid', 'tracktype', 'index', 'trackarr', 'trackMark'],
@@ -216,7 +200,12 @@ export default {
       'all'
     ]),
     filterChunksArray() {
-      return this.trackarr.chunks.filter(chunk => chunk.chunk_type !== 5)
+      return this.trackarr.filter(chunk => chunk.chunk_type !== 5)
+    },
+    tip() {
+      const progress = parseInt(this.pg, 10)
+      if (progress > 0 && progress < 100) return progress
+      return ''
     },
     isActive() {
       const chunkFlag =
@@ -397,7 +386,7 @@ export default {
           }
         } else {
           if (val.indexOf('//') === -1) {
-            this.prevImg = window.NCES.DOMAIN + val
+            this.prevImg = window.AQES.DOMAIN + val
           } else {
             this.prevImg = val
           }
@@ -511,7 +500,8 @@ export default {
           type: 'chunk',
           data: {
             cmd: 'move',
-            chunk_list: this.moveListData
+            index: this.moveListData[0].index,
+            move_index: this.moveListData[0].move_index
           },
           success: res => {
             this.CHANGE_MOVE_RESULT_FLAG(1)
@@ -562,7 +552,7 @@ export default {
     ]),
     url(url) {
       if (url.indexOf('//') === -1) {
-        return window.NCES.DOMAIN + url
+        return window.AQES.DOMAIN + url
       }
     },
     /* posit(url, sortNum) {
@@ -598,8 +588,7 @@ export default {
       }
     }, */
     posit(url) {
-      if (this.chunk.chunk_type === 1) {
-        const index = parseFloat(url.match(/[\d.]+-/g))
+      const index = parseFloat(url.match(/[\d.]+-/g))
         const positionx =
           (Math.round(
             index /
@@ -614,13 +603,29 @@ export default {
             100 +
           this.run
         return positionx + 'px'
-      } else {
-        return (
-          -this.chunk.src_start /
-            (this.slidernum.max - this.track_property.ratio) +
-          'px'
-        )
-      }
+      // if (this.chunk.chunk_type === 1) {
+      //   const index = parseFloat(url.match(/[\d.]+-/g))
+      //   const positionx =
+      //     (Math.round(
+      //       index /
+      //         ((100 * (this.slidernum.max - this.track_property.ratio)) / 25)
+      //     ) -
+      //       parseInt(
+      //         this.chunk.src_start /
+      //           (this.slidernum.max - this.track_property.ratio) /
+      //           100,
+      //         10
+      //       )) *
+      //       100 +
+      //     this.run
+      //   return positionx + 'px'
+      // } else {
+      //   return (
+      //     -this.chunk.src_start /
+      //       (this.slidernum.max - this.track_property.ratio) +
+      //     'px'
+      //   )
+      // }
     },
     // eslint-disable-next-line no-empty-function
     temp() {},
@@ -630,7 +635,7 @@ export default {
       const img = new Image()
       img.onload = function() {
         if (that.chunk.chunk_type === 2) {
-          that.prevImg = window.NCES.DOMAIN + url
+          that.prevImg = window.AQES.DOMAIN + url
         } else {
           that.useimglist.push(url)
         }
@@ -643,7 +648,7 @@ export default {
       url = url.replace(/http:/, '')
       url = url.replace(/https:/, '')
       if (url.indexOf('//') === -1) {
-        img.src = window.NCES.DOMAIN + url
+        img.src = window.AQES.DOMAIN + url
       } else {
         img.src = url
       }
@@ -848,7 +853,7 @@ export default {
     },
     indexHandlerForActive(index_para, n) {
       let index = index_para
-      if (index !== 0) {
+      if (false) {
         index = 0
         if (this.activechunk.state !== 'moveing1') {
           this.ACTIVE_CHUNK({ state: 'moveing1' })
@@ -860,35 +865,12 @@ export default {
           this.ACTIVE_CHUNK({ state: 'moveing' })
         }
       }
-      /*  19.6.3 产品突然不要这功能了,nmb
-      if (
-        this.tracktype === trackType.VIDEO &&
-        this.trackposition[n].type === trackType.AUDIO
-      ) {
-        // move the video chunk to audio track
-        if (
-          this.activechunk.state !== "videoToAudio" &&
-          this.activechunk.chunk.battach_audio === true
-        ) {
-          this.ACTIVE_CHUNK({ state: "videoToAudio" });
-        } else {
-          this.ACTIVE_CHUNK({state: 'warn'})
-        }
-      } else if (
-        this.tracktype === trackType.AUDIO &&
-        this.trackposition[n].type === trackType.VIDEO
-      ) {
-        // move the audio track to video chunk
-        if (this.activechunk.state != "warn") {
-          this.ACTIVE_CHUNK({ state: "warn" });
-        }
-      } */
 
       if (
         this.trackposition[n].type !== this.tracktype &&
         this.activechunk.state !== 'warn'
       ) {
-        this.ACTIVE_CHUNK({ state: 'warn' })
+        // this.ACTIVE_CHUNK({ state: 'warn' })
       }
       if (
         this.trackposition[n].able === 'true' &&
@@ -941,7 +923,7 @@ export default {
       ) {
         for (const restItem of this.restActiveChunks) {
           if (restItem.chunk.chunk_id === this.chunk.chunk_id) {
-            restItem.state = 'warn'
+            // restItem.state = 'warn'
             break
           }
         }
@@ -972,7 +954,8 @@ export default {
         )
         return {
           x: box.left + scrollLeft,
-          y: box.top + scrollTop
+          y: box.top + scrollTop,
+          xx: box.right + scrollLeft
         }
       } else if (document.getBoxObjectFor) {
         // gecko
@@ -1043,12 +1026,12 @@ export default {
         if (this.isMultiSelect && !modalReject) {
           if (this.activechunk.chunk) {
             const activeClone = _.cloneDeep(this.activechunk)
-            this.CHANGE_REST_ACTIVE_CHUNKS(activeClone)
+            // this.CHANGE_REST_ACTIVE_CHUNKS(activeClone)
           }
         } else {
           this.CLEAR_REST_ACTIVE_CHUNKS()
         }
-        this.ACTIVE_CHUNK({ chunk: this.chunk, state: 'active' })
+        this.ACTIVE_CHUNK({ chunk: this.chunk, state: 'active', index: this.index })
       } else {
         // *** 点击的是选中块的情况
         if (
@@ -1116,8 +1099,8 @@ export default {
       this.t = Date.now()
       this.chunkmove = 'all'
       const that = this
-      this.x = this.getElementPos(this.chunk.chunk_id).x
-      this.y = this.getElementPos(this.chunk.chunk_id).y - 1
+      // this.x = this.getElementPos(this.chunk.chunk_id).x
+      // this.y = this.getElementPos(this.chunk.chunk_id).y - 1
       // *** 保存拖动时激活块坐标
       this.CHANGE_ACTIVE_CHUNK_POS({
         x: this.x,
@@ -1224,8 +1207,9 @@ export default {
         if (this.activechunk.state === '') {
           return
         }
-        this.ACTIVE_CHUNK({ state: '' })
+        this.ACTIVE_CHUNK({ state: 'moveing' })
       }
+      this.idx = $('.moveing').index('.collection>div')
     },
     async mouseup(e_para) {
       e_para.stopPropagation()
@@ -1268,10 +1252,10 @@ export default {
       this.timerRight = null
       if (this.activechunk.state !== 'active') {
         $.post(
-          window.NCES.DOMAIN + '/api/track',
+          window.AQES.DOMAIN + '/api/property',
           JSON.stringify({
-            cmd: 'property_append',
-            track_property: { outLeft: this.track_property.outLeft }
+            cmd: 'append',
+            property: { outLeft: this.track_property.outLeft }
           }),
           function(res) {
             if (res.code !== 0) {
@@ -1281,23 +1265,10 @@ export default {
           'json'
         )
       }
-      this.start =
-        e.pageX -
-          this.trackposition[0].minX -
-          this.offsetx +
-          this.track_property.outLeft >
-        0
-          ? e.pageX -
-            this.trackposition[0].minX -
-            this.offsetx +
-            this.track_property.outLeft
-          : 0
 
       if (this.move) {
         if (
-          this.activechunk.state === 'moveing' ||
-          (this.activechunk.state === 'moveing1' &&
-            this.restActiveChunks.length)
+          this.activechunk.state === 'moveing'
         ) {
           // let check_res = this.check_chunk({track_start:this.xifuindex ||
           //         parseInt(
@@ -1306,31 +1277,36 @@ export default {
           // if(check_res){
           //          return
           //     }
-          this.CHANGE_MOVE_LIST_DATA({
-            chunk_id: this.chunk.chunk_id,
-            move_track_id: this.movetrackid,
-            move_track_start:
-              this.xifuindex ||
-              parseInt(
-                this.start * (this.slidernum.max - this.track_property.ratio),
-                10
-              ),
-            mode: 2
+          this.Post({
+            type: 'chunk',
+            data: {
+              cmd: 'move',
+              index: this.index,
+              move_index: this.idx
+            },
+            success: res => {
+              this.ACTIVE_CHUNK({ chunk: res.data, state: 'active', index: this.idx })
+              this.CHANGE_MOVE_RESULT_FLAG(1)
+              this.changeLoading(() => {
+                this.move = false
+              })
+            },
+            error: res => {
+              this.CHANGE_MOVE_RESULT_FLAG(2)
+              this.move = false
+              if (res.code === -1 && res.msg === 'mix video too much') {
+                this.mix_error({ src_id: this.chunk.src_id })
+              }
+              // return;
+            }
           })
-          this.ACTIVE_CHUNK({ state: 'active' })
+          // this.CHANGE_MOVE_LIST_DATA({
+          //   index: this.index,
+          //   move_index:1
+          // })
         } else if (this.activechunk.state === 'moveing1') {
           this.up = true
         }
-        // else if (this.activechunk.state === "videoToAudio") {
-        //   let res;
-        //   res = await chunkSeparateAudioApi({
-        //     chunk_id: this.activechunk.chunk.chunk_id
-        //   })
-        //   if(res==='success') {
-        //     res = await chunkDelApi({chunk_id: this.activechunk.chunk.chunk_id})
-        //     this.changeLoading()
-        //   }
-        // }
         else if (
           this.activechunk.state === 'warn' ||
           this.activechunk.state === ''
@@ -1370,7 +1346,6 @@ export default {
             if (restItem.state === 'moveing' || restItem.state === 'moveing1') {
               this.CHANGE_MOVE_LIST_DATA({
                 chunk_id: restItem.chunk.chunk_id,
-                move_track_id: this.movetrackid,
                 move_track_start:
                   this.xifuindex ||
                   parseInt(
@@ -1402,7 +1377,7 @@ export default {
         mode = 3
       }
       const that = this
-      if (this.index1 !== this.index2) {
+      if (1) {
         this.Post({
           type: 'chunk',
           data: {
@@ -1410,9 +1385,7 @@ export default {
             chunk_list: [
               {
                 chunk_id: this.chunk.chunk_id,
-                move_track_id: this.movetrackid,
                 move_track_start:
-                  this.xifuindex ||
                   parseInt(
                     this.start *
                       (this.slidernum.max - this.track_property.ratio),
@@ -1548,7 +1521,7 @@ export default {
       }
       for (let i = 0; i < serviceList.length; i++) {
         $.post(
-          window.NCES.DOMAIN + '/api/chunk',
+          window.AQES.DOMAIN + '/api/chunk',
           JSON.stringify({
             cmd: 'add_filter',
             chunk_id: this.activechunk.chunk.chunk_id,
@@ -1567,7 +1540,7 @@ export default {
         this.pointer.position - this.activechunk.chunk.track_end > 0
       ) {
         $.post(
-          window.NCES.DOMAIN + '/api/pointer',
+          window.AQES.DOMAIN + '/api/pointer',
           JSON.stringify({
             cmd: 'set',
             position: this.activechunk.chunk.track_start
@@ -1599,6 +1572,7 @@ export default {
       this.oldpage = e.pageX
       this.oldlefttrack = this.chunk.track_start
       this.oldleftsrc = this.chunk.src_start
+      this.chunk.chunk_type = 1
       if (this.openway === 'pc') {
         $(document).on('mousemove', this.toLeftmove)
         $(document).one('mouseup', this.toLeftup)
@@ -1765,6 +1739,7 @@ export default {
       this.oldpage = e.pageX
       this.oldlefttrack = this.chunk.track_end
       this.oldleftsrc = this.chunk.src_end
+      this.chunk.chunk_type = 1
       if (this.openway === 'pc') {
         $(document).on('mousemove', this.toRightmove)
         $(document).one('mouseup', this.toRightup)
@@ -1795,8 +1770,8 @@ export default {
         if (!that.brepeat) {
           if (src_end > this.max) {
             this.chunk.track_end =
-              this.oldlefttrack + this.max - this.oldleftsrc
-            this.chunk.src_end = this.max
+              this.oldlefttrack + this.max - this.oldleftsrc - 1
+            this.chunk.src_end = this.max -1
           } else {
             this.chunk.track_end = this.oldlefttrack + src_end - this.oldleftsrc
             this.chunk.src_end = src_end
@@ -1946,61 +1921,58 @@ export default {
     trackCancel(e) {
       e.stopPropagation()
       this.CHANGE_IS_TRACK_SELECT(false)
+    },
+    async getSource() {
+      const that = this
+      const res = await sourceGetApi({ src_id: this.chunk.src_id })
+      if (res.code === 0) {
+        this.pg = res.data.progress
+        if (res.data.status === loadingStatus.FAILED) {
+          return
+        }
+        if (this.pg < 100) {
+          this.timer = setTimeout(that.getSource, 1000)
+        }
+      }
+    },
+    async getPrevImg() {
+      const that = this
+      const res = await sourceGetApi({ src_id: this.chunk.src_id })
+      if (res.code === 0) {
+        that.prevImg = window.AQES.DOMAIN + res.data.preview_img
+        if (res.data.preview_img == null) {
+          setTimeout(that.getPrevImg, 1000)
+        }
+      }
     }
   },
   created() {
     const that = this
-    if (this.chunk.preview_img != null) {
-      if (this.chunk.preview_img.indexOf('nces') !== -1) {
-        if (this.chunk.preview_img.indexOf('//') === -1) {
-          this.prevImg = '//' + this.chunk.preview_img
-        } else {
-          this.prevImg = this.chunk.preview_img
+    $.post(
+      window.AQES.DOMAIN + '/api/source',
+      JSON.stringify({ cmd: 'get', src_id: that.chunk.src_id }),
+      function(res) {
+        if (res.code !== 0) {
+          console.warn(res.msg)
+          return
         }
-      } else {
-        if (this.chunk.preview_img.indexOf('//') === -1) {
-          this.prevImg = window.NCES.DOMAIN + this.chunk.preview_img
-        } else {
-          this.prevImg = this.chunk.preview_img
-        }
-      }
-    } else {
-      $.post(
-        window.NCES.DOMAIN + '/api/source',
-        JSON.stringify({ cmd: 'get', src_id: that.chunk.src_id }),
-        function(res) {
-          if (res.code !== 0) {
-            console.warn(res.msg)
+        if (res.code === 0) {
+          that.max = res.data.sum_frame
+          that.prevImg = window.AQES.DOMAIN + res.data.preview_img
+          this.pg = res.data.progress
+          if (res.data.preview_img == null) {
+            setTimeout(that.getPrevImg,1000)
+          }
+          if (res.data.status === loadingStatus.FAILED) {
             return
           }
-          if (that.chunk.chunk_type === 1 || that.chunk.chunk_type === 2) {
-            that.max = res.data.sum_frame
+          if (this.pg < 100) {
+            this.timer = setTimeout(that.getSource, 1000)
           }
-          if (that.chunk.chunk_type === 1) {
-            that.prevImg = window.NCES.DOMAIN + res.data.preview_img
-          }
-          if (that.chunk.chunk_type === 2) {
-            if (res.data.v_codec) {
-              that.prevImg = '//cdn.aodianyun.com/nces/v2/img/audioimg.png'
-            } else {
-              that.prevImg =
-                res.data.preview_img != null
-                  ? window.NCES.DOMAIN + res.data.preview_img
-                  : '//cdn.aodianyun.com/nces/v2/img/audioimg.png'
-            }
-          }
-          if (that.chunk.chunk_type === 4) {
-            that.prevImg = window.NCES.DOMAIN + res.data.preview_img
-            // var data = new Date().getTime()
-            // that.loadimgs(res.data.preview_img,function (url) {
-            //         that.img.push(url)
-            //  }
-            //  )
-          }
-        },
-        'json'
-      )
-    }
+        }
+      },
+      'json'
+    )
   },
   // mounted() {
   //   // todo 开发测试

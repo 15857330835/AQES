@@ -317,8 +317,8 @@ export default {
     },
     handleComfirmBtnClick() {
       let selfAid
-      window.NCES.backStr &&
-        window.NCES.backStr(aidData => {
+      window.AQES.backStr &&
+        window.AQES.backStr(aidData => {
           selfAid = aidData
         })
       console.log({ selfAid })
@@ -362,8 +362,8 @@ export default {
                 const strGDY = `http://${window.location.hostname}/console/Page/cloud/nces/lcps_produce`
                 let strTarget
                 if (
-                  window.NCES.diff_server &&
-                  window.NCES.diff_server === 'GuangdianCloud'
+                  window.AQES.diff_server &&
+                  window.AQES.diff_server === 'GuangdianCloud'
                 ) {
                   strTarget = strGDY
                 } else {

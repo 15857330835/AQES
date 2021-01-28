@@ -57,7 +57,7 @@
         </div>
       </div>
       <div
-        style="position:absolute;cursor:pointer;top:65px;left:0;"
+        style="position:absolute;cursor:pointer;top:65px;left:0;visibility:hidden"
         v-show="this.clonediv.class == 'moveing1' && this.clonediv.up"
       >
         <p
@@ -91,6 +91,8 @@ import audioPlayer from '@/components/audioPlayer'
 import { transitionAddApi } from '@/api/Transition'
 import { chunkAddApi, chunkReplaceApi } from '@/api/Chunk'
 import { trackPropertyAppendApi } from '@/api/Track'
+import { sourceLoadApi, sourceGetApi, sourceClearApi } from '@/api/Source'
+import { loadingStatus } from '@/config/type'
 // import { sourceDelApi } from '@/api/Source'
 import _ from 'lodash'
 import axios from '@/http'
@@ -102,13 +104,6 @@ export default {
       transPaneData: false,
       nav: [
         { title: '媒资', component: mzView, name: 'tab-media' },
-        { title: '视频', component: videoView, name: 'tab-video' },
-        { title: '图片', component: imageView, name: 'tab-image' },
-        { title: '音乐', component: musicView, name: 'tab-music' },
-        { title: '文本', component: textView, name: 'tab-text' },
-        { title: '转场', component: transitionView, name: 'tab-trans' },
-        { title: '字幕', component: captionView, name: 'tab-caption' },
-        { title: '智能', component: aiView, name: 'tab-intell' },
         { title: '我的历史', component: historyView, name: 'tab-history' }
       ],
       isSelect: '媒资',
@@ -164,7 +159,8 @@ export default {
       },
       chunkPosition: {},
       isReplaceShow: false,
-      mediaType: ''
+      mediaType: '',
+      idx: null
     }
   },
   computed: {
@@ -203,6 +199,11 @@ export default {
     },
     track_property() {
       return this.$store.state.all.track_property
+    },
+    idx1() {
+      if(this.idx == null) return 0
+      if(this.idx == -2) return this.idx + 2
+      return this.idx + 1
     }
   },
   watch: {
@@ -245,8 +246,8 @@ export default {
       // console.log(res)
       if (res.code === 0) {
         if (res.data.status <= 0) {
-          // if(NCES.tip_ele){
-          //     $(e.target).parent().find('.'+NCES.tip_ele).show()
+          // if(AQES.tip_ele){
+          //     $(e.target).parent().find('.'+AQES.tip_ele).show()
           // }
           console.log(`{res.data.status}:status no ready`)
           if (this.mediaType === 'muliti' && res.data.status === -2) {
@@ -254,6 +255,10 @@ export default {
           } else {
             this.clonedivInit()
           }
+          this.$message({
+            message: '该视频格式不支持！',
+            type: 'warning'
+          })
           return
         } else {
           if (!this.mediaType === 'text' && !res.data.a_codec) {
@@ -261,7 +266,7 @@ export default {
           }
           this.clonediv.src_id = res.data.src_id
           this.getSourcedata()
-          this.clonediv.type = res.data.src_type
+          this.clonediv.type = res.data.src_type || 1
           // console.log(this.clonediv.type, 22)
           if (this.clonediv.type === 3) {
             this.clonediv.width =
@@ -270,7 +275,7 @@ export default {
             let pre_ = ''
             const reg = /^\/media\/source/
             if (reg.test(pre_url)) {
-              pre_ = window.NCES.DOMAIN
+              pre_ = window.AQES.DOMAIN
             }
             this.clonediv.bgimg = `url(${pre_}${pre_url})`
             // console.log(this.clonediv.bgimg)
@@ -299,7 +304,7 @@ export default {
               let pre_ = ''
               const reg = /^\/media\/source/
               if (reg.test(res.data.preview_img)) {
-                pre_ = window.NCES.DOMAIN
+                pre_ = window.AQES.DOMAIN
               }
               this.clonediv.bgimg = `url(${pre_}${res.data.preview_img})`
               // console.log(this.clonediv.bgimg)
@@ -314,11 +319,16 @@ export default {
           // $('.tipProp').show()
           this.clonedivInit()
         }
+      }else {
+        this.$message({
+          message: '该视频格式不支持！',
+          type: 'warning'
+        })
       }
     },
     postData(data) {
       axios
-        .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
+        .post(window.AQES.DOMAIN + '/api/source', JSON.stringify(data))
         .then(this.multiMediaHandler)
     },
     handleNavClick(title, component) {
@@ -353,28 +363,13 @@ export default {
       this.clonediv.obj = {}
     },
     refreshChunkPosition() {
-      const v = this.all.tracks.v_track_list
-      const a = this.all.tracks.a_track_list
+      const v = this.all.track
       const chunkPosition = { a: [], v: [] }
       for (let i = 0; i < v.length; i++) {
-        chunkPosition.v[i] = []
-        for (let j = 0; j < v[i].chunks.length; j++) {
-          chunkPosition.v[i][j] = {}
-          chunkPosition.v[i][j].id = v[i].chunks[j].chunk_id
-          chunkPosition.v[i][j].min = v[i].chunks[j].track_start
-          chunkPosition.v[i][j].max = v[i].chunks[j].track_end
-          chunkPosition.v[i][j].type = v[i].chunks[j].chunk_type
-        }
-      }
-      for (let m = 0; m < a.length; m++) {
-        chunkPosition.a[m] = []
-        for (let n = 0; n < a[m].chunks.length; n++) {
-          chunkPosition.a[m][n] = {}
-          chunkPosition.a[m][n].id = a[m].chunks[n].chunk_id
-          chunkPosition.a[m][n].min = a[m].chunks[n].track_start
-          chunkPosition.a[m][n].max = a[m].chunks[n].track_end
-          chunkPosition.a[m][n].type = a[m].chunks[n].chunk_type
-        }
+        chunkPosition.v[i] = {}
+        chunkPosition.v[i].id = v[i].chunk_id
+        chunkPosition.v[i].min = v[i].track_start
+        chunkPosition.v[i].max = v[i].track_end
       }
       chunkPosition.v = chunkPosition.v.concat(chunkPosition.a)
       this.chunkPosition = chunkPosition
@@ -382,8 +377,9 @@ export default {
     endRefresh(res) {
       this.changeLoading()
       this.clonedivInit()
-      this.ACTIVE_CHUNK({ chunk: res.data, state: 'active' })
+      this.ACTIVE_CHUNK({ chunk: res.data, state: 'active', index: this.idx1 })
       this.UPDATE_CHUNK_POSITION()
+      this.idx = -1
     },
     replaceChunk(data) {
       chunkReplaceApi(data).then(res => {
@@ -396,23 +392,24 @@ export default {
     },
     // eslint-disable-next-line complexity
     createChunk(data) {
-      const filterlist = JSON.parse(this.filterlist)
+      // const filterlist = JSON.parse(this.filterlist)
       const that = this
-      if (!data.track_type) {
-        transitionAddApi(data).then(res => {
-          if (res.code !== 0) {
-            this.$alert('动效时长大于素材时长，设置失败！', '提示消息', {
-              confirmButtonText: '确定',
-              callback() {
-                window.zindex = 1
-              }
-            })
-            window.zindex = 0
-          }
-          this.changeLoading()
-          this.clonedivInit()
-        })
-      } else {
+      // if (!data.track_type) {
+      //   transitionAddApi(data).then(res => {
+      //     console.log(res)
+      //     if (res.code !== 0) {
+      //       this.$alert('动效时长大于素材时长，设置失败！', '提示消息', {
+      //         confirmButtonText: '确定',
+      //         callback() {
+      //           window.zindex = 1
+      //         }
+      //       })
+      //       window.zindex = 0
+      //     }
+      //     this.changeLoading()
+      //     this.clonedivInit()
+      //   })
+      // } else {
         let serviceList
         if (window.zindex === 3) {
           this.libClear()
@@ -422,31 +419,31 @@ export default {
           (data.type === 1 && parseInt(data.track_type, 10) === 2) ||
           data.track_type === 2
         ) {
-          serviceList = [filterlist[0]]
+          // serviceList = [filterlist[0]]
         }
 
         if ((data.type === 1 || data.type === 3) && data.track_type === 1) {
           serviceList = []
           if (data.onlyVideo || data.type === 3) {
-            for (let i = 0; i < filterlist.length; i++) {
-              if (
-                filterlist[i].service === 'volume' ||
-                filterlist[i].service === 'mosaic'
-              ) {
-                continue
-              } else {
-                serviceList.push(filterlist[i])
-              }
-            }
+            // for (let i = 0; i < filterlist.length; i++) {
+            //   if (
+            //     filterlist[i].service === 'volume' ||
+            //     filterlist[i].service === 'mosaic'
+            //   ) {
+            //     continue
+            //   } else {
+            //     serviceList.push(filterlist[i])
+            //   }
+            // }
           } else {
             // serviceList = ['volume','saturation','cutting','rotate','mirror','mosaic','exposure','brightness','halo','boxblur','coloring','contrast']
-            for (let i = 0; i < filterlist.length; i++) {
-              if (filterlist[i].service === 'mosaic') {
-                continue
-              } else {
-                serviceList.push(filterlist[i])
-              }
-            }
+            // for (let i = 0; i < filterlist.length; i++) {
+            //   if (filterlist[i].service === 'mosaic') {
+            //     continue
+            //   } else {
+            //     serviceList.push(filterlist[i])
+            //   }
+            // }
           }
           for (let i = 0; i < serviceList.length; i++) {
             serviceList[i].parameter.disable = 1
@@ -485,11 +482,7 @@ export default {
           }
           const transData = {
             src_id: data.src_id,
-            mode: data.mode,
-            track_id: data.track_id,
-            track_type: parseInt(data.track_type, 10),
-            track_start: data.track_start,
-            filter: serviceList
+            insert_index: data.insert_index
           }
           chunkAddApi(transData).then(res => {
             if (res.code !== 0) {
@@ -513,7 +506,7 @@ export default {
           that.clonedivInit()
           return
         }
-      }
+      // }
     },
     mix_error(data) {
       const source = this.sourceData.filter(item => {
@@ -541,7 +534,7 @@ export default {
         ) {
           // console.log('has is true')
           has = true
-          this.clonediv.type = this.sourceData[i].src_type
+          this.clonediv.type = this.sourceData[i].src_type || 1
           this.clonediv.src_id = this.sourceData[i].src_id
           this.clonediv.status = this.sourceData[i].status || 0
           if (!this.sourceData[i].a_codec) {
@@ -553,7 +546,7 @@ export default {
               250 / (this.slidernum.max - this.track_property.ratio)
             const pre_ =
               this.sourceData[i].preview_img.indexOf('http') === -1
-                ? window.NCES.DOMAIN
+                ? window.AQES.DOMAIN
                 : ''
             this.clonediv.bgimg = `url(${pre_}${this.sourceData[i].preview_img})`
             // console.log(this.clonediv.bgimg)
@@ -584,7 +577,7 @@ export default {
               let pre_ = ''
               const reg = /^\/media\/source/
               if (reg.test(this.sourceData[i].preview_img)) {
-                pre_ = window.NCES.DOMAIN
+                pre_ = window.AQES.DOMAIN
               }
               this.clonediv.bgimg = `url(${pre_}${this.sourceData[i].preview_img})`
               // console.log(this.clonediv.bgimg)
@@ -669,7 +662,7 @@ export default {
             this.clonediv.width =
               250 / (this.slidernum.max - that.track_property.ratio)
             this.clonediv.bgimg =
-              'url(' + window.NCES.DOMAIN + this.clonediv.jpg + ')'
+              'url(' + window.AQES.DOMAIN + this.clonediv.jpg + ')'
           }
         }
       } else {
@@ -696,7 +689,7 @@ export default {
           }
           this.mediaType = 'muliti'
           axios
-            .post(window.NCES.DOMAIN + '/api/source', JSON.stringify(data))
+            .post(window.AQES.DOMAIN + '/api/source', JSON.stringify(data))
             .then(this.multiMediaHandler)
         }
       }
@@ -704,8 +697,8 @@ export default {
     mousedown(e_para) {
       let e = e_para
       if (
-        $(e.target).parents('.' + window.NCES.drag_ele).length !== 0 ||
-        $(e.target).hasClass(window.NCES.drag_ele)
+        $(e.target).parents('.' + window.AQES.drag_ele).length !== 0 ||
+        $(e.target).hasClass(window.AQES.drag_ele)
       ) {
         e.preventDefault()
         if (e.touches) {
@@ -717,17 +710,17 @@ export default {
         this.clonediv.src_from =
           $(e.target).data('src_from') ||
           $(e.target)
-            .parents('.' + window.NCES.drag_ele)
+            .parents('.' + window.AQES.drag_ele)
             .data('src_from')
         this.clonediv.src_url =
           $(e.target).data('src_url') ||
           $(e.target)
-            .parents('.' + window.NCES.drag_ele)
+            .parents('.' + window.AQES.drag_ele)
             .data('src_url')
         this.clonediv.src_type =
           $(e.target).data('src_type') ||
           $(e.target)
-            .parents('.' + window.NCES.drag_ele)
+            .parents('.' + window.AQES.drag_ele)
             .data('src_type')
         this.clonediv.service = $(e.target).data('service')
         this.clonediv.source = $(e.target).data('source')
@@ -748,7 +741,7 @@ export default {
         xifu = false
       }
       for (let i = 0; i < this.trackposition.length; i++) {
-        for (let m = 0; m < this.chunkPosition.v[i].length; m++) {
+        for (let m = 0; m < this.chunkPosition.v.length; m++) {
           if (
             Math.abs(
               e.pageX +
@@ -768,17 +761,17 @@ export default {
                 this.track_property.outLeft -
                 this.trackposition[i].minX -
                 30 -
-                this.chunkPosition.v[i][m].max /
+                this.chunkPosition.v[m].max /
                   (this.slidernum.max - this.track_property.ratio)
             ) < 10 &&
             xifu
           ) {
             clonediv_.x =
-              (this.chunkPosition.v[i][m].max - 1) /
+              (this.chunkPosition.v[m].max - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
               ATTACH_NUMBER -
               this.track_property.outLeft
-            this.xifuindex = this.chunkPosition.v[i][m].max
+            this.xifuindex = this.chunkPosition.v[m].max
             faaa++
           }
           if (
@@ -787,17 +780,17 @@ export default {
                 this.track_property.outLeft -
                 this.trackposition[i].minX -
                 30 -
-                this.chunkPosition.v[i][m].min /
+                this.chunkPosition.v[m].min /
                   (this.slidernum.max - this.track_property.ratio)
             ) < 10 &&
             xifu
           ) {
             clonediv_.x =
-              (this.chunkPosition.v[i][m].min - 1) /
+              (this.chunkPosition.v[m].min - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
               ATTACH_NUMBER -
               this.track_property.outLeft
-            this.xifuindex = this.chunkPosition.v[i][m].min
+            this.xifuindex = this.chunkPosition.v[m].min
             faaa++
           }
           if (
@@ -808,17 +801,17 @@ export default {
                 30 +
                 clonediv_.frame /
                   (this.slidernum.max - this.track_property.ratio) -
-                this.chunkPosition.v[i][m].min /
+                this.chunkPosition.v[m].min /
                   (this.slidernum.max - this.track_property.ratio)
             ) < 10 &&
             xifu
           ) {
             clonediv_.x =
-              (this.chunkPosition.v[i][m].min - clonediv_.frame - 1) /
+              (this.chunkPosition.v[m].min - clonediv_.frame - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
               ATTACH_NUMBER -
               this.track_property.outLeft
-            this.xifuindex = this.chunkPosition.v[i][m].min - clonediv_.frame
+            this.xifuindex = this.chunkPosition.v[m].min - clonediv_.frame
             faaa++
           }
           if (
@@ -829,17 +822,17 @@ export default {
                 30 +
                 clonediv_.frame /
                   (this.slidernum.max - this.track_property.ratio) -
-                this.chunkPosition.v[i][m].max /
+                this.chunkPosition.v[m].max /
                   (this.slidernum.max - this.track_property.ratio)
             ) < 10 &&
             xifu
           ) {
             clonediv_.x =
-              (this.chunkPosition.v[i][m].max - clonediv_.frame - 1) /
+              (this.chunkPosition.v[m].max - clonediv_.frame - 1) /
                 (this.slidernum.max - this.track_property.ratio) +
               ATTACH_NUMBER -
               this.track_property.outLeft
-            this.xifuindex = this.chunkPosition.v[i][m].max - clonediv_.frame
+            this.xifuindex = this.chunkPosition.v[m].max - clonediv_.frame
             faaa++
           }
         }
@@ -896,19 +889,20 @@ export default {
     },
     // eslint-disable-next-line complexity
     indexHandler(clonediv_, n, x1, x2) {
+      this.refreshChunkPosition()
       let index = 0
-      for (let j = 0; j < this.chunkPosition.v[n].length; j++) {
+      for (let j = 0; j < this.chunkPosition.v.length; j++) {
         if (clonediv_.type === 5) {
           if (
-            this.chunkPosition.v[n][j + 1] &&
-            this.chunkPosition.v[n][j].max ===
-              this.chunkPosition.v[n][j + 1].min &&
-            x1 < this.chunkPosition.v[n][j].max &&
-            x2 > this.chunkPosition.v[n][j].max &&
-            this.chunkPosition.v[n][j + 1].type !== 5 &&
-            this.chunkPosition.v[n][j + 1].type !== 5 &&
-            this.chunkPosition.v[n][j].type !== 5 &&
-            this.chunkPosition.v[n][j].type !== 5
+            this.chunkPosition.v[j + 1] &&
+            this.chunkPosition.v[j].max ===
+              this.chunkPosition.v[j + 1].min &&
+            x1 < this.chunkPosition.v[j].max &&
+            x2 > this.chunkPosition.v[j].max &&
+            this.chunkPosition.v[j + 1].type !== 5 &&
+            this.chunkPosition.v[j + 1].type !== 5 &&
+            this.chunkPosition.v[j].type !== 5 &&
+            this.chunkPosition.v[j].type !== 5
           ) {
             index = j + 1
             this.xifuindex = j
@@ -916,37 +910,47 @@ export default {
           }
         } else {
           if (
-            (x1 >= this.chunkPosition.v[n][j].min &&
-              x1 < this.chunkPosition.v[n][j].max) ||
-            (x2 > this.chunkPosition.v[n][j].min &&
-              x2 < this.chunkPosition.v[n][j].max) ||
-            (this.chunkPosition.v[n][j].min >= x1 &&
-              this.chunkPosition.v[n][j].min < x2) ||
-            (this.chunkPosition.v[n][j].max > x1 &&
-              this.chunkPosition.v[n][j].max < x2)
+            (x1 >= this.chunkPosition.v[j].min &&
+              x1 < this.chunkPosition.v[j].max) ||
+            (x2 > this.chunkPosition.v[j].min &&
+              x2 < this.chunkPosition.v[j].max) ||
+            (this.chunkPosition.v[j].min >= x1 &&
+              this.chunkPosition.v[j].min < x2) ||
+            (this.chunkPosition.v[j].max > x1 &&
+              this.chunkPosition.v[j].max < x2)
           ) {
             if (
-              x1 >= this.chunkPosition.v[n][j].min &&
-              x1 < this.chunkPosition.v[n][j].max
+              x1 >= this.chunkPosition.v[j].min &&
+              x1 < this.chunkPosition.v[j].max
             ) {
+              this.idx = j
               this.index1 = j
+              if(x1 == this.chunkPosition.v[j].min) {
+                this.idx == 0 ? this.idx = 0 : this.idx = j - 1
+              }
             }
             if (
-              x2 > this.chunkPosition.v[n][j].min &&
-              x2 < this.chunkPosition.v[n][j].max
+              x2 > this.chunkPosition.v[j].min &&
+              x2 < this.chunkPosition.v[j].max
             ) {
               this.index2 = j
             }
             if (
-              (this.chunkPosition.v[n][j].min >= x1 &&
-                this.chunkPosition.v[n][j].min < x2) ||
-              (this.chunkPosition.v[n][j].max > x1 &&
-                this.chunkPosition.v[n][j].max < x2)
+              (this.chunkPosition.v[j].min >= x1 &&
+                this.chunkPosition.v[j].min < x2) ||
+              (this.chunkPosition.v[j].max > x1 &&
+                this.chunkPosition.v[j].max < x2)
             ) {
               this.index1 = 1
               this.index2 = 2
             }
             index++
+          }
+          if(x1 > this.chunkPosition.v[this.chunkPosition.v.length - 1].max) {
+            this.idx = this.chunkPosition.v.length - 1
+          }
+          if(x1 <= 0) {
+            this.idx = -2
           }
         }
       }
@@ -994,6 +998,7 @@ export default {
         }
       }
       const trackboxScroll = $('#trackbox').scrollTop()
+      $('.fchunkbox').css({"margin": `0px`})
       if (
         e.pageX > this.trackbox.minX &&
         e.pageX < this.trackbox.maxX &&
@@ -1003,6 +1008,9 @@ export default {
         const nums = this.xifuHandler(e, clonediv_)
         const x1 = nums.num1
         const x2 = nums.num2
+        const elm = this.idx == -2 ? $($('.collection').children()[0]) : $($('.collection').children()[this.idx])
+        elm.siblings().css({"margin": `0px`})
+        this.idx == -2 ? elm.css({"margin-left": $('.clonediv').width()+`px`}) : elm.css({"margin-right": $('.clonediv').width()+`px`})
         for (let n = 0; n < this.trackposition.length; n++) {
           if (
             e.pageX > this.trackposition[n].minX &&
@@ -1047,14 +1055,7 @@ export default {
       const upChunkEnd =
         upChunkStart +
         this.clonediv.width * (this.slidernum.max - this.track_property.ratio)
-      const targetTrack =
-        this.all.tracks.v_track_list.find(
-          item => item.track_id === cloneDivTrackId
-        ) ||
-        this.all.tracks.a_track_list.find(
-          item => item.track_id === cloneDivTrackId
-        )
-      const downChunk = targetTrack.chunks.find(chunkItem => {
+      const downChunk = this.all.track.find(chunkItem => {
         return !(
           upChunkStart > chunkItem.track_end ||
           upChunkEnd < chunkItem.track_start
@@ -1066,7 +1067,20 @@ export default {
         console.log('chunks inter-active failed')
       }
     },
+    async handleSourceDown() {
+      try {
+        // load接口短时间不返回数据，调用会报错
+        const res = await sourceLoadApi({ src_id: this.clonediv.src_id })
+        if (res.code === -1) {
+          console.log(res.msg)
+          if (res.msg === 'no disk space available') {
+            this.$alert('磁盘空间已满, 请清除部分缓存')
+          }
+        }
+      } catch (e) {}
+    },
     mouseup(e_para) {
+      $('.fchunkbox').css({"margin": `0px`})
       this.chunkmove = false
       let e = e_para
       if (e.touches) {
@@ -1080,10 +1094,10 @@ export default {
       clearInterval(this.timerRight)
       this.timerRight = null
       $.post(
-        window.NCES.DOMAIN + '/api/track',
+        window.AQES.DOMAIN + '/api/property',
         JSON.stringify({
-          cmd: 'property_append',
-          track_property: { outLeft: this.track_property.outLeft }
+          cmd: 'append',
+          property: { outLeft: this.track_property.outLeft }
         }),
         function(res) {
           if (res.code !== 0) {
@@ -1103,7 +1117,7 @@ export default {
         ) {
           let left = null
           if (this.xifuindex != null) {
-            left = this.xifuindex
+            left = this.xifuindex > 0 ? this.xifuindex : 0
           } else {
             left =
               (e.pageX -
@@ -1132,16 +1146,12 @@ export default {
             this.createChunk(data)
             return
           } else {
+            this.handleSourceDown()
             this.INIT_CHUNKS()
             if (this.clonediv.class === 'moveing') {
               const commonData = {
                 src_id: this.clonediv.src_id,
-                track_id: this.trackposition[i].id,
-                track_type: this.trackposition[i].type,
-                track_start: parseInt(left, 10),
-                type: this.clonediv.type,
-                status: this.clonediv.status,
-                onlyVideo: this.clonediv.onlyvideo
+                insert_index: this.idx1
               }
               this.createChunk(commonData)
             } else {
@@ -1172,17 +1182,12 @@ export default {
                 e2.stopPropagation()
                 const insertData = {
                   src_id: this.clonediv.src_id,
-                  mode: 3,
-                  track_id: this.trackposition[i].id,
-                  track_type: this.trackposition[i].type,
-                  track_start: parseInt(left, 10),
-                  type: this.clonediv.type,
-                  status: this.clonediv.status,
-                  onlyVideo: this.clonediv.onlyvideo
+                  insert_index: this.idx1
                 }
                 this.createChunk(insertData)
                 window.zindex = 1
               })
+              $('.adapted-insert').trigger('mousedown')
               $('.location-cover').one('mousedown', e3 => {
                 e3.stopPropagation()
                 const coverData = {
@@ -1241,10 +1246,10 @@ export default {
                   window.zindex = 1
                 })
               }
-              $('html').one('mousedown', () => {
-                this.clonedivInit()
-                window.zindex = 1
-              })
+              // $('html').one('mousedown', () => {
+              //   this.clonedivInit()
+              //   window.zindex = 1
+              // })
             }
           }
 
@@ -1266,7 +1271,7 @@ export default {
           : this.clonediv.frame
       if (this.clonediv.type === 1) {
         $.post(
-          window.NCES.DOMAIN + '/api/source',
+          window.AQES.DOMAIN + '/api/source',
           JSON.stringify({
             cmd: 'get_imgs',
             src_id: this.clonediv.src_id,
@@ -1283,20 +1288,20 @@ export default {
           }),
           function(res) {
             if (res.code === 0) {
-              if (res.data.v.length > 0) {
-                for (let i = 0; i < res.data.v.length; i++) {
+              if (res.data.length > 0) {
+                for (let i = 0; i < res.data.length; i++) {
                   // eslint-disable-next-line no-unused-vars
                   const url =
                     'url(//' +
-                    window.NCES.domain +
+                    window.AQES.domain +
                     '.' +
-                    window.NCES.uin +
+                    window.AQES.uin +
                     '.lcps.aodianyun.com:3002' +
-                    res.data.v[i] +
+                    res.data[i] +
                     ') ' +
                     i * 100 +
                     'px 0px  no-repeat '
-                  that.loadimg(window.NCES.DOMAIN + res.data.v[i], i)
+                  that.loadimg(window.AQES.DOMAIN + res.data[i], i)
                 }
               }
             }
@@ -1306,7 +1311,7 @@ export default {
       }
       if (this.clonediv.type === 0) {
         $.post(
-          window.NCES.DOMAIN + '/api/source',
+          window.AQES.DOMAIN + '/api/source',
           JSON.stringify({
             cmd: 'get_imgs',
             src_id: this.clonediv.src_id,
@@ -1319,7 +1324,7 @@ export default {
             if (res.code !== 0) {
               console.warn(res.msg)
             }
-            that.loadimg(window.NCES.DOMAIN + res.data.a[0], 0)
+            that.loadimg(window.AQES.DOMAIN + res.data.a[0], 0)
           },
           'json'
         )

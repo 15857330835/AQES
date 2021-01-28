@@ -10,186 +10,94 @@
           <i style="color:red">*</i> 请直接在键盘上输入快捷键操作
         </p>
         <div class="keypress_set_contentL">
-          <p>
-            <label @click="click"
-              ><i>播放/暂停</i
-              ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'play')"/><input
-                class="captiontext"
-                type="text"
-                disabled
-                :value="keypress.play"
-            /></label>
-          </p>
-          <p>
-            <label @click="click"
-              ><i>上一帧</i
-              ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'last_frame')"/><input
-                class="captiontext"
-                disabled
-                type="text"
-                :value="this.keypress.last_frame"
-                @blur="inputblur('last_frame')"
-            /></label>
-          </p>
-          <p>
-            <label @click="click"
-              ><i>复制</i
-              ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'copy')"/><input
-                class="captiontext"
-                disabled
-                type="text"
-                :value="this.keypress.copy"
-            /></label>
-          </p>
-          <p>
-            <label @click="click"
-              ><i>撤销</i
-              ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'revoke')"/><input
-                class="captiontext"
-                disabled
-                type="text"
-                :value="this.keypress.revoke"
-            /></label>
-          </p>
-          <p>
-            <label @click="click"
-              ><i>删除</i
-              ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'delete')"/><input
-                class="captiontext"
-                disabled
-                type="text"
-                :value="this.keypress.delete"
-            /></label>
-          </p>
-          <p>
-            <label @click="click"
-              ><i>全选</i
-              ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'select_all')"/><input
-                class="captiontext"
-                disabled
-                type="text"
-                :value="this.keypress.select_all"
-            /></label>
-          </p>
           <p style="color:#939191">
             <label
-              ><i>多选</i
+              ><i>播放/暂停</i
               ><input
                 class="captiontext"
                 style="color:#939191"
                 disabled
                 type="text"
-                value="Ctl+鼠标左键"
+                value="Space"
+            /></label>
+          </p>
+          <p style="color:#939191">
+            <label
+              ><i>上一帧</i
+              ><input
+                class="captiontext"
+                style="color:#939191"
+                disabled
+                type="text"
+                value="←"
+            /></label>
+          </p>
+          <p style="color:#939191">
+            <label
+              ><i>复制</i
+              ><input
+                class="captiontext"
+                style="color:#939191"
+                disabled
+                type="text"
+                value="Ctrl+V"
+            /></label>
+          </p>
+          <p style="color:#939191">
+            <label
+              ><i>撤销</i
+              ><input
+                class="captiontext"
+                style="color:#939191"
+                disabled
+                type="text"
+                value="Ctrl+Z"
+            /></label>
+          </p>
+          <p style="color:#939191">
+            <label
+              ><i>删除</i
+              ><input
+                class="captiontext"
+                style="color:#939191"
+                disabled
+                type="text"
+                value="Delete"
             /></label>
           </p>
         </div>
         <div class="keypress_set_contentR">
-          <p>
-            <label @click="click"
+          <p style="color:#939191">
+            <label
               ><i>剪辑</i
               ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'cut')"/><input
                 class="captiontext"
-                type="text"
+                style="color:#939191"
                 disabled
-                :value="this.keypress.cut"
+                type="text"
+                value="X"
             /></label>
           </p>
-          <p>
-            <label @click="click"
+          <p style="color:#939191">
+            <label
               ><i>下一帧</i
               ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'next_frame')"/><input
                 class="captiontext"
-                type="text"
+                style="color:#939191"
                 disabled
-                :value="this.keypress.next_frame"
+                type="text"
+                value="→"
             /></label>
           </p>
-          <p>
-            <label @click="click"
-              ><i>粘贴</i
-              ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'paste')"/><input
-                class="captiontext"
-                type="text"
-                disabled
-                :value="this.keypress.paste"
-            /></label>
-          </p>
-          <p>
-            <label @click="click"
+          <p style="color:#939191">
+            <label
               ><i>取消撤销</i
               ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'redo')"/><input
                 class="captiontext"
-                type="text"
+                style="color:#939191"
                 disabled
-                :value="this.keypress.redo"
-            /></label>
-          </p>
-          <p>
-            <label @click="click"
-              ><i>保存</i
-              ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'save')"/><input
-                class="captiontext"
                 type="text"
-                disabled
-                :value="this.keypress.save"
-            /></label>
-          </p>
-          <p>
-            <label @click="click"
-              ><i>添加字幕</i
-              ><input
-                type="radio"
-                name="keypress"
-                style="position:absolute;height:30px;opacity:0"
-                @keydown.stop="inputdown($event, 'add_caption')"/><input
-                class="captiontext"
-                type="text"
-                disabled
-                :value="this.keypress.add_caption"
+                value="Ctrl+Y"
             /></label>
           </p>
           <p style="color:#939191">
@@ -465,82 +373,31 @@ export default {
           }
         })
       } else {
-        const del_chunks_id = []
-        if (this.activechunk.chunk.chunk_id) {
-          del_chunks_id.push(this.activechunk.chunk.chunk_id)
-        }
-        this.restActiveChunks.forEach(restItem => {
-          del_chunks_id.push(restItem.chunk.chunk_id)
-        })
-        this.del(del_chunks_id)
+        // const del_chunks_id = []
+        // if (this.activechunk.chunk.chunk_id) {
+        //   del_chunks_id.push(this.activechunk.chunk.chunk_id)
+        // }
+        // this.restActiveChunks.forEach(restItem => {
+        //   del_chunks_id.push(restItem.chunk.chunk_id)
+        // })
+        // this.del(del_chunks_id)
+        this.del([this.activechunk.index])
       }
     },
     cutchunk() {
+      // this.UPDATE_CHUNK_POSITION()
       const linePos = this.pointer.position
+      // const cut_chunks = {}
 
-      if (this.activechunk.chunk === '') {
-        window.zindex = 0
-        this.$alert('请选择要剪辑的视频块！', '提示消息', {
-          confirmButtonText: '确定',
-          callback() {
-            window.zindex = 1
-          }
-        })
-        return
-      }
-      if (typeof this.activechunk.chunk.chunk_type === 'undefined') {
-        window.zindex = 0
-        this.$alert('不能对字幕块进行剪辑！', '提示消息', {
-          confirmButtonText: '确定',
-          callback() {
-            window.zindex = 1
-          }
-        })
-        return
-      }
-
-      let noCut = true
-      let outBreak = false
-      for (const trackItem of this.ghostsPosition.v) {
-        if (trackItem.length) {
-          for (const chunk of trackItem) {
-            if (chunk.min < linePos && chunk.max > linePos) {
-              noCut = false
-              outBreak = true
-              break
-            }
-          }
-        }
-        if (outBreak) {
-          break
-        }
-      }
-      console.log(noCut)
-      if (noCut) {
-        window.zindex = 0
-        this.$alert('必须在选中的区域内剪辑！', '提示消息', {
-          confirmButtonText: '确定',
-          callback() {
-            window.zindex = 1
-          }
-        })
-        return
-      }
-      const cut_chunks = []
-      for (const trackItem of this.ghostsPosition.v) {
-        if (trackItem.length) {
-          for (const chunk of trackItem) {
-            if (chunk.min < linePos && chunk.max > linePos) {
-              cut_chunks.push({
-                chunk_id: chunk.id,
-                split: [linePos]
-              })
-            }
-          }
-        }
-      }
-      console.log(cut_chunks)
-      this.cut(cut_chunks)
+      // for (const trackItem of this.ghostsPosition.all) {
+      //   if (linePos > trackItem.track_start && linePos < trackItem.track_end) {
+      //     cut_chunks.chunk_id = trackItem.chunk_id
+      //     break
+      //   }
+      // }
+      
+      // cut_chunks.split = [linePos]
+      this.cut([linePos])
     },
     avleavechunk() {
       const that = this
@@ -589,31 +446,29 @@ export default {
           }
         })
       } else {
-        if (typeof this.activechunk.chunk.chunk_type === 'undefined') {
-          window.zindex = 0
-          this.$alert('字幕快请到字幕设置界面添加！', '提示消息', {
-            confirmButtonText: '确定',
-            callback() {
-              window.zindex = 1
-            }
-          })
-          return
-        }
-        const copyArray = []
-        let copyStart = 0
-        this.ghostsPosition.v.forEach(trackItem => {
-          if (trackItem.length) {
-            trackItem.forEach(chunk => {
-              copyArray.push(chunk.id)
-              copyStart = chunk.max > copyStart ? chunk.max : copyStart
-            })
-          }
-        })
-        const copyInfo = {
-          copyArray,
-          copyStart
-        }
-        this.zhantie(copyInfo)
+        // if (typeof this.activechunk.chunk.chunk_type === 'undefined') {
+        //   window.zindex = 0
+        //   this.$alert('字幕快请到字幕设置界面添加！', '提示消息', {
+        //     confirmButtonText: '确定',
+        //     callback() {
+        //       window.zindex = 1
+        //     }
+        //   })
+        //   return
+        // }
+        // this.UPDATE_CHUNK_POSITION()
+        // const copyArray = []
+        // let copyStart = 0
+        // this.ghostsPosition.all.forEach(trackItem => {
+        //   copyArray.push(trackItem.chunk_id)
+        //   copyStart = trackItem.track_end > copyStart ? trackItem.track_end : copyStart
+        // })
+        // const copyId = this.activechunk.chunk.chunk_id
+        // const copyInfo = {
+        //   copyId,
+        //   copyStart
+        // }
+        this.zhantie(this.activechunk.index)
       }
     },
     selectAllChunk() {
@@ -851,7 +706,6 @@ export default {
       // zindex=1 : delchunk,cutchunk,zhantiechunk,nextTemp,lastTemp,savevideo,lastindex,nextindex,videoplay
       // zindex=2: lastindex,nextindex,videoplay
       // zindex=3: 对素材进行 delete 删除 ；ctrl+鼠标多选；ctrl+C复制；ctrl+v粘贴；x剪辑 操作
-
       $(document).keydown(e => {
         if (typeof this.trankeyPress.delete === 'undefined') {
           return
@@ -870,7 +724,7 @@ export default {
           this.revokeKeypress(e)
           this.saveKeyPress(e)
           // 全选
-          this.allSelectKeyPress(e)
+          // this.allSelectKeyPress(e)
           // this.addCapKeyPress(e)
         }
         if (window.zindex === 1 || window.zindex === 2) {
@@ -912,11 +766,28 @@ export default {
         top: '↑',
         bottom: '↓'
       }
-      const data = {}
-      data.type = 'shortcut'
-      data.data = { cmd: 'get' }
-      data.success = function(res) {
-        const obj = {}
+      const res = {
+        "code": 0,
+        "data": {
+            "sc": {
+                "next_frame": "next",
+                "last_frame": "last",
+                "play": "Space",
+                "delete": "Delete",
+                "cut": "X",
+                "save": "Ctl,S",
+                "copy": "Ctl,C",
+                "paste": "Ctl,V",
+                "revoke": "Ctl,Z",
+                "redo": "Ctl,Y",
+                "select_all": "Ctl,A",
+                "select_multi": "Ctl,",
+                "add_caption": "Enter"
+            },
+            "utime": 1583142418263
+        }
+      }
+      const obj = {}
         for (const key of Object.keys(res.data.sc)) {
           obj[key] = ''
           const arr = res.data.sc[key].split(',')
@@ -936,11 +807,6 @@ export default {
           }
         }
         that.keypress = obj
-      }
-      data.error = function(res) {
-        setTimeout(that.getKeypress, 1000)
-      }
-      this.Post(data)
     },
     addSpecialKey(arr, obj) {
       if (obj.ctrlKey) {
@@ -1086,7 +952,7 @@ export default {
         }
       }
       $.post(
-        window.NCES.DOMAIN + '/api/shortcut',
+        window.AQES.DOMAIN + '/api/shortcut',
         JSON.stringify({ cmd: 'update', shortcut: obj }),
         function(res) {
           if (res.code === 0) {

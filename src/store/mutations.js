@@ -285,7 +285,7 @@ export default {
     }, 0)
   },
   [UPDATE_CAPTIONPOSITION](state, data) {
-    const tracklist = $('#captionbox .edit_track_content')
+    const tracklist = $('#captionbox')
     state.trackcaption.minX = $('.edit_track_contents').offset().left
     state.trackcaption.maxX =
       state.trackcaption.minX + $('.edit_track_contents').innerWidth()
@@ -696,19 +696,20 @@ export default {
     state.moveListCount = 0
   },
   [UPDATE_CHUNK_POSITION](state) {
-    const v = state.all.tracks.v_track_list
-    const a = state.all.tracks.a_track_list
+    const v = state.all.track
+    // const a = state.all.tracks.a_track_list
     const chunkPosition = { a: [], v: [] }
-    const ghostsPosition = { a: [], v: [] }
+    const ghostsPosition = { a: [], v: [], all: [] }
     for (let i = 0, len = v.length; i < len; i++) {
       chunkPosition.v[i] = []
       ghostsPosition.v[i] = []
+      ghostsPosition.all[i] = v[i]
       for (
-        let j = 0, chunksLength = v[i].chunks.length;
+        let j = 0, chunksLength = v.length;
         j < chunksLength;
         j++
       ) {
-        const _chunk = v[i].chunks[j]
+        const _chunk = v[j]
 
         let restFlagV = false
         for (const restItem of state.restActiveChunks) {
@@ -732,38 +733,38 @@ export default {
         }
       }
     }
-    for (let m = 0, len = a.length; m < len; m++) {
-      chunkPosition.a[m] = []
-      ghostsPosition.a[m] = []
-      for (
-        let n = 0, chunksLength = a[m].chunks.length;
-        n < chunksLength;
-        n++
-      ) {
-        const _chunk = a[m].chunks[n]
+    // for (let m = 0, len = a.length; m < len; m++) {
+    //   chunkPosition.a[m] = []
+    //   ghostsPosition.a[m] = []
+    //   for (
+    //     let n = 0, chunksLength = a[m].chunks.length;
+    //     n < chunksLength;
+    //     n++
+    //   ) {
+    //     const _chunk = a[m].chunks[n]
 
-        let restFlagA = false
-        for (const restItem of state.restActiveChunks) {
-          if (_chunk.chunk_id === restItem.chunk.chunk_id) {
-            restFlagA = true
-            break
-          }
-        }
-        if (restFlagA || _chunk.chunk_id === state.activechunk.chunk.chunk_id) {
-          const obj = {}
-          obj.id = _chunk.chunk_id
-          obj.min = _chunk.track_start
-          obj.max = _chunk.track_end
-          ghostsPosition.a[m].push(obj)
-        } else {
-          const obj = {}
-          obj.id = _chunk.chunk_id
-          obj.min = _chunk.track_start
-          obj.max = _chunk.track_end
-          chunkPosition.a[m].push(obj)
-        }
-      }
-    }
+    //     let restFlagA = false
+    //     for (const restItem of state.restActiveChunks) {
+    //       if (_chunk.chunk_id === restItem.chunk.chunk_id) {
+    //         restFlagA = true
+    //         break
+    //       }
+    //     }
+    //     if (restFlagA || _chunk.chunk_id === state.activechunk.chunk.chunk_id) {
+    //       const obj = {}
+    //       obj.id = _chunk.chunk_id
+    //       obj.min = _chunk.track_start
+    //       obj.max = _chunk.track_end
+    //       ghostsPosition.a[m].push(obj)
+    //     } else {
+    //       const obj = {}
+    //       obj.id = _chunk.chunk_id
+    //       obj.min = _chunk.track_start
+    //       obj.max = _chunk.track_end
+    //       chunkPosition.a[m].push(obj)
+    //     }
+    //   }
+    // }
     chunkPosition.v = chunkPosition.v.concat(chunkPosition.a)
     ghostsPosition.v = ghostsPosition.v.concat(ghostsPosition.a)
     state.delchunkposition = chunkPosition
@@ -772,7 +773,7 @@ export default {
     const aiTrackChunksPosition = []
     for (let p = 0, len = v.length; p < len; p++) {
       if (v[p].track_id === state.activechunk.chunk.track_id) {
-        v[p].chunks.forEach(item => {
+        v.forEach(item => {
           const obj = {}
           obj.id = item.chunk_id
           obj.min = item.track_start
@@ -782,20 +783,20 @@ export default {
         break
       }
     }
-    if (!aiTrackChunksPosition.length) {
-      for (let q = 0, len = a.length; q < len; q++) {
-        if (a[q].track_id === state.activechunk.chunk.track_id) {
-          a[q].chunks.forEach(item => {
-            const obj = {}
-            obj.id = item.chunk_id
-            obj.min = item.track_start
-            obj.max = item.track_end
-            aiTrackChunksPosition.push(obj)
-          })
-          break
-        }
-      }
-    }
+    // if (!aiTrackChunksPosition.length) {
+    //   for (let q = 0, len = a.length; q < len; q++) {
+    //     if (a[q].track_id === state.activechunk.chunk.track_id) {
+    //       a[q].chunks.forEach(item => {
+    //         const obj = {}
+    //         obj.id = item.chunk_id
+    //         obj.min = item.track_start
+    //         obj.max = item.track_end
+    //         aiTrackChunksPosition.push(obj)
+    //       })
+    //       break
+    //     }
+    //   }
+    // }
     state.aiTrackPosition = aiTrackChunksPosition
   },
   [INIT_CHUNKS](state) {

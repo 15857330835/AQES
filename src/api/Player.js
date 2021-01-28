@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.NCES.DOMAIN + '/api/player'
+const url = window.AQES.DOMAIN + '/api/player'
 
 // 播放器重启
 export const playerRestartApi = (payload = {}) => {

@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.NCES.DOMAIN + '/api/track'
+const url = window.AQES.DOMAIN + '/api/track'
 // ALL
 export const trackAllApi = (payload = {}) => {
   payload.cmd = 'all'

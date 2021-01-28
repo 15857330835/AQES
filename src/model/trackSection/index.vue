@@ -105,10 +105,10 @@ export default {
               : a / (this.slidernum.max - this.track_property.ratio)
           console.log(outleft)
           $.post(
-            window.NCES.DOMAIN + '/api/track',
+            window.AQES.DOMAIN + '/api/property',
             JSON.stringify({
-              cmd: 'property_append',
-              track_property: { outLeft: outleft }
+              cmd: 'append',
+              property: { outLeft: outleft }
             }),
             function(res) {
               if (res.code === 0) {
@@ -146,10 +146,10 @@ export default {
             outleft = 0
           }
           $.post(
-            window.NCES.DOMAIN + '/api/track',
+            window.AQES.DOMAIN + '/api/property',
             JSON.stringify({
-              cmd: 'property_append',
-              track_property: { outLeft: outleft }
+              cmd: 'append',
+              property: { outLeft: outleft }
             }),
             function(res) {
               if (res.code === 0) {

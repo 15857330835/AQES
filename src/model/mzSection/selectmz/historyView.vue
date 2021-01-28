@@ -50,28 +50,6 @@ export default {
               }
             }
           }
-        },
-        {
-          title: '历史文本',
-          interface: {
-            list: {
-              api: sourceGetListApi,
-              params: {
-                src_type: sourceType.TEXT
-              }
-            }
-          }
-        },
-        {
-          title: '历史图片',
-          interface: {
-            list: {
-              api: sourceGetListApi,
-              params: {
-                src_type: sourceType.IMG
-              }
-            }
-          }
         }
       ],
       currentNav: null

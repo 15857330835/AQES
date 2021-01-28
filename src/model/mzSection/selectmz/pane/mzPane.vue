@@ -42,12 +42,6 @@
         </div>
       </div>
     </div>
-    <div class="videolist_right_bottom">
-      <div class="bottom_tips">
-        <span class="u-icon"></span>如果有卡顿，请到
-        <span style="cursor:pointer">我的历史</span> 将视频加载到本地。
-      </div>
-    </div>
   </span>
 </template>
 
@@ -122,7 +116,7 @@ export default {
     fetchMore() {
       this.getData(
         {
-          page: this.page++,
+          page: ++this.page,
           sTime: this.sTime,
           eTime: this.eTime,
           title: this.title,
@@ -137,7 +131,7 @@ export default {
           // console.log(this.loadingShow)
         }
       )
-      // this.sources = this.sources.concat(NCES.callbackResult); // 更新数据，NCES.callbackResult无法监听
+      // this.sources = this.sources.concat(AQES.callbackResult); // 更新数据，AQES.callbackResult无法监听
       // console.log(this.sources)
       // this.loadingShow = this.sources === this.num;
     },
@@ -173,8 +167,14 @@ export default {
           this.loadingShow = res.length === this.num
         }
       )
+      if(this.sources.length < 20) {
+        this.fetchMore()
+        if(this.sources.length < 20) {
+          this.fetchMore()
+        }
+      }
 
-      // this.sources = this.sources.concat(NCES.callbackResult);
+      // this.sources = this.sources.concat(AQES.callbackResult);
       // this.aBScroll && this.aBScroll.scrollTo(0, 0); // navbar滑到最上面
     }
   },

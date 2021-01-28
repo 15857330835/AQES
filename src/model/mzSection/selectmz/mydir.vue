@@ -407,7 +407,7 @@ export default {
         copy: '',
         parse: ''
       },
-      dragclass: window.NCES.drag_ele,
+      dragclass: window.AQES.drag_ele,
       options: [
         {
           value: 'all',
@@ -433,7 +433,7 @@ export default {
       value: { value: 'all', label: '全部' },
       // url: "",
       // dirlist: {},
-      actionurl: window.NCES.DOMAIN + '/upload',
+      actionurl: window.AQES.DOMAIN + '/upload',
       fileList: [],
       upList: [],
       title: '',
@@ -652,15 +652,15 @@ export default {
 
       this.page = 1
       this.loadingShow = true
-      this.getDirList({
-        index: this.page,
-        number: this.num,
-        callback: res => {
-          // this.loadingShow = false
-          this.loadingShow = res.data.files.length === this.num
-          this.tipobj.show = false
-        }
-      })
+      // this.getDirList({
+      //   index: this.page,
+      //   number: this.num,
+      //   callback: res => {
+      //     // this.loadingShow = false
+      //     this.loadingShow = res.data.files.length === this.num
+      //     this.tipobj.show = false
+      //   }
+      // })
     },
     fetchMore() {
       this.getDirList({

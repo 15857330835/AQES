@@ -137,7 +137,7 @@ export default {
         this.holder.family = result.name
 
         $.post(
-          window.NCES.DOMAIN + '/api/chunk',
+          window.AQES.DOMAIN + '/api/chunk',
           JSON.stringify({
             cmd: that.cmd,
             chunk_id: that.activechunk.chunk.chunk_id,

@@ -72,7 +72,7 @@ export default {
       })
         .then(res => {
           if (res.code === 0) {
-            this.srcURI = window.NCES.DOMAIN + res.data.path
+            this.srcURI = window.AQES.DOMAIN + res.data.path
             axios
               .get(this.srcURI)
               .then(URI_res => {

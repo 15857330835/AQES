@@ -58,11 +58,11 @@ export default {
       if (this.isTransitionEffects) {
         if (this.hover) {
           return (
-            `${window.NCES.DOMAIN}${this.source.dynamicImg}` ||
-            `${window.NCES.DOMAIN}${this.source.staticImg}`
+            `${window.AQES.DOMAIN}${this.source.dynamicImg}` ||
+            `${window.AQES.DOMAIN}${this.source.staticImg}`
           )
         } else {
-          return `${window.NCES.DOMAIN}${this.source.staticImg}`
+          return `${window.AQES.DOMAIN}${this.source.staticImg}`
         }
       } else {
         if (this.hover) {

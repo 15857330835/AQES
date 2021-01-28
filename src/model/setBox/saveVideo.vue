@@ -101,8 +101,8 @@ export default {
     sure() {
       const that = this
 
-      if (window.NCES.backStr) {
-        window.NCES.backStr(that.add)
+      if (window.AQES.backStr) {
+        window.AQES.backStr(that.add)
       } else {
         that.add()
       }
@@ -195,8 +195,8 @@ export default {
   },
   mounted() {
     const that = this
-    if (window.NCES.strOfname) {
-      this.strofname = window.NCES.strOfname
+    if (window.AQES.strOfname) {
+      this.strofname = window.AQES.strOfname
     }
     //   {name:parseInt(that.systemmessage.player.w * 2 / 3) +'*'+ parseInt(that.systemmessage.player.h * 2 / 3),id:3}
     const selecttypeList = [{ name: 'm3u8', id: 'm3u8' }]

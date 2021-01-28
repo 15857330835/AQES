@@ -43,10 +43,6 @@ export default {
   data() {
     return {
       list: [
-        {
-          title: '我的素材',
-          interface: libListApi
-        }
       ],
       currentPaneInterface: null,
       paneShow: true,
@@ -76,8 +72,8 @@ export default {
     }
   },
   created() {
-    if (window.NCES.mzList) {
-      this.list = window.NCES.mzList.concat(this.list)
+    if (window.AQES.mzList) {
+      this.list = window.AQES.mzList.concat(this.list)
     }
   },
   mounted() {

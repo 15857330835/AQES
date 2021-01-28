@@ -58,9 +58,9 @@ export default {
     const that = this
     $.ajax({
       type: 'get',
-      url: window.NCES.DOMAIN + '/api/all',
+      url: window.AQES.DOMAIN + '/api/all',
       success(res) {
-        if (res.code !== 0 || res.data.project.loading === true) {
+        if (res.code !== 0) {
           setTimeout(function() {
             that.dispatch('changeLoading')
           }, 1000)
@@ -89,8 +89,8 @@ export default {
             }
           }
           const data = {}
-          data.type = 'track'
-          data.data = { cmd: 'property_append', track_property: initdata }
+          data.type = 'property'
+          data.data = { cmd: 'append', property: initdata }
           data.error = function() {
             console.log('初始化数据错误')
           }
@@ -122,17 +122,16 @@ export default {
     })
   },
   // 复制
-  zhantie({ commit, state, dispatch }, payload) {
+  zhantie({ commit, state, dispatch }, index) {
     const that = this
     const data = {
       cmd: 'copy',
       // chunk_id: state.activechunk.chunk.chunk_id,
       // track_start: state.activechunk.chunk.track_end
-      chunk_list: payload.copyArray,
-      track_start: payload.copyStart
+      index
     }
     $.post(
-      window.NCES.DOMAIN + '/api/chunk',
+      window.AQES.DOMAIN + '/api/chunk',
       JSON.stringify(data),
       function(res) {
         if (res.code === 0) {
@@ -144,7 +143,7 @@ export default {
   },
   gethistoryindex({ commit }) {
     $.post(
-      window.NCES.DOMAIN + '/api/history',
+      window.AQES.DOMAIN + '/api/history',
       JSON.stringify({ cmd: 'list' }),
       function(res) {
         if (res.code === 0) {
@@ -180,7 +179,7 @@ export default {
     const data = {}
     const that = this
     data.type = 'chunk'
-    data.data = { cmd: 'del', chunk_list: array }
+    data.data = { cmd: 'del', index_list: array }
     data.success = function(res) {
       commit('ACTIVE_CHUNK', { chunk: '', state: '' })
       that.commit('CLEAR_REST_ACTIVE_CHUNKS')
@@ -188,8 +187,8 @@ export default {
       that.dispatch('changeLoading')
     }
     if (typeof state.activechunk.chunk.chunk_type === 'undefined') {
-      data.type = 'caption'
-      data.data = { cmd: 'del', chunk_id: state.activechunk.chunk.chunk_id }
+      // data.type = 'caption'
+      // data.data = { cmd: 'del', chunk_id: state.activechunk.chunk.chunk_id }
     } else if (state.activechunk.chunk.chunk_type === 5) {
       data.type = 'transition'
     } else {
@@ -197,50 +196,26 @@ export default {
     }
     this.dispatch('Post', data)
   },
-  // 音视频分离
-  avleave({ state, commit, dispatch }) {
-    const data = {}
+  //清空
+  empty({ state, commit, dispatch }) {
     const that = this
+    const data = {}
     data.type = 'chunk'
-    data.data = {
-      cmd: 'separate_audio',
-      chunk_id: state.activechunk.chunk.chunk_id
-    }
-    data.error = function() {
-      that.$alert('该资源非视频资源或已进行过音视频分离！', '提示消息', {
-        confirmButtonText: '确定'
-      })
-    }
+    data.data = { cmd: 'clear' }
     data.success = function(res) {
-      commit('ACTIVE_CHUNK', { chunk: '', state: '' })
       that.dispatch('changeLoading')
     }
     this.dispatch('Post', data)
-
-    if ($('.chunkbox.active').length === 0) {
-      $('.tipProp_content p').html('请选择要音视频分离的块！')
-      $('.tipProp').show()
-      window.zindex = 0
-      return
-    }
-    if (
-      $('.chunkbox.active')[0].getAttribute('avleave') === 'false' ||
-      typeof $('.chunkbox.active')[0].getAttribute('avleave') === 'undefined'
-    ) {
-      $('.tipProp_content p').html('该资源非视频资源或已进行过音视频分离！')
-      $('.tipProp').show()
-      window.zindex = 0
-      return
-    }
-    $('.chunkbox.active')[0].getAttribute('chunk_id')
   },
   cut(state, array) {
     const that = this
     $.post(
-      window.NCES.DOMAIN + '/api/chunk',
+      window.AQES.DOMAIN + '/api/chunk',
       JSON.stringify({
         cmd: 'split',
-        split_list: array
+        // chunk_id: array.chunk_id,
+        // split: array.split
+        split: array
       }),
       function(res) {
         if (res.code === 0) {
@@ -295,9 +270,9 @@ export default {
     const data = {}
     const that = this
     data.type = 'history'
-    data.data = { cmd: 'last', type: num }
+    data.data = { cmd: 'last'}
     data.success = function() {
-      commit('ACTIVE_CHUNK', { chunk: '', state: '' })
+      commit('EMPTY_ACTIVE_CHUNK')
       that.dispatch('changeLoading')
     }
     this.dispatch('Post', data)
@@ -306,9 +281,9 @@ export default {
     const data = {}
     const that = this
     data.type = 'history'
-    data.data = { cmd: 'next', type: num }
+    data.data = { cmd: 'next'}
     data.success = function() {
-      commit('ACTIVE_CHUNK', { chunk: '', state: '' })
+      commit('EMPTY_ACTIVE_CHUNK')
       that.dispatch('changeLoading')
     }
     this.dispatch('Post', data)
@@ -367,7 +342,7 @@ export default {
                 (state.slidernum.max - state.all.track_property.ratio),
               10
             )) || 0,
-      track_end: trackend || 0,
+      track_end: trackend || 1,
       r_interval: parseInt(
         (state.slidernum.max - state.all.track_property.ratio) * 100,
         10
@@ -379,11 +354,12 @@ export default {
     }
     const data = {}
     // console.log({ config })
+    data.type = 'chunk'
     data.data = {
       cmd: 'get_imgs',
       track_start: config.track_start,
       track_end: config.track_end,
-      img_h: config.height || 56,
+      img_w: 100,
       r_interval: config.r_interval,
       pixel_ratio: config.pixel_ratio
     }
@@ -391,7 +367,7 @@ export default {
       commit('IMG_LISTS', res.data)
       // console.log(state.imglists)
     }
-    this.dispatch('postTrack', data)
+    this.dispatch('Post', data)
   },
 
   /**
@@ -402,7 +378,7 @@ export default {
   // 提交pointer接口数据(position,speed)
   postPointer({ commit, state, dispatch }, data) {
     $.post(
-      window.NCES.DOMAIN + '/api/pointer',
+      window.AQES.DOMAIN + '/api/pointer',
       JSON.stringify(data.data),
       function(res) {
         if (res.code !== 0) {
@@ -419,7 +395,7 @@ export default {
   // 提交chunk接口数据
   postTrack({ commit, state, dispatch }, data) {
     $.post(
-      window.NCES.DOMAIN + '/api/track',
+      window.AQES.DOMAIN + '/api/property',
       JSON.stringify(data.data),
       function(res) {
         if (res.code !== 0) {
@@ -439,7 +415,7 @@ export default {
   // 提交接口数据
   Post({ commit, state, dispatch }, data) {
     $.post(
-      window.NCES.DOMAIN + '/api/' + data.type,
+      window.AQES.DOMAIN + '/api/' + data.type,
       JSON.stringify(data.data),
       function(res) {
         if (res.code !== 0) {
@@ -460,10 +436,10 @@ export default {
   refreshActiveChunk({ commit, state, dispatch }, data) {
     axios
       .post(
-        window.NCES.DOMAIN + '/api/chunk',
+        window.AQES.DOMAIN + '/api/chunk',
         JSON.stringify({
           cmd: 'get',
-          chunk_id: state.activechunk.chunk.chunk_id
+          chunk_id: state.activechunk.index
         })
       )
       .then(res => {

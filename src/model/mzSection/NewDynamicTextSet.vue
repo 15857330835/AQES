@@ -169,7 +169,7 @@ export default {
         this.sendmessage(async res => {
           if (res && res.code === 0) {
             const newChunk = await this.getChunkInfo(
-              this.activechunk.chunk.chunk_id
+              this.activechunk.index
             )
             this.parameter.geometry_w =
               newChunk.data.template_parameter.geometry_w
@@ -220,12 +220,12 @@ export default {
       document.addEventListener('mousemove', move)
       document.addEventListener('mouseup', up)
     },
-    getChunkInfo(id) {
+    getChunkInfo(index) {
       return this.$axios.post(
-        window.NCES.DOMAIN + '/api/chunk',
+        window.AQES.DOMAIN + '/api/chunk',
         JSON.stringify({
           cmd: 'get',
-          chunk_id: id
+          index
         })
       )
     },

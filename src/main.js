@@ -24,7 +24,7 @@ Vue.prototype.$axios = axios
 const isDev = process.env.NODE_ENV !== 'production'
 Vue.config.performance = isDev
 
-const ie = window.NCES.Define()
+const ie = window.AQES.Define()
 Vue.directive('focus', {
   inserted(el, obj) {
     if (obj.value) {
@@ -41,12 +41,12 @@ Vue.directive('focus', {
 let vm
 if (ie === 6 || ie === 7 || ie === 8 || ie === 9 || ie === 10) {
   vm = new Vue({
-    el: '#' + window.NCES.id,
+    el: '#' + window.AQES.id,
     render: h => h(Unable)
   })
 } else {
   vm = new Vue({
-    el: '#' + window.NCES.id,
+    el: '#' + window.AQES.id,
     store,
     render: h => h(App)
   })

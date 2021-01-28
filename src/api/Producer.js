@@ -1,5 +1,6 @@
 import axios from '../http'
-const url = window.NCES.DOMAIN + '/api/producer'
+const url = window.AQES.DOMAIN + '/api/producer'
+const url1 = window.AQES.DOMAIN + '/api/output'
 // 删除
 export const producerDelApi = (payload = {}) => {
   payload.cmd = 'del'
@@ -8,7 +9,7 @@ export const producerDelApi = (payload = {}) => {
 // 添加
 export const producerAddApi = (payload = {}) => {
   payload.cmd = 'add'
-  return axios.post(url, JSON.stringify(payload))
+  return axios.post(url1, JSON.stringify(payload))
 }
 
 // 获取

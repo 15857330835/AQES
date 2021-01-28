@@ -180,10 +180,10 @@ export default {
     sendRatio() {
       const that = this
       $.post(
-        window.NCES.DOMAIN + '/api/track',
+        window.AQES.DOMAIN + '/api/property',
         JSON.stringify({
-          cmd: 'property_append',
-          track_property: {
+          cmd: 'append',
+          property: {
             ratio: that.track_property.ratio,
             outLeft: that.track_property.outLeft
           }

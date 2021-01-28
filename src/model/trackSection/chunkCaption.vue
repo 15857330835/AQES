@@ -26,7 +26,7 @@
     }"
   >
     <div
-      class=" chunkbox"
+      class=" chunkbox 2"
       :id="this.chunk.chunk_id"
       :style="{
         width: '100%',
@@ -458,10 +458,10 @@ export default {
       clearInterval(this.timerRight)
       this.timerRight = null
       $.post(
-        window.NCES.DOMAIN + '/api/track',
+        window.AQES.DOMAIN + '/api/property',
         JSON.stringify({
-          cmd: 'property_append',
-          track_property: { outLeft: this.track_property.outLeft }
+          cmd: 'append',
+          property: { outLeft: this.track_property.outLeft }
         }),
         function(res) {
           if (res.code === 0) {
@@ -594,7 +594,7 @@ export default {
 
       that.flag = 0
       $.post(
-        window.NCES.DOMAIN + '/api/caption',
+        window.AQES.DOMAIN + '/api/caption',
         JSON.stringify({
           cmd: 'move',
           chunk_id: that.chunk.chunk_id,
@@ -671,7 +671,7 @@ export default {
 
       that.flag = 0
       $.post(
-        window.NCES.DOMAIN + '/api/caption',
+        window.AQES.DOMAIN + '/api/caption',
         JSON.stringify({
           cmd: 'move',
           chunk_id: that.chunk.chunk_id,

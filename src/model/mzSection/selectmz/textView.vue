@@ -132,8 +132,8 @@ export default {
     },
     filterList() {
       if (
-        window.NCES.diff_server &&
-        window.NCES.diff_server === 'GuangdianCloud'
+        window.AQES.diff_server &&
+        window.AQES.diff_server === 'GuangdianCloud'
       ) {
         return this.list.filter(item => item.title !== '动效列表')
       }

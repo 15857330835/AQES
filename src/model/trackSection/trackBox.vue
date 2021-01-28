@@ -10,82 +10,14 @@
   >
     <div class="edit_track bscroll-container">
       <div class="edit_track_titles" @mousedown="failClick">
-        <div
-          class="edit_track_title"
-          v-for="(tracks, index) in this.track.v_track_list"
-          :key="tracks.track_id"
-        >
-          <div class="track-up-content">
-            <div class="track-icon-content">
-              <span class="vicon"></span>
-              <span
-                class="vtitle"
-                :title="tracks.name"
-                @dblclick="handleTitleClick(tracks)"
-                >{{ tracks.name }}</span
-              >
-            </div>
-            <div class="track-set-content">
-              <trackstatus
-                :track="tracks"
-                :type="'v_track_list'"
-                :index="index"
-              ></trackstatus>
-              <trackset
-                :track="tracks"
-                :type="'v_track_list'"
-                :index="index"
-                :tracks="track.v_track_list"
-              ></trackset>
-            </div>
-          </div>
-          <trackvolue
-            :track="tracks"
-            :type="'v_track_list'"
-            :index="index"
-          ></trackvolue>
-        </div>
-        <div
-          class="edit_track_title"
-          v-for="(tracks, index) in this.track.a_track_list"
-          :key="tracks.track_id"
-        >
-          <div class="track-up-content">
-            <div class="track-icon-content">
-              <span class="aicon"></span>
-              <span
-                class="atitle"
-                :title="tracks.name"
-                @dblclick="handleTitleClick(tracks)"
-                >{{ tracks.name }}</span
-              >
-            </div>
-            <div class="track-set-content">
-              <trackstatus
-                :track="tracks"
-                :type="'a_track_list'"
-                :index="index"
-              ></trackstatus>
-              <trackset
-                :track="tracks"
-                :type="'a_track_list'"
-                :index="index"
-                :tracks="track.a_track_list"
-              ></trackset>
-            </div>
-          </div>
-          <trackvolue
-            :track="tracks"
-            :type="'a_track_list'"
-            :index="index"
-          ></trackvolue>
+        <div class="edit_track_title">
         </div>
         <div class="track-box-left-mask" v-if="modalVoiceApplyIsShow"></div>
       </div>
       <div class="bg-container">
         <div class="edit_track_contents clearfix" ref="trackbox">
           <div
-            v-for="(tracks, index) in track.v_track_list"
+            v-for="(tracks, index) in this.tracks"
             :key="tracks.track_id"
             :id="tracks.track_id"
             class="clearfix edit_track_content"
@@ -101,20 +33,32 @@
                 left: -track_property.outLeft + 'px'
               }"
             >
-              <chunkbox
+              <draggable :v-model="tracks" :forceFallback="true" animation="300">
+                  <transition-group class="collection" style="display:flex">
+                    <chunkbox
+                      :trackMark="index"
+                      v-for="(chunk, index1) in tracks"
+                      :key="chunk.chunk_id + chunk.src_id"
+                      :chunk="chunk"
+                      :trackid="tracks.track_id"
+                      :trackarr="tracks"
+                      :tracktype="tracks.track_type"
+                      :index="index1"
+                    ></chunkbox>
+                  </transition-group>
+              </draggable> 
+              <!-- <chunkbox
                 :trackMark="index"
-                v-for="(chunk, index1) in tracks.chunks.filter(
-                  chunk => chunk.chunk_type !== 5
-                )"
+                v-for="(chunk, index1) in tracks"
                 :key="chunk.chunk_id + chunk.src_id"
                 :chunk="chunk"
                 :trackid="tracks.track_id"
                 :trackarr="tracks"
                 :tracktype="tracks.track_type"
                 :index="index1"
-              ></chunkbox>
+              ></chunkbox> -->
               <chunkdx
-                v-for="chunk in tracks.chunks.filter(
+                v-for="chunk in tracks.filter(
                   chunk => chunk.chunk_type === 5
                 )"
                 :key="chunk.chunk_id"
@@ -126,55 +70,6 @@
             <trackhide
               :track="tracks"
               :type="'v_track_list'"
-              :index="index"
-            ></trackhide>
-            <track-mask
-              :track="tracks"
-              :type="'v_track_list'"
-              :index="index"
-            ></track-mask>
-          </div>
-          <div
-            style="height:63px"
-            v-for="(tracks, index) in this.track.a_track_list"
-            :key="tracks.track_id"
-            :id="tracks.track_id"
-            class="clearfix edit_track_content"
-            :track_type="tracks.track_type"
-            :able="tracks.block || tracks.bhidden"
-          >
-            <div
-              class="track_able_content"
-              :style="{
-                width:
-                  length / (slidernum.max - track_property.ratio) + 100 + 'px',
-                left: -track_property.outLeft + 'px'
-              }"
-            >
-              <chunkbox
-                v-for="(chunk, index1) in tracks.chunks.filter(
-                  chunk => chunk.chunk_type !== 5
-                )"
-                :key="chunk.chunk_id + chunk.src_id"
-                :trackid="tracks.track_id"
-                :chunk="chunk"
-                :trackarr="tracks"
-                :tracktype="tracks.track_type"
-                :index="index1"
-              ></chunkbox>
-              <chunkdx
-                v-for="chunk in tracks.chunks.filter(
-                  chunk => chunk.chunk_type === 5
-                )"
-                :key="chunk.chunk_id"
-                :trackid="tracks.track_id"
-                :trackarr="tracks"
-                :chunk="chunk"
-              ></chunkdx>
-            </div>
-            <trackhide
-              :track="tracks"
-              :type="'a_track_list'"
               :index="index"
             ></trackhide>
             <track-mask
@@ -200,6 +95,7 @@ import trackhide from './trackHide'
 import TrackMask from './TrackMask.vue'
 import { trackRenameApi } from '@/api/Track'
 import { TIP_HEIGHT_NUMBER } from '@/config'
+import draggable from 'vuedraggable'
 
 export default {
   components: {
@@ -210,7 +106,8 @@ export default {
     chunkdx,
     chunkbox,
     trackhide,
-    TrackMask
+    TrackMask,
+    draggable
   },
   props: {
     editHeight: {
@@ -243,9 +140,11 @@ export default {
     },
     tracknum() {
       return (
-        this.$store.state.all.tracks.a_track_list +
-        this.$store.state.all.tracks.v_track_list
+        this.$store.state.all.track
       )
+    },
+    tracks() {
+      return [this.$store.state.all.track]
     }
   },
   methods: {
@@ -332,7 +231,7 @@ export default {
       // this.aBScroll.refresh()
       setTimeout(() => {
         $('#trackbox')
-          .getNiceScroll()
+          // .getNiceScroll()
           .resize()
       }, 0)
     },
@@ -342,7 +241,7 @@ export default {
         // this.aBScroll.refresh()
         setTimeout(() => {
           $('#trackbox')
-            .getNiceScroll()
+            // .getNiceScroll()
             .resize()
         }, 0)
       }
@@ -364,13 +263,13 @@ export default {
     this.UPDATE_TRACKPOSITION(5)
     this.UPDATE_CAPTIONPOSITION()
 
-    $('#trackbox').niceScroll({
-      cursorcolor: '#AAAAAA',
-      cursorborder: '1px solid #AAAAAA',
-      enablekeyboard: false,
-      horizrailenabled: false,
-      enablescrollonselection: false
-    })
+    // $('#trackbox').niceScroll({
+    //   cursorcolor: '#AAAAAA',
+    //   cursorborder: '1px solid #AAAAAA',
+    //   enablekeyboard: false,
+    //   horizrailenabled: false,
+    //   enablescrollonselection: false
+    // })
     // const bscrollDom = this.$refs.bscroll
     // this.aBScroll = new BScroll(bscrollDom, {
     //   mouseWheel: true,
@@ -413,6 +312,8 @@ export default {
         box-sizing: border-box;
         border-right: 1px solid #151a20;
         border-bottom: 1px solid #151a20;
+        background: no-repeat center;
+        background-image: url('../../img/vtrack.png');
         position: relative;
         &:last-of-type {
           border-bottom: none;

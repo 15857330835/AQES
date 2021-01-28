@@ -12,8 +12,13 @@
     >
       <span
         class="edit_tip_title"
+        @mousedown="openway == 'pc' ? n_mousedown($event) : temp"
+        @touchstart="n_mousedown"
         :class="{ 'tip-extend-height': exportVideoSetShow }"
       >
+        <el-tooltip class="item" effect="dark" content="剪切后当前帧归后" placement="top">
+          <div class="qes-split-btn" @click="quickCut($event)">剪切</div>
+        </el-tooltip>
         <div
           class="location-left"
           @click="handleLocationLeftClick($event)"
@@ -22,8 +27,6 @@
         ></div>
         <span
           class="location-time"
-          @mousedown="openway == 'pc' ? n_mousedown($event) : temp"
-          @touchstart="n_mousedown"
           >{{ this.trantime }}</span
         >
         <div
@@ -61,7 +64,9 @@ export default {
       'videoTipLocker',
       'exportVideoSetShow',
       'trackStart',
-      'trackEnd'
+      'trackEnd',
+      'activechunk',
+      'ghostsPosition'
     ]),
     loadingShow() {
       return this.startloading || this.onloading
@@ -118,13 +123,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['Post']),
+    ...mapActions(['Post', 'cut']),
     ...mapMutations([
       'UPDATE_POINTER',
       'CHANGE_POS',
       'UPDATE_TRACK_START',
       'UPDATE_TRACK_END',
-      'UPDATE_POINTER_POSITION'
+      'UPDATE_POINTER_POSITION',
+      'UPDATE_CHUNK_POSITION'
     ]),
     // eslint-disable-next-line no-empty-function
     temp() {},
@@ -247,6 +253,10 @@ export default {
         this.UPDATE_TRACK_END(this.pointer.position)
         // pointerSetApi({ position: this.pointer.position });
       }
+    },
+    quickCut(e) {
+      const linePos = this.pointer.position
+      this.cut([linePos])
     }
   },
   mounted() {
@@ -302,12 +312,14 @@ export default {
   background-color: #61ded0;
   text-align: center;
   left: 50%;
+  top: -20px;
   transform: translate(-50%, 0);
   cursor: ew-resize;
   display: inline-block;
   width: 96px;
-  height: 20px;
+  height: 40px;
   line-height: 20px;
+  border-radius: 3px;
 }
 
 .nces_edit .edit_tip .edit_tip_line .edit_tip_title:after {
@@ -319,6 +331,11 @@ export default {
   left: 50%;
   transform: translate(-50%, 0);
 }
+
+.qes-split-btn {
+  cursor: pointer;
+}
+
 .location-left {
   float: left;
   width: 16px;

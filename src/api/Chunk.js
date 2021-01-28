@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.NCES.DOMAIN + '/api/chunk'
+const url = window.AQES.DOMAIN + '/api/chunk'
 // All
 export const chunkAllApi = (payload = {}) => {
   payload.cmd = 'all'

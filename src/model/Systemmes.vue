@@ -1,7 +1,7 @@
 <template>
   <div class="nces_sys">
     <div class="sys_title">
-      <span class="t1">{{ project }}</span>
+      <span class="t1">帧级快剪</span>
     </div>
     <div class="sys_message">
       <span :class="cpus">
@@ -10,10 +10,13 @@
       <span :class="netOuts">
         netOut: <span>{{ (netOut.v / 1000).toFixed(2) }} kbps</span>
       </span>
+      <span :class="netOuts">
+        网络: <span>{{ networkStatus }} ms</span>
+      </span>
       <span :class="nums">
         页面打开数: <span>{{ num.v }} </span>
       </span>
-      <span>使用时长 : {{ this.newtime }}</span>
+      <span>在 <span style="color:#61ded0;font-size:16px">{{ this.newtime }}</span> 内不进行操作，系统将自动停止快剪服务</span>
     </div>
     <div :style="{ float: 'right', color: color }">
       <span
@@ -25,6 +28,9 @@
   </div>
 </template>
 <script>
+import { TimeoutAllApi, TimeoutSetApi } from '@/api/Timeout'
+import dynamicLoadJs  from '@/utils/dynamicLoadJs'
+
 export default {
   data() {
     return {
@@ -34,7 +40,11 @@ export default {
       project: '',
       netOut: {},
       num: {},
-      flag: 0
+      flag: 0,
+      countdown: 600,
+      timer: null,
+      operation: false,
+      networkStatus: 0
     }
   },
   computed: {
@@ -58,7 +68,10 @@ export default {
       return '#e4e4e4'
     },
     newtime() {
-      return this.trantime(this.time)
+      const m = Math.floor(this.countdown / 60)
+      let s = this.countdown % 60
+      s = s < 10 ? '0' + s : s
+      return m + ':' + s
     },
     cpus() {
       return this.state(this.cpu)
@@ -79,12 +92,11 @@ export default {
       const that = this
       $.ajax({
         type: 'get',
-        url: window.NCES.DOMAIN + '/api/system',
+        url: window.AQES.DOMAIN + '/api/system',
         dataType: 'json',
         success(res) {
           if (res.code === 0) {
             const status = res.data.status
-            that.project = res.data.config.name
             that.cpu = status.cpu
             that.netOut = status.curr_net_out
             that.space = status.disk_space
@@ -99,7 +111,7 @@ export default {
     },
     check() {
       const that = this
-      $.get(window.NCES.DOM + '/getInstanceInfo', function(json_para) {
+      $.get(window.AQES.DOM + '/getInstanceInfo', function(json_para) {
         const json = JSON.parse(json_para)
         if (json.code !== 0 && json.code !== '0') {
           return
@@ -132,6 +144,41 @@ export default {
     setInterval(() => {
       this.check()
     }, 60000)
+    dynamicLoadJs(`${window.AQES.DOMAIN.slice(0,-5)}/lcpsping.js`, () => {
+      let addr = ''
+      if ('https:' == document.location.protocol) {
+        addr = `wss://${window.AQES.DOMAIN.slice(0,-5).replace('//', '')}`
+      } else {
+        addr = `ws://${window.AQES.DOMAIN.slice(0,-5).replace('//', '')}`
+      }
+      LcpsPing(addr, 3000, ping => {
+        this.networkStatus = ping
+      })
+    })
+    $(document).click(() => this.operation = true)
+    setInterval(() => {
+      if(this.operation == true) {
+        const data = {t: 600000}
+        TimeoutSetApi(data).then(res => {
+          if(res.code == 0) {
+            TimeoutAllApi().then(res => this.countdown = (res.data.t/1000))
+          }
+        })
+        this.operation = false
+      }
+    },10000)
+    this.timer = setInterval(() => {
+      TimeoutAllApi().then(res => this.countdown = (res.data.t/1000))
+      if(this.countdown == 0) {
+        clearInterval(this.timer)
+        this.$alert('长时间无操作，系统已自动停止帧快剪服务', '提示消息', {
+          confirmButtonText: '确定',
+          callback() {
+            window.close()
+          }
+        })
+      }
+    },1000)
   }
 }
 </script>

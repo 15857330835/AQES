@@ -1,6 +1,9 @@
 <template>
   <div class="video_option_content">
     <div class="content_top">
+      <div v-if="!ism3u8" class="ism3u8">
+        需要转码
+      </div>
       <img
         :src="src"
         class="content_top_img dragele source-img"
@@ -34,6 +37,9 @@ export default {
     dateTime() {
       const d = new Date(Number(this.source.date) * 1000)
       return this.formatDate(d, 'yyyy.MM.dd')
+    },
+    ism3u8() {
+      return this.source.url.slice(-4) == 'm3u8'
     },
     src() {
       return this.source.thumbnail
@@ -254,6 +260,15 @@ export default {
 .video_option_content {
   .content_top {
     background-color: #010101;
+    .ism3u8 {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      background: rgba(139, 149, 152, .5);
+    }
     .source-img {
       opacity: 0;
       transition: opacity 0.5s ease;

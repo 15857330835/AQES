@@ -117,8 +117,8 @@ export default {
       this.$refs.leftW.releaseCapture && this.$refs.leftW.releaseCapture()
       this.postTrack({
         data: {
-          cmd: 'property_append',
-          track_property: { outLeft: this.track_property.outLeft }
+          cmd: 'append',
+          property: { outLeft: this.track_property.outLeft }
         },
         success() {
           that.getnowimg()

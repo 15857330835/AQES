@@ -1,10 +1,10 @@
 <template>
   <div class="makeTable">
     <div class="makeTable_content">
-      <div class="content_title">工程另存为</div>
+      <div class="content_title">生成视频</div>
       <div class="content_select">
         <p>
-          <span>工程名称 : </span
+          <span>视频名称 : </span
           ><input type="text" class="out_file_name" v-model="name" />
         </p>
       </div>
@@ -18,6 +18,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
+import { outputAddApi, outputAllApi } from '@/api/Output'
 // import systemmes from './model/Systemmes'
 
 export default {
@@ -25,7 +26,7 @@ export default {
     return { show: false, loading: {}, player: {}, name: '' }
   },
   computed: {
-    ...mapState(['notify', 'systemmessage'])
+    ...mapState(['notify', 'systemmessage']),
   },
   watch: {},
   methods: {
@@ -38,7 +39,7 @@ export default {
       const that = this
       if (this.name === '') {
         window.zindex = 0
-        this.$alert('请输入要另存的工程的名称!', '提示消息', {
+        this.$alert('请输入要生成的视频的名称!', '提示消息', {
           confirmButtonText: '确定',
           callback() {
             window.zindex = 1
@@ -46,40 +47,26 @@ export default {
         })
         return
       }
-      const data = {}
-      data.type = 'project'
-      data.data = { cmd: 'saveas', name: this.name }
-      data.success = function(res) {
-        if (window.NCES.saveas) {
-          window.NCES.saveas(res)
+      const data = {
+        title: this.name
+      }
+      outputAddApi(data).then(res => {
+        if (res.code === 0) {
+          this.CHANGE_BOXSET('saveprogress')  
+        } else {
+          console.err(res.msg)
+          this.CHANGE_BOXSET('')
         }
-        that.loading.close()
-        that.changeLoading()
-        window.zindex = 0
-        that.$alert('工程另存为成功！', '提示消息', {
-          confirmButtonText: '确定',
-          callback() {
-            window.zindex = 1
-          }
-        })
-      }
-      data.error = function(res) {
-        window.zindex = 1
-        that.$alert('工程另存为失败！', '提示消息', {
-          confirmButtonText: '确定',
-          callback() {
-            window.zindex = 1
-          }
-        })
-        console.log('工程另存为失败:' + res.msg)
-      }
-      this.Post(data)
-      this.CHANGE_BOXSET('')
-      this.loading = this.$loading({
-        fullscreen: true,
-        background: 'rgba(0, 0, 0, 0.6)',
-        text: '保存中'
+      }).catch(() => {
+        this.$alert(`服务器忙,请稍后重试`, '生成失败')
+        this.CHANGE_BOXSET('')
+        // this.$alert(`当前已下载${this.schedule}%`, '生成中')
       })
+      // this.loading = this.$loading({
+      //   fullscreen: true,
+      //   background: 'rgba(0, 0, 0, 0.6)',
+      //   text: '保存中'
+      // })
       window.zindex = 1
     }
   }

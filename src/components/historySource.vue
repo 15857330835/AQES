@@ -83,7 +83,7 @@ export default {
         if (this.source.src_type === 2 || this.source.uncapture_preview_img) {
           url = '//' + url
         } else {
-          url = window.NCES.DOMAIN + url
+          url = window.AQES.DOMAIN + url
         }
       }
       return url
@@ -97,7 +97,6 @@ export default {
     downloadShow() {
       return (
         !this.source.bload &&
-        this.source.src_type === 1 &&
         this.source.progress === 0
       )
     },

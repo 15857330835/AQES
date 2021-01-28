@@ -131,7 +131,7 @@ export default {
     }
 
     const stream = 'allpreview'
-    const domain = window.NCES.D // "xx.uid.lcps.aodianyun.com";
+    const domain = window.AQES.D // "xx.uid.lcps.aodianyun.com";
     const rtcVideoID = 'webrtcVideoID'
     const flashVideoID = 'flashVideoID'
     const width = '100%'
@@ -146,7 +146,7 @@ export default {
         this.$alert(data.message)
       }
     }
-    dynamicLoadJs(window.NCES.DOM + '/lcpsplayer.js', function() {
+    dynamicLoadJs(window.AQES.DOM + '/lcpsplayer.js', function() {
       // eslint-disable-next-line no-undef
       LcpsPlayerInit(domain, function() {
         // var player = new LcpsPlayer(domain, stream, "rtcVideoID", "flashVideoID", "auto");

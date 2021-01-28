@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.NCES.DOMAIN + '/api/ai'
+const url = window.AQES.DOMAIN + '/api/ai'
 
 // 停止
 export const aiStopApi = (payload = {}) => {
