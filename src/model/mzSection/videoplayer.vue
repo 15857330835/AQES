@@ -378,7 +378,7 @@ export default {
       if (!this.isFullPage) {
         this.isFullPage = true
         const that = this
-        this.$fullscreen.enter(document.querySelector('html'), {
+        this.$fullscreen.enter(document.querySelector('#aqes'), {
           wrap: false,
           callback: that.buffResizeScreen
         })
@@ -539,13 +539,13 @@ export default {
         this.track_property.fanwei['1440'].now = width / lh.width()
       }
       $('.video_option')
-        .getNiceScroll()
+        // .getNiceScroll()
         .resize()
       $('#trackbox')
-        .getNiceScroll()
+        // .getNiceScroll()
         .resize()
       $('.mydir-bottom-content')
-        .getNiceScroll()
+        // .getNiceScroll()
         .resize()
       this.resizeScreen()
     },

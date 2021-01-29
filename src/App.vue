@@ -1,7 +1,6 @@
 <template>
   <div
     :id="this.id"
-    style="height: 100vh;"
     :class="{ shadow: modalVoiceApplyIsShow || chunksetshow }"
     v-cloak
     v-if="!this.startloading"

@@ -248,7 +248,7 @@ export default {
   width: 100%;
   height: 0.54rem;
   background-color: #151a20;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   display: flex;
   .time_track_title {

@@ -47,7 +47,7 @@ export default {
       }
     },
     height() {
-      return `calc(100vh - 3.28rem)`
+      return `calc(100% - 3.28rem)`
       // return `calc(${this.widthScale}vw / 16 * 9 + 1.68rem)`
     },
     videoselw() {
