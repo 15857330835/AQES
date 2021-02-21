@@ -1,7 +1,7 @@
 <template>
   <div class="nces_sys">
     <div class="sys_title">
-      <span class="t1">帧级快剪</span>
+      <span class="t1">{{ headline }}</span>
     </div>
     <div class="sys_message">
       <span :class="cpus">
@@ -85,6 +85,9 @@ export default {
     },
     nums() {
       return this.state(this.num)
+    },
+    headline() {
+      return window.AQES.headline || '帧级快剪'
     }
   },
   methods: {

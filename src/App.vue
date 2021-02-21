@@ -96,7 +96,7 @@ export default {
   },
   mounted() {
     outputAllApi().then(res => {
-      if (res.data.state == 1) {
+      if (res.data.status.state == 1) {
         this.CHANGE_BOXSET('saveprogress')
       }
     })

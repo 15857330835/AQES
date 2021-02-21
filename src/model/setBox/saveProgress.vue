@@ -33,8 +33,8 @@ export default {
       const that = this
       const res = await outputAllApi()
       if(res.code == 0) {
-        this.progress = res.data.progress
-        if(res.data.state == -1) {
+        this.progress = res.data.status.progress
+        if(res.data.status.state == -1) {
           this.CHANGE_BOXSET('')  
           this.$alert(`视频生成出错！`, '生成失败')
           return  
@@ -42,7 +42,7 @@ export default {
         if(this.progress < 100) {
           this.timer = setTimeout(that.getSchedule, 1000)
         }else if (this.progress = 100) {
-          window.AQES.saveas(res.data.url)
+          window.AQES.saveas(res.data.info)
           this.CHANGE_BOXSET('')  
           this.$alert(`视频生成成功`, '生成成功', {
           confirmButtonText: '确定',

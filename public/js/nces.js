@@ -96,6 +96,8 @@ AQES.Config({
   // tp_obj: '<li onclick="getImg(1)">我的图片</li>',
   //下拉拖进轨道的视频的类名，视频的信息也放在该元素上
   drag_ele: 'dragele',
+  headline: '帧级快剪', //页面左侧标题
+  stream: '', //存储后的stream名称,只能由字母和数字组成，同一stream，如果在一秒中有两个视频同时上传，有被覆盖风险，默认会随机生成，如无特殊需求，不推荐定义
   // event: event,
   mzList: [
     // 若html不为空，interface不起作用
@@ -146,9 +148,17 @@ AQES.Config({
     // }
   ],
   // callbackResult: [],
-  //导出的视频地址
+  //导出视频处理函数
   saveas: function(obj) {
     console.log(obj)
+    // obj = {
+    //   duration   时长（s）
+    //   height  
+    //   preview_img  视频预览图
+    //   size  大小
+    //   url   视频地址
+    //   width
+    // }
   }
 })
 /*配置选项e*/

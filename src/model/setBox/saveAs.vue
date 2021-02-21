@@ -50,6 +50,16 @@ export default {
       const data = {
         title: this.name
       }
+      if(window.AQES.stream !== '') {
+        let stream = window.AQES.stream
+        var reg = /^[0-9a-zA-Z]+$/
+        if(!reg.test(stream)) {
+          this.$alert(`stream只能由数字和字母组成`, '生成失败')
+          this.CHANGE_BOXSET('')
+          return
+        }
+        data.stream = stream
+      }
       outputAddApi(data).then(res => {
         if (res.code === 0) {
           this.CHANGE_BOXSET('saveprogress')  
