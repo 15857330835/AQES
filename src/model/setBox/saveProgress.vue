@@ -42,7 +42,9 @@ export default {
         if(this.progress < 100) {
           this.timer = setTimeout(that.getSchedule, 1000)
         }else if (this.progress = 100) {
-          window.AQES.saveas(res.data.info)
+          const info = res.data.info
+          info.title = res.data.status.title
+          window.AQES.saveas(info)
           this.CHANGE_BOXSET('')  
           this.$alert(`视频生成成功`, '生成成功', {
           confirmButtonText: '确定',

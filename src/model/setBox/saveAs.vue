@@ -68,7 +68,7 @@ export default {
           this.CHANGE_BOXSET('')
         }
       }).catch(() => {
-        this.$alert(`服务器忙,请稍后重试`, '生成失败')
+        this.$alert(`生成视频有误,请重试`, '生成失败')
         this.CHANGE_BOXSET('')
         // this.$alert(`当前已下载${this.schedule}%`, '生成中')
       })

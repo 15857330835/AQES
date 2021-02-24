@@ -7,7 +7,7 @@ import getters from './getters'
 Vue.use(Vuex)
 
 const state = {
-  v: `v_1.6.20210205`, // 版本信息
+  v: `v_1.7.20210222`, // 版本信息
   startloading: true, // 工程是否在加载中
   onloading: false,
   all: {}, // 工程所有的信息
