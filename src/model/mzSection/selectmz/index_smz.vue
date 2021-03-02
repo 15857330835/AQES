@@ -256,7 +256,7 @@ export default {
             this.clonedivInit()
           }
           this.$message({
-            message: '该视频格式不支持！',
+            message: '该视频格式不支持！继续操作请刷新页面重试！',
             type: 'warning'
           })
           return
@@ -321,7 +321,7 @@ export default {
         }
       }else {
         this.$message({
-          message: '该视频格式不支持！',
+          message: '该视频格式不支持！继续操作请刷新页面重试！',
           type: 'warning'
         })
       }

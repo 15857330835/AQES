@@ -1,19 +1,21 @@
 <template>
   <span class="mz-pane">
-    <div class="datepicker" v-if="showDatePicker">
-      <span>日期 :</span>
-      <date-picker
-        ref="datePicker"
-        @dateChange="handleDateChange"
-        @clearDate="handleClearDate"
-      ></date-picker>
-      <!-- <span class="search"></span> -->
-    </div>
-    <search-bar
-      :title.sync="title"
-      :inputEvent="handleTitleSearchChange"
-      v-if="showTitleSearch"
-    ></search-bar>
+    <div class="Picker">
+      <search-bar
+        :title.sync="title"
+        :inputEvent="handleTitleSearchChange"
+        v-if="showTitleSearch"
+      ></search-bar>
+      <div class="datepicker" v-if="showDatePicker">
+        <span>日期 :</span>
+        <date-picker
+          ref="datePicker"
+          @dateChange="handleDateChange"
+          @clearDate="handleClearDate"
+        ></date-picker>
+        <!-- <span class="search"></span> -->
+      </div> 
+    </div> 
 
     <div class="bscroll main" ref="bscroll">
       <div class="bscroll-container">
