@@ -472,6 +472,10 @@ export default {
           const source = this.sourceData.filter(item => {
             return item.src_id === data.src_id
           })[0]
+          if (!source) {
+            that.clonedivInit()
+            return
+          }
           if (source.status === -2 && source.src_type === 1) {
             that.$alert(
               '您添加的视频分辨率超出配置，请更改配置或选择分辨率较低的视频添加！',
@@ -1383,7 +1387,7 @@ $base-url: '../../../';
     display: flex;
     li {
       padding: 0.11rem 0.06rem;
-      width: 0.7rem;
+      width: 1rem;
       text-align: center;
       cursor: pointer;
       display: flex;

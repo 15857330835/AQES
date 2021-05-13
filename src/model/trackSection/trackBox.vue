@@ -11,6 +11,7 @@
     <div class="edit_track bscroll-container">
       <div class="edit_track_titles" @mousedown="failClick">
         <div class="edit_track_title">
+          视频图层
         </div>
         <div class="track-box-left-mask" v-if="modalVoiceApplyIsShow"></div>
       </div>
@@ -315,6 +316,10 @@ export default {
         background: no-repeat center;
         background-image: url('../../img/vtrack.png');
         position: relative;
+        text-align: center;
+        padding-top: 42px;
+        background-position-y: 7px;
+        letter-spacing: 5px;
         &:last-of-type {
           border-bottom: none;
         }

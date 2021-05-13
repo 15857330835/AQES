@@ -48,7 +48,7 @@ $backgroundColorDarken: rgb(48, 56, 64);
   .el-input__inner {
     border: none;
     background: $backgroundListColor;
-    width: 300px;
+    width: 350px;
     .el-range-input {
       background: $backgroundColorDarken;
       border: 1px solid #636a71;
