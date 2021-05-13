@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.AQES.DOMAIN + '/api/timeout'
+const url = window.AQES.DOMAIN + '/api/timeout' + `?authKey=${window.AQES.authKey}`
 
 // 时间获取
 export const TimeoutAllApi = (payload = {}) => {

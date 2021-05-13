@@ -180,7 +180,7 @@ export default {
     sendRatio() {
       const that = this
       $.post(
-        window.AQES.DOMAIN + '/api/property',
+        window.AQES.DOMAIN + '/api/property' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'append',
           property: {

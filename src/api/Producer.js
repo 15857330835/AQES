@@ -1,6 +1,6 @@
 import axios from '../http'
-const url = window.AQES.DOMAIN + '/api/producer'
-const url1 = window.AQES.DOMAIN + '/api/output'
+const url = window.AQES.DOMAIN + '/api/producer' + `?authKey=${window.AQES.authKey}`
+const url1 = window.AQES.DOMAIN + '/api/output' + `?authKey=${window.AQES.authKey}`
 // 删除
 export const producerDelApi = (payload = {}) => {
   payload.cmd = 'del'

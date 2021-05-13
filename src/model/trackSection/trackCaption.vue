@@ -80,7 +80,7 @@ export default {
       }
       const that = this
       $.post(
-        window.AQES.DOMAIN + '/api/caption',
+        window.AQES.DOMAIN + '/api/caption' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({ cmd: 'clear' }),
         function(res) {
           if (res.code !== 0) {

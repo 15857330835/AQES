@@ -58,7 +58,7 @@ export default {
     const that = this
     $.ajax({
       type: 'get',
-      url: window.AQES.DOMAIN + '/api/all',
+      url: window.AQES.DOMAIN + '/api/all' + `?authKey=${window.AQES.authKey}`,
       success(res) {
         if (res.code !== 0) {
           setTimeout(function() {
@@ -131,7 +131,7 @@ export default {
       index
     }
     $.post(
-      window.AQES.DOMAIN + '/api/chunk',
+      window.AQES.DOMAIN + '/api/chunk' + `?authKey=${window.AQES.authKey}`,
       JSON.stringify(data),
       function(res) {
         if (res.code === 0) {
@@ -143,7 +143,7 @@ export default {
   },
   gethistoryindex({ commit }) {
     $.post(
-      window.AQES.DOMAIN + '/api/history',
+      window.AQES.DOMAIN + '/api/history' + `?authKey=${window.AQES.authKey}`,
       JSON.stringify({ cmd: 'list' }),
       function(res) {
         if (res.code === 0) {
@@ -210,7 +210,7 @@ export default {
   cut(state, array) {
     const that = this
     $.post(
-      window.AQES.DOMAIN + '/api/chunk',
+      window.AQES.DOMAIN + '/api/chunk' + `?authKey=${window.AQES.authKey}`,
       JSON.stringify({
         cmd: 'split',
         // chunk_id: array.chunk_id,
@@ -378,7 +378,7 @@ export default {
   // 提交pointer接口数据(position,speed)
   postPointer({ commit, state, dispatch }, data) {
     $.post(
-      window.AQES.DOMAIN + '/api/pointer',
+      window.AQES.DOMAIN + '/api/pointer' + `?authKey=${window.AQES.authKey}`,
       JSON.stringify(data.data),
       function(res) {
         if (res.code !== 0) {
@@ -395,7 +395,7 @@ export default {
   // 提交chunk接口数据
   postTrack({ commit, state, dispatch }, data) {
     $.post(
-      window.AQES.DOMAIN + '/api/property',
+      window.AQES.DOMAIN + '/api/property' + `?authKey=${window.AQES.authKey}`,
       JSON.stringify(data.data),
       function(res) {
         if (res.code !== 0) {
@@ -415,7 +415,7 @@ export default {
   // 提交接口数据
   Post({ commit, state, dispatch }, data) {
     $.post(
-      window.AQES.DOMAIN + '/api/' + data.type,
+      window.AQES.DOMAIN + '/api/' + data.type + `?authKey=${window.AQES.authKey}`,
       JSON.stringify(data.data),
       function(res) {
         if (res.code !== 0) {
@@ -436,7 +436,7 @@ export default {
   refreshActiveChunk({ commit, state, dispatch }, data) {
     axios
       .post(
-        window.AQES.DOMAIN + '/api/chunk',
+        window.AQES.DOMAIN + '/api/chunk' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'get',
           chunk_id: state.activechunk.index

@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.AQES.DOMAIN + '/api/shortcut'
+const url = window.AQES.DOMAIN + '/api/shortcut' + `?authKey=${window.AQES.authKey}`
 // 更新
 export const shortcutUpdateApi = (payload = {}) => {
   payload.cmd = 'update'

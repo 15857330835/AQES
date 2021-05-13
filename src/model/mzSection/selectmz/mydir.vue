@@ -433,7 +433,7 @@ export default {
       value: { value: 'all', label: '全部' },
       // url: "",
       // dirlist: {},
-      actionurl: window.AQES.DOMAIN + '/upload',
+      actionurl: window.AQES.DOMAIN + '/upload' + `?authKey=${window.AQES.authKey}`,
       fileList: [],
       upList: [],
       title: '',

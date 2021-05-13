@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.AQES.DOMAIN + '/api/pointer'
+const url = window.AQES.DOMAIN + '/api/pointer' + `?authKey=${window.AQES.authKey}`
 
 // 上一帧
 export const pointerLastFApi = (payload = {}) => {

@@ -105,7 +105,7 @@ export default {
               : a / (this.slidernum.max - this.track_property.ratio)
           console.log(outleft)
           $.post(
-            window.AQES.DOMAIN + '/api/property',
+            window.AQES.DOMAIN + '/api/property' + `?authKey=${window.AQES.authKey}`,
             JSON.stringify({
               cmd: 'append',
               property: { outLeft: outleft }
@@ -146,7 +146,7 @@ export default {
             outleft = 0
           }
           $.post(
-            window.AQES.DOMAIN + '/api/property',
+            window.AQES.DOMAIN + '/api/property' + `?authKey=${window.AQES.authKey}`,
             JSON.stringify({
               cmd: 'append',
               property: { outLeft: outleft }

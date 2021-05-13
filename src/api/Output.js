@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.AQES.DOMAIN + '/api/output'
+const url = window.AQES.DOMAIN + '/api/output' + `?authKey=${window.AQES.authKey}`
 
 // All
 export const outputAllApi = (payload = {}) => {

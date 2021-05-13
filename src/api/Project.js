@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.AQES.DOMAIN + '/api/project'
+const url = window.AQES.DOMAIN + '/api/project' + `?authKey=${window.AQES.authKey}`
 // 保存
 export const projectSaveApi = (payload = {}) => {
   payload.cmd = 'save'

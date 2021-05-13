@@ -400,7 +400,7 @@ export default {
     videoRefresh() {
       // 刷新播放器
       $.post(
-        window.AQES.DOMAIN + '/api/player',
+        window.AQES.DOMAIN + '/api/player' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({ cmd: 'restart' }),
         function(res) {
           if (res.code !== 0) {

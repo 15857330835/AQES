@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.AQES.DOMAIN + '/api/transition'
+const url = window.AQES.DOMAIN + '/api/transition' + `?authKey=${window.AQES.authKey}`
 // 列表获取
 export const transitionAllApi = (payload = {}) => {
   payload.cmd = 'all'

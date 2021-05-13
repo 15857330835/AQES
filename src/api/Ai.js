@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.AQES.DOMAIN + '/api/ai'
+const url = window.AQES.DOMAIN + '/api/ai' + `?authKey=${window.AQES.authKey}`
 
 // 停止
 export const aiStopApi = (payload = {}) => {

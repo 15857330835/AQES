@@ -952,7 +952,7 @@ export default {
         }
       }
       $.post(
-        window.AQES.DOMAIN + '/api/shortcut',
+        window.AQES.DOMAIN + '/api/shortcut' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({ cmd: 'update', shortcut: obj }),
         function(res) {
           if (res.code === 0) {

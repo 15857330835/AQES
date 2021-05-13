@@ -31,7 +31,7 @@ export default {
     volChange(value) {
       const that = this
       $.post(
-        window.AQES.DOMAIN + '/api/track',
+        window.AQES.DOMAIN + '/api/track' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'volume',
           track_id: that.track.track_id,

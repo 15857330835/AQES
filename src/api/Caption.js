@@ -1,6 +1,6 @@
 import axios from '../http'
 
-const url = window.AQES.DOMAIN + '/api/caption'
+const url = window.AQES.DOMAIN + '/api/caption' + `?authKey=${window.AQES.authKey}`
 
 // ALL
 export const captionAllApi = (payload = {}) => {

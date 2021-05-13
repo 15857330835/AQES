@@ -458,7 +458,7 @@ export default {
       clearInterval(this.timerRight)
       this.timerRight = null
       $.post(
-        window.AQES.DOMAIN + '/api/property',
+        window.AQES.DOMAIN + '/api/property' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'append',
           property: { outLeft: this.track_property.outLeft }
@@ -594,7 +594,7 @@ export default {
 
       that.flag = 0
       $.post(
-        window.AQES.DOMAIN + '/api/caption',
+        window.AQES.DOMAIN + '/api/caption' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'move',
           chunk_id: that.chunk.chunk_id,
@@ -671,7 +671,7 @@ export default {
 
       that.flag = 0
       $.post(
-        window.AQES.DOMAIN + '/api/caption',
+        window.AQES.DOMAIN + '/api/caption' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'move',
           chunk_id: that.chunk.chunk_id,

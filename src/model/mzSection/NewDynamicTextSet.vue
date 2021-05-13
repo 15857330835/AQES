@@ -222,7 +222,7 @@ export default {
     },
     getChunkInfo(index) {
       return this.$axios.post(
-        window.AQES.DOMAIN + '/api/chunk',
+        window.AQES.DOMAIN + '/api/chunk' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'get',
           index

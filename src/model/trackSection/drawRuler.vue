@@ -275,7 +275,7 @@ export default {
         $('#edit_tip_line').show()
         const data = { cmd: 'set', position: position }
         $.post(
-          window.AQES.DOMAIN + '/api/pointer',
+          window.AQES.DOMAIN + '/api/pointer' + `?authKey=${window.AQES.authKey}`,
           JSON.stringify(data),
           function(res) {
             if (res.code !== 0) {
@@ -336,7 +336,7 @@ export default {
               10
             )
       $.post(
-        window.AQES.DOMAIN + '/api/property',
+        window.AQES.DOMAIN + '/api/property' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'append',
           property: { outLeft: this.track_property.outLeft }

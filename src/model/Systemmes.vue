@@ -95,7 +95,7 @@ export default {
       const that = this
       $.ajax({
         type: 'get',
-        url: window.AQES.DOMAIN + '/api/system',
+        url: window.AQES.DOMAIN + '/api/system' + `?authKey=${window.AQES.authKey}`,
         dataType: 'json',
         success(res) {
           if (res.code === 0) {

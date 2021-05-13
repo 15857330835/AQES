@@ -1252,7 +1252,7 @@ export default {
       this.timerRight = null
       if (this.activechunk.state !== 'active') {
         $.post(
-          window.AQES.DOMAIN + '/api/property',
+          window.AQES.DOMAIN + '/api/property' + `?authKey=${window.AQES.authKey}`,
           JSON.stringify({
             cmd: 'append',
             property: { outLeft: this.track_property.outLeft }
@@ -1521,7 +1521,7 @@ export default {
       }
       for (let i = 0; i < serviceList.length; i++) {
         $.post(
-          window.AQES.DOMAIN + '/api/chunk',
+          window.AQES.DOMAIN + '/api/chunk' + `?authKey=${window.AQES.authKey}`,
           JSON.stringify({
             cmd: 'add_filter',
             chunk_id: this.activechunk.chunk.chunk_id,
@@ -1540,7 +1540,7 @@ export default {
         this.pointer.position - this.activechunk.chunk.track_end > 0
       ) {
         $.post(
-          window.AQES.DOMAIN + '/api/pointer',
+          window.AQES.DOMAIN + '/api/pointer' + `?authKey=${window.AQES.authKey}`,
           JSON.stringify({
             cmd: 'set',
             position: this.activechunk.chunk.track_start
@@ -1949,7 +1949,7 @@ export default {
   created() {
     const that = this
     $.post(
-      window.AQES.DOMAIN + '/api/source',
+      window.AQES.DOMAIN + '/api/source' + `?authKey=${window.AQES.authKey}`,
       JSON.stringify({ cmd: 'get', src_id: that.chunk.src_id }),
       function(res) {
         if (res.code !== 0) {

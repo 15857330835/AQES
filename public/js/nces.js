@@ -87,7 +87,8 @@ AQES.Config({
   id: 'aqes',
   // 导播台域名
   domain: getQueryStr('domain') || 'nle',
-  uin: '1011',
+  authKey: getQueryStr('authKey'),
+  uin: getQueryStr('uin') || '1011',
   // 自定义视频列表栏
   // video_sel:createVideolist(),
   // mz_obj:

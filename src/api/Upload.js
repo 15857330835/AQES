@@ -1,6 +1,6 @@
 import axios from '../http'
 // const qs = require('qs')
-const url = window.AQES.DOMAIN + '/upload'
+const url = window.AQES.DOMAIN + '/upload' + `?authKey=${window.AQES.authKey}`
 
 // 停止
 export const uploadForm = (payload = {}) => {

@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.AQES.DOMAIN + '/api/track'
+const url = window.AQES.DOMAIN + '/api/track' + `?authKey=${window.AQES.authKey}`
 // ALL
 export const trackAllApi = (payload = {}) => {
   payload.cmd = 'all'

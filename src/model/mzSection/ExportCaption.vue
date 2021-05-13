@@ -72,7 +72,7 @@ export default {
       })
         .then(res => {
           if (res.code === 0) {
-            this.srcURI = window.AQES.DOMAIN + res.data.path
+            this.srcURI = window.AQES.DOMAIN + res.data.path + `?authKey=${window.AQES.authKey}`
             axios
               .get(this.srcURI)
               .then(URI_res => {

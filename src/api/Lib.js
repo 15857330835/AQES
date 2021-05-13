@@ -1,5 +1,5 @@
 import axios from '../http'
-const url = window.AQES.DOMAIN + '/api/lib'
+const url = window.AQES.DOMAIN + '/api/lib' + `?authKey=${window.AQES.authKey}`
 
 // 列表
 export const libListApi = (payload = {}) => {

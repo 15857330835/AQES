@@ -291,7 +291,7 @@ export default {
     },
     addFilterWay(obj) {
       $.post(
-        window.AQES.DOMAIN + '/api/chunk',
+        window.AQES.DOMAIN + '/api/chunk' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'add_filter',
           chunk_id: this.activechunk.chunk.chunk_id,
@@ -567,7 +567,7 @@ export default {
     },
     sendmessage() {
       $.post(
-        window.AQES.DOMAIN + '/api/chunk',
+        window.AQES.DOMAIN + '/api/chunk' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'update_filter',
           chunk_id: this.activechunk.chunk.chunk_id,

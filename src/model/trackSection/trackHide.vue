@@ -31,7 +31,7 @@ export default {
         }
         this.track.block = !this.track.block
         $.post(
-          window.AQES.DOMAIN + '/api/caption',
+          window.AQES.DOMAIN + '/api/caption' + `?authKey=${window.AQES.authKey}`,
           JSON.stringify(data),
           function(res) {
             that.CHANGE_TRACK({ type: 'caption', status: that.track })
@@ -56,7 +56,7 @@ export default {
         this.track.block = !this.track.block
 
         $.post(
-          window.AQES.DOMAIN + '/api/track',
+          window.AQES.DOMAIN + '/api/track' + `?authKey=${window.AQES.authKey}`,
           JSON.stringify(data),
           function(res) {
             that.CHANGE_TRACK({
@@ -81,7 +81,7 @@ export default {
         this.track.bhidden = !this.track.bhidden
 
         $.post(
-          window.AQES.DOMAIN + '/api/caption',
+          window.AQES.DOMAIN + '/api/caption' + `?authKey=${window.AQES.authKey}`,
           JSON.stringify(data),
           function(res) {
             that.CHANGE_TRACK({ type: 'caption', status: that.track })
@@ -104,7 +104,7 @@ export default {
         }
         this.track.bhidden = !this.track.bhidden
         $.post(
-          window.AQES.DOMAIN + '/api/track',
+          window.AQES.DOMAIN + '/api/track' + `?authKey=${window.AQES.authKey}`,
           JSON.stringify(data),
           function(res) {
             that.CHANGE_TRACK({

@@ -294,7 +294,7 @@ export default {
       }
       const fnBack2 = function(result) {
         $.post(
-          window.AQES.DOMAIN + '/api/caption',
+          window.AQES.DOMAIN + '/api/caption' + `?authKey=${window.AQES.authKey}`,
           JSON.stringify({
             cmd: 'update_style',
             style: result.id
@@ -356,7 +356,7 @@ export default {
         console.log('字幕内容修改失败:' + res.msg)
       }
       $.post(
-        window.AQES.DOMAIN + '/api/caption',
+        window.AQES.DOMAIN + '/api/caption' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'update_text',
           chunk_id: id,

@@ -328,7 +328,7 @@ export default {
     },
     postData(data) {
       axios
-        .post(window.AQES.DOMAIN + '/api/source', JSON.stringify(data))
+        .post(window.AQES.DOMAIN + '/api/source' + `?authKey=${window.AQES.authKey}`, JSON.stringify(data))
         .then(this.multiMediaHandler)
     },
     handleNavClick(title, component) {
@@ -693,7 +693,7 @@ export default {
           }
           this.mediaType = 'muliti'
           axios
-            .post(window.AQES.DOMAIN + '/api/source', JSON.stringify(data))
+            .post(window.AQES.DOMAIN + '/api/source' + `?authKey=${window.AQES.authKey}`, JSON.stringify(data))
             .then(this.multiMediaHandler)
         }
       }
@@ -1098,7 +1098,7 @@ export default {
       clearInterval(this.timerRight)
       this.timerRight = null
       $.post(
-        window.AQES.DOMAIN + '/api/property',
+        window.AQES.DOMAIN + '/api/property' + `?authKey=${window.AQES.authKey}`,
         JSON.stringify({
           cmd: 'append',
           property: { outLeft: this.track_property.outLeft }
@@ -1275,7 +1275,7 @@ export default {
           : this.clonediv.frame
       if (this.clonediv.type === 1) {
         $.post(
-          window.AQES.DOMAIN + '/api/source',
+          window.AQES.DOMAIN + '/api/source' + `?authKey=${window.AQES.authKey}`,
           JSON.stringify({
             cmd: 'get_imgs',
             src_id: this.clonediv.src_id,
@@ -1315,7 +1315,7 @@ export default {
       }
       if (this.clonediv.type === 0) {
         $.post(
-          window.AQES.DOMAIN + '/api/source',
+          window.AQES.DOMAIN + '/api/source' + `?authKey=${window.AQES.authKey}`,
           JSON.stringify({
             cmd: 'get_imgs',
             src_id: this.clonediv.src_id,
