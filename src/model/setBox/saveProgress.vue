@@ -44,6 +44,8 @@ export default {
         }else if (this.progress = 100) {
           const info = res.data.info
           info.title = res.data.status.title
+          info.type = 'AQES'
+          top.postMessage(info, "*")
           window.AQES.saveas(info)
           this.CHANGE_BOXSET('')  
           this.$alert(`视频生成成功`, '生成成功', {

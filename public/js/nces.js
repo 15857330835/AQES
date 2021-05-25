@@ -89,6 +89,7 @@ AQES.Config({
   domain: getQueryStr('domain') || 'nle',
   authKey: getQueryStr('authKey'),
   uin: getQueryStr('uin') || '1011',
+  type: getQueryStr('type'),
   // 自定义视频列表栏
   // video_sel:createVideolist(),
   // mz_obj:

@@ -102,12 +102,14 @@ export default {
   data() {
     return {
       transPaneData: false,
-      nav: [
+      nav: window.AQES.type == 'study' ? [
+        { title: '我的历史', component: historyView, name: 'tab-history' }
+      ] :[
         { title: '媒资', component: mzView, name: 'tab-media' },
         { title: '我的历史', component: historyView, name: 'tab-history' }
       ],
-      isSelect: '媒资',
-      currentComponent: mzView,
+      isSelect: window.AQES.type == 'study' ? '我的历史' : '媒资',
+      currentComponent: window.AQES.type == 'study' ? historyView : mzView,
       chunkmove: false,
       xifuindex: null,
       timerLeft: null,
